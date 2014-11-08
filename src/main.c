@@ -64,6 +64,7 @@ main ()
     fprintf (stderr, "Could not initialize video\n");
     exit (1);
   }
+	
   load_font();
   load_tool_bar();
   build_tool_bar();
