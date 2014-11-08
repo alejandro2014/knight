@@ -38,7 +38,7 @@ load_settings ()
   getcwd(200,conf_file_path);
   #endif
 
-  strcat(conf_file_path,"/settings.cfg");
+  strcat(conf_file_path,"./settings.cfg");
 
   f = fopen (conf_file_path, "rb");
   if (!f)

@@ -1,3 +1,7 @@
+Debug
 .anjuta*
 config*
 *.anjuta
+*.o
+*~
+*.cfg
