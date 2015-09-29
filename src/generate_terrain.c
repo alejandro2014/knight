@@ -97,13 +97,13 @@ void drawMap (int x1, int y1, int x2, int y2)
   int midy = (y1 + y2) / 2;
 
   if (!getPixel (midx, y1))
-    putPixel (midx, y1,getNewColor (getPixel (x1, y1), getPixel (x2, y1), x2 - x1));
+    putPixel (midx, y1,getNewColor(getPixel (x1, y1), getPixel (x2, y1), x2 - x1));
   if (!getPixel (x2, midy))
-    putPixel (x2, midy,getNewColor (getPixel (x2, y1), getPixel (x2, y2), y2 - y1));
+    putPixel (x2, midy,getNewColor(getPixel (x2, y1), getPixel (x2, y2), y2 - y1));
   if (!getPixel (midx, y2))
-    putPixel (midx, y2,getNewColor (getPixel (x1, y2), getPixel (x2, y2), x2 - x1));
+    putPixel (midx, y2,getNewColor(getPixel (x1, y2), getPixel (x2, y2), x2 - x1));
   if (!getPixel (x1, midy))
-    putPixel (x1, midy,getNewColor (getPixel (x1, y1), getPixel (x1, y2), y2 - y1));
+    putPixel (x1, midy,getNewColor(getPixel (x1, y1), getPixel (x1, y2), y2 - y1));
   if (!getPixel (midx, midy))
     putPixel (midx, midy,
 	      getNewColor4 (getPixel (x1, midy), getPixel (x2, midy),
@@ -124,7 +124,7 @@ int overdraw_terrain()
 {
   int map_size=WIDTH*HEIGHT;
   int i;
-  if(!terrain_height)return;//we don't have a terrain
+  if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
   for (i = 0; i <map_size; i++)*(terrain_height + i)=0;
   drawSeed (WIDTH - 1, HEIGHT - 1);
@@ -137,7 +137,7 @@ int
 make_terrain ()
 {
   int map_size=WIDTH*HEIGHT;
-  if(!terrain_height)return;//we don't have a terrain
+  if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
   drawSeed_no_overwrite(WIDTH - 1, HEIGHT - 1);
   drawMap (0, 0, WIDTH - 1, HEIGHT - 1);

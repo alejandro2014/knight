@@ -17,7 +17,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include <SDL/SDL_events.h>
-#include <SDL/SDL_keysym.h>
 #include "events.h"
 
 void
@@ -321,11 +320,16 @@ mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y)
 	  current_object.object_mem=0;
 	  //change the tool to the draw tool
 	  current_tool=t_place;
-	  for(i=0;i<no_of_main_tool_bar_icons;i++)main_tool_bar[i].icon_active = 0;
+	  for(i=0;i<no_of_main_tool_bar_icons;i++) {
+		  main_tool_bar[i].icon_active = 0;
+	  }
+
 	  main_tool_bar[0].icon_active = 1;
   }
   //if not, then just pop up the View menu
-  else show_view_menu = 1;
+  else {
+	  show_view_menu = 1;
+  }
 
 
   //don't do any terain realted things, if the right button is pressed
@@ -336,7 +340,9 @@ mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y)
     if (long_pressed_button_l != 1)
       return;
     else
+    {
       last_click_on = click_terrain;
+    }
   switch (current_tool)
   {
   case t_peek:

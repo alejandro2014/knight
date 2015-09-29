@@ -28,7 +28,7 @@ load_tool_bar ()
   FILE *f = NULL;
   char *temp_pointer = tool_bar_mem;
   int f_size, i;
-  f = fopen ("toolbar.bmp", "rb");
+  f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
   fseek (f, 0, SEEK_END);
   f_size = ftell (f);
 //ok, allocate memory for it

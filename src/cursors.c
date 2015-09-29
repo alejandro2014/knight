@@ -27,7 +27,7 @@ load_cursors()
   Uint8 * cursors_mem_bmp;
   Uint8 *handle_cursors_mem_bmp;
   Uint8 cur_color;
-  f = fopen ("cursors.bmp", "rb");
+  f = fopen ("/Users/alejandro/programs/height-map-editor/res/cursors.bmp", "rb");
   fseek (f, 0, SEEK_END);
   f_size = ftell (f);
 //ok, allocate memory for it

@@ -24,7 +24,7 @@ load_font ()
 {
   int f_size;
   FILE *f = NULL;
-  f = fopen ("font.bmp", "rb");
+  f = fopen ("/Users/alejandro/programs/height-map-editor/res/font.bmp", "rb");
   fseek (f, 0, SEEK_END);
   f_size = ftell (f);
 //ok, allocate memory for it

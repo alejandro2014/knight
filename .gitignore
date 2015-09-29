@@ -1,7 +1,2 @@
-Debug
-.anjuta*
-config*
-*.anjuta
-*.o
-*~
-*.cfg
+obj/
+bin/
