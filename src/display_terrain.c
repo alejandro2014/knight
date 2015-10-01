@@ -18,6 +18,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "display_terrain.h"
 
+#include "actions.h"
+#include "cursors.h"
+#include "draw_stuff.h"
+#include "isometric.h"
+#include "menus.h"
+#include "objects.h"
 
 void terrain_on_screen (SDL_Surface * this_screen)
 {
@@ -153,7 +159,7 @@ cls (SDL_Surface * this_screen)
     for (i = 0; i < map_size / 4; i++)
       *(screen_buffer + i) = 0xfefefefe;
   }
-  else if (some_module = 2)	//yes, it is divisible by 2!
+  else if (some_module == 2)	//yes, it is divisible by 2!
   {
     short *screen_buffer;
     int i;
@@ -264,7 +270,7 @@ for (y=line_1_y; y<line_1_y+ver_line_len; y+=2)*(screen_buffer + my_pitch * y + 
 void debug_info ()
 {
   char str[80];
-  sprintf (str, "1021%4= %d", sizeof(str));
+  sprintf (str, "1021%%4= %lu", sizeof(str));
   print_string (str, black, white, 1, window_height - 156);
 
 }
@@ -276,29 +282,29 @@ void put_right_cursor()
 
 	if(show_new_terrain_menu || show_generate_terrain_menu || show_view_menu
 	|| show_replace_menu || show_rotate_menu || show_object_menu || show_global_replace_menu || view_error_menu || isometric_terrain)
-		if(current_cursor!=cursor_arrow)
+{
+    if(current_cursor!=cursor_arrow)
 		{
 			change_cursor(cursor_arrow);
-			return;
 		}
-		else return;
+		return;
+  }
 
-	#ifndef WINDOWS
-	  if (view_file_menu)
-	  if(current_cursor!=cursor_arrow)
-	 	 {
-	 		change_cursor(cursor_arrow);
-	 		return;
-		 }
-		 else return;
-	#endif
+  if (view_file_menu){
+    if(current_cursor!=cursor_arrow)
+    {
+      change_cursor(cursor_arrow);
+    }
+    return;
+  }
 
 	//now, check and see if the mouse is over the toolbar, minimap, or status bar,
 	//and, if it is, the cursor's shape is arrow.
   if(last_click_on!=click_terrain || (last_click_on==click_terrain && long_pressed_button_l==0))
   	{
-	  if(status_bar)if(x_mouse_pos < status_bar_x || x_mouse_pos > (status_bar_x + status_bar_x_lenght)
-	      || y_mouse_pos < status_bar_y || y_mouse_pos > (status_bar_y + status_bar_y_lenght))
+	  if(status_bar) {
+      if(x_mouse_pos < status_bar_x || x_mouse_pos > (status_bar_x + status_bar_x_lenght) ||
+         y_mouse_pos < status_bar_y || y_mouse_pos > (status_bar_y + status_bar_y_lenght))
 	      mouse_shape_arrow=0;
 	      else
 	      		if(current_cursor!=cursor_arrow)
@@ -307,21 +313,28 @@ void put_right_cursor()
 		  			return;
 		  		}
 				else return;
-	if(mini_map)if(x_mouse_pos > min_map_x && x_mouse_pos < (min_map_x + 255) && y_mouse_pos > min_map_y && y_mouse_pos < (min_map_y + 255))
-		       if(current_cursor!=cursor_arrow)
-		  		{
-		  			change_cursor_show(cursor_arrow);
-		  			return;
-		  		}
-				else return;
-    if(tool_bar)if(x_mouse_pos >= tool_bar_x && x_mouse_pos <= tool_bar_x + tool_bar_x_lenght
-	&& y_mouse_pos >= tool_bar_y && y_mouse_pos <= tool_bar_y + tool_bar_y_lenght)
+    }
+
+	  if(mini_map) {
+      if(x_mouse_pos > min_map_x && x_mouse_pos < (min_map_x + 255) &&
+         y_mouse_pos > min_map_y && y_mouse_pos < (min_map_y + 255)) {
+		         if(current_cursor!=cursor_arrow) {
+		  			   change_cursor_show(cursor_arrow);
+		  	     }
+				     return;
+      }
+    }
+
+    if(tool_bar) {
+      if(x_mouse_pos >= tool_bar_x && x_mouse_pos <= tool_bar_x + tool_bar_x_lenght &&
+         y_mouse_pos >= tool_bar_y && y_mouse_pos <= tool_bar_y + tool_bar_y_lenght) {
 			    if(current_cursor!=cursor_arrow)
 			  	 {
 			  		change_cursor_show(cursor_arrow);
-			  		return;
 			  	 }
-				 else return;
+				 return;
+       }
+     }
 	}
 
   if(!caps_look_on)

@@ -73,16 +73,10 @@ draw_char (SDL_Surface * this_screen, Uint8 my_char, char font_color,
 
 }
 
-void
-print_string (char *str, char char_color, char background_color,
-	      int char_xscreen, int char_yscreen)
-{
-  while (*(str) != 0)
-  {
-    draw_char (screen, *str, char_color, background_color, char_xscreen,
-	       char_yscreen);
+void print_string (char *str, char char_color, char background_color, int char_xscreen, int char_yscreen) {
+  while (*(str) != 0) {
+    draw_char (screen, *str, char_color, background_color, char_xscreen, char_yscreen);
     str++;
     char_xscreen += char_lenght;
   }
-
 }

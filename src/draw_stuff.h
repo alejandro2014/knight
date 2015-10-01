@@ -31,5 +31,6 @@ void draw_tool_bar (SDL_Surface * this_screen);
 void draw_status_bar ();
 
 void draw_minimap (SDL_Surface * this_screen);
+void draw_tool_tip();
 
 #endif

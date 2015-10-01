@@ -2,6 +2,7 @@
 #define __DISPLAY_TERRAIN_H__
 
 #include "global.h"
+#include "font.h"
 
 void terrain_on_screen (SDL_Surface * this_screen);
 

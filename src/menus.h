@@ -32,4 +32,14 @@ void draw_replace_menu (SDL_Surface * this_screen);
 
 void check_replace_menu (char text_input_char);
 
+void draw_object_menu (SDL_Surface * this_screen);
+
+void draw_global_replace_menu (SDL_Surface * this_screen);
+
+void draw_rotate_menu (SDL_Surface * this_screen);
+
+void draw_file_menu (SDL_Surface * this_screen);
+
+void draw_error_box(SDL_Surface * this_screen);
+
 #endif
