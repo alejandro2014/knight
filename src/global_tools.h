@@ -27,4 +27,8 @@ void clear_selection ();
 
 void flip_z ();
 
+void do_undo();
+
+void global_replace();
+
 #endif

@@ -19,6 +19,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <SDL/SDL_events.h>
 #include "events.h"
 
+#include "actions.h"
+#include "global_tools.h"
+#include "menus.h"
+#include "tools.h"
+
 void
 events_loop (void)
 {
@@ -310,92 +315,55 @@ mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y)
   if (status_bar)
     if (status_bar_press ())return;
 
-  //check if there is a right click on the terrain, to show the view menu
-  if(long_pressed_button_r == 1)
-  //see if we are dragging a terrain object
-  if(current_tool==t_object)
-  {
-	  int i;
-	  free(current_object.object_mem);
-	  current_object.object_mem=0;
-	  //change the tool to the draw tool
-	  current_tool=t_place;
-	  for(i=0;i<no_of_main_tool_bar_icons;i++) {
-		  main_tool_bar[i].icon_active = 0;
-	  }
+    //check if there is a right click on the terrain, to show the view menu
+    if(long_pressed_button_r == 1) {
+      //see if we are dragging a terrain object
+      if(current_tool==t_object)
+      {
+        int i;
+        free(current_object.object_mem);
+        current_object.object_mem=0;
+        //change the tool to the draw tool
+        current_tool=t_place;
 
-	  main_tool_bar[0].icon_active = 1;
-  }
-  //if not, then just pop up the View menu
-  else {
-	  show_view_menu = 1;
-  }
+        for(i=0;i<no_of_main_tool_bar_icons;i++) {
+          main_tool_bar[i].icon_active = 0;
+        }
 
+        main_tool_bar[0].icon_active = 1;
+      }
+      //if not, then just pop up the View menu
+      else {
+        show_view_menu = 1;
+      }
+  }
 
   //don't do any terain realted things, if the right button is pressed
   if (long_pressed_button_r != 0)
     return;
   //after all tests ended
-  if (last_click_on != click_terrain)
+  if (last_click_on != click_terrain) {
     if (long_pressed_button_l != 1)
       return;
     else
     {
       last_click_on = click_terrain;
     }
-  switch (current_tool)
-  {
-  case t_peek:
-    pick_height (left_b, right_b);
-    return;
-    break;
+  }
 
-  case t_place:
-    draw_brush_line ();
-    return;
-    break;
-
-  case t_elevate:
-    draw_brush_line ();
-    return;
-    break;
-
-  case t_escavate:
-    draw_brush_line ();
-    return;
-    break;
-
-  case t_flood:
-    pre_flood_area ();
-    return;
-    break;
-
-  case t_replace:
-    pre_change_area ();
-    return;
-    break;
-
-  case t_global_replace:
-    global_replace();
-    return;
-    break;
-
-  case t_zoom_in:
-    zoom_in ();
-    return;
-    break;
-
-  case t_select:
-    select_area();
-    return;
-    break;
-
-  case t_object:
-    if(long_pressed_button_l==1)stamp_object();
-    return;
-    break;
-
-  default:
-    return;
+    switch (current_tool) {
+      case t_peek: pick_height (left_b, right_b); break;
+      case t_place: draw_brush_line (); break;
+      case t_elevate: draw_brush_line (); break;
+      case t_escavate: draw_brush_line (); break;
+      case t_flood: pre_flood_area (); break;
+      case t_replace: pre_change_area (); break;
+      case t_global_replace: global_replace(); break;
+      case t_zoom_in: zoom_in (); break;
+      case t_select: select_area(); break;
+      case t_object:
+        if(long_pressed_button_l==1)
+          stamp_object();
+        break;
   }
 }

@@ -45,5 +45,6 @@ void draw_brush_line ();
 
 void draw_brush (int this_cur_x, int this_cur_y);
 
+void stamp_object();
 
 #endif
