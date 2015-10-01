@@ -105,7 +105,7 @@ void check_toolbar_mouse_over() {
 	&& y_mouse_pos <= (tool_bar_y + 3 + 32))
 	 {
       main_tool_bar[i].icon_mouse_over = 1;
-      sprintf(tip_text,main_tool_bar[i].tool_tip);
+      sprintf(tip_text, "%s", main_tool_bar[i].tool_tip);
       tip_x=x_mouse_pos+16;
       tip_y=y_mouse_pos+16;
       main_tool_bar[i].mouse_over_timer++;
@@ -131,7 +131,7 @@ if(!any_tip)//don't check, if we already have a tip.
 	&& y_mouse_pos >= (tool_bar_y + 3 + 32 +3)
 	&& y_mouse_pos <= (tool_bar_y + 3 + 32 +3+16))
 	 {
-      sprintf(tip_text,small_tool_bar[i].tool_tip);
+      sprintf(tip_text, "%s", small_tool_bar[i].tool_tip);
       tip_x=x_mouse_pos+16;
       tip_y=y_mouse_pos+16;
       small_tool_bar[i].mouse_over_timer++;

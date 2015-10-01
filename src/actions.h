@@ -35,4 +35,18 @@ void generate_menu();
 void DoFileOpenSave (int value);
 
 void smooth_terrain ();
+
+void clear_selection();
+
+void new_terrain_menu();
+
+void rise_selection();
+
+void rise_terrain ();
+
+void sink_selection();
+
+void sink_terrain();
+
+void smooth_selection();
 #endif
