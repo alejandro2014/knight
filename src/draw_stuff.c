@@ -18,6 +18,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "draw_stuff.h"
 
+#include "font.h"
+#include "tools.h"
+
 void
 draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
 	    int ylen)
@@ -134,11 +137,12 @@ void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no,
     for (x = icon_no * 32; x < icon_no * 32 + 32; x++)
     {
       cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
-      if (cur_color == 131 || cur_color == 130)
-	if (mode == mode_pushed)
-	  cur_color = light_steel_blue;
-	else if (mode == mode_not_pushed)
-	  cur_color = steel_blue;
+      if (cur_color == 131 || cur_color == 130) {
+				if (mode == mode_pushed)
+	  			cur_color = light_steel_blue;
+				else if (mode == mode_not_pushed)
+	  			cur_color = steel_blue;
+			}
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 32;
@@ -163,11 +167,13 @@ void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
     for (x = icon_no * 16; x < icon_no * 16 + 16; x++)
     {
       cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
-      if (cur_color == 131 || cur_color == 130)
-	if (mode == mode_pushed)
-	  cur_color = light_steel_blue;
-	else if (mode == mode_not_pushed)
-	  cur_color = steel_blue;
+      if (cur_color == 131 || cur_color == 130) {
+	      if (mode == mode_pushed)
+	        cur_color = light_steel_blue;
+	      else if (mode == mode_not_pushed)
+	        cur_color = steel_blue;
+			}
+
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 16;
