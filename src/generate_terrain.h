@@ -10,9 +10,14 @@
 #include <stdlib.h>
 #include "global.h"
 
+typedef struct {
+    int x;
+    int y;
+} Point;
+
 void drawSeed (int width, int height);
 
-void drawMap (int x1, int y1, int x2, int y2);
+void drawMap (Point *p1, Point *p2);
 
 int overdraw_terrain ();
 

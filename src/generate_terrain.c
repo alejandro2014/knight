@@ -26,30 +26,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "cursors.h"
 
-__inline int
-getPixel (int x, int y)
-{
+__inline int getPixel (int x, int y) {
   return *(terrain_height + (y * WIDTH + x));
 }
 
-__inline void
-putPixel (int x, int y, Uint8 color)
+__inline void putPixel (int x, int y, Uint8 color)
 {
   *(terrain_height + (y * WIDTH + x)) = color;
 }
-
 
 __inline int mrandom (int max)
 {
   return (int) ((float) max * rand () / (RAND_MAX + 120.0));
 }
 
-__inline int getNewColor (int c1, int c2, int dist)
-{
+__inline int getNewColor (int c1, int c2, int dist) {
   unsigned int this_height;
   unsigned int random_displacement;
   random_displacement = (mrandom (dist) - dist / 2);
-
 
   this_height = (c1 + c2 + random_displacement);
   if (this_height < 512)
@@ -59,8 +53,7 @@ __inline int getNewColor (int c1, int c2, int dist)
   return this_height;
 }
 
-__inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist)
-{
+__inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist) {
   unsigned int this_height;
   unsigned int random_displacement;
   random_displacement = (mrandom (dist) - dist / 2);
@@ -71,7 +64,6 @@ __inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist)
   else
     this_height = this_height / 5;
   return this_height;
-
 }
 
 // NON INLINE
@@ -99,12 +91,16 @@ void drawMap (int x1, int y1, int x2, int y2)
 
   if (!getPixel (midx, y1))
     putPixel (midx, y1,getNewColor(getPixel (x1, y1), getPixel (x2, y1), x2 - x1));
+
   if (!getPixel (x2, midy))
     putPixel (x2, midy,getNewColor(getPixel (x2, y1), getPixel (x2, y2), y2 - y1));
+
   if (!getPixel (midx, y2))
     putPixel (midx, y2,getNewColor(getPixel (x1, y2), getPixel (x2, y2), x2 - x1));
+
   if (!getPixel (x1, midy))
     putPixel (x1, midy,getNewColor(getPixel (x1, y1), getPixel (x1, y2), y2 - y1));
+    
   if (!getPixel (midx, midy))
     putPixel (midx, midy,
 	      getNewColor4 (getPixel (x1, midy), getPixel (x2, midy),
@@ -126,7 +122,8 @@ int overdraw_terrain() {
   int i;
   if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
-  for (i = 0; i <map_size; i++)*(terrain_height + i)=0;
+  memset(terrain_height, 0, map_size);
+
   drawSeed (WIDTH - 1, HEIGHT - 1);
   drawMap (0, 0, WIDTH - 1, HEIGHT - 1);
   change_cursor(last_cursor);
