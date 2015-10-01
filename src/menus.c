@@ -1445,7 +1445,7 @@ check_error_menu (char text_input_char)
 //ok, now the Posix Menus (especially file menus)
 #ifndef WINDOWS
 
-draw_file_menu(SDL_Surface * this_screen)
+void draw_file_menu(SDL_Surface * this_screen)
 {
   int x, y, my_pitch,i,j,k,l;
   char cur_char;
@@ -1654,13 +1654,3 @@ check_file_menu (unsigned char text_input_char)
 
 
 #endif
-
-
-
-
-
-
-
-
-
-

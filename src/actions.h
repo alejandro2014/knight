@@ -32,8 +32,6 @@ void pre_load_object();
 
 void generate_menu();
 
-void DoFileOpenSave (int value);
-
 void smooth_terrain ();
 
 void clear_selection();
