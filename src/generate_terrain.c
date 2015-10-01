@@ -59,8 +59,7 @@ __inline int getNewColor (int c1, int c2, int dist)
   return this_height;
 }
 
-__inline int
-getNewColor4 (int c1, int c2, int c3, int c4, int dist)
+__inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist)
 {
   unsigned int this_height;
   unsigned int random_displacement;
@@ -122,8 +121,7 @@ void drawMap (int x1, int y1, int x2, int y2)
 }
 
 
-int overdraw_terrain()
-{
+int overdraw_terrain() {
   int map_size=WIDTH*HEIGHT;
   int i;
   if(!terrain_height)return 0;//we don't have a terrain
@@ -135,9 +133,7 @@ int overdraw_terrain()
   return 1;
 }
 
-int
-make_terrain ()
-{
+int make_terrain () {
   int map_size=WIDTH*HEIGHT;
   if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
@@ -147,27 +143,39 @@ make_terrain ()
   return 1;
 }
 
-void clear_mem()
-{
-  if (terrain_height)free(terrain_height);
-  terrain_height=0;
-  if (temp_buffer)free(temp_buffer);
-  temp_buffer=0;
-  if (undo_buffer)free(undo_buffer);
-  undo_buffer=0;
-
+void clear_mem() {
+  freeMemTerrain(terrain_height);
+  freeMemTerrain(temp_buffer);
+  freeMemTerrain(undo_buffer);
 }
 
-void allocate_mem()
-{
-  int i;
+void allocateMemTerrain(Uint8 **buffer) {
+  int map_size = WIDTH * HEIGHT;
+
+  *buffer = calloc ( map_size, sizeof(Uint8));
+
+  if(*buffer) {
+    memset(*buffer, 0, map_size);
+  }
+}
+
+void freeMemTerrain(Uint8 *buffer) {
+  if (buffer)
+    free(buffer);
+  buffer = NULL;
+}
+
+void allocate_mem() {
   int map_size=WIDTH*HEIGHT;
+
   clear_mem();
   undo=no_undo;//we can't undo, right now.
   clear_temp_buffer=0;//needed, otherwise it might crash next time you draw something
-  terrain_height = calloc ( WIDTH * HEIGHT, sizeof(Uint8));
-  temp_buffer = calloc ( WIDTH * HEIGHT, sizeof(Uint8));
-  undo_buffer = calloc ( WIDTH * HEIGHT, sizeof(Uint8));
+
+  allocateMemTerrain(&terrain_height);
+  allocateMemTerrain(&temp_buffer);
+  allocateMemTerrain(&undo_buffer);
+
   if(!terrain_height || !temp_buffer || !undo_buffer)
     {
   		sprintf(error_msg_1,"Not enough memory for the height map!");
@@ -176,6 +184,4 @@ void allocate_mem()
   		clear_mem();
   		return;
   	}
-  //clear the buffer
-  for (i = 0; i <map_size; i++)*(terrain_height + i)=0;
 }
