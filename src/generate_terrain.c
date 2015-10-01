@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *******************************************************/
 #include "generate_terrain.h"
 
+#include "cursors.h"
+
 __inline int
 getPixel (int x, int y)
 {
