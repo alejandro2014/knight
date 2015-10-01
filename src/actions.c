@@ -66,11 +66,14 @@ bool status_bar_press ()
       || y_mouse_pos > (status_bar_y + status_bar_y_lenght))
     return false;
 
-  if (last_click_on != click_status_bar)
-    if (long_pressed_button_l != 1 && long_pressed_button_r != 1)
+  if (last_click_on != click_status_bar) {
+    if (long_pressed_button_l != 1 && long_pressed_button_r != 1) {
       return false;
-    else
+    }
+    else {
       last_click_on = click_status_bar;
+    }
+  }
   if (long_pressed_button_r == 1)
     drag_statusbar = 1;
   return true;
@@ -82,12 +85,13 @@ bool check_mouse_minimap ()
   if (x_mouse_pos > min_map_x && x_mouse_pos < (min_map_x + 255) && y_mouse_pos > min_map_y && y_mouse_pos < (min_map_y + 255))	//is the mouse inside the minimap?
   {
 
-    if (last_click_on != click_mini_map)
-      if (long_pressed_button_l != 1 && long_pressed_button_r != 1)
+    if (last_click_on != click_mini_map) {
+      if (long_pressed_button_l != 1 && long_pressed_button_r != 1) {
 	return false;
-      else
+      } else {
 	last_click_on = click_mini_map;
-
+      }
+    }
     if (button_l)
     {
       move_on_minimap ();
@@ -253,13 +257,16 @@ check_toolbar_release ()
 
   /*now, in case there was an icon activated, mark it a activated, and clear the previous
      activated icon flag (we may have only one icon active at a time, right? */
-  if (activated_icon != -1)
-    if (!main_tool_bar[activated_icon].icon_dont_stay_pressed)
-      for (i = 0; i < no_of_main_tool_bar_icons; i++)
+  if (activated_icon != -1) {
+    if (!main_tool_bar[activated_icon].icon_dont_stay_pressed) {
+      for (i = 0; i < no_of_main_tool_bar_icons; i++) {
 	if (i != activated_icon)
 	  main_tool_bar[i].icon_active = 0;
 	else
 	  main_tool_bar[i].icon_active = 1;
+      }
+    }
+  }
 ////////////////////////////////////////////////////////////////////////////
 ///now, the small icons
   activated_icon = -1;
@@ -278,14 +285,16 @@ check_toolbar_release ()
     small_tool_bar[i].icon_pressed = 0;	//clear the pressed icon flag[s]
   }
 
-  if (activated_icon != -1)
-    if (!small_tool_bar[activated_icon].icon_dont_stay_pressed)
-      for (i = 0; i < no_of_small_tool_bar_icons; i++)
+  if (activated_icon != -1) {
+    if (!small_tool_bar[activated_icon].icon_dont_stay_pressed) {
+      for (i = 0; i < no_of_small_tool_bar_icons; i++) {
 	if (i != activated_icon)
 	  small_tool_bar[i].icon_active = 0;
 	else
 	  small_tool_bar[i].icon_active = 1;
-
+      }
+    }
+  }
   return false;
 }
 

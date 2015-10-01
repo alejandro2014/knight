@@ -28,4 +28,11 @@ bool check_toolbar_release ();
 //process menu commands
 void process_menu_commands (int custom_message);
 
+void pre_load_object();
+
+void generate_menu();
+
+void DoFileOpenSave (int value);
+
+void smooth_terrain ();
 #endif

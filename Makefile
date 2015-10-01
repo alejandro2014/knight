@@ -5,7 +5,7 @@ BINDIR=./bin
 OBJDIR=./obj
 SRCDIR=./src
 
-OPTC=-I/Library/Frameworks/SDL.framework/Headers
+OPTC=-I/Library/Frameworks/SDL.framework/Headers -Werror
 OPTL=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa
 
 SRC01=actions
