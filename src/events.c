@@ -100,13 +100,11 @@ if(!isometric_terrain)
       else if (drag_statusbar)
 	move_statusbar ();
 
-#ifndef WINDOWS
       if (view_file_menu)	//in case the file menu is active, go and stay there
       {
 	check_file_menu (0);
 	continue;
       }
-#endif
 
       if (view_error_menu)	//in case the replace menu is active, go and stay there
       {
@@ -163,8 +161,6 @@ if(!isometric_terrain)
 
     }//end of SDL_MOUSEMOTION event
 
-
-#ifndef WINDOWS
     if (view_file_menu)
     {
       char some_char = 0;
@@ -175,7 +171,6 @@ if(!isometric_terrain)
       check_file_menu (some_char);
       continue;
     }
-#endif
 
     if (view_error_menu)
     {

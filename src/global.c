@@ -6,7 +6,6 @@ struct numeric_dialog_box_struct numeric_dialog_boxes[no_of_numeric_dialog_boxes
 struct settings_struct settings[1];
 struct cursors_struct cursors_array[20];
 
-#ifndef WINDOWS
 struct file_names_struct file_names[1000];
 
 bool view_file_menu=0;
@@ -19,8 +18,6 @@ int y_file_menu_lenght=270;
 bool save_file;
 char cur_dir[200];
 char cur_file_name[120];
-
-#endif
 
 int current_tool = t_place;
 int brush_size = 1;

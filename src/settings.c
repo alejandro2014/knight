@@ -2,23 +2,11 @@
 #include <string.h>
 #include "settings.h"
 
-
-#ifdef WINDOWS
-#include <windows.h>
-#include <winbase.h>//for the GetCurrentDirectory
-#endif
-
 //load the settings, at startup
-void
-load_settings ()
-{
+void load_settings() {
   FILE *f = NULL;
 
-  #ifdef WINDOWS
-  GetCurrentDirectory(sizeof(conf_file_path),conf_file_path);
-  #else
   getcwd(200,conf_file_path);
-  #endif
 
   strcat(conf_file_path,"./settings.cfg");
 

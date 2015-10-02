@@ -8,9 +8,6 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 
-// Uncomment following if compiling on Windows
-#ifndef WINDOWS
-//add the POSIX stuff...
   struct file_names_struct
   {
     char file_name[100];
@@ -28,8 +25,6 @@ extern char cur_dir[200];
 extern char cur_file_name[120];
 
 extern struct file_names_struct file_names[1000];
-
-#endif
 
 #include <SDL/SDL_video.h>
 

@@ -380,9 +380,7 @@ on_screen (unsigned int some_int)	//build the 'scene'
 	  if (show_global_replace_menu)draw_global_replace_menu (screen);
 	  if (show_rotate_menu)draw_rotate_menu(screen);
 	  if (view_error_menu)draw_error_box(screen);
-	#ifndef WINDOWS
 	  if (view_file_menu)draw_file_menu(screen);
-	#endif
 	}
 
   SDL_UpdateRect (screen, 0, 0, 0, 0);	//blit
