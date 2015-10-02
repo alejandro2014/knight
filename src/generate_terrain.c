@@ -124,6 +124,7 @@ int overdraw_terrain(int width, int height) {
 }
 
 int make_terrain (int width, int height) {
+
   int map_size = width * height;
 
   if(!terrain_height)return 0;//we don't have a terrain
@@ -140,21 +141,38 @@ Memory allocation
 void allocate_mem(int width, int height) {
   int map_size = width * height;
 
-  clear_mem();
+  freeMemTerrain(terrain_height);
+  freeMemTerrain(temp_buffer);
+  freeMemTerrain(undo_buffer);
+
   undo = no_undo;
   clear_temp_buffer = 0;//needed, otherwise it might crash next time you draw something
 
-  allocateMemTerrain(&terrain_height, map_size);
-  allocateMemTerrain(&temp_buffer, map_size);
-  allocateMemTerrain(&undo_buffer, map_size);
-
-  if(!terrain_height || !temp_buffer || !undo_buffer) {
-    sprintf(error_msg_1,"Not enough memory for the height map!");
-	sprintf(error_msg_2,"Please use a smaller map size!");
-	view_error_menu = 1;
-	clear_mem();
-	return;
+  if(allocateMemTerrain2(&terrain_height, map_size) == -1) {
+    view_error_menu = 1;
+    return;
   }
+
+  if(allocateMemTerrain2(&temp_buffer, map_size) == -1) {
+    view_error_menu = 1;
+    return;
+  }
+
+  if(allocateMemTerrain2(&undo_buffer, map_size) == -1) {
+    view_error_menu = 1;
+    return;
+  }
+}
+
+int allocateMemTerrain2(Uint8 **buffer, int map_size) {
+  if(allocateMemTerrain(buffer, map_size) == -1) {
+    sprintf(error_msg_1,"Not enough memory for the height map!");
+    sprintf(error_msg_2,"Please use a smaller map size!");
+    freeMemTerrain(*buffer);
+    return -1;
+  }
+
+  return 0;
 }
 
 void clear_mem() {
@@ -163,37 +181,19 @@ void clear_mem() {
   freeMemTerrain(undo_buffer);
 }
 
-void allocateMemTerrain(Uint8 **buffer, int map_size) {
+int allocateMemTerrain(Uint8 **buffer, int map_size) {
   *buffer = calloc ( map_size, sizeof(Uint8));
 
   if(*buffer) {
     memset(*buffer, 0, map_size);
+    return 0;
   }
+
+  return -1;
 }
 
 void freeMemTerrain(Uint8 *buffer) {
   if (buffer)
     free(buffer);
   buffer = NULL;
-}
-
-void allocate_mem(int width, int height) {
-  int map_size = width * height;
-
-  clear_mem();
-  undo=no_undo;//we can't undo, right now.
-  clear_temp_buffer=0;//needed, otherwise it might crash next time you draw something
-
-  allocateMemTerrain(&terrain_height, map_size);
-  allocateMemTerrain(&temp_buffer, map_size);
-  allocateMemTerrain(&undo_buffer, map_size);
-
-  if(!terrain_height || !temp_buffer || !undo_buffer)
-    {
-  		sprintf(error_msg_1,"Not enough memory for the height map!");
-  		sprintf(error_msg_2,"Please use a smaller map size!");
-  		view_error_menu=1;
-  		clear_mem();
-  		return;
-  	}
 }

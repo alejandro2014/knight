@@ -29,7 +29,8 @@ void putPixel (int x, int y, Uint8 color);
 //Memory allocation
 void allocate_mem();
 void clear_mem();
-void allocateMemTerrain(Uint8 **buffer, int map_size);
+int allocateMemTerrain(Uint8 **buffer, int map_size);
+int allocateMemTerrain2(Uint8 **buffer, int map_size);
 void freeMemTerrain(Uint8 *buffer);
 
 #endif
