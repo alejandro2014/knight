@@ -16,7 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 /*******************************************************
  * Parts of this code are stolen and modified from sdlplasma,
  * by Stefan Hellkvist, stefan@hellkvist.org
@@ -30,13 +29,11 @@ __inline int getPixel (int x, int y) {
   return *(terrain_height + (y * WIDTH + x));
 }
 
-__inline void putPixel (int x, int y, Uint8 color)
-{
+__inline void putPixel (int x, int y, Uint8 color) {
   *(terrain_height + (y * WIDTH + x)) = color;
 }
 
-__inline int mrandom (int max)
-{
+__inline int mrandom (int max) {
   return (int) ((float) max * rand () / (RAND_MAX + 120.0));
 }
 
@@ -68,24 +65,21 @@ __inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist) {
 
 // NON INLINE
 
-void drawSeed (int width, int height)
-{
+void drawSeed (int width, int height) {
   putPixel (0, 0, mrandom (255));
   putPixel (width, 0, mrandom (255));
   putPixel (width, height, mrandom (255));
   putPixel (0, height, mrandom (255));
 }
 
-void drawSeed_no_overwrite (int width, int height)
-{
+void drawSeed_no_overwrite (int width, int height) {
   if(!getPixel(0,0))putPixel(0,0,mrandom(255));
   if(!getPixel(width,0))putPixel(width,0,mrandom(255));
   if(!getPixel(width,height))putPixel(width,height,mrandom(255));
   if(!getPixel(0,height))putPixel(0,height,mrandom(255));
 }
 
-void drawMap (int x1, int y1, int x2, int y2)
-{
+void drawMap (int x1, int y1, int x2, int y2) {
   int midx = (x1 + x2) / 2;
   int midy = (y1 + y2) / 2;
 
@@ -116,7 +110,6 @@ void drawMap (int x1, int y1, int x2, int y2)
   }
 }
 
-
 int overdraw_terrain() {
   int map_size=WIDTH*HEIGHT;
   int i;
@@ -140,15 +133,36 @@ int make_terrain () {
   return 1;
 }
 
+/*---------------
+Memory allocation
+---------------*/
+void allocate_mem(int width, int height) {
+  int map_size = width * height;
+
+  clear_mem();
+  undo = no_undo;
+  clear_temp_buffer = 0;//needed, otherwise it might crash next time you draw something
+
+  allocateMemTerrain(&terrain_height, map_size);
+  allocateMemTerrain(&temp_buffer, map_size);
+  allocateMemTerrain(&undo_buffer, map_size);
+
+  if(!terrain_height || !temp_buffer || !undo_buffer) {
+    sprintf(error_msg_1,"Not enough memory for the height map!");
+	sprintf(error_msg_2,"Please use a smaller map size!");
+	view_error_menu = 1;
+	clear_mem();
+	return;
+  }
+}
+
 void clear_mem() {
   freeMemTerrain(terrain_height);
   freeMemTerrain(temp_buffer);
   freeMemTerrain(undo_buffer);
 }
 
-void allocateMemTerrain(Uint8 **buffer) {
-  int map_size = WIDTH * HEIGHT;
-
+void allocateMemTerrain(Uint8 **buffer, int map_size) {
   *buffer = calloc ( map_size, sizeof(Uint8));
 
   if(*buffer) {
@@ -160,25 +174,4 @@ void freeMemTerrain(Uint8 *buffer) {
   if (buffer)
     free(buffer);
   buffer = NULL;
-}
-
-void allocate_mem() {
-  int map_size=WIDTH*HEIGHT;
-
-  clear_mem();
-  undo=no_undo;//we can't undo, right now.
-  clear_temp_buffer=0;//needed, otherwise it might crash next time you draw something
-
-  allocateMemTerrain(&terrain_height);
-  allocateMemTerrain(&temp_buffer);
-  allocateMemTerrain(&undo_buffer);
-
-  if(!terrain_height || !temp_buffer || !undo_buffer)
-    {
-  		sprintf(error_msg_1,"Not enough memory for the height map!");
-  		sprintf(error_msg_2,"Please use a smaller map size!");
-  		view_error_menu=1;
-  		clear_mem();
-  		return;
-  	}
 }

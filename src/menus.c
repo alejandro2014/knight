@@ -176,7 +176,7 @@ check_new_terrain_menu (char text_input_char)
       color_to_fill = 0;
 
     //everything is OK now
-    allocate_mem();
+    allocate_mem(HEIGHT, WIDTH);
     if(!terrain_height)return;
     for (i = 0; i < HEIGHT * WIDTH; i++)
       *(terrain_height + i) = color_to_fill;
