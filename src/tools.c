@@ -7,9 +7,7 @@ void draw_brush (int cur_x, int cur_y);
 This function gets the x and y of the height that is pointed by the mouse.
 It returns 0, in case the mouse points to no pixel, otherwise return 1
 */
-int
-get_cur_x_y ()
-{
+int get_cur_x_y () {
   if(!terrain_height)return 0;//we don't have a terrain
   cur_x = (x_mouse_pos - x_screen_offset) / terrain_ratio + xoffset;
   cur_y = (y_mouse_pos - y_screen_offset) / terrain_ratio + yoffset;
@@ -18,7 +16,6 @@ get_cur_x_y ()
   last_drawn_x = -1;
   last_drawn_y = -1;
   return 0;
-
 }
 
 void zoom_in ()
@@ -570,22 +567,12 @@ draw_brush_line ()
     return;			//nope, not on the map
   }
 
-
   /*
      Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
      So, we need to do some sort of interpolations, and draw lines.
    */
-  if (last_drawn_x == -1)
-    delta_x = 0;
-  else
-    delta_x = last_drawn_x - cur_x;
-
-
-  if (last_drawn_y == -1)
-    delta_y = 0;
-  else
-    delta_y = last_drawn_y - cur_y;
-
+   delta_x = (last_drawn_x == -1) ? 0 : last_drawn_x - cur_x;
+   delta_y = (last_drawn_y == -1) ? 0 : last_drawn_y - cur_y;
 
   line_lenght = (int) sqrt (delta_x * delta_x + delta_y * delta_y);
 
@@ -612,104 +599,75 @@ draw_brush_line ()
 
 }
 
-
-void
-draw_brush (int this_cur_x, int this_cur_y)
-{
+void draw_brush (int this_cur_x, int this_cur_y) {
   int x, y, start_x, start_y, x_len, y_len;
+  int currentColour = 0;
 
   //see if we have to clear the temp buffer
-    if(clear_temp_buffer && long_pressed_button_l==1)
-      {
+  if(clear_temp_buffer && long_pressed_button_l==1) {
 		do_clear_temp_buffer ();
 		clear_temp_buffer = 0;
 		min_drawn_x = 0xffff;
 		min_drawn_y = 0xffff;
 		max_drawn_x = 0;
 		max_drawn_y = 0;
-      }
+  }
 
   undo=partial_undo;//the undo type we have here
 
-  if (brush_size == 1)		//very small brush (1 pixel)
-  {
-    start_y = this_cur_y;
-    start_x = this_cur_x;
-    y_len = 1;
-    x_len = 1;
-  }
-  else if (brush_size == 2)	//small brush (3 pixels)
-  {
-    start_y = this_cur_y - 1;
-    start_x = this_cur_x - 1;
-    y_len = 3;
-    x_len = 3;
-  }
-  else if (brush_size == 3)	//medium brush (5 pixels)
-  {
-    start_y = this_cur_y - 2;
-    start_x = this_cur_x - 2;
-    y_len = 5;
-    x_len = 5;
-  }
-  else if (brush_size == 4)	//large brush (7 pixels)
-  {
-    start_y = this_cur_y - 3;
-    start_x = this_cur_x - 3;
-    y_len = 7;
-    x_len = 7;
-  }
-  else if (brush_size == 5)	//extra large brush (9 pixels)
-  {
-    start_y = this_cur_y - 4;
-    start_x = this_cur_x - 4;
-    y_len = 9;
-    x_len = 9;
-  }
+  //Adapts the brush
+  start_y = this_cur_y - brush_size - 1;
+  start_x = this_cur_x - brush_size - 1;
+  y_len = 2 * brush_size - 1;
+  x_len = 2 * brush_size - 1;
 
   for (y = start_y; y < start_y + y_len; y++)
     for (x = start_x; x < start_x + x_len; x++)
       if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
-	if (*(temp_buffer + y * WIDTH + x) == 0)	//did we already draw here, since the last mouse down evenet?
-	{
-	  //first thing to do is save the current pixel, in the undo buffer
-	  *(undo_buffer + y * WIDTH + x)=*(terrain_height + y * WIDTH + x);
-	  //now, find what tool we use
-	  if (current_tool == t_place)
-	    *(terrain_height + y * WIDTH + x) = color_1;
-	  else if (current_tool == t_escavate)
-	  {
-	    if (*(terrain_height + y * WIDTH + x) - color_1 > 0)
-	      *(terrain_height + y * WIDTH + x) -= color_1;
-	    else
-	      *(terrain_height + y * WIDTH + x) = 0;
-	  }
-	  else if (current_tool == t_elevate)
-	  {
-	    if (*(terrain_height + y * WIDTH + x) + color_1 < 255)
-	      *(terrain_height + y * WIDTH + x) += color_1;
-	    else
-	      *(terrain_height + y * WIDTH + x) = 255;
-	  }
-	  //ok, now it's time to mark this pixel as 'already modified'
-	  *(temp_buffer + y * WIDTH + x) = 1;
-	  //now, update the min and max drawn
-	  if (x < min_drawn_x)
-	    min_drawn_x = x;
-	  if (y < min_drawn_y)
-	    min_drawn_y = y;
-	  if (x > max_drawn_x)
-	    max_drawn_x = x;
-	  if (y > max_drawn_y)
-	    max_drawn_y = y;
-	  max_drawn_x = max_drawn_x & 0xfffc;
-	  min_drawn_x = min_drawn_x | 3;
+	      if (*(temp_buffer + y * WIDTH + x) == 0)	//did we already draw here, since the last mouse down evenet?
+	      {
+	        //first thing to do is save the current pixel, in the undo buffer
+          currentColour = getColour(terrain_height, x, y);
+          setColour(undo_buffer, x, y, currentColour);
 
-	  //and, we should also clear the buffer, at the next mouse up event.
-	  clear_temp_buffer = 1;
+          switch(current_tool) {
+            case t_place:    setColour(terrain_height, x, y, color_1); break;
+            case t_escavate: decColour(terrain_height, x, y, color_1); break;
+            case t_elevate:  incColour(terrain_height, x, y, color_1); break;
+          }
 
-	}
+	        //ok, now it's time to mark this pixel as 'already modified'
+	        *(temp_buffer + y * WIDTH + x) = 1;
+	        //now, update the min and max drawn
+	        if (x < min_drawn_x) min_drawn_x = x;
+	        if (y < min_drawn_y) min_drawn_y = y;
+	        if (x > max_drawn_x) max_drawn_x = x;
+	        if (y > max_drawn_y) max_drawn_y = y;
 
+	        max_drawn_x = max_drawn_x & 0xfffc;
+	        min_drawn_x = min_drawn_x | 3;
+
+	        //and, we should also clear the buffer, at the next mouse up event.
+	        clear_temp_buffer = 1;
+	      }
+}
+
+int getColour(Uint8 *terrain, int x, int y) {
+  return *(terrain + y * WIDTH + x);
+}
+
+void setColour(Uint8 *terrain, int x, int y, int colour) {
+  *(terrain + y * WIDTH + x) = colour;
+}
+
+void incColour(Uint8 *terrain, int x, int y, int delta) {
+  int newColour = getColour(terrain, x, y) + delta;
+  setColour(terrain, x, y, (newColour < 255 ? newColour : 255));
+}
+
+void decColour(Uint8 *terrain, int x, int y, int delta) {
+  int newColour = getColour(terrain, x, y) - delta;
+  setColour(terrain, x, y, (newColour > 0 ? newColour : 0));
 }
 
 void stamp_object()

@@ -47,4 +47,9 @@ void draw_brush (int this_cur_x, int this_cur_y);
 
 void stamp_object();
 
+int getColour(Uint8 *terrain, int x, int y);
+void setColour(Uint8 *terrain, int x, int y, int colour);
+
+void incColour(Uint8 *terrain, int x, int y, int delta);
+void decColour(Uint8 *terrain, int x, int y, int delta);
 #endif
