@@ -1,19 +1,41 @@
 #include "actions_core.h"
 
-typedef struct {
-  float x;
-  float y;
-  float z;
-} Point;
+Terrain *hme_generate_terrain(int width, int height) {
+  Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
+  terrain->width = width;
+  terrain->height = height;
+  terrain->points = hmeAllocatePoints(width, height);
 
-typedef struct {
-  int width;
-  int height;
-  Point **points;
-} Terrain;
+  return terrain;
+}
 
-int hme_generate_terrain(int width, int height) {
+Point **hmeAllocatePoints(int width, int height) {
   int map_size = width * height;
+  Point **points = (Point **) calloc(map_size, sizeof(Point *));
+  Point *currentPoint = NULL;
+  int i;
 
-  return 0;
+  if(points == NULL) {
+    sprintf(error_msg_1,"Not enough memory for the height map!");
+    sprintf(error_msg_2,"Please use a smaller map size!");
+    return NULL;
+  }
+
+  for(i = 0; i < map_size; i++) {
+    currentPoint = (Point *) calloc(1, sizeof(Point));
+    *(points + i) = currentPoint;
+  }
+
+  return points;
+}
+
+int hmeAllocateMem(Uint8 **buffer, int size) {
+  *buffer = calloc ( size, sizeof(Uint8));
+
+  if(*buffer) {
+    memset(*buffer, 0, size);
+    return 0;
+  }
+
+  return -1;
 }
