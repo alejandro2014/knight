@@ -624,7 +624,7 @@ void draw_brush (int this_cur_x, int this_cur_y) {
   for (y = start_y; y < start_y + y_len; y++)
     for (x = start_x; x < start_x + x_len; x++)
       if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
-	      if (*(temp_buffer + y * WIDTH + x) == 0)	//did we already draw here, since the last mouse down evenet?
+	      if (getColour(temp_buffer, x, y) == NOT_MODIFIED)
 	      {
 	        //first thing to do is save the current pixel, in the undo buffer
           currentColour = getColour(terrain_height, x, y);
@@ -636,8 +636,8 @@ void draw_brush (int this_cur_x, int this_cur_y) {
             case t_elevate:  incColour(terrain_height, x, y, color_1); break;
           }
 
-	        //ok, now it's time to mark this pixel as 'already modified'
-	        *(temp_buffer + y * WIDTH + x) = 1;
+	        setColour(temp_buffer, x, y, MODIFIED);
+
 	        //now, update the min and max drawn
 	        if (x < min_drawn_x) min_drawn_x = x;
 	        if (y < min_drawn_y) min_drawn_y = y;

@@ -3,6 +3,9 @@
 
 #include "global.h"
 
+#define NOT_MODIFIED 0
+#define MODIFIED 1
+
 void draw_brush (int cur_x, int cur_y);
 
 #define not_filled 0
