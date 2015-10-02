@@ -100,7 +100,7 @@ void drawMap (int x1, int y1, int x2, int y2)
 
   if (!getPixel (x1, midy))
     putPixel (x1, midy,getNewColor(getPixel (x1, y1), getPixel (x1, y2), y2 - y1));
-    
+
   if (!getPixel (midx, midy))
     putPixel (midx, midy,
 	      getNewColor4 (getPixel (x1, midy), getPixel (x2, midy),
@@ -117,25 +117,26 @@ void drawMap (int x1, int y1, int x2, int y2)
 }
 
 
-int overdraw_terrain() {
-  int map_size=WIDTH*HEIGHT;
+int overdraw_terrain(int width, int height) {
+  int map_size = width * height;
   int i;
   if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
   memset(terrain_height, 0, map_size);
 
-  drawSeed (WIDTH - 1, HEIGHT - 1);
-  drawMap (0, 0, WIDTH - 1, HEIGHT - 1);
+  drawSeed (width - 1, height - 1);
+  drawMap (0, 0, width - 1, height - 1);
   change_cursor(last_cursor);
   return 1;
 }
 
-int make_terrain () {
-  int map_size=WIDTH*HEIGHT;
+int make_terrain (int width, int height) {
+  int map_size = width * height;
+
   if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
-  drawSeed_no_overwrite(WIDTH - 1, HEIGHT - 1);
-  drawMap (0, 0, WIDTH - 1, HEIGHT - 1);
+  drawSeed_no_overwrite(width - 1, height - 1);
+  drawMap (0, 0, width - 1, height - 1);
   change_cursor(last_cursor);
   return 1;
 }

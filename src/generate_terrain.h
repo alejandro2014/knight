@@ -17,11 +17,11 @@ typedef struct {
 
 void drawSeed (int width, int height);
 
-void drawMap (Point *p1, Point *p2);
+void drawMap (int x1, int y1, int x2, int y2);
 
-int overdraw_terrain ();
+int overdraw_terrain(int width, int height);
 
-int make_terrain ();
+int make_terrain (int width, int height);
 
 void allocate_mem();
 
