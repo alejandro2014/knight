@@ -136,7 +136,7 @@ else
   seed = time (NULL);
   srand (seed);
 
-  allocate_mem();
+  allocate_mem(WIDTH, HEIGHT);
   overdraw_terrain(WIDTH, HEIGHT);
 
   SDL_SetTimer (100, on_screen_pointer);

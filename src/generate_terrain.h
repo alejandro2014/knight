@@ -23,7 +23,7 @@ int overdraw_terrain(int width, int height);
 
 int make_terrain (int width, int height);
 
-void allocate_mem();
+void allocate_mem(int width, int height);
 
 int getNewColor (int c1, int c2, int dist);
 int getNewColor4 (int c1, int c2, int c3, int c4, int dist);
@@ -32,6 +32,6 @@ int mrandom (int max);
 void putPixel (int x, int y, Uint8 color);
 
 void freeMemTerrain(Uint8 *buffer);
-void allocateMemTerrain(Uint8 **buffer);
+void allocateMemTerrain(Uint8 **buffer, int map_size);
 
 #endif

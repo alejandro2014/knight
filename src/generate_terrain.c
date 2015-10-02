@@ -147,9 +147,7 @@ void clear_mem() {
   freeMemTerrain(undo_buffer);
 }
 
-void allocateMemTerrain(Uint8 **buffer) {
-  int map_size = WIDTH * HEIGHT;
-
+void allocateMemTerrain(Uint8 **buffer, int map_size) {
   *buffer = calloc ( map_size, sizeof(Uint8));
 
   if(*buffer) {
@@ -163,16 +161,16 @@ void freeMemTerrain(Uint8 *buffer) {
   buffer = NULL;
 }
 
-void allocate_mem() {
-  int map_size=WIDTH*HEIGHT;
+void allocate_mem(int width, int height) {
+  int map_size = width * height;
 
   clear_mem();
   undo=no_undo;//we can't undo, right now.
   clear_temp_buffer=0;//needed, otherwise it might crash next time you draw something
 
-  allocateMemTerrain(&terrain_height);
-  allocateMemTerrain(&temp_buffer);
-  allocateMemTerrain(&undo_buffer);
+  allocateMemTerrain(&terrain_height, map_size);
+  allocateMemTerrain(&temp_buffer, map_size);
+  allocateMemTerrain(&undo_buffer, map_size);
 
   if(!terrain_height || !temp_buffer || !undo_buffer)
     {

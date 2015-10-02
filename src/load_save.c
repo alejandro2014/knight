@@ -18,12 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "load_save.h"
 
-#ifdef WINDOWS
-
-//#include <windows.h>
-
-#endif
-
 //builds the bmp header
 void save_bmp(char * FileName, char * raw_mem, int x_size, int y_size)
 {
@@ -159,7 +153,7 @@ bool load_bmp(char * FileName)
 
 	  if(is_24b)
 	  		{
-				allocate_mem();
+				allocate_mem(WIDTH, HEIGHT);
 				if(!terrain_height)return false;
 				x_padding=x_size*3%4;
 				if(x_padding)x_padding=4-x_padding;
@@ -193,7 +187,7 @@ bool load_bmp(char * FileName)
 	if(x_padding)x_padding=4-x_padding;
 
 	//now, allocate the memory for the new terrain
-	allocate_mem();
+	allocate_mem(WIDTH, HEIGHT);
 	if(!terrain_height)return false;
 
 
@@ -258,7 +252,7 @@ else
     WIDTH = file_header[0];
     HEIGHT = file_header[1];
 
-	allocate_mem();
+	allocate_mem(WIDTH, HEIGHT);
 	if(!terrain_height)return;
 
 	fread (terrain_height, 1, WIDTH * HEIGHT, f);
@@ -473,4 +467,3 @@ DoFileOpenSave (bool bSave)
 
 
 }
-
