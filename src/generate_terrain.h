@@ -10,11 +10,6 @@
 #include <stdlib.h>
 #include "global.h"
 
-typedef struct {
-    int x;
-    int y;
-} Point;
-
 void drawSeed (int width, int height);
 
 void drawMap (int x1, int y1, int x2, int y2);
@@ -31,7 +26,10 @@ int getPixel (int x, int y);
 int mrandom (int max);
 void putPixel (int x, int y, Uint8 color);
 
-void freeMemTerrain(Uint8 *buffer);
+//Memory allocation
+void allocate_mem();
+void clear_mem();
 void allocateMemTerrain(Uint8 **buffer, int map_size);
+void freeMemTerrain(Uint8 *buffer);
 
 #endif
