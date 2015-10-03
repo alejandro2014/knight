@@ -553,7 +553,7 @@ void pre_flood_area ()
 void draw_brush_line () {
   int start_x, start_y, x_len, y_len;
   int i = 0;
-  int delta_x, delta_y, line_lenght;
+  int line_lenght;
   float xstep, ystep, x, y;
 
   if (!get_cur_x_y ()) {
@@ -562,33 +562,38 @@ void draw_brush_line () {
     return;			//nope, not on the map
   }
 
-  line_lenght = getLineLength(&delta_x, &delta_y);
+  line_lenght = getLineLength(&xstep, &ystep);
+
   //ok, now update the last drawn x and y
   last_drawn_x = cur_x;
   last_drawn_y = cur_y;
-
-  x = (float) cur_x;
-  y = (float) cur_y;
-
-  ystep = (float) delta_y / line_lenght;
-  xstep = (float) delta_x / line_lenght;
+  x = cur_x;
+  y = cur_y;
 
   for (i = 0; i <= line_lenght; i++) {
-    draw_brush ((int) x, (int) y);
+    draw_brush (x, y);
     x += xstep;
     y += ystep;
   }
 }
 
-int getLineLength(int *delta_x, int *delta_y) {
-  /*
-     Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
-     So, we need to do some sort of interpolations, and draw lines.
-   */
-  *delta_x = (last_drawn_x == -1) ? 0 : last_drawn_x - cur_x;
-  *delta_y = (last_drawn_y == -1) ? 0 : last_drawn_y - cur_y;
+/*
+   Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
+   So, we need to do some sort of interpolations, and draw lines.
+ */
+int getLineLength(float *xstep, float *ystep) {
+  int line_length;
+  int delta_x, delta_y;
 
-  return (int) sqrt (pow(*delta_x, 2) + pow(*delta_y, 2));
+  delta_x = (last_drawn_x == -1) ? 0 : last_drawn_x - cur_x;
+  delta_y = (last_drawn_y == -1) ? 0 : last_drawn_y - cur_y;
+
+  line_length = (int) sqrt (pow(delta_x, 2) + pow(delta_y, 2));
+
+  *xstep = (float) delta_x / line_length;
+  *ystep = (float) delta_y / line_length;
+
+  return line_length;
 }
 
 void draw_brush (int this_cur_x, int this_cur_y) {
