@@ -550,53 +550,45 @@ void pre_flood_area ()
 	change_cursor(last_cursor);
 }
 
-
-///////////////////////////////////////////////////////////////////////////
-void
-draw_brush_line ()
-{
+void draw_brush_line () {
   int start_x, start_y, x_len, y_len;
   int i = 0;
   int delta_x, delta_y, line_lenght;
   float xstep, ystep, x, y;
 
-  if (!get_cur_x_y ())
-  {
+  if (!get_cur_x_y ()) {
     last_drawn_x = -1;
     last_drawn_y = -1;
     return;			//nope, not on the map
   }
 
-  /*
-     Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
-     So, we need to do some sort of interpolations, and draw lines.
-   */
-   delta_x = (last_drawn_x == -1) ? 0 : last_drawn_x - cur_x;
-   delta_y = (last_drawn_y == -1) ? 0 : last_drawn_y - cur_y;
-
-  line_lenght = (int) sqrt (delta_x * delta_x + delta_y * delta_y);
-
+  line_lenght = getLineLength(&delta_x, &delta_y);
   //ok, now update the last drawn x and y
   last_drawn_x = cur_x;
   last_drawn_y = cur_y;
 
-  if (line_lenght == 0)		//just draw this point
-  {
-    draw_brush (cur_x, cur_y);
-    return;
-  }
+  x = (float) cur_x;
+  y = (float) cur_y;
 
   ystep = (float) delta_y / line_lenght;
   xstep = (float) delta_x / line_lenght;
-  x = (float) cur_x;
-  y = (float) cur_y;
-  for (; i <= line_lenght; i++)
-  {
+
+  for (i = 0; i <= line_lenght; i++) {
     draw_brush ((int) x, (int) y);
     x += xstep;
     y += ystep;
   }
+}
 
+int getLineLength(int *delta_x, int *delta_y) {
+  /*
+     Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
+     So, we need to do some sort of interpolations, and draw lines.
+   */
+  *delta_x = (last_drawn_x == -1) ? 0 : last_drawn_x - cur_x;
+  *delta_y = (last_drawn_y == -1) ? 0 : last_drawn_y - cur_y;
+
+  return (int) sqrt (pow(*delta_x, 2) + pow(*delta_y, 2));
 }
 
 void draw_brush (int this_cur_x, int this_cur_y) {
@@ -608,16 +600,14 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 
   calculateRectangleBrush(&brush, this_cur_x, this_cur_y, brush_size);
 
-  for (y = brush.ymin; y <= brush.ymax; y++) {
-    for (x = brush.xmin; x <= brush.xmax; x++) {
+  for (y = brush.ymin; y <= brush.ymax; y++)
+    for (x = brush.xmin; x <= brush.xmax; x++)
       if (isPointInWindow(x, y) && getColour(temp_buffer, x, y) == NOT_MODIFIED) {
         applyBrushInPixel(x, y);
 
         //and, we should also clear the buffer, at the next mouse up event.
 	      clear_temp_buffer = 1;
 	    }
-    }
-  }
 }
 
 void applyBrushInPixel(int x, int y) {
