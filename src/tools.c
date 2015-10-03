@@ -614,15 +614,7 @@ void draw_brush (int this_cur_x, int this_cur_y) {
   int x, y;
   int currentColour = 0;
 
-  //see if we have to clear the temp buffer
-  if(clear_temp_buffer && long_pressed_button_l == 1) {
-		do_clear_temp_buffer ();
-		clear_temp_buffer = 0;
-		min_drawn_x = 0xffff;
-		min_drawn_y = 0xffff;
-		max_drawn_x = 0;
-		max_drawn_y = 0;
-  }
+  clearTempBuffer();
 
   undo = partial_undo;//the undo type we have here
 
@@ -641,18 +633,36 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 
 	        setColour(temp_buffer, x, y, MODIFIED);
 
-	        //now, update the min and max drawn
-	        if (x < min_drawn_x) min_drawn_x = x;
-	        if (y < min_drawn_y) min_drawn_y = y;
-	        if (x > max_drawn_x) max_drawn_x = x;
-	        if (y > max_drawn_y) max_drawn_y = y;
-
-	        max_drawn_x = max_drawn_x & 0xfffc;
-	        min_drawn_x = min_drawn_x | 3;
+          updateMinMaxDrawnCoords(x, y);
 
 	        //and, we should also clear the buffer, at the next mouse up event.
 	        clear_temp_buffer = 1;
 	      }
+}
+
+void clearTempBuffer() {
+  //see if we have to clear the temp buffer
+  if(clear_temp_buffer && long_pressed_button_l == 1) {
+		do_clear_temp_buffer ();
+		clear_temp_buffer = 0;
+		min_drawn_x = 0xffff;
+		min_drawn_y = 0xffff;
+		max_drawn_x = 0;
+		max_drawn_y = 0;
+  }
+}
+
+void updateMinMaxDrawnCoords(int x, int y) {
+  //now, update the min and max drawn
+  if (x < min_drawn_x) min_drawn_x = x;
+  if (y < min_drawn_y) min_drawn_y = y;
+  if (x > max_drawn_x) max_drawn_x = x;
+  if (y > max_drawn_y) max_drawn_y = y;
+
+  //11111111 11111111 11111111 11111100 wtf??
+  //00000000 00000000 00000000 00000011 wtf??
+  max_drawn_x = max_drawn_x & 0xfffc;
+  min_drawn_x = min_drawn_x | 3;
 }
 
 int isPointInWindow(int x, int y) {

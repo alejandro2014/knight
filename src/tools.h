@@ -57,4 +57,7 @@ void incColour(Uint8 *terrain, int x, int y, int delta);
 void decColour(Uint8 *terrain, int x, int y, int delta);
 
 int isPointInWindow(int x, int y);
+
+void clearTempBuffer();
+void updateMinMaxDrawnCoords(int x, int y);
 #endif
