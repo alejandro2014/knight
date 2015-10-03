@@ -600,44 +600,55 @@ draw_brush_line ()
 }
 
 void draw_brush (int this_cur_x, int this_cur_y) {
-  /*
-  Rectangle with centre in the cursor and size of 'brush'
-  Brush size -> [1 = 1px, 2 = 3px, 3 = 5px, 4 = 7px, 5 = 9px]
-  The rectangle is calculated in pixels given the brush number
-  */
-  int delta = brush_size - 1;
-  int start_y = this_cur_y - delta;
-  int start_x = this_cur_x - delta;
-  int end_x = this_cur_x + delta;
-  int end_y = this_cur_y + delta;
-
+  Rectangle brush;
   int x, y;
-  int currentColour = 0;
 
   clearTempBuffer();
-
   undo = partial_undo;//the undo type we have here
 
-  for (y = start_y; y <= end_y; y++)
-    for (x = start_x; x <= end_x; x++)
+  calculateRectangleBrush(&brush, this_cur_x, this_cur_y, brush_size);
+
+  for (y = brush.ymin; y <= brush.ymax; y++) {
+    for (x = brush.xmin; x <= brush.xmax; x++) {
       if (isPointInWindow(x, y) && getColour(temp_buffer, x, y) == NOT_MODIFIED) {
-	        //first thing to do is save the current pixel, in the undo buffer
-          currentColour = getColour(terrain_height, x, y);
-          setColour(undo_buffer, x, y, currentColour);
+        applyBrushInPixel(x, y);
 
-          switch(current_tool) {
-            case t_place:    setColour(terrain_height, x, y, color_1); break;
-            case t_escavate: decColour(terrain_height, x, y, color_1); break;
-            case t_elevate:  incColour(terrain_height, x, y, color_1); break;
-          }
+        //and, we should also clear the buffer, at the next mouse up event.
+	      clear_temp_buffer = 1;
+	    }
+    }
+  }
+}
 
-	        setColour(temp_buffer, x, y, MODIFIED);
+void applyBrushInPixel(int x, int y) {
+  savePixelInUndoBuffer(x, y);
 
-          updateMinMaxDrawnCoords(x, y);
+  switch(current_tool) {
+    case t_place:    setColour(terrain_height, x, y, color_1); break;
+    case t_escavate: decColour(terrain_height, x, y, color_1); break;
+    case t_elevate:  incColour(terrain_height, x, y, color_1); break;
+  }
 
-	        //and, we should also clear the buffer, at the next mouse up event.
-	        clear_temp_buffer = 1;
-	      }
+  setColour(temp_buffer, x, y, MODIFIED);
+  updateMinMaxDrawnCoords(x, y);
+}
+
+/*
+Rectangle with centre in the cursor and size of 'brush'
+Brush size -> [1 = 1px, 2 = 3px, 3 = 5px, 4 = 7px, 5 = 9px]
+The rectangle is calculated in pixels given the brush number
+*/
+void calculateRectangleBrush(Rectangle *brush, int xcursor, int ycursor, int size) {
+  int delta = size - 1;
+  brush->ymin = ycursor - delta;
+  brush->xmin = xcursor - delta;
+  brush->xmax = xcursor + delta;
+  brush->ymax = ycursor + delta;
+}
+
+void savePixelInUndoBuffer(int x, int y) {
+  int currentColour = getColour(terrain_height, x, y);
+  setColour(undo_buffer, x, y, currentColour);
 }
 
 void clearTempBuffer() {

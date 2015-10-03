@@ -6,6 +6,11 @@
 #define NOT_MODIFIED 0
 #define MODIFIED 1
 
+typedef struct {
+    int xmin, ymin;
+    int xmax, ymax;
+} Rectangle;
+
 void draw_brush (int cur_x, int cur_y);
 
 #define not_filled 0
@@ -60,4 +65,8 @@ int isPointInWindow(int x, int y);
 
 void clearTempBuffer();
 void updateMinMaxDrawnCoords(int x, int y);
+
+void calculateRectangleBrush(Rectangle *brush, int xcursor, int ycursor, int size);
+void savePixelInUndoBuffer(int x, int y);
+void applyBrushInPixel(int x, int y);
 #endif
