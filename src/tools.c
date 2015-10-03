@@ -600,11 +600,22 @@ draw_brush_line ()
 }
 
 void draw_brush (int this_cur_x, int this_cur_y) {
-  int x, y, start_x, start_y, x_len, y_len;
+  /*
+  Rectangle with centre in the cursor and size of 'brush'
+  Brush size -> [1 = 1px, 2 = 3px, 3 = 5px, 4 = 7px, 5 = 9px]
+  The rectangle is calculated in pixels given the brush number
+  */
+  int delta = brush_size - 1;
+  int start_y = this_cur_y - delta;
+  int start_x = this_cur_x - delta;
+  int end_x = this_cur_x + delta;
+  int end_y = this_cur_y + delta;
+
+  int x, y;
   int currentColour = 0;
 
   //see if we have to clear the temp buffer
-  if(clear_temp_buffer && long_pressed_button_l==1) {
+  if(clear_temp_buffer && long_pressed_button_l == 1) {
 		do_clear_temp_buffer ();
 		clear_temp_buffer = 0;
 		min_drawn_x = 0xffff;
@@ -613,19 +624,11 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 		max_drawn_y = 0;
   }
 
-  undo=partial_undo;//the undo type we have here
+  undo = partial_undo;//the undo type we have here
 
-  //Adapts the brush
-  start_y = this_cur_y - brush_size - 1;
-  start_x = this_cur_x - brush_size - 1;
-  y_len = 2 * brush_size - 1;
-  x_len = 2 * brush_size - 1;
-
-  for (y = start_y; y < start_y + y_len; y++)
-    for (x = start_x; x < start_x + x_len; x++)
-      if (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT)
-	      if (getColour(temp_buffer, x, y) == NOT_MODIFIED)
-	      {
+  for (y = start_y; y <= end_y; y++)
+    for (x = start_x; x <= end_x; x++)
+      if (isPointInWindow(x, y) && getColour(temp_buffer, x, y) == NOT_MODIFIED) {
 	        //first thing to do is save the current pixel, in the undo buffer
           currentColour = getColour(terrain_height, x, y);
           setColour(undo_buffer, x, y, currentColour);
@@ -650,6 +653,10 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 	        //and, we should also clear the buffer, at the next mouse up event.
 	        clear_temp_buffer = 1;
 	      }
+}
+
+int isPointInWindow(int x, int y) {
+  return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
 }
 
 int getColour(Uint8 *terrain, int x, int y) {
