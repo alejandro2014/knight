@@ -6,6 +6,19 @@
 #include "menus.h"
 #include "tools.h"
 
+void resizeScreen(SDL_Event *event) {
+  no_update_now=1;
+  window_width = event->resize.w;
+  window_height = event->resize.h;
+  if (window_width < 680)window_width = 680;
+  if (window_height < 450)window_height = 450;
+  window_width=window_width|3;
+  screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
+  SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
+  if(isometric_window_buffer)free(isometric_window_buffer);
+  isometric_window_buffer=NULL;
+}
+
 void events_loop (void) {
   SDL_Event event;
   SDLMod mod_key_status;
@@ -46,7 +59,12 @@ void events_loop (void) {
       check_toolbar_release ();
     }
 
-    if (event.type == SDL_VIDEORESIZE) {
+    switch(event.type) {
+      case SDL_VIDEORESIZE:
+        resizeScreen(&event);
+        break;
+    }
+    /*if (event.type == SDL_VIDEORESIZE) {
 	    no_update_now=1;
       window_width = event.resize.w;
       window_height = event.resize.h;
@@ -57,7 +75,7 @@ void events_loop (void) {
       SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
       if(isometric_window_buffer)free(isometric_window_buffer);
       isometric_window_buffer=NULL;
-    }
+    }*/
 
     if(!isometric_terrain) {
       if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN) {
@@ -202,6 +220,17 @@ void events_loop (void) {
       }
       check_object_menu (some_char);
       continue;
+    }
+
+    if(event.type == SDL_KEYDOWN) {
+      char some_char = 0;
+      some_char = event.key.keysym.sym;
+      if(show_object_menu) check_object_menu(some_char);
+      if(show_object_menu) check_object_menu(some_char);
+      if(show_object_menu) check_object_menu(some_char);
+      if(show_replace_menu) check_replace_menu(some_char);
+      if(show_global_replace_menu) check_global_replace_menu(some_char);
+      if(show_object_menu) check_object_menu(some_char);
     }
 
     if (event.type == SDL_KEYDOWN) {
