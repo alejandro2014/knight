@@ -30,8 +30,6 @@ void process_menu_commands (int custom_message);
 
 void pre_load_object();
 
-void generate_menu();
-
 void smooth_terrain ();
 
 void clear_selection();

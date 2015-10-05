@@ -320,7 +320,7 @@ bool status_bar_press () {
           break;
 
           case do_generate:
-          generate_menu ();
+          generate_menu (seed);
           break;
 
           case do_display_replace_menu:

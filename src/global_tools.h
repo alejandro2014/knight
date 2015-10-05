@@ -7,7 +7,7 @@ void copy_to_undo_buffer();
 
 void new_terrain_menu ();
 
-void generate_menu ();
+void generate_menu (int seed);
 
 void do_clear_temp_buffer ();
 

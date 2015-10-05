@@ -10,13 +10,11 @@ void new_terrain_menu ()
 
 }
 
-void generate_menu ()
-{
+void generate_menu (int seed) {
   show_generate_terrain_menu = 1;
   sprintf (numeric_dialog_boxes[seed_dialog].dialog_text, "%d", seed);
   numeric_dialog_boxes[seed_dialog].text_offset = 0;
   change_cursor(cursor_arrow);
-
 }
 
 void do_clear_temp_buffer ()
