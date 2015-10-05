@@ -19,6 +19,33 @@ void resizeScreen(SDL_Event *event) {
   isometric_window_buffer=NULL;
 }
 
+void manageButtonClick(SDL_Event *event) {
+  while (SDL_PollEvent (event));	//clears all the events
+
+  if((selection_x_1!=-1 && selection_x_2==-1) || selection_x_1==selection_x_2 || selection_y_1==selection_y_2) {
+    selection_x_1=-1;
+    selection_y_1=-1;
+    selection_x_2=-1;
+    selection_y_2=-1;
+  }
+
+  drag_minimap = 0;
+  drag_toolbar = 0;
+  drag_statusbar = 0;
+
+  last_drawn_x = -1;
+  last_drawn_y = -1;
+  //mark buttons as unpressed at all, so they are fresh.
+  long_pressed_button_l = 0;
+  long_pressed_button_r = 0;
+
+  button_l = (SDL_GetMouseState (NULL, NULL) & SDL_BUTTON (SDL_BUTTON_LEFT)) ? 1 : 0;
+  button_r = (SDL_GetMouseState (NULL, NULL) & SDL_BUTTON (SDL_BUTTON_RIGHT)) ? 1 : 0;
+
+  //now, check to see if there is any button up on the toolbar
+  check_toolbar_release ();
+}
+
 void events_loop (void) {
   SDL_Event event;
   SDLMod mod_key_status;
@@ -32,50 +59,11 @@ void events_loop (void) {
     mod_key_status=SDL_GetModState();
     caps_look_on = (mod_key_status & KMOD_CAPS) ? 1 : 0;
 
-    if (event.type == SDL_MOUSEBUTTONUP) {
-      while (SDL_PollEvent (&event));	//clears all the events
-
-      if((selection_x_1!=-1 && selection_x_2==-1) || selection_x_1==selection_x_2 || selection_y_1==selection_y_2) {
-		    selection_x_1=-1;
-		    selection_y_1=-1;
-		    selection_x_2=-1;
-		    selection_y_2=-1;
-	    }
-
-      drag_minimap = 0;
-      drag_toolbar = 0;
-      drag_statusbar = 0;
-
-      last_drawn_x = -1;
-      last_drawn_y = -1;
-      //mark buttons as unpressed at all, so they are fresh.
-      long_pressed_button_l = 0;
-      long_pressed_button_r = 0;
-
-      button_l = (SDL_GetMouseState (NULL, NULL) & SDL_BUTTON (SDL_BUTTON_LEFT)) ? 1 : 0;
-      button_r = (SDL_GetMouseState (NULL, NULL) & SDL_BUTTON (SDL_BUTTON_RIGHT)) ? 1 : 0;
-
-      //now, check to see if there is any button up on the toolbar
-      check_toolbar_release ();
-    }
-
     switch(event.type) {
-      case SDL_VIDEORESIZE:
-        resizeScreen(&event);
-        break;
+      //case SDL_QUIT: break;
+      case SDL_MOUSEBUTTONUP: manageButtonClick(&event); break;
+      case SDL_VIDEORESIZE: resizeScreen(&event); break;
     }
-    /*if (event.type == SDL_VIDEORESIZE) {
-	    no_update_now=1;
-      window_width = event.resize.w;
-      window_height = event.resize.h;
-      if (window_width < 680)window_width = 680;
-      if (window_height < 450)window_height = 450;
-      window_width=window_width|3;
-      screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
-      SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
-      if(isometric_window_buffer)free(isometric_window_buffer);
-      isometric_window_buffer=NULL;
-    }*/
 
     if(!isometric_terrain) {
       if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN) {
