@@ -92,53 +92,15 @@ void events_loop (void) {
       else if (drag_statusbar)
 	      move_statusbar ();
 
-      //in case the file menu is active, go and stay there
-      if (view_file_menu)	{
- 	      check_file_menu (0);
-	      continue;
-      }
-
-      //in case the replace menu is active, go and stay there
-      if (view_error_menu) {
-	      check_error_menu (0);
-	      continue;
-      }
-
-      //in case the generate terrain menu is active, go and stay there
-      if (show_new_terrain_menu) {
-	      check_new_terrain_menu (0);
-	      continue;
-      }
-
-      if (show_generate_terrain_menu) {
-	      check_generate_terrain_menu (0);
-	      continue;
-      }
-
-      if (show_view_menu) {
-	      check_view_menu (0);
-	      continue;
-      }
-
-      if (show_replace_menu) {
-	      check_replace_menu (0);
-	      continue;
-      }
-
-      if (show_global_replace_menu) {
-	      check_global_replace_menu (0);
-	      continue;
-      }
-
-      if (show_rotate_menu) {
-	      check_rotate_menu (0);
-	      continue;
-      }
-
-      if (show_object_menu) {
-	      check_object_menu (0);
-	      continue;
-      }
+      if (view_file_menu)	{ check_file_menu (0); continue; }
+      if (view_error_menu) { check_error_menu (0); continue; }
+      if (show_new_terrain_menu) { check_new_terrain_menu (0); continue; }
+      if (show_generate_terrain_menu) { check_generate_terrain_menu (0); continue; }
+      if (show_view_menu) { check_view_menu (0); continue; }
+      if (show_replace_menu) { check_replace_menu (0); continue; }
+      if (show_global_replace_menu) { check_global_replace_menu (0); continue; }
+      if (show_rotate_menu) { check_rotate_menu (0); continue; }
+      if (show_object_menu) { check_object_menu (0); continue; }
 
       check_toolbar_mouse_over ();
 
@@ -147,79 +109,13 @@ void events_loop (void) {
 
     }//end of SDL_MOUSEMOTION event
 
-    if (view_file_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_file_menu (some_char);
-      continue;
-    }
-
-    if (view_error_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_error_menu (some_char);
-      continue;
-    }
-
-    if (show_new_terrain_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_new_terrain_menu (some_char);
-      continue;
-    }
-
-    if (show_generate_terrain_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_generate_terrain_menu (some_char);
-      continue;
-    }
-
-    if (show_replace_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_replace_menu (some_char);
-      continue;
-    }
-
-    if (show_global_replace_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_global_replace_menu (some_char);
-      continue;
-    }
-
-    if (show_object_menu) {
-      char some_char = 0;
-      if (event.type == SDL_KEYDOWN) {
-	      some_char = event.key.keysym.sym;
-      }
-      check_object_menu (some_char);
-      continue;
-    }
-
-    if(event.type == SDL_KEYDOWN) {
-      char some_char = 0;
-      some_char = event.key.keysym.sym;
-      if(show_object_menu) check_object_menu(some_char);
-      if(show_object_menu) check_object_menu(some_char);
-      if(show_object_menu) check_object_menu(some_char);
-      if(show_replace_menu) check_replace_menu(some_char);
-      if(show_global_replace_menu) check_global_replace_menu(some_char);
-      if(show_object_menu) check_object_menu(some_char);
-    }
+    if (view_file_menu) { check_file_menu(getTypedChar(&event)); continue; }
+    if (view_error_menu) { check_error_menu(getTypedChar(&event)); continue; }
+    if (show_new_terrain_menu) { check_new_terrain_menu(getTypedChar(&event)); continue; }
+    if (show_generate_terrain_menu) { check_generate_terrain_menu(getTypedChar(&event)); continue; }
+    if (show_replace_menu) { check_replace_menu(getTypedChar(&event)); continue; }
+    if (show_global_replace_menu) { check_global_replace_menu(getTypedChar(&event)); continue; }
+    if (show_object_menu) { check_object_menu(getTypedChar(&event)); continue; }
 
     if (event.type == SDL_KEYDOWN) {
       Uint8 *keystate = SDL_GetKeyState (NULL);
@@ -248,6 +144,10 @@ else
 		  }
     }
   }
+}
+
+char getTypedChar(SDL_Event *event) {
+  return ((*event).type == SDL_KEYDOWN) ? (*event).key.keysym.sym : 0;
 }
 
 void
