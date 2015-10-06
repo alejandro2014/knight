@@ -24,11 +24,10 @@
 #include "actions_core.h"
 
 int main (int argc, char *argv[]) {
-  printf("Test program\n");
-  Terrain *terrain = hme_generate_terrain(100, 100);
+  Terrain *terrain = generateTerrain(100, 100);
 
-  hmeFreeTerrain(terrain);
-  
+  freeTerrain(terrain);
+
   return 0;
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;

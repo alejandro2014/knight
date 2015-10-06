@@ -16,12 +16,10 @@ typedef struct {
   int width;
   int height;
   int pointsNo;
-  Point **points;
+  Point *points;
 } Terrain;
 
-Terrain *hme_generate_terrain(int width, int height);
-Point **hmeAllocatePoints(int width, int height);
-
-void hmeFreeTerrain(Terrain *terrain);
+Terrain *generateTerrain(int width, int height);
+void freeTerrain(Terrain *terrain);
 
 #endif
