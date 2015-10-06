@@ -4,6 +4,7 @@ Terrain *hme_generate_terrain(int width, int height) {
   Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
   terrain->width = width;
   terrain->height = height;
+  terrain->pointsNo = width * height;
   terrain->points = hmeAllocatePoints(width, height);
 
   return terrain;
@@ -38,4 +39,16 @@ int hmeAllocateMem(Uint8 **buffer, int size) {
   }
 
   return -1;
+}
+
+void hmeFreeTerrain(Terrain *terrain) {
+  int i;
+
+  for(i = 0; i < terrain->pointsNo; i++) {
+    free(terrain->points[i]);
+  }
+
+  free(terrain->points);
+
+  free(terrain);
 }

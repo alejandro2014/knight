@@ -94,8 +94,7 @@ void global_replace()
   change_cursor(last_cursor);
 }
 
-void do_undo()
-{
+void do_undo() {
 	int x,y,x_start,x_end,swap_int;
 	Uint8 * swap_var;
 	if(undo==partial_undo)
@@ -107,10 +106,9 @@ void do_undo()
 			x_end=max_drawn_x+3;
 			if(x_end>WIDTH)x_end=WIDTH;
 
-			for(x=x_start;x<=x_end;x++)
-			{
-				if(*(temp_buffer + y * WIDTH + x))
-				*(terrain_height + y * WIDTH + x)=*(undo_buffer + y * WIDTH + x);
+			for(x=x_start;x<=x_end;x++) {
+				if(getColour(temp_buffer, x, y))
+				  setColour(terrain_height, x, y, getColour(undo_buffer, x, y));
 			}
 		}
 	}

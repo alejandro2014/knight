@@ -21,7 +21,16 @@
 #include "settings.h"
 #include "objects.h"
 
+#include "actions_core.h"
+
 int main (int argc, char *argv[]) {
+  printf("Test program\n");
+  Terrain *terrain = hme_generate_terrain(100, 100);
+
+  hmeFreeTerrain(terrain);
+  
+  return 0;
+
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
 
