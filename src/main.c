@@ -24,18 +24,15 @@
 #include "actions_core.h"
 
 int main (int argc, char *argv[]) {
-  Terrain *terrain = generateTerrain(100, 100);
-
-  freeTerrain(terrain);
-
-  return 0;
+  Terrain *terrains[3];
+  memset(&terrains, 0, sizeof(Terrain*) * 3);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
 
   //load_settings ();
 
-  screen = SDL_SetVideoMode (window_width, window_height, 8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
+  screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 
   SDL_WM_SetIcon(icon, NULL);
@@ -123,7 +120,7 @@ else
   seed = time (NULL);
   srand (seed);
 
-  allocate_mem(WIDTH, HEIGHT);
+  allocate_mem(&terrains, WIDTH, HEIGHT);
   overdraw_terrain(WIDTH, HEIGHT);
 
   SDL_SetTimer (100, on_screen_pointer);

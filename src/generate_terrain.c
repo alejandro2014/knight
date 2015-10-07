@@ -120,7 +120,7 @@ int make_terrain (int width, int height) {
 /*---------------
 Memory allocation
 ---------------*/
-void allocate_mem(int width, int height) {
+void allocate_mem(Terrain **terrains, int width, int height) {
   int map_size = width * height;
 
   freeMemTerrain(terrain_height);
@@ -130,17 +130,9 @@ void allocate_mem(int width, int height) {
   undo = no_undo;
   clear_temp_buffer = 0;//needed, otherwise it might crash next time you draw something
 
-  if(allocateMemTerrain2(&terrain_height, map_size) == -1) {
-    view_error_menu = 1;
-    return;
-  }
-
-  if(allocateMemTerrain2(&temp_buffer, map_size) == -1) {
-    view_error_menu = 1;
-    return;
-  }
-
-  if(allocateMemTerrain2(&undo_buffer, map_size) == -1) {
+  if(allocateMemTerrain2(&terrain_height, map_size) == -1 ||
+     allocateMemTerrain2(&temp_buffer, map_size) == -1 ||
+     allocateMemTerrain2(&undo_buffer, map_size) == -1) {
     view_error_menu = 1;
     return;
   }
