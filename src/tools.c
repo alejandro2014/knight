@@ -607,7 +607,7 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 
   for (y = brush.ymin; y <= brush.ymax; y++)
     for (x = brush.xmin; x <= brush.xmax; x++)
-      if (isPointInWindow(x, y) && getColour(temp_buffer, x, y) == NOT_MODIFIED) {
+      if (isPointInWindow(x, y) && getHeightOld(temp_buffer, x, y) == NOT_MODIFIED) {
         applyBrushInPixel(x, y);
 
         //and, we should also clear the buffer, at the next mouse up event.
@@ -619,12 +619,12 @@ void applyBrushInPixel(int x, int y) {
   savePixelInUndoBuffer(x, y);
 
   switch(current_tool) {
-    case t_place:    setColour(terrain_height, x, y, color_1); break;
-    case t_escavate: decColour(terrain_height, x, y, color_1); break;
-    case t_elevate:  incColour(terrain_height, x, y, color_1); break;
+    case t_place:    setHeightOld(terrain_height, x, y, color_1); break;
+    case t_escavate: decHeightOld(terrain_height, x, y, color_1); break;
+    case t_elevate:  incHeightOld(terrain_height, x, y, color_1); break;
   }
 
-  setColour(temp_buffer, x, y, MODIFIED);
+  setHeightOld(temp_buffer, x, y, MODIFIED);
   updateMinMaxDrawnCoords(x, y);
 }
 
@@ -642,8 +642,8 @@ void calculateRectangleBrush(Rectangle *brush, int xcursor, int ycursor, int siz
 }
 
 void savePixelInUndoBuffer(int x, int y) {
-  int currentColour = getColour(terrain_height, x, y);
-  setColour(undo_buffer, x, y, currentColour);
+  int currentColour = getHeightOld(terrain_height, x, y);
+  setHeightOld(undo_buffer, x, y, currentColour);
 }
 
 void clearTempBuffer() {
@@ -675,22 +675,22 @@ int isPointInWindow(int x, int y) {
   return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
 }
 
-int getColour(Uint8 *terrain, int x, int y) {
+int getHeightOld(Uint8 *terrain, int x, int y) {
   return *(terrain + y * WIDTH + x);
 }
 
-void setColour(Uint8 *terrain, int x, int y, int colour) {
+void setHeightOld(Uint8 *terrain, int x, int y, int colour) {
   *(terrain + y * WIDTH + x) = colour;
 }
 
-void incColour(Uint8 *terrain, int x, int y, int delta) {
-  int newColour = getColour(terrain, x, y) + delta;
-  setColour(terrain, x, y, (newColour < 255 ? newColour : 255));
+void incHeightOld(Uint8 *terrain, int x, int y, int delta) {
+  int newColour = getHeightOld(terrain, x, y) + delta;
+  setHeightOld(terrain, x, y, (newColour < 255 ? newColour : 255));
 }
 
-void decColour(Uint8 *terrain, int x, int y, int delta) {
-  int newColour = getColour(terrain, x, y) - delta;
-  setColour(terrain, x, y, (newColour > 0 ? newColour : 0));
+void decHeightOld(Uint8 *terrain, int x, int y, int delta) {
+  int newColour = getHeightOld(terrain, x, y) - delta;
+  setHeightOld(terrain, x, y, (newColour > 0 ? newColour : 0));
 }
 
 void stamp_object()

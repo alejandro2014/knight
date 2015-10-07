@@ -22,4 +22,7 @@ typedef struct {
 Terrain *generateTerrain(int width, int height);
 void freeTerrain(Terrain *terrain);
 
+int getHeight(Point *point);
+void setHeight(Point *point, int height);
+
 #endif

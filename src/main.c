@@ -38,12 +38,6 @@ int main (int argc, char *argv[]) {
   screen = SDL_SetVideoMode (window_width, window_height, 8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 
-  if(icon == NULL) {
-	  printf("[ERROR] Error loading the icon: %s\n", SDL_GetError());
-  } else {
-	  printf("[DEBUG] Icon loaded properly\n");
-  }
-
   SDL_WM_SetIcon(icon, NULL);
   SDL_WM_SetCaption ("Terrain Editor", "Terrain Editor");
 

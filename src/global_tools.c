@@ -107,8 +107,8 @@ void do_undo() {
 			if(x_end>WIDTH)x_end=WIDTH;
 
 			for(x=x_start;x<=x_end;x++) {
-				if(getColour(temp_buffer, x, y))
-				  setColour(terrain_height, x, y, getColour(undo_buffer, x, y));
+				if(getHeightOld(temp_buffer, x, y))
+				  setHeightOld(terrain_height, x, y, getHeightOld(undo_buffer, x, y));
 			}
 		}
 	}
