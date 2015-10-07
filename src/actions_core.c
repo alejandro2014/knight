@@ -13,6 +13,8 @@ Terrain *generateTerrain(int width, int height) {
 }
 
 void freeTerrain(Terrain *terrain) {
+  if(terrain == NULL) return;
+  
   free(terrain->points);
   free(terrain);
 }

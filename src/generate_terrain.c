@@ -127,6 +127,10 @@ void allocate_mem(Terrain **terrains, int width, int height) {
   freeMemTerrain(temp_buffer);
   freeMemTerrain(undo_buffer);
 
+  freeTerrain(*(terrains + 0));
+  freeTerrain(*(terrains + 1));
+  freeTerrain(*(terrains + 2));
+
   undo = no_undo;
   clear_temp_buffer = 0;//needed, otherwise it might crash next time you draw something
 
