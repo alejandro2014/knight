@@ -368,9 +368,9 @@ on_screen (unsigned int some_int)	//build the 'scene'
 	//  debug_info();
 	  if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
 	  if (grid)draw_grid (screen);
-	  if (status_bar)draw_status_bar ();
-   	  if (mini_map)draw_minimap (screen);
-	  if (tool_bar)draw_tool_bar (screen);
+	  //TODO if (status_bar)draw_status_bar ();
+   	//TODO if (mini_map)draw_minimap (screen);
+	  //TODO if (tool_bar)draw_tool_bar (screen);
 	  if (show_tip)draw_tool_tip();
 	  if (show_new_terrain_menu)draw_new_terrain_menu (screen);
 	  if (show_generate_terrain_menu)draw_generate_menu (screen);

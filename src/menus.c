@@ -4,9 +4,7 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
-void
-load_tool_bar ()
-{
+void load_tool_bar () {
   FILE *f = NULL;
   char *temp_pointer = tool_bar_mem;
   int f_size, i;
@@ -40,8 +38,6 @@ load_tool_bar ()
   for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
     *(tool_bar_mem) = *(++tool_bar_mem) + 128;
   tool_bar_mem = temp_pointer;
-
-
 }
 
 
