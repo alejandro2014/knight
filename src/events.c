@@ -131,8 +131,6 @@ void events_loop (void) {
 
 	    if (keystate[SDLK_z]) {
 			  mod_key_status=SDL_GetModState();
-
-        if(mod_key_status&KMOD_CTRL)do_undo();
 		  }
     }
 }//end of the isometrical view thing

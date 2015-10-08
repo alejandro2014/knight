@@ -50,7 +50,7 @@ void global_replace()
 
   }
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
 
   for (i = 0; i < map_size; i++)
@@ -94,63 +94,13 @@ void global_replace()
   change_cursor(last_cursor);
 }
 
-void do_undo() {
-	int x,y,x_start,x_end,swap_int;
-	Uint8 * swap_var;
-	if(undo==partial_undo)
-	{
-		for(y=min_drawn_y;y<=max_drawn_y;y++)
-		{
-			x_start=min_drawn_x-3;
-			if(x_start<0)x_start=0;
-			x_end=max_drawn_x+3;
-			if(x_end>WIDTH)x_end=WIDTH;
-
-			for(x=x_start;x<=x_end;x++) {
-				if(getHeightOld(temp_buffer, x, y))
-				  setHeightOld(terrain_height, x, y, getHeightOld(undo_buffer, x, y));
-			}
-		}
-	}
-	else
-	if(undo==total_undo)
-	{
-		swap_var=terrain_height;
-		terrain_height=(char*)undo_buffer;
-		undo_buffer=(char*)swap_var;
-	}
-	else
-	if(undo==total_undo_swap_x_y)
-	{
-		swap_int=HEIGHT;
-		HEIGHT=WIDTH;
-		WIDTH=swap_int;
-		swap_var=terrain_height;
-		terrain_height=(char*)undo_buffer;
-		undo_buffer=(char*)swap_var;
-	}
-
-
-undo=no_undo;
-}
-
-void copy_to_undo_buffer()
-{
-	Uint8 *	undo_buffer_pointer=undo_buffer;
-	Uint8 *	terrain_buffer_pointer=terrain_height;
-	int i=0;
-	int map_size=WIDTH*HEIGHT;
-	for(i=0;i<map_size;i++)*undo_buffer_pointer++=*terrain_buffer_pointer++;
-	undo=total_undo;
-}
-
 void rise_terrain ()
 {
   int i;
   int map_size=WIDTH*HEIGHT;
   if(!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (i = 0; i < map_size; i++)
     if (*(terrain_height + i) + color_1 < 255)
       *(terrain_height + i) += color_1;
@@ -165,7 +115,7 @@ void sink_terrain ()
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (i = 0; i < map_size; i++)
     if (*(terrain_height + i) - color_1 > 0)
       *(terrain_height + i) -= color_1;
@@ -179,7 +129,7 @@ void flip_z ()
   int i;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
-  copy_to_undo_buffer();
+
   change_cursor(cursor_wait);
   for (i = 0; i < map_size; i++)*(terrain_height + i) = 0-*(terrain_height + i);
   change_cursor(last_cursor);
@@ -187,20 +137,17 @@ void flip_z ()
 
 void flip_y ()
 {
-  int x,y,map_offset,undo_offset;
+  int x,y,map_offset;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (y = 0; y<HEIGHT; y++)
   	{
 		map_offset=y*WIDTH;
-		undo_offset=(HEIGHT-1-y)*WIDTH;
 		for (x = 0; x<WIDTH; x++)
 			{
-				*(terrain_height + map_offset)=*(undo_buffer + undo_offset);
 				map_offset++;
-				undo_offset++;
 			}
 
 	}
@@ -210,20 +157,17 @@ void flip_y ()
 
 void flip_x ()
 {
-  int x,y,map_offset,undo_offset;
+  int x,y,map_offset;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (y = 0; y<HEIGHT; y++)
   	{
 		map_offset=y*WIDTH;
-		undo_offset=(y+1)*WIDTH-1;
 		for (x = 0; x<WIDTH; x++)
 			{
-				*(terrain_height + map_offset)=*(undo_buffer + undo_offset);
 				map_offset++;
-				undo_offset--;
 			}
 
 	}
@@ -233,11 +177,11 @@ void flip_x ()
 
 void rotate_90_CW()
 {
-  int x,y,map_offset,undo_offset,old_height,old_width;
+  int x,y,map_offset,old_height,old_width;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   old_height=HEIGHT;
   old_width=WIDTH;
   HEIGHT=WIDTH;
@@ -246,12 +190,9 @@ void rotate_90_CW()
   for (y = 0; y<old_height; y++)
   	{
 		map_offset=old_height-1-y;
-		undo_offset=y*old_width;
 		for (x = 0; x<old_width; x++)
 			{
-				*(terrain_height + map_offset)=*(undo_buffer + undo_offset);
 				map_offset+=WIDTH;
-				undo_offset++;
 			}
 	}
 	undo=total_undo_swap_x_y;
@@ -260,11 +201,11 @@ void rotate_90_CW()
 
 void rotate_90_CCW()
 {
-  int x,y,map_offset,undo_offset,old_height,old_width;
+  int x,y,map_offset,old_height,old_width;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   old_height=HEIGHT;
   old_width=WIDTH;
   HEIGHT=WIDTH;
@@ -273,35 +214,31 @@ void rotate_90_CCW()
   for (y = 0; y<old_height; y++)
   	{
 		map_offset=y;
-		undo_offset=(y+1)*old_width-1;
+
 		for (x = 0; x<old_width; x++)
 			{
-				*(terrain_height + map_offset)=*(undo_buffer + undo_offset);
 				map_offset+=WIDTH;
-				undo_offset--;
 			}
 	}
-	undo=total_undo_swap_x_y;
+
 	change_cursor(last_cursor);
 }
 
 
 void rotate_180 ()
 {
-  int x,y,map_offset,undo_offset;
+  int x,y,map_offset;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (y = 0; y<HEIGHT; y++)
   	{
 		map_offset=(y+1)*WIDTH-1;
-		undo_offset=(HEIGHT-1-y)*WIDTH;
+
 		for (x = 0; x<WIDTH; x++)
 			{
-				*(terrain_height + map_offset)=*(undo_buffer + undo_offset);
 				map_offset--;
-				undo_offset++;
 			}
 
 	}
@@ -315,7 +252,7 @@ void smooth_terrain ()
   int x, y, sum;
   if(!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
   for (y = 1; y < HEIGHT - 1; y++)
     for (x = 1; x < WIDTH - 1; x++)
     {
@@ -342,7 +279,7 @@ void smooth_selection ()
   int x, y, start_x,start_y,end_x,end_y,sum;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
     if(selection_x_1<selection_x_2)
     {
 	  start_x=selection_x_1;
@@ -394,7 +331,7 @@ void rise_selection ()
   int x, y, start_x,start_y,end_x,end_y,cur_height;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
     if(selection_x_1<selection_x_2)
     {
 	  start_x=selection_x_1;
@@ -432,7 +369,7 @@ void sink_selection()
   int x, y, start_x,start_y,end_x,end_y,cur_height;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+
     if(selection_x_1<selection_x_2)
     {
 	  start_x=selection_x_1;
@@ -471,7 +408,7 @@ void clear_selection ()
   int x, y, start_x,start_y,end_x,end_y,cur_height;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
-  copy_to_undo_buffer();
+  
     if(selection_x_1<selection_x_2)
     {
 	  start_x=selection_x_1;

@@ -189,32 +189,21 @@ void draw_tool_bar (SDL_Surface * this_screen)
   for (i = 0; i < no_of_main_tool_bar_icons; i++)
   {
 
-    if (main_tool_bar[i].icon_active == 1
-	|| main_tool_bar[i].icon_pressed == 1)
+    if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1)
     {
-      draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id,
-			      tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-      draw_down_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33,
-			33);
+      draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+      draw_down_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
     }
 
-    else if (!main_tool_bar[i].icon_dont_stay_pressed
-	     || main_tool_bar[i].icon_mouse_over)
+    else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over)
     {
-      draw_tool_bar_big_icon (screen, mode_not_pushed,
-			      main_tool_bar[i].icon_id,
-			      tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-      draw_up_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33,
-		      33);
+      draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+      draw_up_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
     }
-
     else if (main_tool_bar[i].icon_dont_stay_pressed)
     {
-      draw_tool_bar_big_icon (screen, mode_not_pushed,
-			      main_tool_bar[i].icon_id,
-			      tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+      draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
     }
-
   }
 ///////////////////////////////////////////////////////
 //now, draw the small icons

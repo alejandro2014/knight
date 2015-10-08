@@ -94,7 +94,6 @@ void drawMap (int x1, int y1, int x2, int y2) {
 
 int overdraw_terrain(int width, int height) {
   int map_size = width * height;
-  int i;
   if(!terrain_height)return 0;//we don't have a terrain
   change_cursor(cursor_wait);
   memset(terrain_height, 0, map_size);
@@ -125,7 +124,6 @@ void allocate_mem(Terrain **terrains, int width, int height) {
 
   freeMemTerrain(terrain_height);
   freeMemTerrain(temp_buffer);
-  freeMemTerrain(undo_buffer);
 
   freeTerrain(*(terrains + TERRAIN_WORK));
   freeTerrain(*(terrains + TERRAIN_UNDO));
@@ -141,8 +139,7 @@ void allocate_mem(Terrain **terrains, int width, int height) {
   //TODO Check when the memory couldn't be created
 
   if(allocateMemTerrain2(&terrain_height, map_size) == -1 ||
-     allocateMemTerrain2(&temp_buffer, map_size) == -1 ||
-     allocateMemTerrain2(&undo_buffer, map_size) == -1) {
+     allocateMemTerrain2(&temp_buffer, map_size) == -1) {
     view_error_menu = 1;
     return;
   }

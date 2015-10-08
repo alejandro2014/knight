@@ -3,8 +3,6 @@
 
 #include "global.h"
 
-void copy_to_undo_buffer();
-
 void new_terrain_menu ();
 
 void generate_menu (int seed);
@@ -26,8 +24,6 @@ void sink_selection ();
 void clear_selection ();
 
 void flip_z ();
-
-void do_undo();
 
 void global_replace();
 

@@ -401,7 +401,7 @@ void pre_change_area()
   }
 
   change_cursor(cursor_wait);
-  if(long_pressed_button_l==1)copy_to_undo_buffer();
+
   color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
   some_temp_buffer=temp_buffer;
   for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
@@ -527,7 +527,7 @@ void pre_flood_area ()
   bool no_pending_found=0;
   if (!get_cur_x_y ())return;
   change_cursor(cursor_wait);
-  if(long_pressed_button_l==1)copy_to_undo_buffer();
+
   some_temp_buffer=temp_buffer;
   for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
   flood_line((short)cur_x,(short)cur_y);
@@ -616,8 +616,6 @@ void draw_brush (int this_cur_x, int this_cur_y) {
 }
 
 void applyBrushInPixel(int x, int y) {
-  savePixelInUndoBuffer(x, y);
-
   switch(current_tool) {
     case t_place:    setHeightOld(terrain_height, x, y, color_1); break;
     case t_escavate: decHeightOld(terrain_height, x, y, color_1); break;
@@ -639,11 +637,6 @@ void calculateRectangleBrush(Rectangle *brush, int xcursor, int ycursor, int siz
   brush->xmin = xcursor - delta;
   brush->xmax = xcursor + delta;
   brush->ymax = ycursor + delta;
-}
-
-void savePixelInUndoBuffer(int x, int y) {
-  int currentColour = getHeightOld(terrain_height, x, y);
-  setHeightOld(undo_buffer, x, y, currentColour);
 }
 
 void clearTempBuffer() {
@@ -704,7 +697,6 @@ void stamp_object()
 
 	  int cur_height;
 
-	  copy_to_undo_buffer();
 	  //now, do get the terrain coordinates.
 	  object_x_terrain_start=((x_mouse_pos-x_screen_offset)-(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
 	  object_y_terrain_start=((y_mouse_pos-y_screen_offset)-(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;

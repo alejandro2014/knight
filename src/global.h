@@ -434,7 +434,6 @@ extern bool kill_isometric_buffer_semaphore;
 
 extern Uint8 *terrain_height;	//here is where we store the elevation map
 extern Uint8 *temp_buffer;	//here is where we store places where the brush was drawn before
-extern Uint8 *undo_buffer;	//here is where we store the undo image
 
 //for the temp buffer
 extern int min_drawn_x;

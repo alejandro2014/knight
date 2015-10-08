@@ -433,7 +433,7 @@ void check_generate_terrain_menu (char text_input_char)
   {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
-    copy_to_undo_buffer();
+    
     if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
     else make_terrain (WIDTH, HEIGHT);
     show_generate_terrain_menu = 0;

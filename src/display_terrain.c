@@ -347,30 +347,27 @@ void put_right_cursor()
   if(current_cursor!=cursor_target)change_cursor_show(cursor_target);
 }
 
-
-Uint32
-on_screen (unsigned int some_int)	//build the 'scene'
-{
-	put_right_cursor();
+//build the 'scene'
+Uint32 on_screen (unsigned int some_int) {
+  put_right_cursor();
 	check_toolbar_mouse_over();
-	if(no_update_now)
-	{
+	if(no_update_now) {
 		no_update_now=0;
 		return some_int;
 	}
 
-  if(isometric_terrain)draw_isometric_terrain(screen);
-  else
-  	{
+  if(isometric_terrain)
+    draw_isometric_terrain(screen);
+  else {
 	  cls (screen);
-  	  terrain_on_screen(screen);
-  	  draw_selection(screen);
+  	terrain_on_screen(screen);
+  	draw_selection(screen);
 	//  debug_info();
 	  if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
 	  if (grid)draw_grid (screen);
-	  //TODO if (status_bar)draw_status_bar ();
-   	//TODO if (mini_map)draw_minimap (screen);
-	  //TODO if (tool_bar)draw_tool_bar (screen);
+	  if (status_bar)draw_status_bar ();
+   	if (mini_map)draw_minimap (screen);
+	  if (tool_bar)draw_tool_bar (screen);
 	  if (show_tip)draw_tool_tip();
 	  if (show_new_terrain_menu)draw_new_terrain_menu (screen);
 	  if (show_generate_terrain_menu)draw_generate_menu (screen);

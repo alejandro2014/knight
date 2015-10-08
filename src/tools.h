@@ -67,6 +67,5 @@ void clearTempBuffer();
 void updateMinMaxDrawnCoords(int x, int y);
 
 void calculateRectangleBrush(Rectangle *brush, int xcursor, int ycursor, int size);
-void savePixelInUndoBuffer(int x, int y);
 void applyBrushInPixel(int x, int y);
 #endif
