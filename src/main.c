@@ -24,6 +24,7 @@
 #include "actions_core.h"
 
 void freeMemory(Terrain **terrains);
+void defineCustomColours();
 
 int main (int argc, char *argv[]) {
   Terrain *terrains[3];
@@ -59,6 +60,46 @@ int main (int argc, char *argv[]) {
 
   SDL_EnableKeyRepeat (200, 100);
 
+  defineCustomColours();
+
+if(gray_shades)
+	make_gray_pallete();
+else
+	make_color_pallete();
+
+  seed = time (NULL);
+  srand (seed);
+
+  allocate_mem(&terrains, WIDTH, HEIGHT);
+  overdraw_terrain(WIDTH, HEIGHT);
+
+  SDL_SetTimer (100, on_screen_pointer);
+
+  events_loop ();
+
+  //TODO Save settings
+  //save_settings ();		//save the settings, at exit
+
+  SDL_Quit ();
+
+  freeMemory(&terrains);
+
+  return 1;
+}
+
+void freeMemory(Terrain **terrains) {
+  free(*(terrains + TERRAIN_WORK));
+  free(*(terrains + TERRAIN_UNDO));
+  free(*(terrains + TERRAIN_TEMP));
+
+  if (terrain_height)free (terrain_height);
+  if (temp_buffer)free (temp_buffer);
+  if (handle_font_mem)free(handle_font_mem);
+  if (handle_tool_bar_mem)free(handle_tool_bar_mem);
+  if (cursors_mem)free(cursors_mem);
+}
+
+void defineCustomColours() {
   //now, define our custom colors
   //black
   colors[255].r = 0;
@@ -114,40 +155,4 @@ int main (int argc, char *argv[]) {
   colors[245].r = 100;
   colors[245].g = 130;
   colors[245].b = 160;
-
-if(gray_shades)
-	make_gray_pallete();
-else
-	make_color_pallete();
-
-  seed = time (NULL);
-  srand (seed);
-
-  allocate_mem(&terrains, WIDTH, HEIGHT);
-  overdraw_terrain(WIDTH, HEIGHT);
-
-  SDL_SetTimer (100, on_screen_pointer);
-
-  events_loop ();
-
-  //TODO Save settings
-  //save_settings ();		//save the settings, at exit
-
-  SDL_Quit ();
-
-  freeMemory(&terrains);
-
-  return 1;
-}
-
-void freeMemory(Terrain **terrains) {
-  //free(*(terrains + TERRAIN_WORK));
-  //free(*(terrains + TERRAIN_UNDO));
-  //free(*(terrains + TERRAIN_TEMP));
-
-  if (terrain_height)free (terrain_height);
-  if (temp_buffer)free (temp_buffer);
-  if (handle_font_mem)free(handle_font_mem);
-  if (handle_tool_bar_mem)free(handle_tool_bar_mem);
-  if (cursors_mem)free(cursors_mem);
 }
