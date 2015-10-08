@@ -127,12 +127,18 @@ void allocate_mem(Terrain **terrains, int width, int height) {
   freeMemTerrain(temp_buffer);
   freeMemTerrain(undo_buffer);
 
-  freeTerrain(*(terrains + 0));
-  freeTerrain(*(terrains + 1));
-  freeTerrain(*(terrains + 2));
+  freeTerrain(*(terrains + TERRAIN_WORK));
+  freeTerrain(*(terrains + TERRAIN_UNDO));
+  freeTerrain(*(terrains + TERRAIN_TEMP));
 
   undo = no_undo;
   clear_temp_buffer = 0;//needed, otherwise it might crash next time you draw something
+
+  *(terrains + TERRAIN_WORK) = generateTerrain(width, height);
+  *(terrains + TERRAIN_UNDO) = generateTerrain(width, height);
+  *(terrains + TERRAIN_TEMP) = generateTerrain(width, height);
+
+  //TODO Check when the memory couldn't be created
 
   if(allocateMemTerrain2(&terrain_height, map_size) == -1 ||
      allocateMemTerrain2(&temp_buffer, map_size) == -1 ||
@@ -151,12 +157,6 @@ int allocateMemTerrain2(Uint8 **buffer, int map_size) {
   }
 
   return 0;
-}
-
-void clear_mem() {
-  freeMemTerrain(terrain_height);
-  freeMemTerrain(temp_buffer);
-  freeMemTerrain(undo_buffer);
 }
 
 int allocateMemTerrain(Uint8 **buffer, int map_size) {

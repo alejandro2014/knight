@@ -8,6 +8,10 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 
+#define TERRAIN_WORK 0
+#define TERRAIN_UNDO 1
+#define TERRAIN_TEMP 2
+
   struct file_names_struct
   {
     char file_name[100];

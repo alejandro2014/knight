@@ -23,6 +23,8 @@
 
 #include "actions_core.h"
 
+void freeMemory(Terrain **terrains);
+
 int main (int argc, char *argv[]) {
   Terrain *terrains[3];
   memset(&terrains, 0, sizeof(Terrain*) * 3);
@@ -30,6 +32,7 @@ int main (int argc, char *argv[]) {
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
 
+  //TODO Load settings
   //load_settings ();
 
   screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
@@ -126,16 +129,25 @@ else
   SDL_SetTimer (100, on_screen_pointer);
 
   events_loop ();
-  save_settings ();		//save the settings, at exit
+
+  //TODO Save settings
+  //save_settings ();		//save the settings, at exit
 
   SDL_Quit ();
 
-  //clear the allocated memory
+  freeMemory(&terrains);
+
+  return 1;
+}
+
+void freeMemory(Terrain **terrains) {
+  //free(*(terrains + TERRAIN_WORK));
+  //free(*(terrains + TERRAIN_UNDO));
+  //free(*(terrains + TERRAIN_TEMP));
+
   if (terrain_height)free (terrain_height);
   if (temp_buffer)free (temp_buffer);
   if (handle_font_mem)free(handle_font_mem);
   if (handle_tool_bar_mem)free(handle_tool_bar_mem);
   if (cursors_mem)free(cursors_mem);
-
-  return 1;
 }
