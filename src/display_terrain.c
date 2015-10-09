@@ -7,7 +7,7 @@
 #include "menus.h"
 #include "objects.h"
 
-void terrain_on_screen (SDL_Surface * this_screen) {
+void terrain_on_screen (SDL_Surface * this_screen, Terrain *terrain) {
   Uint8 *screen_buffer;
   Uint8 *height_map = terrain_height;
   int my_pitch = 0;
@@ -69,9 +69,7 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   }
 }
 
-void
-cls (SDL_Surface * this_screen)
-{
+void cls (SDL_Surface * this_screen) {
   // Defs
   int some_module, my_pitch;
   int map_size;
@@ -89,11 +87,14 @@ cls (SDL_Surface * this_screen)
 			screen_buffer = (int *) this_screen->pixels;
 			//clear the right frame
 			screen_buffer+=(window_width-16)/4;
-			for(i=0;i<window_height;i++)
-				{
-					for(j=0;j<4;j++) *screen_buffer++=0xffffffff;
-					screen_buffer+=(window_width/4)-4;
-				}
+			for(i=0;i<window_height;i++) {
+			  for(j=0;j<4;j++) {
+          *screen_buffer++ = 0xffffffff;
+        }
+
+				screen_buffer+=(window_width/4)-4;
+			}
+
 			//clear the bottom frame
 			screen_buffer = (int *) this_screen->pixels;
 			screen_buffer+=(window_width*window_height-16*window_width)/4;
@@ -104,25 +105,7 @@ cls (SDL_Surface * this_screen)
 
   map_size = window_height * window_width;
   my_pitch = this_screen->pitch;
-  //test to see if the map size is divisible by 4. If so, we clear the screen using a Dword
-  some_module = map_size % 4;
-  if (!some_module)		//yes, it is divisible by 4!
-  {
-    int *screen_buffer;
-    int i;
-    screen_buffer = (int *) this_screen->pixels;
-    for (i = 0; i < map_size / 4; i++)
-      *(screen_buffer + i) = 0xfefefefe;
-  }
-  else if (some_module == 2)	//yes, it is divisible by 2!
-  {
-    short *screen_buffer;
-    int i;
-    screen_buffer = (short *) this_screen->pixels;
-    for (i = 0; i < map_size / 2; i++)
-      *(screen_buffer + i) = 0xfefe;
-  }
-
+  memset(this_screen->pixels, 0xfe, map_size);
 }
 
 void
@@ -321,7 +304,7 @@ void put_right_cursor()
 }
 
 //build the 'scene'
-Uint32 on_screen (unsigned int some_int) {
+Uint32 on_screen (unsigned int some_int, Terrain *terrain) {
   put_right_cursor();
 	check_toolbar_mouse_over();
 	if(no_update_now) {
@@ -333,7 +316,7 @@ Uint32 on_screen (unsigned int some_int) {
     draw_isometric_terrain(screen);
   else {
 	  cls (screen);
-  	terrain_on_screen(screen);
+  	terrain_on_screen(screen, terrain);
   	draw_selection(screen);
 	//  debug_info();
 	  if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);

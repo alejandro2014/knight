@@ -74,7 +74,6 @@ draw_new_terrain_menu (SDL_Surface * this_screen)
   print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black,
 		white, x_new_terrain_menu + 54, y_new_terrain_menu + 20);
 
-
   //draw the y size string and box
   print_string ("Y Size:", black, white, x_new_terrain_menu + 2,
 		y_new_terrain_menu + 38);
@@ -433,10 +432,10 @@ void check_generate_terrain_menu (char text_input_char)
   {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
-    
-    if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
+
+    /*if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
     else make_terrain (WIDTH, HEIGHT);
-    show_generate_terrain_menu = 0;
+    show_generate_terrain_menu = 0;*/
   }
   else
     //now, check to see if we get any character

@@ -33,7 +33,7 @@ int main (int argc, char *argv[]) {
   //memset(&terrains, 0, sizeof(Terrain*) * 3);
   Terrain *terrain = generateTerrain(WIDTH, HEIGHT);
 
-  Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
+  Uint32 (*on_screen_pointer) (unsigned int, Terrain *) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
 
   //TODO Load settings
