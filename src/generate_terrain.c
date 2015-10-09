@@ -7,6 +7,20 @@
 
 #include "cursors.h"
 
+#include "actions_core.h"
+
+Point *hmeGetPoint(Terrain *terrain, int x, int y) {
+  return terrain->points + (y * terrain->width + x);
+}
+
+int hmeGetHeight(Terrain *terrain, int x, int y) {
+    return hmeGetPoint(terrain, x, y)->z;
+}
+
+void hmeSetHeight(Terrain *terrain, int x, int y, int height) {
+  hmeGetPoint(terrain, x, y)->z = height;
+}
+
 __inline int getPixel (int x, int y) {
   return *(terrain_height + (y * WIDTH + x));
 }
@@ -27,13 +41,33 @@ void setRandomHeight(Terrain *terrain, int x, int y) {
   point->z = mrandom(maximum);
 }
 
+int hmeGetNewHeightCorner(int height1, int height2, int diffHeight) {
+  const int MAX_HEIGHT = 512;
+  int randomDelta = (mrandom(diffHeight) - diffHeight / 2);
+
+  int thisHeight = (height1 + height2 + randomDelta);
+  thisHeight =  thisHeight / (thisHeight < MAX_HEIGHT ? 2: 3);
+
+  return thisHeight;
+}
+
+int hmeGetNewHeightMiddle(int height1, int height2, int height3, int height4, int diffHeight) {
+  const int MAX_HEIGHT = 1024;
+  int randomDelta = (mrandom(diffHeight) - diffHeight / 2);
+
+  int thisHeight = (height1 + height2 + height3 + height4 + randomDelta);
+  thisHeight =  thisHeight / (thisHeight < MAX_HEIGHT ? 4: 5);
+
+  return thisHeight;
+}
+
 __inline int getNewColor (int c1, int c2, int dist) {
   unsigned int this_height;
   unsigned int random_displacement;
   random_displacement = (mrandom (dist) - dist / 2);
 
   this_height = (c1 + c2 + random_displacement);
-  this_height =  this_height / (this_height < 512) ? 2: 3;
+  this_height =  this_height / (this_height < 512 ? 2: 3);
 
   return this_height;
 }
@@ -44,7 +78,7 @@ __inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist) {
   random_displacement = (mrandom (dist) - dist / 2);
 
   this_height = (c1 + c2 + c3 + c4 + random_displacement);
-  this_height =  this_height / (this_height < 1024) ? 4: 5;
+  this_height =  this_height / (this_height < 1024 ? 4: 5);
 
   return this_height;
 }
@@ -72,6 +106,25 @@ void drawSeed_no_overwrite (int width, int height) {
 void hmeDrawMap(Terrain *terrain, int x1, int y1, int x2, int y2) {
   int midx = (x1 + x2) / 2;
   int midy = (y1 + y2) / 2;
+
+  hmeSetHeight (terrain, midx, y1, hmeGetNewHeightCorner(hmeGetHeight(terrain, x1, y1), hmeGetHeight(terrain, x2, y1), x2 - x1));
+  hmeSetHeight (terrain, x2, midy, hmeGetNewHeightCorner(hmeGetHeight(terrain, x2, y1), hmeGetHeight(terrain, x2, y2), y2 - y1));
+  hmeSetHeight (terrain, midx, y2, hmeGetNewHeightCorner(hmeGetHeight(terrain, x1, y2), hmeGetHeight(terrain, x2, y2), x2 - x1));
+  hmeSetHeight (terrain, x1, midy, hmeGetNewHeightCorner(hmeGetHeight(terrain, x1, y1), hmeGetHeight(terrain, x1, y2), y2 - y1));
+  hmeSetHeight (terrain, midx, midy,
+    hmeGetNewHeightMiddle(
+      hmeGetHeight(terrain, x1, midy),
+      hmeGetHeight(terrain, x2, midy),
+      hmeGetHeight(terrain, midx, y1),
+      hmeGetHeight(terrain, midx, y2),
+      y2 - y1));
+
+  if (x2 > x1 + 1 || y2 > y1 + 1) {
+    hmeDrawMap(terrain, x1, y1, midx, midy);
+    hmeDrawMap(terrain, midx, y1, x2, midy);
+    hmeDrawMap(terrain, midx, midy, x2, y2);
+    hmeDrawMap(terrain, x1, midy, midx, y2);
+  }
 }
 
 void drawMap (int x1, int y1, int x2, int y2) {
@@ -141,7 +194,8 @@ void hmeDrawSeed(Terrain *terrain) {
 
 void generateRandomTerrain(Terrain *terrain) {
   hmeDrawSeed(terrain);
-  hmeDrawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
+  //hmeDrawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
+  hmeDrawMap(terrain, 0, 0, 5, 5);
 }
 
 /*---------------
