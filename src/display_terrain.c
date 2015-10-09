@@ -7,8 +7,7 @@
 #include "menus.h"
 #include "objects.h"
 
-void terrain_on_screen (SDL_Surface * this_screen)
-{
+void terrain_on_screen (SDL_Surface * this_screen) {
   Uint8 *screen_buffer;
   Uint8 *height_map = terrain_height;
   int my_pitch = 0;
@@ -20,80 +19,54 @@ void terrain_on_screen (SDL_Surface * this_screen)
 
   if(!terrain_height)return;//memory allocation failed.
   my_pitch = this_screen->pitch;
-  if (xoffset < 0)
-    xoffset = 0;
-  if (yoffset < 0)
-    yoffset = 0;
+  if (xoffset < 0) xoffset = 0;
+  if (yoffset < 0) yoffset = 0;
 
-  if (WIDTH * terrain_ratio < window_width)
-    x_screen_offset = (window_width - WIDTH * terrain_ratio) / 2;
-  else
-    x_screen_offset = 0;
-  if (HEIGHT * terrain_ratio < window_height)
-    y_screen_offset = (window_height - HEIGHT * terrain_ratio) / 2;
-  else
-    y_screen_offset = 0;
-  if (WIDTH * terrain_ratio < window_width)
-    xlenght = WIDTH;
-  else
-    xlenght = window_width / terrain_ratio;
-  if (HEIGHT * terrain_ratio < window_height)
-    ylenght = HEIGHT;
-  else
-    ylenght = window_height / terrain_ratio;
+  x_screen_offset = (WIDTH * terrain_ratio < window_width) ? (window_width - WIDTH * terrain_ratio) / 2 : 0;
+  y_screen_offset = (HEIGHT * terrain_ratio < window_height) ? (window_height - HEIGHT * terrain_ratio) / 2 : 0;
+
+  xlenght = (WIDTH * terrain_ratio < window_width) ? WIDTH : (window_width / terrain_ratio);
+  ylenght = (HEIGHT * terrain_ratio < window_height) ? HEIGHT : (window_height / terrain_ratio);
+
   //check to see, in case of a window resize, if we exceeded the map size
   //and, in case we did, change the x/yoffset
-  if ((xlenght + xoffset) > WIDTH)
-    xoffset = WIDTH - xlenght;
-  if ((ylenght + yoffset) > HEIGHT)
-    yoffset = HEIGHT - ylenght;
+  if ((xlenght + xoffset) > WIDTH) xoffset = WIDTH - xlenght;
+  if ((ylenght + yoffset) > HEIGHT) yoffset = HEIGHT - ylenght;
 
-
-  if (terrain_ratio == 1)	//no rescale needed
-  {
+  //no rescale needed
+  if (terrain_ratio == 1) {
     screen_buffer += (y_screen_offset * my_pitch + x_screen_offset);
     height_map += (yoffset * WIDTH + xoffset);
-    for (i = 0; i < ylenght; i++)
-    {
-      for (j = 0; j < xlenght; j++)
-      {
-		some_char = *(height_map++);
-		if (some_char != 0)some_char = some_char / 4;
-		else some_char = 255;
-		*(screen_buffer++) = some_char;
+
+    for (i = 0; i < ylenght; i++) {
+      for (j = 0; j < xlenght; j++) {
+		    some_char = *(height_map++);
+        some_char = (some_char != 0) ? some_char / 4 : 255;
+		    *(screen_buffer++) = some_char;
       }
+
       screen_buffer += (my_pitch - xlenght);
       height_map += (WIDTH - xlenght);
     }
   }
-  else
-  {
+  else {
     int x, y;
 
     height_map += (yoffset * WIDTH + xoffset);
-    for (i = 0; i < ylenght; i++)
-    {
-      for (j = 0; j < xlenght; j++)
-      {
-	some_char = *(height_map++);
-	if (some_char != 0)
-	  some_char = some_char / 4;
-	else
-	  some_char = 255;
-	//now, we need two fors in order to draw a big pixel...
-	for (y = 0; y < terrain_ratio; y++)
-	  for (x = 0; x < terrain_ratio; x++)
-	    *(screen_buffer +
-	      (i * my_pitch * terrain_ratio + j * terrain_ratio) +
-	      ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
+    for (i = 0; i < ylenght; i++) {
+      for (j = 0; j < xlenght; j++) {
+	      some_char = *(height_map++);
+        some_char = (some_char != 0) ? some_char / 4 : 255;
 
+	      //now, we need two fors in order to draw a big pixel...
+	      for (y = 0; y < terrain_ratio; y++)
+	        for (x = 0; x < terrain_ratio; x++)
+	          *(screen_buffer + (i * my_pitch * terrain_ratio + j * terrain_ratio) + ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
       }
+
       height_map += (WIDTH - xlenght);
     }
   }
-
-
-
 }
 
 void
@@ -365,19 +338,19 @@ Uint32 on_screen (unsigned int some_int) {
 	//  debug_info();
 	  if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
 	  if (grid)draw_grid (screen);
-	  if (status_bar)draw_status_bar ();
-   	if (mini_map)draw_minimap (screen);
-	  if (tool_bar)draw_tool_bar (screen);
-	  if (show_tip)draw_tool_tip();
-	  if (show_new_terrain_menu)draw_new_terrain_menu (screen);
-	  if (show_generate_terrain_menu)draw_generate_menu (screen);
-	  if (show_view_menu)draw_view_menu (screen);
-	  if (show_object_menu)draw_object_menu(screen);
-	  if (show_replace_menu)draw_replace_menu (screen);
-	  if (show_global_replace_menu)draw_global_replace_menu (screen);
-	  if (show_rotate_menu)draw_rotate_menu(screen);
-	  if (view_error_menu)draw_error_box(screen);
-	  if (view_file_menu)draw_file_menu(screen);
+	  //if (status_bar)draw_status_bar ();
+   	//if (mini_map)draw_minimap (screen);
+	  //if (tool_bar)draw_tool_bar (screen);
+	  //if (show_tip)draw_tool_tip();
+	  //if (show_new_terrain_menu)draw_new_terrain_menu (screen);
+	  //if (show_generate_terrain_menu)draw_generate_menu (screen);
+	  //if (show_view_menu)draw_view_menu (screen);
+	  //if (show_object_menu)draw_object_menu(screen);
+	  //if (show_replace_menu)draw_replace_menu (screen);
+	  //if (show_global_replace_menu)draw_global_replace_menu (screen);
+	  //if (show_rotate_menu)draw_rotate_menu(screen);
+	  //if (view_error_menu)draw_error_box(screen);
+	  //if (view_file_menu)draw_file_menu(screen);
 	}
 
   SDL_UpdateRect (screen, 0, 0, 0, 0);	//blit

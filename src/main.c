@@ -23,12 +23,15 @@
 
 #include "actions_core.h"
 
-void freeMemory(Terrain **terrains);
+void freeMemory(Terrain *terrain);
 void defineCustomColours();
+void load_cursors();
+void build_cursors();
 
 int main (int argc, char *argv[]) {
-  Terrain *terrains[3];
-  memset(&terrains, 0, sizeof(Terrain*) * 3);
+  //Terrain *terrains[3];
+  //memset(&terrains, 0, sizeof(Terrain*) * 3);
+  Terrain *terrain = generateTerrain(WIDTH, HEIGHT);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
@@ -70,8 +73,10 @@ else
   seed = time (NULL);
   srand (seed);
 
-  allocate_mem(&terrains, WIDTH, HEIGHT);
-  overdraw_terrain(WIDTH, HEIGHT);
+  //allocate_mem(&terrains, WIDTH, HEIGHT);
+  //overdraw_terrain(WIDTH, HEIGHT);
+  //overdrawTerrain(*terrains);
+  generateRandomTerrain(terrain);
 
   SDL_SetTimer (100, on_screen_pointer);
 
@@ -82,15 +87,16 @@ else
 
   SDL_Quit ();
 
-  freeMemory(&terrains);
+  freeMemory(terrain);
 
   return 1;
 }
 
-void freeMemory(Terrain **terrains) {
-  free(*(terrains + TERRAIN_WORK));
+void freeMemory(Terrain *terrain) {
+  /*free(*(terrains + TERRAIN_WORK));
   free(*(terrains + TERRAIN_UNDO));
-  free(*(terrains + TERRAIN_TEMP));
+  free(*(terrains + TERRAIN_TEMP));*/
+  freeTerrain(terrain);
 
   if (terrain_height)free (terrain_height);
   if (temp_buffer)free (temp_buffer);

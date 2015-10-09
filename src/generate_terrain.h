@@ -32,4 +32,8 @@ int allocateMemTerrain(Uint8 **buffer, int map_size);
 int allocateMemTerrain2(Uint8 **buffer, int map_size);
 void freeMemTerrain(Uint8 *buffer);
 
+void generateRandomTerrain(Terrain * terrain);
+
+void hmeDrawSeed(Terrain *terrain);
+
 #endif

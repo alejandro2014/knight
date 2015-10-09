@@ -19,16 +19,22 @@ __inline int mrandom (int max) {
   return (int) ((float) max * rand () / (RAND_MAX + 120.0));
 }
 
+void setRandomHeight(Terrain *terrain, int x, int y) {
+  int terrainWidth = terrain->width;
+  int maximum = 255;
+
+  Point *point = terrain->points + (y * terrain->width + x);
+  point->z = mrandom(maximum);
+}
+
 __inline int getNewColor (int c1, int c2, int dist) {
   unsigned int this_height;
   unsigned int random_displacement;
   random_displacement = (mrandom (dist) - dist / 2);
 
   this_height = (c1 + c2 + random_displacement);
-  if (this_height < 512)
-    this_height = this_height / 2;
-  else
-    this_height = this_height / 3;
+  this_height =  this_height / (this_height < 512) ? 2: 3;
+
   return this_height;
 }
 
@@ -38,10 +44,8 @@ __inline int getNewColor4 (int c1, int c2, int c3, int c4, int dist) {
   random_displacement = (mrandom (dist) - dist / 2);
 
   this_height = (c1 + c2 + c3 + c4 + random_displacement);
-  if (this_height < 1024)
-    this_height = this_height / 4;
-  else
-    this_height = this_height / 5;
+  this_height =  this_height / (this_height < 1024) ? 4: 5;
+
   return this_height;
 }
 
@@ -55,10 +59,19 @@ void drawSeed (int width, int height) {
 }
 
 void drawSeed_no_overwrite (int width, int height) {
-  if(!getPixel(0,0))putPixel(0,0,mrandom(255));
-  if(!getPixel(width,0))putPixel(width,0,mrandom(255));
-  if(!getPixel(width,height))putPixel(width,height,mrandom(255));
-  if(!getPixel(0,height))putPixel(0,height,mrandom(255));
+  if(!getPixel(0,0))
+    putPixel(0,0,mrandom(255));
+  if(!getPixel(width,0))
+    putPixel(width,0,mrandom(255));
+  if(!getPixel(width,height))
+    putPixel(width,height,mrandom(255));
+  if(!getPixel(0,height))
+    putPixel(0,height,mrandom(255));
+}
+
+void hmeDrawMap(Terrain *terrain, int x1, int y1, int x2, int y2) {
+  int midx = (x1 + x2) / 2;
+  int midy = (y1 + y2) / 2;
 }
 
 void drawMap (int x1, int y1, int x2, int y2) {
@@ -114,6 +127,21 @@ int make_terrain (int width, int height) {
   drawMap (0, 0, width - 1, height - 1);
   change_cursor(last_cursor);
   return 1;
+}
+
+void hmeDrawSeed(Terrain *terrain) {
+  int maxHeight = terrain->height - 1;
+  int maxWidth = terrain->width - 1;
+
+  setRandomHeight(terrain, 0, 0);
+  setRandomHeight(terrain, 0, maxHeight);
+  setRandomHeight(terrain, maxWidth, 0);
+  setRandomHeight(terrain, maxWidth, maxHeight);
+}
+
+void generateRandomTerrain(Terrain *terrain) {
+  hmeDrawSeed(terrain);
+  hmeDrawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
 }
 
 /*---------------
