@@ -1,15 +1,17 @@
 #include "init.h"
 
+#define COLORS_PALETTE 256
+
 void make_gray_pallete() {
 	int i;
 
-  for (i = 0; i < 64; i++) {
-    colors[i].r = i*4;
-    colors[i].g = i*4;
-    colors[i].b = i*4;
+  for (i = 0; i < COLORS_PALETTE; i++) {
+    colors[i].r = i;
+    colors[i].g = i;
+    colors[i].b = i;
   }
 
-  SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
+  SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, COLORS_PALETTE);
 }
 
 void build_tool_bar() {

@@ -8,22 +8,14 @@
 
 void terrain_on_screen (SDL_Surface * this_screen) {
   Uint8 *screenPixels;
-  Uint8 *height_map = terrain_height;
-  int my_pitch = 0;
   int xmax = 0, ymax = 0;
   int y = 0, x = 0;
   int valColour = 0;
-  Uint8 some_char;
 
-  screenPixels = (Uint8 *) this_screen->pixels;
+  screenPixels = this_screen->pixels;
 
-  //if(!terrain_height)return;//memory allocation failed.
-  my_pitch = this_screen->pitch;
   if (xoffset < 0) xoffset = 0;
   if (yoffset < 0) yoffset = 0;
-
-  x_screen_offset = (WIDTH * terrain_ratio < window_width) ? (window_width - WIDTH * terrain_ratio) / 2 : 0;
-  y_screen_offset = (HEIGHT * terrain_ratio < window_height) ? (window_height - HEIGHT * terrain_ratio) / 2 : 0;
 
   xmax = (WIDTH * terrain_ratio < window_width) ? WIDTH : (window_width / terrain_ratio);
   ymax = (HEIGHT * terrain_ratio < window_height) ? HEIGHT : (window_height / terrain_ratio);
@@ -35,12 +27,11 @@ void terrain_on_screen (SDL_Surface * this_screen) {
 
   //no rescale needed
   if (terrain_ratio == 1) {
-    screenPixels += (y_screen_offset * my_pitch + x_screen_offset);
     //height_map += (yoffset * WIDTH + xoffset);
 
     for (y = 0; y < ymax; y++) {
       for (x = 0; x < xmax; x++) {
-        valColour = 255 * y / ymax;// / 255) * y;
+        valColour = 255 * y / ymax;
 
         *(screenPixels + window_width * y + x) = valColour;
 		    //some_char = *(height_map++);
