@@ -1,5 +1,7 @@
 #include "actions_core.h"
 
+Terrain *terrain;
+
 Terrain *generateTerrain(int width, int height) {
   Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
   int map_size = width * height;

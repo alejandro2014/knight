@@ -7,16 +7,17 @@
 #include "objects.h"
 
 void terrain_on_screen (SDL_Surface * this_screen) {
-  Uint8 *screen_buffer;
+  Uint8 *screenPixels;
   Uint8 *height_map = terrain_height;
   int my_pitch = 0;
   int xlenght = 0, ylenght = 0;
   int i = 0, j = 0;
+  int valColour = 0;
   Uint8 some_char;
 
-  char estring[30];
+  int screen_width = 700;
 
-  screen_buffer = (Uint8 *) this_screen->pixels;
+  screenPixels = (Uint8 *) this_screen->pixels;
 
   //if(!terrain_height)return;//memory allocation failed.
   my_pitch = this_screen->pitch;
@@ -36,18 +37,21 @@ void terrain_on_screen (SDL_Surface * this_screen) {
 
   //no rescale needed
   if (terrain_ratio == 1) {
-    screen_buffer += (y_screen_offset * my_pitch + x_screen_offset);
-    height_map += (yoffset * WIDTH + xoffset);
+    screenPixels += (y_screen_offset * my_pitch + x_screen_offset);
+    //height_map += (yoffset * WIDTH + xoffset);
 
     for (i = 0; i < ylenght; i++) {
       for (j = 0; j < xlenght; j++) {
+        *(screenPixels + screen_width * i + j) = valColour;
 		    //some_char = *(height_map++);
-        some_char = (some_char != 0) ? some_char / 4 : 255;
-        some_char = 40;
-		    *(screen_buffer++) = some_char;
-      }
+        //some_char = (some_char != 0) ? some_char / 4 : 255;
+        //some_char = 40;
 
-      screen_buffer += (my_pitch - xlenght);
+		    //*(screen_buffer++) = some_char;
+      }
+      valColour++;
+
+      //screenPixels += (my_pitch - xlenght);
       //height_map += (WIDTH - xlenght);
     }
   }
@@ -63,7 +67,7 @@ void terrain_on_screen (SDL_Surface * this_screen) {
 	      //now, we need two fors in order to draw a big pixel...
 	      for (y = 0; y < terrain_ratio; y++)
 	        for (x = 0; x < terrain_ratio; x++)
-	          *(screen_buffer + (i * my_pitch * terrain_ratio + j * terrain_ratio) + ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
+	          *(screenPixels + (i * my_pitch * terrain_ratio + j * terrain_ratio) + ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
       }
 
       height_map += (WIDTH - xlenght);

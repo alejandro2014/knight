@@ -25,4 +25,6 @@ void freeTerrain(Terrain *terrain);
 int getHeight(Point *point);
 void setHeight(Point *point, int height);
 
+extern Terrain *terrain;
+
 #endif
