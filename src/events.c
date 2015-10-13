@@ -15,8 +15,6 @@ void resizeScreen(SDL_Event *event) {
   window_width=window_width|3;
   screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
-  if(isometric_window_buffer)free(isometric_window_buffer);
-  isometric_window_buffer=NULL;
 }
 
 void manageButtonClick(SDL_Event *event) {
@@ -66,7 +64,6 @@ void events_loop (void) {
       case SDL_VIDEORESIZE: resizeScreen(&event); break;
     }
 
-    if(!isometric_terrain) {
       if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN) {
         x_mouse_pos = event.motion.x;
         y_mouse_pos = event.motion.y;
@@ -124,22 +121,9 @@ void events_loop (void) {
       if (keystate[SDLK_UP]&& yoffset > 0)yoffset -= 4;
       if (keystate[SDLK_LEFT] && xoffset > 0)xoffset -= 4;
       if (keystate[SDLK_RIGHT]&& (WIDTH * terrain_ratio - xoffset) > window_width)xoffset += 4;
-      if (keystate[SDLK_TAB]) {
-        isometric_terrain=!isometric_terrain;
-			  kill_isometric_buffer_semaphore=1;
-		  }
 
 	    if (keystate[SDLK_z]) {
 			  mod_key_status=SDL_GetModState();
-		  }
-    }
-}//end of the isometrical view thing
-else
-    if (event.type == SDL_KEYDOWN) {
-      Uint8 *keystate = SDL_GetKeyState (NULL);
-      if (keystate[SDLK_TAB]) {
-      		isometric_terrain=!isometric_terrain;
-			    kill_isometric_buffer_semaphore=1;
 		  }
     }
   }

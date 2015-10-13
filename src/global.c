@@ -178,8 +178,6 @@ bool show_object_menu = 0;
 bool view_error_menu=0;
 bool show_tip=0;
 bool load_object=0;
-bool isometric_terrain=0;
-Uint8 *isometric_window_buffer;
 
 bool overwrite_terrain = 0;
 bool clear_temp_buffer = 0;

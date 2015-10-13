@@ -3,11 +3,10 @@
 #include "actions.h"
 #include "cursors.h"
 #include "draw_stuff.h"
-#include "isometric.h"
 #include "menus.h"
 #include "objects.h"
 
-void terrain_on_screen (SDL_Surface * this_screen, Terrain *terrain) {
+void terrain_on_screen (SDL_Surface * this_screen) {
   Uint8 *screen_buffer;
   Uint8 *height_map = terrain_height;
   int my_pitch = 0;
@@ -15,9 +14,11 @@ void terrain_on_screen (SDL_Surface * this_screen, Terrain *terrain) {
   int i = 0, j = 0;
   Uint8 some_char;
 
+  char estring[30];
+
   screen_buffer = (Uint8 *) this_screen->pixels;
 
-  if(!terrain_height)return;//memory allocation failed.
+  //if(!terrain_height)return;//memory allocation failed.
   my_pitch = this_screen->pitch;
   if (xoffset < 0) xoffset = 0;
   if (yoffset < 0) yoffset = 0;
@@ -40,13 +41,14 @@ void terrain_on_screen (SDL_Surface * this_screen, Terrain *terrain) {
 
     for (i = 0; i < ylenght; i++) {
       for (j = 0; j < xlenght; j++) {
-		    some_char = *(height_map++);
+		    //some_char = *(height_map++);
         some_char = (some_char != 0) ? some_char / 4 : 255;
+        some_char = 40;
 		    *(screen_buffer++) = some_char;
       }
 
       screen_buffer += (my_pitch - xlenght);
-      height_map += (WIDTH - xlenght);
+      //height_map += (WIDTH - xlenght);
     }
   }
   else {
@@ -219,7 +221,7 @@ void put_right_cursor()
 	if(current_cursor==cursor_wait)return;
 
 	if(show_new_terrain_menu || show_generate_terrain_menu || show_view_menu
-	|| show_replace_menu || show_rotate_menu || show_object_menu || show_global_replace_menu || view_error_menu || isometric_terrain)
+	|| show_replace_menu || show_rotate_menu || show_object_menu || show_global_replace_menu || view_error_menu)
 {
     if(current_cursor!=cursor_arrow)
 		{
@@ -304,7 +306,7 @@ void put_right_cursor()
 }
 
 //build the 'scene'
-Uint32 on_screen (unsigned int some_int, Terrain *terrain) {
+Uint32 on_screen (unsigned int some_int) {
   put_right_cursor();
 	check_toolbar_mouse_over();
 	if(no_update_now) {
@@ -312,15 +314,12 @@ Uint32 on_screen (unsigned int some_int, Terrain *terrain) {
 		return some_int;
 	}
 
-  if(isometric_terrain)
-    draw_isometric_terrain(screen);
-  else {
-	  cls (screen);
-  	terrain_on_screen(screen, terrain);
-  	draw_selection(screen);
+	  //cls (screen);
+  	terrain_on_screen(screen);
+  	//draw_selection(screen);
 	//  debug_info();
-	  if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
-	  if (grid)draw_grid (screen);
+	  //if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
+	  //if (grid)draw_grid (screen);
 	  //if (status_bar)draw_status_bar ();
    	//if (mini_map)draw_minimap (screen);
 	  //if (tool_bar)draw_tool_bar (screen);
@@ -334,7 +333,6 @@ Uint32 on_screen (unsigned int some_int, Terrain *terrain) {
 	  //if (show_rotate_menu)draw_rotate_menu(screen);
 	  //if (view_error_menu)draw_error_box(screen);
 	  //if (view_file_menu)draw_file_menu(screen);
-	}
 
   SDL_UpdateRect (screen, 0, 0, 0, 0);	//blit
   return some_int;

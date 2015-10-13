@@ -416,7 +416,6 @@ extern bool show_global_replace_menu;
 extern bool show_rotate_menu;
 extern bool show_tip;
 extern bool show_object_menu;
-extern bool isometric_terrain;
 Uint8 *isometric_window_buffer;
 
 extern bool overwrite_terrain;
