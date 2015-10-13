@@ -426,7 +426,7 @@ extern bool drag_minimap;
 extern bool drag_toolbar;
 extern bool drag_statusbar;
 extern bool no_update_now;
-extern bool gray_shades;
+//extern bool gray_shades;
 extern bool undo;
 extern bool caps_look_on;
 extern bool kill_isometric_buffer_semaphore;

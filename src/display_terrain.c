@@ -10,12 +10,10 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   Uint8 *screenPixels;
   Uint8 *height_map = terrain_height;
   int my_pitch = 0;
-  int xlenght = 0, ylenght = 0;
-  int i = 0, j = 0;
+  int xmax = 0, ymax = 0;
+  int y = 0, x = 0;
   int valColour = 0;
   Uint8 some_char;
-
-  int screen_width = 700;
 
   screenPixels = (Uint8 *) this_screen->pixels;
 
@@ -27,22 +25,24 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   x_screen_offset = (WIDTH * terrain_ratio < window_width) ? (window_width - WIDTH * terrain_ratio) / 2 : 0;
   y_screen_offset = (HEIGHT * terrain_ratio < window_height) ? (window_height - HEIGHT * terrain_ratio) / 2 : 0;
 
-  xlenght = (WIDTH * terrain_ratio < window_width) ? WIDTH : (window_width / terrain_ratio);
-  ylenght = (HEIGHT * terrain_ratio < window_height) ? HEIGHT : (window_height / terrain_ratio);
+  xmax = (WIDTH * terrain_ratio < window_width) ? WIDTH : (window_width / terrain_ratio);
+  ymax = (HEIGHT * terrain_ratio < window_height) ? HEIGHT : (window_height / terrain_ratio);
 
   //check to see, in case of a window resize, if we exceeded the map size
   //and, in case we did, change the x/yoffset
-  if ((xlenght + xoffset) > WIDTH) xoffset = WIDTH - xlenght;
-  if ((ylenght + yoffset) > HEIGHT) yoffset = HEIGHT - ylenght;
+  if ((xmax + xoffset) > WIDTH) xoffset = WIDTH - xmax;
+  if ((ymax + yoffset) > HEIGHT) yoffset = HEIGHT - ymax;
 
   //no rescale needed
   if (terrain_ratio == 1) {
     screenPixels += (y_screen_offset * my_pitch + x_screen_offset);
     //height_map += (yoffset * WIDTH + xoffset);
 
-    for (i = 0; i < ylenght; i++) {
-      for (j = 0; j < xlenght; j++) {
-        *(screenPixels + screen_width * i + j) = valColour;
+    for (y = 0; y < ymax; y++) {
+      for (x = 0; x < xmax; x++) {
+        valColour = 255 * y / ymax;// / 255) * y;
+
+        *(screenPixels + window_width * y + x) = valColour;
 		    //some_char = *(height_map++);
         //some_char = (some_char != 0) ? some_char / 4 : 255;
         //some_char = 40;
@@ -56,11 +56,11 @@ void terrain_on_screen (SDL_Surface * this_screen) {
     }
   }
   else {
-    int x, y;
+    /*int x, y;
 
     height_map += (yoffset * WIDTH + xoffset);
-    for (i = 0; i < ylenght; i++) {
-      for (j = 0; j < xlenght; j++) {
+    for (i = 0; i < ymax; i++) {
+      for (j = 0; j < xmax; j++) {
 	      some_char = *(height_map++);
         some_char = (some_char != 0) ? some_char / 4 : 255;
 
@@ -70,8 +70,8 @@ void terrain_on_screen (SDL_Surface * this_screen) {
 	          *(screenPixels + (i * my_pitch * terrain_ratio + j * terrain_ratio) + ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
       }
 
-      height_map += (WIDTH - xlenght);
-    }
+      height_map += (WIDTH - xmax);
+    }*/
   }
 }
 

@@ -541,7 +541,7 @@ draw_view_menu (SDL_Surface * this_screen)
   //draw the color/gray menu
   draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 200, 14, 14);
   print_string ("Gray Shades", black, white, x_view_menu + 4 + 14,y_view_menu + 202);
-  if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
+  print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
 
   //draw the OK button
   draw_empty_menu (screen, white, x_view_menu + 50, y_view_menu + 220, 20,14);
@@ -620,9 +620,8 @@ void check_view_menu (char text_input_char)
 	&& y_mouse_pos >= y_view_menu + 200
 	&& y_mouse_pos < y_view_menu + 200 + 14)
     {
-		gray_shades=!gray_shades;
-  		if(gray_shades)make_gray_pallete();
-  		else make_color_pallete();
+		make_gray_pallete();
+
 	}
   else
     //check the OK button

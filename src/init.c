@@ -1,51 +1,18 @@
 #include "init.h"
 
-void make_color_pallete()
-{
-  int i;
-  for (i = 0; i < 16; i++)
-  {
-    colors[i].r = 0;
-    colors[i].g = i * 16;
-    colors[i].b = 200;
-  }
-
-  for (; i < 32; i++)
-  {
-    colors[i].r = i * 8;
-    colors[i].g = 255;
-    colors[i].b = 0;
-  }
-  for (; i < 48; i++)
-  {
-    colors[i].r = 200;
-    colors[i].g = 250 - (8 * i);
-    colors[i].b = 0;
-  }
-  for (; i < 64; i++)
-  {
-    colors[i].r = 230 - ((i - 48) * 4);
-    colors[i].g = 149 - ((i - 48) * 4);
-    colors[i].b = 0;
-  }
-SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
-}
-
-void make_gray_pallete()
-{
+void make_gray_pallete() {
 	int i;
-  for (i = 0; i < 64; i++)
-  {
+
+  for (i = 0; i < 64; i++) {
     colors[i].r = i*4;
     colors[i].g = i*4;
     colors[i].b = i*4;
   }
-SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
+
+  SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
 }
 
-
-void build_tool_bar ()
-{
+void build_tool_bar() {
   int i = 0;
   //build the main tool bar
   main_tool_bar[i].icon_id = icon_place;

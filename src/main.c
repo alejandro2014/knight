@@ -65,10 +65,7 @@ int main (int argc, char *argv[]) {
 
   defineCustomColours();
 
-if(gray_shades)
 	make_gray_pallete();
-else
-	make_color_pallete();
 
   seed = time (NULL);
   srand (seed);

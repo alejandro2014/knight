@@ -36,14 +36,9 @@ void load_settings() {
   tolerance_value = settings[0].replace_tolerance;
   tolerance_mode = settings[0].tolerance_mode;
   overwrite_terrain = settings[0].overwrite_terrain;
-  gray_shades = settings[0].gray_shades;
-
-
 }
 
-void
-save_settings ()
-{
+void save_settings() {
   FILE *f = NULL;
 
   settings[0].window_x = window_width;
@@ -66,7 +61,6 @@ save_settings ()
   settings[0].replace_tolerance = tolerance_value;
   settings[0].tolerance_mode = tolerance_mode;
   settings[0].overwrite_terrain = overwrite_terrain;
-  settings[0].gray_shades = gray_shades;
 
   f = fopen (conf_file_path, "wb");
   fwrite (settings, sizeof (settings), 1, f);
