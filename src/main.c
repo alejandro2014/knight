@@ -29,8 +29,6 @@ void load_cursors();
 void build_cursors();
 
 int main (int argc, char *argv[]) {
-  //Terrain *terrains[3];
-  //memset(&terrains, 0, sizeof(Terrain*) * 3);
   terrain = generateTerrain(WIDTH, HEIGHT);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
@@ -45,8 +43,7 @@ int main (int argc, char *argv[]) {
   SDL_WM_SetIcon(icon, NULL);
   SDL_WM_SetCaption ("Terrain Editor", "Terrain Editor");
 
-  if (screen == NULL)
-  {
+  if (screen == NULL) {
     fprintf (stderr, "Could not initialize video\n");
     exit (1);
   }
@@ -63,16 +60,11 @@ int main (int argc, char *argv[]) {
 
   SDL_EnableKeyRepeat (200, 100);
 
-  defineCustomColours();
-
 	make_gray_pallete();
 
   seed = time (NULL);
   srand (seed);
 
-  //allocate_mem(&terrains, WIDTH, HEIGHT);
-  //overdraw_terrain(WIDTH, HEIGHT);
-  //overdrawTerrain(*terrains);
   generateRandomTerrain(terrain);
 
   SDL_SetTimer (100, on_screen_pointer);
@@ -90,9 +82,6 @@ int main (int argc, char *argv[]) {
 }
 
 void freeMemory(Terrain *terrain) {
-  /*free(*(terrains + TERRAIN_WORK));
-  free(*(terrains + TERRAIN_UNDO));
-  free(*(terrains + TERRAIN_TEMP));*/
   freeTerrain(terrain);
 
   if (terrain_height)free (terrain_height);
@@ -100,62 +89,4 @@ void freeMemory(Terrain *terrain) {
   if (handle_font_mem)free(handle_font_mem);
   if (handle_tool_bar_mem)free(handle_tool_bar_mem);
   if (cursors_mem)free(cursors_mem);
-}
-
-void defineCustomColours() {
-  //now, define our custom colors
-  //black
-  colors[255].r = 0;
-  colors[255].g = 0;
-  colors[255].b = 0;
-
-  //white
-  colors[254].r = 255;
-  colors[254].g = 255;
-  colors[254].b = 255;
-
-  //darkblue
-  colors[253].r = 20;
-  colors[253].g = 40;
-  colors[253].b = 160;
-
-  //light blue
-  colors[252].r = 20;
-  colors[252].g = 140;
-  colors[252].b = 255;
-
-  //green
-  colors[251].r = 20;
-  colors[251].g = 255;
-  colors[251].b = 100;
-
-  //red
-  colors[250].r = 250;
-  colors[250].g = 55;
-  colors[250].b = 10;
-
-  //gray
-  colors[249].r = 150;
-  colors[249].g = 150;
-  colors[249].b = 150;
-
-  //steel blue
-  colors[248].r = 140;
-  colors[248].g = 170;
-  colors[248].b = 200;
-
-  //light steel blue
-  colors[247].r = 170;
-  colors[247].g = 200;
-  colors[247].b = 230;
-
-  //very light steel blue
-  colors[246].r = 190;
-  colors[246].g = 220;
-  colors[246].b = 250;
-
-  //dark steel blue
-  colors[245].r = 100;
-  colors[245].g = 130;
-  colors[245].b = 160;
 }
