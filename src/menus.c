@@ -15,7 +15,7 @@ typedef struct {
 } Menu;
 
 typedef struct {
-	Menu *parentMenu;
+	Menu *menu;
 	DialogBox *dialogBox;
 	int x;
 	int y;
@@ -23,6 +23,15 @@ typedef struct {
 	int height;
 	char *title;
 } TextBox;
+
+typedef struct {
+	Menu *menu;
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+} Button;
 
 void load_tool_bar() {
 	FILE *f = NULL;
@@ -88,7 +97,17 @@ void drawTextBox(TextBox *textbox) {
 	print_string (dialogBox->dialog_text, black, white, menu->x + textbox->x + 2, menu->y + textbox->y + 2);
 }
 
+void drawButton(Button *button) {
+	Menu *menu = button->menu;
+	
+	draw_empty_menu (screen, white, menu->x + button->x, menu->y + button->y, button->width, button->height);
+	print_string (button->title, black, white, menu->x + button->x + 2, menu->y + button->y + 2);
+}
+
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
+	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+	int my_pitch = this_screen->pitch;
+	
 	Menu menu;
 	menu.x = x_new_terrain_menu;
 	menu.y = y_new_terrain_menu;
@@ -96,12 +115,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	menu.height = y_new_terrain_menu_lenght;
 	menu.title = "New terrain";
 	
-	int x, y;
-	char cur_pixel;
-	char str[20];
-	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-	int my_pitch = this_screen->pitch;
-
 	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
   
 	drawWindowTitle(&menu, this_screen);
@@ -136,12 +149,28 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxBaseHeight.width = 24;
 	textboxBaseHeight.height = 14;
 	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
+	
+	drawTextBox(&textboxBaseHeight);
 
-	//draw the OK and Cancel buttons
-	draw_empty_menu (screen, white, menu.x + 40, menu.y + 80, 20, 14);
-	print_string ("Ok", black, white, menu.x + 42, menu.y + 82);
-	draw_empty_menu (screen, white, menu.x + 70, menu.y + 80, 50, 14);
-	print_string ("Cancel", black, white, menu.x + 72, menu.y + 82);
+	Button buttonOk;
+	buttonOk.menu = menu;
+	buttonOk.x = 40;
+	buttonOk.y = 80;
+	buttonOk.width = 20;
+	buttonOk.height = 14;
+	buttonOk.title = "Ok";
+	
+	drawButton(&buttonOk);
+	
+	Button buttonCancel;
+	buttonCancel.menu = menu;
+	buttonCancel.x = 70;
+	buttonCancel.y = 80;
+	buttonCancel.width = 50;
+	buttonCancel.height = 14;
+	buttonCancel.title = "Cancel";
+	
+	drawButton(&buttonCancel);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
