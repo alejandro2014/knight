@@ -87,6 +87,580 @@ void draw_new_terrain_menu (SDL_Surface * this_screen) {
   print_string ("Cancel", black, white, x_new_terrain_menu + 72, y_new_terrain_menu + 82);
 }
 
+void draw_generate_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  char str[20];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_generate_terrain_menu, y_generate_terrain_menu, x_generate_terrain_menu_lenght, y_generate_terrain_menu_lenght);
+  //draw the window title
+  for (y = y_generate_terrain_menu; y < y_generate_terrain_menu + 15; y++)
+    for (x = x_generate_terrain_menu;
+	 x < x_generate_terrain_menu + x_generate_terrain_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+  print_string ("Generate terrain", white, darkblue, x_generate_terrain_menu + 2, y_generate_terrain_menu + 2);
+  
+  //draw the seed string and box
+  print_string ("Seed:", black, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 20);
+  if (numeric_dialog_boxes[seed_dialog].has_focus)
+    draw_down_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 76, 14);
+  else
+    draw_up_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 62, 14);
+  print_string (numeric_dialog_boxes[seed_dialog].dialog_text, black, white, x_generate_terrain_menu + 54, y_generate_terrain_menu + 20);
+  
+  //draw the random seed box
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
+  print_string ("Random", black, white, x_generate_terrain_menu + 142, y_generate_terrain_menu + 20);
+
+  //draw the overwrite terrain check box
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 40, 14, 14);
+  print_string ("Overwrite existing terrain", black, white, x_generate_terrain_menu + 4 + 14, y_generate_terrain_menu + 42);
+  if (overwrite_terrain)
+    print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
+
+  //draw the OK and Cancel buttons
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 40, y_generate_terrain_menu + 80, 20, 14);
+  print_string ("Ok", black, white, x_generate_terrain_menu + 42, y_generate_terrain_menu + 82);
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 70, y_generate_terrain_menu + 80, 50, 14);
+  print_string ("Cancel", black, white, x_generate_terrain_menu + 72, y_generate_terrain_menu + 82);
+}
+
+void draw_view_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  char str[20];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
+  //draw the window title
+  for (y = y_view_menu; y < y_view_menu + 15; y++)
+    for (x = x_view_menu; x < x_view_menu + x_view_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+  print_string ("View...", white, darkblue, x_view_menu + 2, y_view_menu + 2);
+  
+  //draw the view toolbar box
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 20, 14, 14);
+  print_string ("Toolbar", black, white, x_view_menu + 4 + 14, y_view_menu + 22);
+  if (tool_bar)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 22);
+  //draw the view minimap box
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 40, 14, 14);
+  print_string ("Minimap", black, white, x_view_menu + 4 + 14,y_view_menu + 42);
+  if (mini_map)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 42);
+  //draw the view status_bar
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 60, 14, 14);
+  print_string ("Status bar", black, white, x_view_menu + 4 + 14,y_view_menu + 62);
+  if (status_bar)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 62);
+  //draw the Grid none
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 80, 14, 14);
+  print_string ("Grid: Off", black, white, x_view_menu + 4 + 14,y_view_menu + 82);
+  if (!grid)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 82);
+  //draw the Grid 16
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 100, 14, 14);
+  print_string ("Grid: 16x16", black, white, x_view_menu + 4 + 14,y_view_menu + 102);
+  if (grid == 16)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 102);
+  //draw the Grid 32
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 120, 14, 14);
+  print_string ("Grid: 32x32", black, white, x_view_menu + 4 + 14,y_view_menu + 122);
+  if (grid == 32)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 122);
+  //draw the Grid 64
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 140, 14, 14);
+  print_string ("Grid: 64x64", black, white, x_view_menu + 4 + 14,y_view_menu + 142);
+  if (grid == 64)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 142);
+  //draw the Grid 128
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 160, 14, 14);
+  print_string ("Grid: 128x128", black, white, x_view_menu + 4 + 14,y_view_menu + 162);
+  if (grid == 128)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 162);
+  //draw the Grid 256
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 180, 14, 14);
+  print_string ("Grid: 256x256", black, white, x_view_menu + 4 + 14,y_view_menu + 182);
+  if (grid == 256)
+    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 182);
+
+  //draw the color/gray menu
+  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 200, 14, 14);
+  print_string ("Gray Shades", black, white, x_view_menu + 4 + 14,y_view_menu + 202);
+  if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
+
+  //draw the OK button
+  draw_empty_menu (screen, white, x_view_menu + 50, y_view_menu + 220, 20,14);
+  print_string ("Ok", black, white, x_view_menu + 52, y_view_menu + 222);
+}
+
+void draw_rotate_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  char str[20];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_rotation_menu, y_rotation_menu, x_rotation_menu_lenght, y_rotation_menu_lenght);
+  //draw the window title
+  for (y = y_rotation_menu; y < y_rotation_menu + 15; y++)
+    for (x = x_rotation_menu; x < x_rotation_menu + x_rotation_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+  print_string ("Flip and Rotation", white, darkblue, x_rotation_menu + 2, y_rotation_menu + 2);
+  //draw the Horizontal Flip
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 20, 14, 14);
+  print_string ("Horizontal (x) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 22);
+  if (rotation_type==rotation_flip_x)
+    print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 22);
+  //draw the Vertical flip
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 40, 14, 14);
+  print_string ("Vertical   (y) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 42);
+  if (rotation_type==rotation_flip_y)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 42);
+  //draw the Height flip
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 60, 14, 14);
+  print_string ("Height     (z) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 62);
+  if (rotation_type==rotation_flip_z)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 62);
+  //draw the 90_CW rotation
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 80, 14, 14);
+  print_string ("Rotate 90 CW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 82);
+  if (rotation_type==rotation_CW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 82);
+  //draw the 90_CCW rotation
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 100, 14, 14);
+  print_string ("Rotate 90 CCW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 102);
+  if (rotation_type==rotation_CCW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 102);
+  //draw the 180 rotation
+  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 120, 14, 14);
+  print_string ("Rotate 180", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 122);
+  if (rotation_type==rotation_180)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 122);
+  //draw the OK button
+  draw_empty_menu (screen, white, x_rotation_menu + 70, y_rotation_menu + 140, 20,14);
+  print_string ("Ok", black, white, x_rotation_menu + 72, y_rotation_menu + 142);
+}
+
+void draw_replace_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  int i,j,k,l;
+  char cur_char;
+  char str[120];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white,x_replace_menu,y_replace_menu,x_replace_menu_lenght,y_replace_menu_lenght);
+  //draw the window title
+  for (y = y_replace_menu; y < y_replace_menu + 15; y++)
+    for (x = x_replace_menu; x < x_replace_menu + x_replace_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+
+  print_string ("Replace Settings", white, darkblue, x_replace_menu + 2,y_replace_menu + 2);
+  //draw the tolerance string and box
+  print_string ("Tolerance:", black, white, x_replace_menu + 2,y_replace_menu + 20);
+  draw_down_button (screen, x_replace_menu + 80, y_replace_menu + 18, 25, 14);
+  print_string (numeric_dialog_boxes[tolerance].dialog_text, black, white,x_replace_menu + 82, y_replace_menu + 20);
+
+  print_string ("Tolerance Mode:", black, white, x_replace_menu + 4,y_replace_menu + 42);
+  //draw the greater tolerance check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 60,14, 14);
+  print_string ("+", black, white, x_replace_menu + 42 + 14,y_replace_menu + 62);
+  if(temp_tolerance_mode == greater)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 62);
+
+  //draw the leaser tolerance check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 80,14, 14);
+  print_string ("-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 82);
+  if(temp_tolerance_mode == leaser)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 82);
+
+  //draw the greater or leaser tolerance check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 100,14, 14);
+  print_string ("+/-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 102);
+  if(temp_tolerance_mode == greater_or_leaser)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 102);
+  
+  print_string ("Replace Mode:", black, white, x_replace_menu + 4,y_replace_menu + 122);
+
+  //draw the greater replace check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 140,14, 14);
+  print_string ("+", black, white, x_replace_menu + 42 + 14,y_replace_menu + 142);
+  if(temp_tolerance_replace_mode == tolerance_replace_plus)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 142);
+
+  //draw the leaser replace check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 160,14, 14);
+  print_string ("-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 162);
+  if(temp_tolerance_replace_mode == tolerance_replace_minus)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 162);
+
+  //draw the equal replace check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 180,14, 14);
+  print_string ("=", black, white, x_replace_menu + 42 + 14,y_replace_menu + 182);
+  if(temp_tolerance_replace_mode == tolerance_replace_equal)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 182);
+
+  print_string ("Replace With:", black, white, x_replace_menu + 4,y_replace_menu + 202);
+
+  //draw the pattern replace check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 220,14, 14);
+  print_string ("Solid", black, white, x_replace_menu + 42 + 14,y_replace_menu + 222);
+  if(temp_tolerance_replace_mode_2 == replace_mode_solid)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 222);
+
+  //draw the pattern replace check box
+  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 240,14, 14);
+  print_string ("Pattern", black, white, x_replace_menu + 42 + 14,y_replace_menu + 242);
+  if(temp_tolerance_replace_mode_2 == replace_mode_pattern)
+  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 242);
+
+  //draw the pattern file name.
+  print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
+  draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
+  j=0;
+	while(1)
+	{
+		if(pattern_file_name[j]==0)break;
+		j++;
+	}
+	i=j;
+	if(j>20)
+		{
+			j-=24;
+			k=i-j;
+		}
+	else
+		{
+			k=j;
+			j=0;
+		}
+	i=0;
+	while(i<k)
+	{
+		cur_char=pattern_file_name[j];
+		*(str+i)=cur_char;
+		if(cur_char==0)break;
+		j++;
+		i++;
+	}
+	*(str+i)=0;
+  if(!current_pattern.object_mem)print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
+  else
+  print_string(str, black, white, x_replace_menu +62,y_replace_menu + 262);
+
+  //draw the OK, Cancel and Change pattern buttons
+  draw_empty_menu (screen, white, x_replace_menu + 30, y_replace_menu + 280,20, 14);
+  print_string ("Ok", black, white, x_replace_menu + 32,y_replace_menu + 282);
+  draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 280,50, 14);
+  print_string ("Cancel", black, white, x_replace_menu + 62,y_replace_menu + 282);
+  draw_empty_menu (screen, white, x_replace_menu + 120, y_replace_menu + 280,110, 14);
+  print_string ("Change Pattern", black, white, x_replace_menu + 122,y_replace_menu + 282);
+}
+
+void draw_global_replace_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  int i,j,k,l;
+  char cur_char;
+  char str[120];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white,x_global_replace_menu,y_global_replace_menu,x_global_replace_menu_lenght,y_global_replace_menu_lenght);
+  //draw the window title
+  for (y = y_global_replace_menu; y < y_global_replace_menu + 15; y++)
+    for (x = x_global_replace_menu; x < x_global_replace_menu + x_global_replace_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+
+  print_string ("Replace Settings", white, darkblue, x_global_replace_menu + 2,y_global_replace_menu + 2);
+  //draw the tolerance string and box
+  print_string ("Tolerance:", black, white, x_global_replace_menu + 2,y_global_replace_menu + 20);
+  draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
+  print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, white,x_global_replace_menu + 82, y_global_replace_menu + 20);
+
+  print_string ("Tolerance Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 42);
+  //draw the greater tolerance check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 60,14, 14);
+  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 62);
+  if(temp_global_tolerance_mode == greater)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 62);
+
+  //draw the leaser tolerance check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 80,14, 14);
+  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 82);
+  if(temp_global_tolerance_mode == leaser)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 82);
+
+  //draw the greater or leaser tolerance check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 100,14, 14);
+  print_string ("+/-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 102);
+  if(temp_global_tolerance_mode == greater_or_leaser)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 102);
+
+  print_string ("Replace Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 122);
+
+  //draw the greater replace check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 140,14, 14);
+  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 142);
+  if(temp_global_tolerance_replace_mode == tolerance_replace_plus)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 142);
+
+  //draw the leaser replace check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 160,14, 14);
+  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 162);
+  if(temp_global_tolerance_replace_mode == tolerance_replace_minus)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 162);
+
+  //draw the equal replace check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 180,14, 14);
+  print_string ("=", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 182);
+  if(temp_global_tolerance_replace_mode == tolerance_replace_equal)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 182);
+
+
+  print_string ("Replace With:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 202);
+
+  //draw the pattern replace check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 220,14, 14);
+  print_string ("Solid", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 222);
+  if(temp_global_tolerance_replace_mode_2 == replace_mode_solid)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 222);
+
+
+  //draw the pattern replace check box
+  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 240,14, 14);
+  print_string ("Pattern", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 242);
+  if(temp_global_tolerance_replace_mode_2 == replace_mode_pattern)
+  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 242);
+
+  //draw the pattern file name.
+  print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
+  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 260,172, 14);
+  j=0;
+		while(1)
+		{
+			if(pattern_file_name[j]==0)break;
+			j++;
+		}
+		i=j;
+		if(j>20)
+			{
+				j-=24;
+				k=i-j;
+			}
+		else
+			{
+				k=j;
+				j=0;
+			}
+		i=0;
+		while(i<k)
+		{
+			cur_char=pattern_file_name[j];
+			*(str+i)=cur_char;
+			if(cur_char==0)break;
+			j++;
+			i++;
+		}
+		*(str+i)=0;
+  if(!current_pattern.object_mem)print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
+  else
+  print_string(str, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
+
+  //draw the OK, Cancel and Change pattern buttons
+  draw_empty_menu (screen, white, x_global_replace_menu + 30, y_global_replace_menu + 280,20, 14);
+  print_string ("Ok", black, white, x_global_replace_menu + 32,y_global_replace_menu + 282);
+  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 280,50, 14);
+  print_string ("Cancel", black, white, x_global_replace_menu + 62,y_global_replace_menu + 282);
+  draw_empty_menu (screen, white, x_global_replace_menu + 120, y_global_replace_menu + 280,110, 14);
+  print_string ("Change Pattern", black, white, x_global_replace_menu + 122,y_global_replace_menu + 282);
+}
+
+void draw_object_menu (SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  char str[20];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_object_menu, y_object_menu,
+		   x_object_menu_lenght, y_object_menu_lenght);
+  //draw the window title
+  for (y = y_object_menu; y < y_object_menu + 15; y++)
+    for (x = x_object_menu; x < x_object_menu + x_object_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+  print_string ("Object Settings", white, darkblue, x_object_menu + 2,y_object_menu + 2);
+  //draw the "Mode string"
+  print_string ("Put object mode:", black, white, x_object_menu + 4,y_object_menu + 22);
+  //draw the put object mode
+  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 40,14, 14);
+  print_string ("Place over terain", black, white, x_object_menu + 42 + 14,y_object_menu + 42);
+  if(object_mode==put_object)
+  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 42);
+
+  //draw the increase terrain
+  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 60,14, 14);
+  print_string ("Increase terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 62);
+  if(object_mode==add_object)
+  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 62);
+
+  //draw the decrease terrain
+  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 80,14, 14);
+  print_string ("Decrease terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 82);
+  if (object_mode==sub_object)
+    print_string ("X", black, white, x_object_menu + 42,y_object_menu + 82);
+
+  //draw the OK and Cancel buttons
+  draw_empty_menu (screen, white, x_object_menu + 60, y_object_menu + 100,20, 14);
+  print_string ("Ok", black, white, x_object_menu + 62,y_object_menu + 102);
+  draw_empty_menu (screen, white, x_object_menu + 90, y_object_menu + 100,50, 14);
+  print_string ("Cancel", black, white, x_object_menu + 92,y_object_menu + 102);
+}
+
+void draw_error_box(SDL_Surface * this_screen) {
+  int x, y, my_pitch;
+  char cur_pixel;
+  char str[20];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_error_menu, y_error_menu, x_error_menu_lenght, y_error_menu_lenght);
+  //draw the window title
+  for (y = y_error_menu; y < y_error_menu + 15; y++)
+    for (x = x_error_menu; x < x_error_menu + x_error_menu_lenght; x++)
+      *(screen_buffer + y * my_pitch + x) = darkblue;
+  print_string ("Error!", white, darkblue, x_error_menu + 2, y_error_menu + 2);
+  //draw the error strings
+  print_string (&error_msg_1, black, white, x_error_menu + 2, y_error_menu + 20);
+  print_string (&error_msg_2, black, white, x_error_menu + 2, y_error_menu + 36);
+
+  //draw the OK button
+  draw_empty_menu (screen, white, x_error_menu + 200, y_error_menu + 52, 20, 14);
+  print_string ("Ok", black, white, x_error_menu + 202, y_error_menu + 54);
+}
+
+void draw_file_menu(SDL_Surface * this_screen) {
+  int x, y, my_pitch,i,j,k,l;
+  char cur_char;
+  char str[120];
+  Uint8 *screen_buffer;
+  screen_buffer = (Uint8 *) this_screen->pixels;
+  my_pitch = this_screen->pitch;
+
+  draw_empty_menu (screen, white, x_file_menu, y_file_menu,x_file_menu_lenght, y_file_menu_lenght);
+
+//print the current directory name
+		j=0;
+		while(1)
+		{
+			if(cur_dir[j]==0)break;
+			j++;
+		}
+		i=j;
+		if(j>54)
+			{
+				j-=54;
+				k=i-j;
+			}
+		else
+			{
+				k=j;
+				j=0;
+			}
+		i=0;
+		while(i<k)
+		{
+			cur_char=cur_dir[j];
+			*(str+i)=cur_char;
+			if(cur_char==0)break;
+			j++;
+			i++;
+		}
+		*(str+i)=0;
+print_string (str, black, white, x_file_menu + 2,y_file_menu+2);
+
+  draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,x_file_menu_lenght-4, y_file_menu_lenght-35);
+  //ok, now, print the files from the current directory...
+  if(no_of_files-start_file_offset<18)start_file_offset=no_of_files-18;
+  if(start_file_offset<0)start_file_offset=0;
+  l=0;
+  for(i=start_file_offset;i<start_file_offset+18;i++)
+  	{
+		j=0;
+		k=0;
+		//if it is a directory, add a / before
+		if(file_names[i].is_directory==1)
+			{
+				*(str+k)='/';
+				k++;
+			}
+		while(j<55)
+		{
+			cur_char=file_names[i].file_name[j];
+			*(str+k)=cur_char;
+			if(cur_char==0)break;
+			j++;
+			k++;
+		}
+		*(str+k)=0;
+		print_string (str, black, white, x_file_menu + 2,y_file_menu+16+(l*12));
+		l++;
+	}
+print_string ("<<", black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-34);
+print_string (">>", black, white, x_file_menu + x_file_menu_lenght-20,y_file_menu+y_file_menu_lenght-34);
+
+//draw the "current file" dialogue box
+    draw_down_button (screen, x_file_menu + 2,y_file_menu+y_file_menu_lenght-18, x_file_menu_lenght-110, 14);
+//print the current selected file name
+		j=0;
+		while(1)
+		{
+			if(cur_file_name[j]==0)break;
+			j++;
+		}
+		i=j;
+		if(j>44)
+			{
+				j-=44;
+				k=i-j;
+			}
+		else
+			{
+				k=j;
+				j=0;
+			}
+		i=0;
+		while(i<k)
+		{
+			cur_char=cur_file_name[j];
+			*(str+i)=cur_char;
+			if(cur_char==0)break;
+			j++;
+			i++;
+		}
+		*(str+i)=0;
+print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
+
+//draw the load/save button
+  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-104, y_file_menu+y_file_menu_lenght-18,35, 14);
+  if(!save_file)print_string ("Load", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
+  else print_string ("Save", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
+
+//draw the cancel button
+  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
+  print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
+}
+
+/*--------------------
+ Check menus functions
+ *------------------*/
 void check_new_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
@@ -283,47 +857,6 @@ void check_new_terrain_menu (char text_input_char) {
   }
 }
 
-void draw_generate_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_generate_terrain_menu, y_generate_terrain_menu, x_generate_terrain_menu_lenght, y_generate_terrain_menu_lenght);
-  //draw the window title
-  for (y = y_generate_terrain_menu; y < y_generate_terrain_menu + 15; y++)
-    for (x = x_generate_terrain_menu;
-	 x < x_generate_terrain_menu + x_generate_terrain_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Generate terrain", white, darkblue, x_generate_terrain_menu + 2, y_generate_terrain_menu + 2);
-  
-  //draw the seed string and box
-  print_string ("Seed:", black, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 20);
-  if (numeric_dialog_boxes[seed_dialog].has_focus)
-    draw_down_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 76, 14);
-  else
-    draw_up_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 62, 14);
-  print_string (numeric_dialog_boxes[seed_dialog].dialog_text, black, white, x_generate_terrain_menu + 54, y_generate_terrain_menu + 20);
-  
-  //draw the random seed box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
-  print_string ("Random", black, white, x_generate_terrain_menu + 142, y_generate_terrain_menu + 20);
-
-  //draw the overwrite terrain check box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 40, 14, 14);
-  print_string ("Overwrite existing terrain", black, white, x_generate_terrain_menu + 4 + 14, y_generate_terrain_menu + 42);
-  if (overwrite_terrain)
-    print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
-
-  //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 40, y_generate_terrain_menu + 80, 20, 14);
-  print_string ("Ok", black, white, x_generate_terrain_menu + 42, y_generate_terrain_menu + 82);
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 70, y_generate_terrain_menu + 80, 50, 14);
-  print_string ("Cancel", black, white, x_generate_terrain_menu + 72, y_generate_terrain_menu + 82);
-}
-
 void check_generate_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
@@ -404,77 +937,6 @@ void check_generate_terrain_menu (char text_input_char) {
     }
 
   }
-}
-
-void draw_view_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
-  //draw the window title
-  for (y = y_view_menu; y < y_view_menu + 15; y++)
-    for (x = x_view_menu; x < x_view_menu + x_view_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("View...", white, darkblue, x_view_menu + 2, y_view_menu + 2);
-  
-  //draw the view toolbar box
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 20, 14, 14);
-  print_string ("Toolbar", black, white, x_view_menu + 4 + 14, y_view_menu + 22);
-  if (tool_bar)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 22);
-  //draw the view minimap box
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 40, 14, 14);
-  print_string ("Minimap", black, white, x_view_menu + 4 + 14,y_view_menu + 42);
-  if (mini_map)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 42);
-  //draw the view status_bar
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 60, 14, 14);
-  print_string ("Status bar", black, white, x_view_menu + 4 + 14,y_view_menu + 62);
-  if (status_bar)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 62);
-  //draw the Grid none
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 80, 14, 14);
-  print_string ("Grid: Off", black, white, x_view_menu + 4 + 14,y_view_menu + 82);
-  if (!grid)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 82);
-  //draw the Grid 16
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 100, 14, 14);
-  print_string ("Grid: 16x16", black, white, x_view_menu + 4 + 14,y_view_menu + 102);
-  if (grid == 16)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 102);
-  //draw the Grid 32
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 120, 14, 14);
-  print_string ("Grid: 32x32", black, white, x_view_menu + 4 + 14,y_view_menu + 122);
-  if (grid == 32)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 122);
-  //draw the Grid 64
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 140, 14, 14);
-  print_string ("Grid: 64x64", black, white, x_view_menu + 4 + 14,y_view_menu + 142);
-  if (grid == 64)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 142);
-  //draw the Grid 128
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 160, 14, 14);
-  print_string ("Grid: 128x128", black, white, x_view_menu + 4 + 14,y_view_menu + 162);
-  if (grid == 128)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 162);
-  //draw the Grid 256
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 180, 14, 14);
-  print_string ("Grid: 256x256", black, white, x_view_menu + 4 + 14,y_view_menu + 182);
-  if (grid == 256)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 182);
-
-  //draw the color/gray menu
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 200, 14, 14);
-  print_string ("Gray Shades", black, white, x_view_menu + 4 + 14,y_view_menu + 202);
-  if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
-
-  //draw the OK button
-  draw_empty_menu (screen, white, x_view_menu + 50, y_view_menu + 220, 20,14);
-  print_string ("Ok", black, white, x_view_menu + 52, y_view_menu + 222);
 }
 
 void check_view_menu (char text_input_char) {
@@ -560,50 +1022,6 @@ void check_view_menu (char text_input_char) {
     show_view_menu = 0;
 }
 
-void draw_rotate_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_rotation_menu, y_rotation_menu, x_rotation_menu_lenght, y_rotation_menu_lenght);
-  //draw the window title
-  for (y = y_rotation_menu; y < y_rotation_menu + 15; y++)
-    for (x = x_rotation_menu; x < x_rotation_menu + x_rotation_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Flip and Rotation", white, darkblue, x_rotation_menu + 2, y_rotation_menu + 2);
-  //draw the Horizontal Flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 20, 14, 14);
-  print_string ("Horizontal (x) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 22);
-  if (rotation_type==rotation_flip_x)
-    print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 22);
-  //draw the Vertical flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 40, 14, 14);
-  print_string ("Vertical   (y) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 42);
-  if (rotation_type==rotation_flip_y)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 42);
-  //draw the Height flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 60, 14, 14);
-  print_string ("Height     (z) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 62);
-  if (rotation_type==rotation_flip_z)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 62);
-  //draw the 90_CW rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 80, 14, 14);
-  print_string ("Rotate 90 CW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 82);
-  if (rotation_type==rotation_CW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 82);
-  //draw the 90_CCW rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 100, 14, 14);
-  print_string ("Rotate 90 CCW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 102);
-  if (rotation_type==rotation_CCW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 102);
-  //draw the 180 rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 120, 14, 14);
-  print_string ("Rotate 180", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 122);
-  if (rotation_type==rotation_180)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 122);
-  //draw the OK button
-  draw_empty_menu (screen, white, x_rotation_menu + 70, y_rotation_menu + 140, 20,14);
-  print_string ("Ok", black, white, x_rotation_menu + 72, y_rotation_menu + 142);
-}
-
 void check_rotate_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
@@ -661,126 +1079,6 @@ void check_rotate_menu (char text_input_char) {
 			else if(rotation_type==rotation_180)rotate_180();
 		    show_rotate_menu = 0;
 		}
-
-
-}
-
-void draw_replace_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  int i,j,k,l;
-  char cur_char;
-  char str[120];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white,x_replace_menu,y_replace_menu,x_replace_menu_lenght,y_replace_menu_lenght);
-  //draw the window title
-  for (y = y_replace_menu; y < y_replace_menu + 15; y++)
-    for (x = x_replace_menu; x < x_replace_menu + x_replace_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-
-  print_string ("Replace Settings", white, darkblue, x_replace_menu + 2,y_replace_menu + 2);
-  //draw the tolerance string and box
-  print_string ("Tolerance:", black, white, x_replace_menu + 2,y_replace_menu + 20);
-  draw_down_button (screen, x_replace_menu + 80, y_replace_menu + 18, 25, 14);
-  print_string (numeric_dialog_boxes[tolerance].dialog_text, black, white,x_replace_menu + 82, y_replace_menu + 20);
-
-  print_string ("Tolerance Mode:", black, white, x_replace_menu + 4,y_replace_menu + 42);
-  //draw the greater tolerance check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 60,14, 14);
-  print_string ("+", black, white, x_replace_menu + 42 + 14,y_replace_menu + 62);
-  if(temp_tolerance_mode == greater)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 62);
-
-  //draw the leaser tolerance check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 80,14, 14);
-  print_string ("-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 82);
-  if(temp_tolerance_mode == leaser)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 82);
-
-  //draw the greater or leaser tolerance check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 100,14, 14);
-  print_string ("+/-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 102);
-  if(temp_tolerance_mode == greater_or_leaser)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 102);
-  
-  print_string ("Replace Mode:", black, white, x_replace_menu + 4,y_replace_menu + 122);
-
-  //draw the greater replace check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 140,14, 14);
-  print_string ("+", black, white, x_replace_menu + 42 + 14,y_replace_menu + 142);
-  if(temp_tolerance_replace_mode == tolerance_replace_plus)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 142);
-
-  //draw the leaser replace check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 160,14, 14);
-  print_string ("-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 162);
-  if(temp_tolerance_replace_mode == tolerance_replace_minus)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 162);
-
-  //draw the equal replace check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 180,14, 14);
-  print_string ("=", black, white, x_replace_menu + 42 + 14,y_replace_menu + 182);
-  if(temp_tolerance_replace_mode == tolerance_replace_equal)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 182);
-
-  print_string ("Replace With:", black, white, x_replace_menu + 4,y_replace_menu + 202);
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 220,14, 14);
-  print_string ("Solid", black, white, x_replace_menu + 42 + 14,y_replace_menu + 222);
-  if(temp_tolerance_replace_mode_2 == replace_mode_solid)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 222);
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 240,14, 14);
-  print_string ("Pattern", black, white, x_replace_menu + 42 + 14,y_replace_menu + 242);
-  if(temp_tolerance_replace_mode_2 == replace_mode_pattern)
-  print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 242);
-
-  //draw the pattern file name.
-  print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
-  draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
-  j=0;
-	while(1)
-	{
-		if(pattern_file_name[j]==0)break;
-		j++;
-	}
-	i=j;
-	if(j>20)
-		{
-			j-=24;
-			k=i-j;
-		}
-	else
-		{
-			k=j;
-			j=0;
-		}
-	i=0;
-	while(i<k)
-	{
-		cur_char=pattern_file_name[j];
-		*(str+i)=cur_char;
-		if(cur_char==0)break;
-		j++;
-		i++;
-	}
-	*(str+i)=0;
-  if(!current_pattern.object_mem)print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
-  else
-  print_string(str, black, white, x_replace_menu +62,y_replace_menu + 262);
-
-  //draw the OK, Cancel and Change pattern buttons
-  draw_empty_menu (screen, white, x_replace_menu + 30, y_replace_menu + 280,20, 14);
-  print_string ("Ok", black, white, x_replace_menu + 32,y_replace_menu + 282);
-  draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 280,50, 14);
-  print_string ("Cancel", black, white, x_replace_menu + 62,y_replace_menu + 282);
-  draw_empty_menu (screen, white, x_replace_menu + 120, y_replace_menu + 280,110, 14);
-  print_string ("Change Pattern", black, white, x_replace_menu + 122,y_replace_menu + 282);
 }
 
 void check_replace_menu (char text_input_char) {
@@ -920,126 +1218,6 @@ void check_replace_menu (char text_input_char) {
   }
 }
 
-void draw_global_replace_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  int i,j,k,l;
-  char cur_char;
-  char str[120];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white,x_global_replace_menu,y_global_replace_menu,x_global_replace_menu_lenght,y_global_replace_menu_lenght);
-  //draw the window title
-  for (y = y_global_replace_menu; y < y_global_replace_menu + 15; y++)
-    for (x = x_global_replace_menu; x < x_global_replace_menu + x_global_replace_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-
-  print_string ("Replace Settings", white, darkblue, x_global_replace_menu + 2,y_global_replace_menu + 2);
-  //draw the tolerance string and box
-  print_string ("Tolerance:", black, white, x_global_replace_menu + 2,y_global_replace_menu + 20);
-  draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
-  print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, white,x_global_replace_menu + 82, y_global_replace_menu + 20);
-
-  print_string ("Tolerance Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 42);
-  //draw the greater tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 60,14, 14);
-  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 62);
-  if(temp_global_tolerance_mode == greater)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 62);
-
-  //draw the leaser tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 80,14, 14);
-  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 82);
-  if(temp_global_tolerance_mode == leaser)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 82);
-
-  //draw the greater or leaser tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 100,14, 14);
-  print_string ("+/-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 102);
-  if(temp_global_tolerance_mode == greater_or_leaser)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 102);
-
-  print_string ("Replace Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 122);
-
-  //draw the greater replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 140,14, 14);
-  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 142);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_plus)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 142);
-
-  //draw the leaser replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 160,14, 14);
-  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 162);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_minus)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 162);
-
-  //draw the equal replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 180,14, 14);
-  print_string ("=", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 182);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_equal)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 182);
-
-
-  print_string ("Replace With:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 202);
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 220,14, 14);
-  print_string ("Solid", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 222);
-  if(temp_global_tolerance_replace_mode_2 == replace_mode_solid)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 222);
-
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 240,14, 14);
-  print_string ("Pattern", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 242);
-  if(temp_global_tolerance_replace_mode_2 == replace_mode_pattern)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 242);
-
-  //draw the pattern file name.
-  print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
-  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 260,172, 14);
-  j=0;
-		while(1)
-		{
-			if(pattern_file_name[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>20)
-			{
-				j-=24;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=pattern_file_name[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-  if(!current_pattern.object_mem)print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
-  else
-  print_string(str, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
-
-  //draw the OK, Cancel and Change pattern buttons
-  draw_empty_menu (screen, white, x_global_replace_menu + 30, y_global_replace_menu + 280,20, 14);
-  print_string ("Ok", black, white, x_global_replace_menu + 32,y_global_replace_menu + 282);
-  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 280,50, 14);
-  print_string ("Cancel", black, white, x_global_replace_menu + 62,y_global_replace_menu + 282);
-  draw_empty_menu (screen, white, x_global_replace_menu + 120, y_global_replace_menu + 280,110, 14);
-  print_string ("Change Pattern", black, white, x_global_replace_menu + 122,y_global_replace_menu + 282);
-}
-
 void check_global_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
@@ -1177,48 +1355,6 @@ void check_global_replace_menu (char text_input_char) {
   }
 }
 
-void draw_object_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_object_menu, y_object_menu,
-		   x_object_menu_lenght, y_object_menu_lenght);
-  //draw the window title
-  for (y = y_object_menu; y < y_object_menu + 15; y++)
-    for (x = x_object_menu; x < x_object_menu + x_object_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Object Settings", white, darkblue, x_object_menu + 2,y_object_menu + 2);
-  //draw the "Mode string"
-  print_string ("Put object mode:", black, white, x_object_menu + 4,y_object_menu + 22);
-  //draw the put object mode
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 40,14, 14);
-  print_string ("Place over terain", black, white, x_object_menu + 42 + 14,y_object_menu + 42);
-  if(object_mode==put_object)
-  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 42);
-
-  //draw the increase terrain
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 60,14, 14);
-  print_string ("Increase terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 62);
-  if(object_mode==add_object)
-  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 62);
-
-  //draw the decrease terrain
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 80,14, 14);
-  print_string ("Decrease terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 82);
-  if (object_mode==sub_object)
-    print_string ("X", black, white, x_object_menu + 42,y_object_menu + 82);
-
-  //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_object_menu + 60, y_object_menu + 100,20, 14);
-  print_string ("Ok", black, white, x_object_menu + 62,y_object_menu + 102);
-  draw_empty_menu (screen, white, x_object_menu + 90, y_object_menu + 100,50, 14);
-  print_string ("Cancel", black, white, x_object_menu + 92,y_object_menu + 102);
-}
-
 void check_object_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if(long_pressed_button_r == 1)
@@ -1262,36 +1398,6 @@ void check_object_menu (char text_input_char) {
     show_object_menu = 0;
 }
 
-void draw_error_box(SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_error_menu, y_error_menu,
-		   x_error_menu_lenght, y_error_menu_lenght);
-  //draw the window title
-  for (y = y_error_menu; y < y_error_menu + 15; y++)
-    for (x = x_error_menu; x < x_error_menu + x_error_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Error!", white, darkblue, x_error_menu + 2,
-		y_error_menu + 2);
-  //draw the error strings
-  print_string (&error_msg_1, black, white, x_error_menu + 2,
-		y_error_menu + 20);
-
-  print_string (&error_msg_2, black, white, x_error_menu + 2,
-		y_error_menu + 36);
-
-  //draw the OK button
-  draw_empty_menu (screen, white, x_error_menu + 200, y_error_menu + 52,
-		   20, 14);
-  print_string ("Ok", black, white, x_error_menu + 202,
-		y_error_menu + 54);
-}
-
 void check_error_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1 || text_input_char==SDLK_RETURN || text_input_char==SDLK_ESCAPE)
@@ -1302,118 +1408,6 @@ void check_error_menu (char text_input_char) {
 	&& y_mouse_pos >= y_error_menu + 54
 	&& y_mouse_pos < y_error_menu + 54 + 14)
     view_error_menu = 0;
-}
-
-void draw_file_menu(SDL_Surface * this_screen) {
-  int x, y, my_pitch,i,j,k,l;
-  char cur_char;
-  char str[120];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_file_menu, y_file_menu,x_file_menu_lenght, y_file_menu_lenght);
-
-//print the current directory name
-		j=0;
-		while(1)
-		{
-			if(cur_dir[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>54)
-			{
-				j-=54;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=cur_dir[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-print_string (str, black, white, x_file_menu + 2,y_file_menu+2);
-
-  draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,x_file_menu_lenght-4, y_file_menu_lenght-35);
-  //ok, now, print the files from the current directory...
-  if(no_of_files-start_file_offset<18)start_file_offset=no_of_files-18;
-  if(start_file_offset<0)start_file_offset=0;
-  l=0;
-  for(i=start_file_offset;i<start_file_offset+18;i++)
-  	{
-		j=0;
-		k=0;
-		//if it is a directory, add a / before
-		if(file_names[i].is_directory==1)
-			{
-				*(str+k)='/';
-				k++;
-			}
-		while(j<55)
-		{
-			cur_char=file_names[i].file_name[j];
-			*(str+k)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			k++;
-		}
-		*(str+k)=0;
-		print_string (str, black, white, x_file_menu + 2,y_file_menu+16+(l*12));
-		l++;
-	}
-print_string ("<<", black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-34);
-print_string (">>", black, white, x_file_menu + x_file_menu_lenght-20,y_file_menu+y_file_menu_lenght-34);
-
-//draw the "current file" dialogue box
-    draw_down_button (screen, x_file_menu + 2,y_file_menu+y_file_menu_lenght-18, x_file_menu_lenght-110, 14);
-//print the current selected file name
-		j=0;
-		while(1)
-		{
-			if(cur_file_name[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>44)
-			{
-				j-=44;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=cur_file_name[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
-
-//draw the load/save button
-  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-104, y_file_menu+y_file_menu_lenght-18,35, 14);
-  if(!save_file)print_string ("Load", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
-  else print_string ("Save", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
-
-//draw the cancel button
-  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
-  print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
 }
 
 void check_file_menu (unsigned char text_input_char) {
