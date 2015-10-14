@@ -3,7 +3,8 @@
 
 #include "global.h"
 
-void load_tool_bar ();
+void load_tool_bar();
+void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen);
 
 void draw_new_terrain_menu (SDL_Surface * this_screen);
 void draw_generate_menu (SDL_Surface * this_screen);

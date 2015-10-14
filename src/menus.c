@@ -5,10 +5,11 @@
 #include "menus.h"
 
 typedef struct {
-	int x
+	int x;
 	int y;
-	int width
+	int width;
 	int height;
+	char *title;
 } Menu;
 
 void load_tool_bar() {
@@ -48,27 +49,37 @@ void load_tool_bar() {
 	tool_bar_mem = temp_pointer;
 }
 
+void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
+	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+	int my_pitch = this_screen->pitch;
+	
+	for (y = menu->y; y < menu->y + 15; y++) {
+		for (x = menu->x; x < menu->x + menu->width; x++) {
+			*(screen_buffer + y * my_pitch + x) = darkblue;
+		}
+	}
+	
+	print_string (menu->title, white, darkblue, menu->x + 2, menu->y + 2);
+}
+
 void draw_new_terrain_menu (SDL_Surface * this_screen) {
 	Menu menu;
 	menu.x = x_new_terrain_menu;
 	menu.y = y_new_terrain_menu;
 	menu.width = x_new_terrain_menu_lenght;
 	menu.height = y_new_terrain_menu_lenght;
+	menu.title = "New terrain";
 	
-  int x, y, my_pitch;
+  int x, y;
   char cur_pixel;
   char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+  Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+  int my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, menu.x, y_new_terrain_menu, menu.width, menu.height);
-  //draw the window title
-  for (y = y_new_terrain_menu; y < y_new_terrain_menu + 15; y++)
-    for (x = menu.x; x < menu.x + menu.width; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-   print_string ("New terrain", white, darkblue, menu.x + 2, menu.y + 2);
-			
+  draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
+  
+  drawWindowTitle(&menu, this_screen);
+  		
   //draw the x size string and box
   print_string ("X Size:", black, white, menu.x + 2, menu.y + 20);
   if (numeric_dialog_boxes[x_map_size_dialog].has_focus)
