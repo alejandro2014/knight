@@ -115,10 +115,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	menu.height = y_new_terrain_menu_lenght;
 	menu.title = "New terrain";
 	
-	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
-  
-	drawWindowTitle(&menu, this_screen);
-	
 	TextBox textboxXSize;
 	textboxXSize.menu = &menu;
 	textboxXSize.title = "X Size:";
@@ -128,8 +124,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxXSize.height = 14;
 	textboxXSize.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
 	
-	drawTextBox(&textboxXSize);
-	
 	TextBox textboxYSize;
 	textboxYSize.menu = &menu;
 	textboxYSize.title = "Y Size:";
@@ -138,8 +132,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxYSize.width = 42;
 	textboxYSize.height = 14;
 	textboxYSize.dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
-	
-	drawTextBox(&textboxYSize);
   
     TextBox textboxBaseHeight;
 	textboxBaseHeight.menu = &menu;
@@ -150,8 +142,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxBaseHeight.height = 14;
 	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
 	
-	drawTextBox(&textboxBaseHeight);
-
 	Button buttonOk;
 	buttonOk.menu = menu;
 	buttonOk.x = 40;
@@ -159,8 +149,6 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonOk.width = 20;
 	buttonOk.height = 14;
 	buttonOk.title = "Ok";
-	
-	drawButton(&buttonOk);
 	
 	Button buttonCancel;
 	buttonCancel.menu = menu;
@@ -170,48 +158,74 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonCancel.height = 14;
 	buttonCancel.title = "Cancel";
 	
+	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
+	drawWindowTitle(&menu, this_screen);
+	
+	drawTextBox(&textboxXSize);
+	drawTextBox(&textboxYSize);
+	drawTextBox(&textboxBaseHeight);
+	
+	drawButton(&buttonOk);
 	drawButton(&buttonCancel);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+	int x, y, my_pitch;
+	char cur_pixel;
+	char str[20];
+	Uint8 *screen_buffer;
+	screen_buffer = (Uint8 *) this_screen->pixels;
+	my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_generate_terrain_menu, y_generate_terrain_menu, x_generate_terrain_menu_lenght, y_generate_terrain_menu_lenght);
-  //draw the window title
-  for (y = y_generate_terrain_menu; y < y_generate_terrain_menu + 15; y++)
-    for (x = x_generate_terrain_menu;
-	 x < x_generate_terrain_menu + x_generate_terrain_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Generate terrain", white, darkblue, x_generate_terrain_menu + 2, y_generate_terrain_menu + 2);
+	Menu menu;
+	menu.x = x_generate_terrain_menu;
+	menu.y = y_generate_terrain_menu;
+	menu.width = x_generate_terrain_menu_lenght;
+	menu.height = y_generate_terrain_menu_lenght;
+	menu.title = "Generate terrain";
+	
+	TextBox textboxSeed;
+	textboxSeed.menu = &menu;
+	textboxSeed.title = "Y Size:";
+	textboxSeed.x = 52;
+	textboxSeed.y = 18;
+	textboxSeed.width = 76;
+	textboxSeed.height = 14;
+	textboxSeed.dialogBox = &numeric_dialog_boxes[seed_dialog];
+	
+	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
+	drawWindowTitle(&menu, this_screen);
   
-  //draw the seed string and box
-  print_string ("Seed:", black, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 20);
-  if (numeric_dialog_boxes[seed_dialog].has_focus)
-    draw_down_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 76, 14);
-  else
-    draw_up_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 62, 14);
-  print_string (numeric_dialog_boxes[seed_dialog].dialog_text, black, white, x_generate_terrain_menu + 54, y_generate_terrain_menu + 20);
+	drawTextBox(&textboxSeed);
   
-  //draw the random seed box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
-  print_string ("Random", black, white, x_generate_terrain_menu + 142, y_generate_terrain_menu + 20);
+	//draw the random seed box
+	draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
+	print_string ("Random", black, white, x_generate_terrain_menu + 142, y_generate_terrain_menu + 20);
 
-  //draw the overwrite terrain check box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 40, 14, 14);
-  print_string ("Overwrite existing terrain", black, white, x_generate_terrain_menu + 4 + 14, y_generate_terrain_menu + 42);
-  if (overwrite_terrain)
-    print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
+	//draw the overwrite terrain check box
+	draw_empty_menu (screen, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 40, 14, 14);
+	print_string ("Overwrite existing terrain", black, white, x_generate_terrain_menu + 4 + 14, y_generate_terrain_menu + 42);
+	if (overwrite_terrain)
+		print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
 
-  //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 40, y_generate_terrain_menu + 80, 20, 14);
-  print_string ("Ok", black, white, x_generate_terrain_menu + 42, y_generate_terrain_menu + 82);
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 70, y_generate_terrain_menu + 80, 50, 14);
-  print_string ("Cancel", black, white, x_generate_terrain_menu + 72, y_generate_terrain_menu + 82);
+	Button buttonOk;
+	buttonOk.menu = menu;
+	buttonOk.x = 40;
+	buttonOk.y = 80;
+	buttonOk.width = 20;
+	buttonOk.height = 14;
+	buttonOk.title = "Ok";
+	
+	Button buttonCancel;
+	buttonCancel.menu = menu;
+	buttonCancel.x = 70;
+	buttonCancel.y = 80;
+	buttonCancel.width = 50;
+	buttonCancel.height = 14;
+	buttonCancel.title = "Cancel";
+	
+	drawButton(&buttonOk);
+	drawButton(&buttonCancel);
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
