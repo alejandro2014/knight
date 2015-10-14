@@ -4,6 +4,13 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
+typedef struct {
+	int x
+	int y;
+	int width
+	int height;
+} Menu;
+
 void load_tool_bar() {
 	FILE *f = NULL;
 	char *temp_pointer = tool_bar_mem;
@@ -42,6 +49,12 @@ void load_tool_bar() {
 }
 
 void draw_new_terrain_menu (SDL_Surface * this_screen) {
+	Menu menu;
+	menu.x = x_new_terrain_menu;
+	menu.y = y_new_terrain_menu;
+	menu.width = x_new_terrain_menu_lenght;
+	menu.height = y_new_terrain_menu_lenght;
+	
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -49,42 +62,42 @@ void draw_new_terrain_menu (SDL_Surface * this_screen) {
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_new_terrain_menu, y_new_terrain_menu, x_new_terrain_menu_lenght, y_new_terrain_menu_lenght);
+  draw_empty_menu (screen, white, menu.x, y_new_terrain_menu, menu.width, menu.height);
   //draw the window title
   for (y = y_new_terrain_menu; y < y_new_terrain_menu + 15; y++)
-    for (x = x_new_terrain_menu; x < x_new_terrain_menu + x_new_terrain_menu_lenght; x++)
+    for (x = menu.x; x < menu.x + menu.width; x++)
       *(screen_buffer + y * my_pitch + x) = darkblue;
-   print_string ("New terrain", white, darkblue, x_new_terrain_menu + 2, y_new_terrain_menu + 2);
+   print_string ("New terrain", white, darkblue, menu.x + 2, menu.y + 2);
 			
   //draw the x size string and box
-  print_string ("X Size:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 20);
+  print_string ("X Size:", black, white, menu.x + 2, menu.y + 20);
   if (numeric_dialog_boxes[x_map_size_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 18, 42, 14);
+    draw_down_button (screen, menu.x + 52, menu.y + 18, 42, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 18, 42, 14);
-  print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black, white, x_new_terrain_menu + 54, y_new_terrain_menu + 20);
+    draw_up_button (screen, menu.x + 52, menu.y + 18, 42, 14);
+  print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black, white, menu.x + 54, menu.y + 20);
 
   //draw the y size string and box
-  print_string ("Y Size:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 38);
+  print_string ("Y Size:", black, white, menu.x + 2, menu.y + 38);
   if (numeric_dialog_boxes[y_map_size_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 36, 42, 14);
+    draw_down_button (screen, menu.x + 52, menu.y + 36, 42, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 36, 42, 14);
-  print_string (numeric_dialog_boxes[y_map_size_dialog].dialog_text, black, white, x_new_terrain_menu + 54, y_new_terrain_menu + 38);
+    draw_up_button (screen, menu.x + 52, menu.y + 36, 42, 14);
+  print_string (numeric_dialog_boxes[y_map_size_dialog].dialog_text, black, white, menu.x + 54, menu.y + 38);
 
   //draw the start height box
-  print_string ("Base Height:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 56);
+  print_string ("Base Height:", black, white, menu.x + 2, menu.y + 56);
   if (numeric_dialog_boxes[base_height_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 90, y_new_terrain_menu + 54, 24, 14);
+    draw_down_button (screen, menu.x + 90, menu.y + 54, 24, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 90, y_new_terrain_menu + 54, 24, 14);
-  print_string (numeric_dialog_boxes[base_height_dialog].dialog_text, black, white, x_new_terrain_menu + 92, y_new_terrain_menu + 56);
+    draw_up_button (screen, menu.x + 90, menu.y + 54, 24, 14);
+  print_string (numeric_dialog_boxes[base_height_dialog].dialog_text, black, white, menu.x + 92, menu.y + 56);
 
   //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_new_terrain_menu + 40, y_new_terrain_menu + 80, 20, 14);
-  print_string ("Ok", black, white, x_new_terrain_menu + 42, y_new_terrain_menu + 82);
-  draw_empty_menu (screen, white, x_new_terrain_menu + 70, y_new_terrain_menu + 80, 50, 14);
-  print_string ("Cancel", black, white, x_new_terrain_menu + 72, y_new_terrain_menu + 82);
+  draw_empty_menu (screen, white, menu.x + 40, menu.y + 80, 20, 14);
+  print_string ("Ok", black, white, menu.x + 42, menu.y + 82);
+  draw_empty_menu (screen, white, menu.x + 70, menu.y + 80, 50, 14);
+  print_string ("Cancel", black, white, menu.x + 72, menu.y + 82);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
