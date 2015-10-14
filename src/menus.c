@@ -4,6 +4,8 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
+typedef numeric_dialog_box_struct DialogBox;
+
 typedef struct {
 	int x;
 	int y;
@@ -11,6 +13,16 @@ typedef struct {
 	int height;
 	char *title;
 } Menu;
+
+typedef struct {
+	Menu *parentMenu;
+	DialogBox *dialogBox;
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+} TextBox;
 
 void load_tool_bar() {
 	FILE *f = NULL;
@@ -62,6 +74,20 @@ void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
 	print_string (menu->title, white, darkblue, menu->x + 2, menu->y + 2);
 }
 
+void drawTextBox(TextBox *textbox) {
+	Menu *menu = textbox->menu;
+	DialogBox *dialogBox = textbox->dialogBox;
+	
+	print_string (textbox->title, black, white, menu->x + 2, menu->y + 20);
+	
+	if (dialogBox->has_focus)
+		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
+	else
+		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
+		
+	print_string (dialogBox->dialog_text, black, white, menu->x + textbox->x + 2, menu->y + textbox->y + 2);
+}
+
 void draw_new_terrain_menu (SDL_Surface * this_screen) {
 	Menu menu;
 	menu.x = x_new_terrain_menu;
@@ -70,24 +96,27 @@ void draw_new_terrain_menu (SDL_Surface * this_screen) {
 	menu.height = y_new_terrain_menu_lenght;
 	menu.title = "New terrain";
 	
-  int x, y;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-  int my_pitch = this_screen->pitch;
+	int x, y;
+	char cur_pixel;
+	char str[20];
+	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+	int my_pitch = this_screen->pitch;
 
-  draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
+	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
   
-  drawWindowTitle(&menu, this_screen);
-  		
-  //draw the x size string and box
-  print_string ("X Size:", black, white, menu.x + 2, menu.y + 20);
-  if (numeric_dialog_boxes[x_map_size_dialog].has_focus)
-    draw_down_button (screen, menu.x + 52, menu.y + 18, 42, 14);
-  else
-    draw_up_button (screen, menu.x + 52, menu.y + 18, 42, 14);
-  print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black, white, menu.x + 54, menu.y + 20);
-
+	drawWindowTitle(&menu, this_screen);
+	
+	TextBox textbox;
+	textbox.menu = &menu;
+	textbox.title = "X Size:";
+	textbox.x = 52;
+	textbox.y = 18;
+	textbox.width = 42;
+	textbox.height = 14;
+	textbox.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
+	
+	drawTextBox(&textbox);
+	
   //draw the y size string and box
   print_string ("Y Size:", black, white, menu.x + 2, menu.y + 38);
   if (numeric_dialog_boxes[y_map_size_dialog].has_focus)
