@@ -88,7 +88,7 @@ void drawTextBox(TextBox *textbox) {
 	print_string (dialogBox->dialog_text, black, white, menu->x + textbox->x + 2, menu->y + textbox->y + 2);
 }
 
-void draw_new_terrain_menu (SDL_Surface * this_screen) {
+void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	Menu menu;
 	menu.x = x_new_terrain_menu;
 	menu.y = y_new_terrain_menu;
@@ -106,25 +106,28 @@ void draw_new_terrain_menu (SDL_Surface * this_screen) {
   
 	drawWindowTitle(&menu, this_screen);
 	
-	TextBox textbox;
-	textbox.menu = &menu;
-	textbox.title = "X Size:";
-	textbox.x = 52;
-	textbox.y = 18;
-	textbox.width = 42;
-	textbox.height = 14;
-	textbox.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
+	TextBox textboxXSize;
+	textboxXSize.menu = &menu;
+	textboxXSize.title = "X Size:";
+	textboxXSize.x = 52;
+	textboxXSize.y = 18;
+	textboxXSize.width = 42;
+	textboxXSize.height = 14;
+	textboxXSize.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
 	
-	drawTextBox(&textbox);
+	drawTextBox(&textboxXSize);
 	
-  //draw the y size string and box
-  print_string ("Y Size:", black, white, menu.x + 2, menu.y + 38);
-  if (numeric_dialog_boxes[y_map_size_dialog].has_focus)
-    draw_down_button (screen, menu.x + 52, menu.y + 36, 42, 14);
-  else
-    draw_up_button (screen, menu.x + 52, menu.y + 36, 42, 14);
-  print_string (numeric_dialog_boxes[y_map_size_dialog].dialog_text, black, white, menu.x + 54, menu.y + 38);
-
+	TextBox textboxYSize;
+	textboxYSize.menu = &menu;
+	textboxYSize.title = "Y Size:";
+	textboxYSize.x = 52;
+	textboxYSize.y = 36;
+	textboxYSize.width = 42;
+	textboxYSize.height = 14;
+	textboxYSize.dialogBox = &nnumeric_dialog_boxes[y_map_size_dialog];
+	
+	drawTextBox(&textboxYSize);
+  
   //draw the start height box
   print_string ("Base Height:", black, white, menu.x + 2, menu.y + 56);
   if (numeric_dialog_boxes[base_height_dialog].has_focus)
