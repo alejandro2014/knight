@@ -124,23 +124,24 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxYSize.y = 36;
 	textboxYSize.width = 42;
 	textboxYSize.height = 14;
-	textboxYSize.dialogBox = &nnumeric_dialog_boxes[y_map_size_dialog];
+	textboxYSize.dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
 	
 	drawTextBox(&textboxYSize);
   
-  //draw the start height box
-  print_string ("Base Height:", black, white, menu.x + 2, menu.y + 56);
-  if (numeric_dialog_boxes[base_height_dialog].has_focus)
-    draw_down_button (screen, menu.x + 90, menu.y + 54, 24, 14);
-  else
-    draw_up_button (screen, menu.x + 90, menu.y + 54, 24, 14);
-  print_string (numeric_dialog_boxes[base_height_dialog].dialog_text, black, white, menu.x + 92, menu.y + 56);
+    TextBox textboxBaseHeight;
+	textboxBaseHeight.menu = &menu;
+	textboxBaseHeight.title = "Base Height:";
+	textboxBaseHeight.x = 90;
+	textboxBaseHeight.y = 54;
+	textboxBaseHeight.width = 24;
+	textboxBaseHeight.height = 14;
+	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
 
-  //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, menu.x + 40, menu.y + 80, 20, 14);
-  print_string ("Ok", black, white, menu.x + 42, menu.y + 82);
-  draw_empty_menu (screen, white, menu.x + 70, menu.y + 80, 50, 14);
-  print_string ("Cancel", black, white, menu.x + 72, menu.y + 82);
+	//draw the OK and Cancel buttons
+	draw_empty_menu (screen, white, menu.x + 40, menu.y + 80, 20, 14);
+	print_string ("Ok", black, white, menu.x + 42, menu.y + 82);
+	draw_empty_menu (screen, white, menu.x + 70, menu.y + 80, 50, 14);
+	print_string ("Cancel", black, white, menu.x + 72, menu.y + 82);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
