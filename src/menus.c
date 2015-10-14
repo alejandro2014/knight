@@ -4,52 +4,44 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
-void
-load_tool_bar ()
-{
-  FILE *f = NULL;
-  char *temp_pointer = tool_bar_mem;
-  int f_size, i;
-  f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
-  fseek (f, 0, SEEK_END);
-  f_size = ftell (f);
-//ok, allocate memory for it
-  tool_bar_mem = calloc ( f_size, sizeof(char) );
-  handle_tool_bar_mem=tool_bar_mem;
-  fseek (f, 0, SEEK_SET);
-  fread (tool_bar_mem, 1, f_size, f);
-  fclose (f);
-
-  tool_bar_mem += 18;		//x lenght is at offset+18
-  x_tool_bar_bmp = *((int *) tool_bar_mem);
-  tool_bar_mem += 4;		//y lenght is at offset+22
-  y_tool_bar_bmp = *((int *) tool_bar_mem);
-  tool_bar_mem += 46 - 22;	//y lenght is at offset+22
-  tool_bar_colors_no = *((int *) tool_bar_mem);
-  tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
-  //get the color pallete
-
-  for (i = 0; i < tool_bar_colors_no; i++)
-  {
-    colors[i + 128].b = *(tool_bar_mem++);
-    colors[i + 128].g = *(tool_bar_mem++);
-    colors[i + 128].r = *(tool_bar_mem++);
-    tool_bar_mem++;
-  }
+void load_tool_bar() {
+	FILE *f = NULL;
+	char *temp_pointer = tool_bar_mem;
+	int f_size, i;
+	f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
+	fseek (f, 0, SEEK_END);
+	f_size = ftell (f);
+	
+	//ok, allocate memory for it
+	tool_bar_mem = calloc ( f_size, sizeof(char) );
+	handle_tool_bar_mem=tool_bar_mem;
+	fseek (f, 0, SEEK_SET);
+	fread (tool_bar_mem, 1, f_size, f);
+	fclose (f);
+	
+	tool_bar_mem += 18;		//x lenght is at offset+18
+	x_tool_bar_bmp = *((int *) tool_bar_mem);
+	tool_bar_mem += 4;		//y lenght is at offset+22
+	y_tool_bar_bmp = *((int *) tool_bar_mem);
+	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
+	tool_bar_colors_no = *((int *) tool_bar_mem);
+	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
+	
+	//get the color pallete
+	for (i = 0; i < tool_bar_colors_no; i++) {
+		colors[i + 128].b = *(tool_bar_mem++);
+		colors[i + 128].g = *(tool_bar_mem++);
+		colors[i + 128].r = *(tool_bar_mem++);
+		tool_bar_mem++;
+	}
+	
 	temp_pointer=tool_bar_mem;
-  for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
-    *(tool_bar_mem) = *(++tool_bar_mem) + 128;
-  tool_bar_mem = temp_pointer;
-
-
+	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
+		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
+	tool_bar_mem = temp_pointer;
 }
 
-
-/////////////////////////////////////////////////
-//draw the new terrain menu
-void
-draw_new_terrain_menu (SDL_Surface * this_screen)
-{
+void draw_new_terrain_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -57,69 +49,45 @@ draw_new_terrain_menu (SDL_Surface * this_screen)
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_new_terrain_menu, y_new_terrain_menu,
-		   x_new_terrain_menu_lenght, y_new_terrain_menu_lenght);
+  draw_empty_menu (screen, white, x_new_terrain_menu, y_new_terrain_menu, x_new_terrain_menu_lenght, y_new_terrain_menu_lenght);
   //draw the window title
   for (y = y_new_terrain_menu; y < y_new_terrain_menu + 15; y++)
-    for (x = x_new_terrain_menu;
-	 x < x_new_terrain_menu + x_new_terrain_menu_lenght; x++)
+    for (x = x_new_terrain_menu; x < x_new_terrain_menu + x_new_terrain_menu_lenght; x++)
       *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("New terrain", white, darkblue, x_new_terrain_menu + 2,
-		y_new_terrain_menu + 2);
+   print_string ("New terrain", white, darkblue, x_new_terrain_menu + 2, y_new_terrain_menu + 2);
+			
   //draw the x size string and box
-  print_string ("X Size:", black, white, x_new_terrain_menu + 2,
-		y_new_terrain_menu + 20);
+  print_string ("X Size:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 20);
   if (numeric_dialog_boxes[x_map_size_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 52,
-		      y_new_terrain_menu + 18, 42, 14);
+    draw_down_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 18, 42, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 18,
-		    42, 14);
-  print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black,
-		white, x_new_terrain_menu + 54, y_new_terrain_menu + 20);
-
+    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 18, 42, 14);
+  print_string (numeric_dialog_boxes[x_map_size_dialog].dialog_text, black, white, x_new_terrain_menu + 54, y_new_terrain_menu + 20);
 
   //draw the y size string and box
-  print_string ("Y Size:", black, white, x_new_terrain_menu + 2,
-		y_new_terrain_menu + 38);
+  print_string ("Y Size:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 38);
   if (numeric_dialog_boxes[y_map_size_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 52,
-		      y_new_terrain_menu + 36, 42, 14);
+    draw_down_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 36, 42, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 36,
-		    42, 14);
-  print_string (numeric_dialog_boxes[y_map_size_dialog].dialog_text, black,
-		white, x_new_terrain_menu + 54, y_new_terrain_menu + 38);
-
+    draw_up_button (screen, x_new_terrain_menu + 52, y_new_terrain_menu + 36, 42, 14);
+  print_string (numeric_dialog_boxes[y_map_size_dialog].dialog_text, black, white, x_new_terrain_menu + 54, y_new_terrain_menu + 38);
 
   //draw the start height box
-  print_string ("Base Height:", black, white, x_new_terrain_menu + 2,
-		y_new_terrain_menu + 56);
+  print_string ("Base Height:", black, white, x_new_terrain_menu + 2, y_new_terrain_menu + 56);
   if (numeric_dialog_boxes[base_height_dialog].has_focus)
-    draw_down_button (screen, x_new_terrain_menu + 90,
-		      y_new_terrain_menu + 54, 24, 14);
+    draw_down_button (screen, x_new_terrain_menu + 90, y_new_terrain_menu + 54, 24, 14);
   else
-    draw_up_button (screen, x_new_terrain_menu + 90, y_new_terrain_menu + 54,
-		    24, 14);
-  print_string (numeric_dialog_boxes[base_height_dialog].dialog_text, black,
-		white, x_new_terrain_menu + 92, y_new_terrain_menu + 56);
+    draw_up_button (screen, x_new_terrain_menu + 90, y_new_terrain_menu + 54, 24, 14);
+  print_string (numeric_dialog_boxes[base_height_dialog].dialog_text, black, white, x_new_terrain_menu + 92, y_new_terrain_menu + 56);
 
   //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_new_terrain_menu + 40,
-		   y_new_terrain_menu + 80, 20, 14);
-  print_string ("Ok", black, white, x_new_terrain_menu + 42,
-		y_new_terrain_menu + 82);
-  draw_empty_menu (screen, white, x_new_terrain_menu + 70,
-		   y_new_terrain_menu + 80, 50, 14);
-  print_string ("Cancel", black, white, x_new_terrain_menu + 72,
-		y_new_terrain_menu + 82);
-
-
+  draw_empty_menu (screen, white, x_new_terrain_menu + 40, y_new_terrain_menu + 80, 20, 14);
+  print_string ("Ok", black, white, x_new_terrain_menu + 42, y_new_terrain_menu + 82);
+  draw_empty_menu (screen, white, x_new_terrain_menu + 70, y_new_terrain_menu + 80, 50, 14);
+  print_string ("Cancel", black, white, x_new_terrain_menu + 72, y_new_terrain_menu + 82);
 }
 
-void
-check_new_terrain_menu (char text_input_char)
-{
+void check_new_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_new_terrain_menu = 0;
@@ -312,21 +280,10 @@ check_new_terrain_menu (char text_input_char)
 	  0;
       }
     }
-
   }
-
-
-
-
-
 }
 
-
-/////////////////////////////////////////////////
-//draw the generate terrain menu
-void
-draw_generate_menu (SDL_Surface * this_screen)
-{
+void draw_generate_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -334,63 +291,40 @@ draw_generate_menu (SDL_Surface * this_screen)
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_generate_terrain_menu,
-		   y_generate_terrain_menu, x_generate_terrain_menu_lenght,
-		   y_generate_terrain_menu_lenght);
+  draw_empty_menu (screen, white, x_generate_terrain_menu, y_generate_terrain_menu, x_generate_terrain_menu_lenght, y_generate_terrain_menu_lenght);
   //draw the window title
   for (y = y_generate_terrain_menu; y < y_generate_terrain_menu + 15; y++)
     for (x = x_generate_terrain_menu;
 	 x < x_generate_terrain_menu + x_generate_terrain_menu_lenght; x++)
       *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Generate terrain", white, darkblue,
-		x_generate_terrain_menu + 2, y_generate_terrain_menu + 2);
+  print_string ("Generate terrain", white, darkblue, x_generate_terrain_menu + 2, y_generate_terrain_menu + 2);
+  
   //draw the seed string and box
-  print_string ("Seed:", black, white, x_generate_terrain_menu + 2,
-		y_generate_terrain_menu + 20);
+  print_string ("Seed:", black, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 20);
   if (numeric_dialog_boxes[seed_dialog].has_focus)
-    draw_down_button (screen, x_generate_terrain_menu + 52,
-		      y_generate_terrain_menu + 18, 76, 14);
+    draw_down_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 76, 14);
   else
-    draw_up_button (screen, x_generate_terrain_menu + 52,
-		    y_generate_terrain_menu + 18, 62, 14);
-  print_string (numeric_dialog_boxes[seed_dialog].dialog_text, black, white,
-		x_generate_terrain_menu + 54, y_generate_terrain_menu + 20);
+    draw_up_button (screen, x_generate_terrain_menu + 52, y_generate_terrain_menu + 18, 62, 14);
+  print_string (numeric_dialog_boxes[seed_dialog].dialog_text, black, white, x_generate_terrain_menu + 54, y_generate_terrain_menu + 20);
+  
   //draw the random seed box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 140,
-		   y_generate_terrain_menu + 18, 50, 14);
-  print_string ("Random", black, white, x_generate_terrain_menu + 142,
-		y_generate_terrain_menu + 20);
-
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
+  print_string ("Random", black, white, x_generate_terrain_menu + 142, y_generate_terrain_menu + 20);
 
   //draw the overwrite terrain check box
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 2,
-		   y_generate_terrain_menu + 40, 14, 14);
-  print_string ("Overwrite existing terrain", black, white,
-		x_generate_terrain_menu + 4 + 14,
-		y_generate_terrain_menu + 42);
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 2, y_generate_terrain_menu + 40, 14, 14);
+  print_string ("Overwrite existing terrain", black, white, x_generate_terrain_menu + 4 + 14, y_generate_terrain_menu + 42);
   if (overwrite_terrain)
-    print_string ("X", black, white, x_generate_terrain_menu + 4,
-		  y_generate_terrain_menu + 42);
-
-
+    print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
 
   //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 40,
-		   y_generate_terrain_menu + 80, 20, 14);
-  print_string ("Ok", black, white, x_generate_terrain_menu + 42,
-		y_generate_terrain_menu + 82);
-  draw_empty_menu (screen, white, x_generate_terrain_menu + 70,
-		   y_generate_terrain_menu + 80, 50, 14);
-  print_string ("Cancel", black, white, x_generate_terrain_menu + 72,
-		y_generate_terrain_menu + 82);
-
-
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 40, y_generate_terrain_menu + 80, 20, 14);
+  print_string ("Ok", black, white, x_generate_terrain_menu + 42, y_generate_terrain_menu + 82);
+  draw_empty_menu (screen, white, x_generate_terrain_menu + 70, y_generate_terrain_menu + 80, 50, 14);
+  print_string ("Cancel", black, white, x_generate_terrain_menu + 72, y_generate_terrain_menu + 82);
 }
 
-///////////////////////////////////////////////
-
-void check_generate_terrain_menu (char text_input_char)
-{
+void check_generate_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
   show_generate_terrain_menu = 0;
@@ -470,18 +404,9 @@ void check_generate_terrain_menu (char text_input_char)
     }
 
   }
-
-
-
 }
 
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-/////Draw the "view menu"
-
-void
-draw_view_menu (SDL_Surface * this_screen)
-{
+void draw_view_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -489,17 +414,16 @@ draw_view_menu (SDL_Surface * this_screen)
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_view_menu, y_view_menu,
-		   x_view_menu_lenght, y_view_menu_lenght);
+  draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
   //draw the window title
   for (y = y_view_menu; y < y_view_menu + 15; y++)
     for (x = x_view_menu; x < x_view_menu + x_view_menu_lenght; x++)
       *(screen_buffer + y * my_pitch + x) = darkblue;
   print_string ("View...", white, darkblue, x_view_menu + 2, y_view_menu + 2);
+  
   //draw the view toolbar box
   draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 20, 14, 14);
-  print_string ("Toolbar", black, white, x_view_menu + 4 + 14,
-		y_view_menu + 22);
+  print_string ("Toolbar", black, white, x_view_menu + 4 + 14, y_view_menu + 22);
   if (tool_bar)
     print_string ("X", black, white, x_view_menu + 4, y_view_menu + 22);
   //draw the view minimap box
@@ -553,9 +477,7 @@ draw_view_menu (SDL_Surface * this_screen)
   print_string ("Ok", black, white, x_view_menu + 52, y_view_menu + 222);
 }
 
-
-void check_view_menu (char text_input_char)
-{
+void check_view_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_view_menu = 0;
@@ -636,17 +558,9 @@ void check_view_menu (char text_input_char)
 	&& y_mouse_pos >= y_view_menu + 220
 	&& y_mouse_pos < y_view_menu + 220 + 14)
     show_view_menu = 0;
-
-
 }
 
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-/////Draw the "rotation menu"
-
-void draw_rotate_menu (SDL_Surface * this_screen)
-{
+void draw_rotate_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -654,8 +568,7 @@ void draw_rotate_menu (SDL_Surface * this_screen)
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_rotation_menu, y_rotation_menu,
-		   x_rotation_menu_lenght, y_rotation_menu_lenght);
+  draw_empty_menu (screen, white, x_rotation_menu, y_rotation_menu, x_rotation_menu_lenght, y_rotation_menu_lenght);
   //draw the window title
   for (y = y_rotation_menu; y < y_rotation_menu + 15; y++)
     for (x = x_rotation_menu; x < x_rotation_menu + x_rotation_menu_lenght; x++)
@@ -691,9 +604,7 @@ void draw_rotate_menu (SDL_Surface * this_screen)
   print_string ("Ok", black, white, x_rotation_menu + 72, y_rotation_menu + 142);
 }
 
-
-void check_rotate_menu (char text_input_char)
-{
+void check_rotate_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_rotate_menu = 0;
@@ -754,10 +665,7 @@ void check_rotate_menu (char text_input_char)
 
 }
 
-/////////////////////////////////////////////////
-//draw the replace menu
-void draw_replace_menu (SDL_Surface * this_screen)
-{
+void draw_replace_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   int i,j,k,l;
@@ -797,7 +705,7 @@ void draw_replace_menu (SDL_Surface * this_screen)
   print_string ("+/-", black, white, x_replace_menu + 42 + 14,y_replace_menu + 102);
   if(temp_tolerance_mode == greater_or_leaser)
   print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 102);
-
+  
   print_string ("Replace Mode:", black, white, x_replace_menu + 4,y_replace_menu + 122);
 
   //draw the greater replace check box
@@ -818,7 +726,6 @@ void draw_replace_menu (SDL_Surface * this_screen)
   if(temp_tolerance_replace_mode == tolerance_replace_equal)
   print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 182);
 
-
   print_string ("Replace With:", black, white, x_replace_menu + 4,y_replace_menu + 202);
 
   //draw the pattern replace check box
@@ -826,7 +733,6 @@ void draw_replace_menu (SDL_Surface * this_screen)
   print_string ("Solid", black, white, x_replace_menu + 42 + 14,y_replace_menu + 222);
   if(temp_tolerance_replace_mode_2 == replace_mode_solid)
   print_string ("X", black, white, x_replace_menu + 42,y_replace_menu + 222);
-
 
   //draw the pattern replace check box
   draw_empty_menu (screen, white, x_replace_menu + 40, y_replace_menu + 240,14, 14);
@@ -838,32 +744,32 @@ void draw_replace_menu (SDL_Surface * this_screen)
   print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
   draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
   j=0;
-		while(1)
+	while(1)
+	{
+		if(pattern_file_name[j]==0)break;
+		j++;
+	}
+	i=j;
+	if(j>20)
 		{
-			if(pattern_file_name[j]==0)break;
-			j++;
+			j-=24;
+			k=i-j;
 		}
-		i=j;
-		if(j>20)
-			{
-				j-=24;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
+	else
 		{
-			cur_char=pattern_file_name[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
+			k=j;
+			j=0;
 		}
-		*(str+i)=0;
+	i=0;
+	while(i<k)
+	{
+		cur_char=pattern_file_name[j];
+		*(str+i)=cur_char;
+		if(cur_char==0)break;
+		j++;
+		i++;
+	}
+	*(str+i)=0;
   if(!current_pattern.object_mem)print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
   else
   print_string(str, black, white, x_replace_menu +62,y_replace_menu + 262);
@@ -877,9 +783,7 @@ void draw_replace_menu (SDL_Surface * this_screen)
   print_string ("Change Pattern", black, white, x_replace_menu + 122,y_replace_menu + 282);
 }
 
-
-void check_replace_menu (char text_input_char)
-{
+void check_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_replace_menu = 0;
@@ -1013,17 +917,10 @@ void check_replace_menu (char text_input_char)
       numeric_dialog_boxes[tolerance].
 	dialog_text[numeric_dialog_boxes[tolerance].text_offset] = 0;
     }
-
   }
-
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////
-//draw the global replace menu
-void draw_global_replace_menu (SDL_Surface * this_screen)
-{
+void draw_global_replace_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   int i,j,k,l;
@@ -1143,9 +1040,7 @@ void draw_global_replace_menu (SDL_Surface * this_screen)
   print_string ("Change Pattern", black, white, x_global_replace_menu + 122,y_global_replace_menu + 282);
 }
 
-
-void check_global_replace_menu (char text_input_char)
-{
+void check_global_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_global_replace_menu = 0;
@@ -1279,15 +1174,10 @@ void check_global_replace_menu (char text_input_char)
       numeric_dialog_boxes[global_tolerance].
 	dialog_text[numeric_dialog_boxes[global_tolerance].text_offset] = 0;
     }
-
   }
-
 }
 
-/////////////////////////////////////////////////
-//draw the object menu
-void draw_object_menu (SDL_Surface * this_screen)
-{
+void draw_object_menu (SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -1329,8 +1219,7 @@ void draw_object_menu (SDL_Surface * this_screen)
   print_string ("Cancel", black, white, x_object_menu + 92,y_object_menu + 102);
 }
 
-void check_object_menu (char text_input_char)
-{
+void check_object_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if(long_pressed_button_r == 1)
   show_object_menu = 0;
@@ -1371,14 +1260,9 @@ void check_object_menu (char text_input_char)
 	 && y_mouse_pos < y_object_menu + 100 + 14)
 	|| text_input_char == SDLK_RETURN)
     show_object_menu = 0;
-
 }
 
-/////////////////////////////////////////////////
-//draw the error dialogue box
-void
-draw_error_box(SDL_Surface * this_screen)
-{
+void draw_error_box(SDL_Surface * this_screen) {
   int x, y, my_pitch;
   char cur_pixel;
   char str[20];
@@ -1401,7 +1285,6 @@ draw_error_box(SDL_Surface * this_screen)
   print_string (&error_msg_2, black, white, x_error_menu + 2,
 		y_error_menu + 36);
 
-
   //draw the OK button
   draw_empty_menu (screen, white, x_error_menu + 200, y_error_menu + 52,
 		   20, 14);
@@ -1409,10 +1292,7 @@ draw_error_box(SDL_Surface * this_screen)
 		y_error_menu + 54);
 }
 
-///////////////////////////////////////////////////
-void
-check_error_menu (char text_input_char)
-{
+void check_error_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1 || text_input_char==SDLK_RETURN || text_input_char==SDLK_ESCAPE)
     view_error_menu = 0;
@@ -1424,8 +1304,7 @@ check_error_menu (char text_input_char)
     view_error_menu = 0;
 }
 
-void draw_file_menu(SDL_Surface * this_screen)
-{
+void draw_file_menu(SDL_Surface * this_screen) {
   int x, y, my_pitch,i,j,k,l;
   char cur_char;
   char str[120];
@@ -1527,8 +1406,6 @@ print_string (">>", black, white, x_file_menu + x_file_menu_lenght-20,y_file_men
 		*(str+i)=0;
 print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
 
-
-
 //draw the load/save button
   draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-104, y_file_menu+y_file_menu_lenght-18,35, 14);
   if(!save_file)print_string ("Load", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
@@ -1537,15 +1414,9 @@ print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-
 //draw the cancel button
   draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
   print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
-
-
 }
-////////////////////////////////////////////////////////////////
-//////////////////////
 
-void
-check_file_menu (unsigned char text_input_char)
-{
+void check_file_menu (unsigned char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     view_file_menu = 0;
@@ -1625,7 +1496,5 @@ check_file_menu (unsigned char text_input_char)
     	cur_file_name[dialog_text_offset]=text_input_char;
     	cur_file_name[dialog_text_offset+1]=0;
 	}
-
   }
-
 }
