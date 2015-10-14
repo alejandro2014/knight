@@ -11,8 +11,9 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   int xmax = 0, ymax = 0;
   int y = 0, x = 0;
   int valColour = 0;
+  Point *point;
 
-  screenPixels = this_screen->pixels;
+  screenPixels = (Uint8 *) this_screen->pixels;
 
   if (xoffset < 0) xoffset = 0;
   if (yoffset < 0) yoffset = 0;
@@ -27,42 +28,20 @@ void terrain_on_screen (SDL_Surface * this_screen) {
 
   //no rescale needed
   if (terrain_ratio == 1) {
-    //height_map += (yoffset * WIDTH + xoffset);
-
     for (y = 0; y < ymax; y++) {
       for (x = 0; x < xmax; x++) {
-        valColour = 255 * y / ymax;
+        //valColour = 255 * y / ymax;
+        point = terrain->points + y * ymax + x;
+        //valColour = getHeight(terrain, x, y);
 
-        *(screenPixels + window_width * y + x) = valColour;
-		    //some_char = *(height_map++);
-        //some_char = (some_char != 0) ? some_char / 4 : 255;
-        //some_char = 40;
-
-		    //*(screen_buffer++) = some_char;
+        *(screenPixels + window_width * y + x) = point->z;
       }
-      valColour++;
 
-      //screenPixels += (my_pitch - xlenght);
-      //height_map += (WIDTH - xlenght);
+      valColour++;
     }
   }
   else {
-    /*int x, y;
 
-    height_map += (yoffset * WIDTH + xoffset);
-    for (i = 0; i < ymax; i++) {
-      for (j = 0; j < xmax; j++) {
-	      some_char = *(height_map++);
-        some_char = (some_char != 0) ? some_char / 4 : 255;
-
-	      //now, we need two fors in order to draw a big pixel...
-	      for (y = 0; y < terrain_ratio; y++)
-	        for (x = 0; x < terrain_ratio; x++)
-	          *(screenPixels + (i * my_pitch * terrain_ratio + j * terrain_ratio) + ((y + y_screen_offset) * my_pitch + x + x_screen_offset)) = some_char;
-      }
-
-      height_map += (WIDTH - xmax);
-    }*/
   }
 }
 

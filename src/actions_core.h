@@ -7,15 +7,15 @@
 #include "global.h"
 
 typedef struct {
-  float x;
-  float y;
-  float z;
+  unsigned int x;
+  unsigned int y;
+  unsigned int z;
 } Point;
 
 typedef struct {
-  int width;
-  int height;
-  int pointsNo;
+  unsigned int width;
+  unsigned int height;
+  unsigned int pointsNo;
   Point *points;
 } Terrain;
 

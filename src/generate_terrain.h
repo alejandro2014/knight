@@ -11,7 +11,7 @@
 #include "actions_core.h"
 #include "global.h"
 
-int mrandom (int max);
+unsigned int mrandom (unsigned int max);
 
 //Memory allocation
 void allocate_mem(Terrain **terrains, int width, int height);
@@ -22,6 +22,6 @@ void freeMemTerrain(Uint8 *buffer);
 
 void generateRandomTerrain(Terrain * terrain);
 
-void hmeDrawSeed(Terrain *terrain);
+int hmeDrawSeed(Terrain *terrain);
 
 #endif
