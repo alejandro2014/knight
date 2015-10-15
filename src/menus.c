@@ -236,12 +236,15 @@ void draw_view_menu (SDL_Surface * this_screen) {
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
 
+	Menu menu;
+	menu.x = x_view_menu;
+	menu.y = y_view_menu;
+	menu.width = x_view_menu_lenght;
+	menu.height = y_view_menu_lenght;
+	menu.title = "View...";
+	
   draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
-  //draw the window title
-  for (y = y_view_menu; y < y_view_menu + 15; y++)
-    for (x = x_view_menu; x < x_view_menu + x_view_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("View...", white, darkblue, x_view_menu + 2, y_view_menu + 2);
+  drawWindowTitle(&menu, this_screen);
 
   //draw the view toolbar box
   draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 20, 14, 14);
