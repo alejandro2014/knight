@@ -4,35 +4,6 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
-typedef numeric_dialog_box_struct DialogBox;
-
-typedef struct {
-	int x;
-	int y;
-	int width;
-	int height;
-	char *title;
-} Menu;
-
-typedef struct {
-	Menu *menu;
-	DialogBox *dialogBox;
-	int x;
-	int y;
-	int width;
-	int height;
-	char *title;
-} TextBox;
-
-typedef struct {
-	Menu *menu;
-	int x;
-	int y;
-	int width;
-	int height;
-	char *title;
-} Button;
-
 void load_tool_bar() {
 	FILE *f = NULL;
 	char *temp_pointer = tool_bar_mem;
@@ -71,8 +42,9 @@ void load_tool_bar() {
 }
 
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
-	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-	int my_pitch = this_screen->pitch;
+	Uint8 *screen_buffer = (Uint8 *) currentScreen->pixels;
+	int my_pitch = currentScreen->pitch;
+	int x, y;
 
 	for (y = menu->y; y < menu->y + 15; y++) {
 		for (x = menu->x; x < menu->x + menu->width; x++) {
@@ -143,7 +115,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
 
 	Button buttonOk;
-	buttonOk.menu = menu;
+	buttonOk.menu = &menu;
 	buttonOk.x = 40;
 	buttonOk.y = 80;
 	buttonOk.width = 20;
@@ -151,7 +123,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonOk.title = "Ok";
 
 	Button buttonCancel;
-	buttonCancel.menu = menu;
+	buttonCancel.menu = &menu;
 	buttonCancel.x = 70;
 	buttonCancel.y = 80;
 	buttonCancel.width = 50;
@@ -209,7 +181,7 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 		print_string ("X", black, white, x_generate_terrain_menu + 4, y_generate_terrain_menu + 42);
 
 	Button buttonOk;
-	buttonOk.menu = menu;
+	buttonOk.menu = &menu;
 	buttonOk.x = 40;
 	buttonOk.y = 80;
 	buttonOk.width = 20;
@@ -217,7 +189,7 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	buttonOk.title = "Ok";
 
 	Button buttonCancel;
-	buttonCancel.menu = menu;
+	buttonCancel.menu = &menu;
 	buttonCancel.x = 70;
 	buttonCancel.y = 80;
 	buttonCancel.width = 50;
@@ -292,7 +264,7 @@ void draw_view_menu (SDL_Surface * this_screen) {
   //draw the color/gray menu
   draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 200, 14, 14);
   print_string ("Gray Shades", black, white, x_view_menu + 4 + 14,y_view_menu + 202);
-  if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
+  //if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
 
   //draw the OK button
   draw_empty_menu (screen, white, x_view_menu + 50, y_view_menu + 220, 20,14);
@@ -1004,9 +976,9 @@ void check_generate_terrain_menu (char text_input_char) {
   {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
-    copy_to_undo_buffer();
-    if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
-    else make_terrain (WIDTH, HEIGHT);
+
+    /*if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
+    else make_terrain (WIDTH, HEIGHT);*/
     show_generate_terrain_menu = 0;
   }
   else
@@ -1109,9 +1081,7 @@ void check_view_menu (char text_input_char) {
 	&& y_mouse_pos >= y_view_menu + 200
 	&& y_mouse_pos < y_view_menu + 200 + 14)
     {
-		gray_shades=!gray_shades;
-  		if(gray_shades)make_gray_pallete();
-  		else make_color_pallete();
+  		make_gray_pallete();
 	}
   else
     //check the OK button

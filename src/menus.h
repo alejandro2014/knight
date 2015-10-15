@@ -3,6 +3,36 @@
 
 #include "global.h"
 
+//#define DialogBox numeric_dialog_box_struct
+typedef struct numeric_dialog_box_struct DialogBox;
+
+typedef struct {
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+} Menu;
+
+typedef struct {
+	Menu *menu;
+	DialogBox *dialogBox;
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+} TextBox;
+
+typedef struct {
+	Menu *menu;
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+} Button;
+
 void load_tool_bar();
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen);
 
