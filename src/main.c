@@ -29,8 +29,8 @@ void load_cursors();
 void build_cursors();
 
 int main (int argc, char *argv[]) {
-  //terrain = generateTerrain(700, 480);
-  terrain = generateTerrain(2, 2);
+  terrain = generateTerrain(700, 480);
+  //terrain = generateTerrain(33, 33);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
