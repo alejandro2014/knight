@@ -71,8 +71,8 @@ int main (int argc, char *argv[]) {
 
 	make_gray_pallete();
 
-  /*seed = time (NULL);
-  srand (seed);*/
+  seed = time (NULL);
+  srand (seed);
 
   generateRandomTerrain(terrain);
 

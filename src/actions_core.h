@@ -10,6 +10,7 @@ typedef struct {
   int x;
   int y;
   Uint32 z;
+  bool isHeightSetted;
 } Point;
 
 typedef struct {
