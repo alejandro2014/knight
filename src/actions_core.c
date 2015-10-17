@@ -12,8 +12,7 @@ Terrain *generateTerrain(int width, int height) {
   terrain->points = (Point *) malloc(map_size * sizeof(Point));
   memset(terrain->points, 0, map_size * sizeof(Point));
 
-  printf("[DEBUG] generateTerrain <%p> width: %u height: %u pointsNo: %u\n", terrain, terrain->width, terrain->height, terrain->pointsNo);
-
+  printf("Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
   return terrain;
 }
 

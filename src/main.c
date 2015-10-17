@@ -29,8 +29,14 @@ void load_cursors();
 void build_cursors();
 
 int main (int argc, char *argv[]) {
-  terrain = generateTerrain(700, 480);
-  //terrain = generateTerrain(33, 33);
+  //WIDTH = 700;
+  //HEIGHT = 480;
+  WIDTH = 513;
+  HEIGHT = 513;
+  window_width = WIDTH;
+  window_height = HEIGHT;
+  //terrain = generateTerrain(700, 480);
+  terrain = generateTerrain(WIDTH, HEIGHT);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
@@ -38,8 +44,10 @@ int main (int argc, char *argv[]) {
   //TODO Load settings
   //load_settings ();
 
-  screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
-  SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
+  //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
+  screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
+  printf("Allocated screen with pitch %d\n", screen->pitch);
+  /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 
   SDL_WM_SetIcon(icon, NULL);
   SDL_WM_SetCaption ("Terrain Editor", "Terrain Editor");
@@ -47,9 +55,9 @@ int main (int argc, char *argv[]) {
   if (screen == NULL) {
     fprintf (stderr, "Could not initialize video\n");
     exit (1);
-  }
+  }*/
 
-  load_font();
+  /*load_font();
   load_tool_bar();
   build_tool_bar();
 
@@ -59,12 +67,12 @@ int main (int argc, char *argv[]) {
   build_cursors();
   change_cursor(cursor_put);
 
-  SDL_EnableKeyRepeat (200, 100);
+  SDL_EnableKeyRepeat (200, 100);*/
 
 	make_gray_pallete();
 
-  seed = time (NULL);
-  srand (seed);
+  /*seed = time (NULL);
+  srand (seed);*/
 
   generateRandomTerrain(terrain);
 

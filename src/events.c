@@ -54,7 +54,7 @@ void events_loop (void) {
     if (event.type == SDL_QUIT) {
       break;
     }
-
+    
     mod_key_status=SDL_GetModState();
     caps_look_on = (mod_key_status & KMOD_CAPS) ? 1 : 0;
 
