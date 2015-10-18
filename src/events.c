@@ -13,8 +13,9 @@ void resizeScreen(SDL_Event *event) {
   if (window_width < 680)window_width = 680;
   if (window_height < 450)window_height = 450;
   window_width=window_width|3;
-  screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
-  SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
+  //screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
+  screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE);
+  //SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
 }
 
 void manageButtonClick(SDL_Event *event) {
@@ -54,7 +55,7 @@ void events_loop (void) {
     if (event.type == SDL_QUIT) {
       break;
     }
-    
+
     mod_key_status=SDL_GetModState();
     caps_look_on = (mod_key_status & KMOD_CAPS) ? 1 : 0;
 

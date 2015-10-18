@@ -7,15 +7,16 @@
 #include "objects.h"
 #include "generate_terrain.h"
 
+#define BLACK 0x00000000
+#define RED   0x0000ff00
+
 void terrain_on_screen (SDL_Surface * this_screen) {
-  Uint8 *screenPixels;
+  Uint32 *screenPixels = (Uint32 *) this_screen->pixels;
   int xmax = 0, ymax = 0;
   int y = 0, x = 0;
   Point *point;
   //WIDTH = 700;
   //HEIGHT = 480;
-
-  screenPixels = (Uint32 *) this_screen->pixels;
 
   if (xoffset < 0) xoffset = 0;
   if (yoffset < 0) yoffset = 0;
@@ -41,22 +42,24 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   }
 }
 
+void putPixel(SDL_Surface *currentScreen, Uint32 x, Uint32 y, Uint32 colour) {
+  *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;
+}
+
 void cls (SDL_Surface * this_screen) {
-  // Defs
   int some_module, my_pitch;
   int map_size;
   int i,j;
-  if (x_screen_offset == 0 && y_screen_offset == 0 && terrain_ratio == 1 && terrain_height)
-    return;			/*no need to clear the screen,
-				  the terrain is all over it anyway */
+  /*if (x_screen_offset == 0 && y_screen_offset == 0 && terrain_ratio == 1 && terrain_height)
+    return;*/
+    /*no need to clear the screen, the terrain is all over it anyway */
 
-  my_pitch = this_screen->pitch;
+  /*my_pitch = this_screen->pitch;
 
 	if(terrain_ratio>1 && x_screen_offset == 0 && y_screen_offset == 0)
 	//we need to clear only the right 'frame' and the lower 'frame'
 		{
-			int *screen_buffer;
-			screen_buffer = (int *) this_screen->pixels;
+			int *screen_buffer = (int *) this_screen->pixels;
 			//clear the right frame
 			screen_buffer+=(window_width-16)/4;
 			for(i=0;i<window_height;i++) {
@@ -73,11 +76,16 @@ void cls (SDL_Surface * this_screen) {
 			for(i=0;i<window_width*16/4;i++)*screen_buffer++=0xffffffff;
 
 		 	return;
-		}
+		}*/
 
-  map_size = window_height * window_width;
-  my_pitch = this_screen->pitch;
-  memset(this_screen->pixels, 0xfe, map_size);
+  /*map_size = window_height * this_screen->pitch;
+  //my_pitch = this_screen->pitch;
+  memset(this_screen->pixels, 0xff0000ff, map_size);*/
+
+  /*for(i = 0; i < 50; i++) {
+    putPixel(this_screen, i, i, RED);
+  }*/
+  SDL_FillRect(this_screen, NULL, BLACK);
 }
 
 void
@@ -277,32 +285,33 @@ void put_right_cursor()
 
 //build the 'scene'
 Uint32 on_screen (unsigned int some_int) {
-  put_right_cursor();
-	check_toolbar_mouse_over();
-	if(no_update_now) {
-		no_update_now=0;
-		return some_int;
-	}
+  /*put_right_cursor();
+  check_toolbar_mouse_over();
+  if(no_update_now) {
+    no_update_now=0;
+    return some_int;
+  }*/
 
-	  //cls (screen);
-  	terrain_on_screen(screen);
-  	//draw_selection(screen);
-	//  debug_info();
-	  //if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
-	  //if (grid)draw_grid (screen);
-	  //if (status_bar)draw_status_bar ();
-   	//if (mini_map)draw_minimap (screen);
-	  //if (tool_bar)draw_tool_bar (screen);
-	  //if (show_tip)draw_tool_tip();
-	  //if (show_new_terrain_menu)draw_new_terrain_menu (screen);
-	  //if (show_generate_terrain_menu)draw_generate_menu (screen);
-	  //if (show_view_menu)draw_view_menu (screen);
-	  //if (show_object_menu)draw_object_menu(screen);
-	  //if (show_replace_menu)draw_replace_menu (screen);
-	  //if (show_global_replace_menu)draw_global_replace_menu (screen);
-	  //if (show_rotate_menu)draw_rotate_menu(screen);
-	  //if (view_error_menu)draw_error_box(screen);
-	  //if (view_file_menu)draw_file_menu(screen);
+  cls (screen);
+  //terrain_on_screen(screen);
+  //draw_selection(screen);
+  //  debug_info();
+  //if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
+  //if (grid)draw_grid (screen);
+  //if (status_bar)draw_status_bar ();
+  //if (mini_map)draw_minimap (screen);
+
+  /*if (tool_bar)draw_tool_bar (screen);
+  if (show_tip)draw_tool_tip();
+  if (show_new_terrain_menu)draw_new_terrain_menu (screen);
+  if (show_generate_terrain_menu)draw_generate_menu (screen);
+  if (show_view_menu)draw_view_menu (screen);
+  if (show_object_menu)draw_object_menu(screen);
+  if (show_replace_menu)draw_replace_menu (screen);
+  if (show_global_replace_menu)draw_global_replace_menu (screen);
+  if (show_rotate_menu)draw_rotate_menu(screen);
+  if (view_error_menu)draw_error_box(screen);
+  if (view_file_menu)draw_file_menu(screen);*/
 
   SDL_UpdateRect (screen, 0, 0, 0, 0);	//blit
   return some_int;

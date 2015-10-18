@@ -36,7 +36,7 @@ extern struct file_names_struct file_names[1000];
 #define very_light_steel_blue 246
 #define light_steel_blue 247
 #define steel_blue 248
-#define gray 249
+#define gray 0xf9f9f900
 #define red 250
 #define green 251
 #define blue 252

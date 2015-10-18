@@ -3,24 +3,22 @@
 #include "font.h"
 #include "tools.h"
 
-void
-draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
-	    int ylen)
-{
-  int x, y, my_pitch;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
+  int x, y;
+  Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
+  int my_pitch = this_screen->pitch;
 
   for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * ymenu + x) = gray;
+    *(screen_buffer + my_pitch * ymenu + x) = 0xff000000;
+
   for (y = ymenu; y < ymenu + ylen; y++)
     *(screen_buffer + my_pitch * y + xmenu) = gray;
+
   for (x = xmenu; x < xmenu + xlen; x++)
     *(screen_buffer + my_pitch * (ymenu + ylen) + x) = black;
+
   for (y = ymenu; y < ymenu + ylen; y++)
     *(screen_buffer + my_pitch * y + xmenu + xlen) = black;
-
 }
 
 void
@@ -80,21 +78,21 @@ draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
 }
 
 
-void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu,
-		 int xlen, int ylen)
-{
-  int x, y, my_pitch;
+void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
+  int x, y;
   char cur_pixel;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+  Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
+  int my_pitch = this_screen->pitch;
   screen_buffer += ymenu * my_pitch + xmenu;
 
   //draw the main menu (without borders)
   for (y = ymenu; y < ymenu + ylen; y++)
   {
-    for (x = xmenu; x < xmenu + xlen; x++)
-      *(screen_buffer++) = color;
+    for (x = xmenu; x < xmenu + xlen; x++) {
+      //*(screen_buffer++) = color;
+      *(screen_buffer++) = 0xff000000;
+    }
+
     screen_buffer += (my_pitch - xlen);
   }
 
@@ -102,29 +100,25 @@ void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymen
 }
 
 
-void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no,
-			int icon_x_screen, int icon_y_screen)
-{
+void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
   int x, y, my_pitch;
   char cur_pixel;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
+  Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
   screen_buffer += icon_y_screen * my_pitch + icon_x_screen;
 
-
-  for (y = y_tool_bar_bmp - 1; y != 15; y--)
-  {
-    Uint8 cur_color;
-    for (x = icon_no * 32; x < icon_no * 32 + 32; x++)
-    {
+  for (y = y_tool_bar_bmp - 1; y != 15; y--) {
+    Uint32 cur_color;
+    for (x = icon_no * 32; x < icon_no * 32 + 32; x++) {
       cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
+
       if (cur_color == 131 || cur_color == 130) {
 				if (mode == mode_pushed)
 	  			cur_color = light_steel_blue;
 				else if (mode == mode_not_pushed)
 	  			cur_color = steel_blue;
 			}
+
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 32;

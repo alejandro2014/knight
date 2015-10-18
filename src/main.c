@@ -29,24 +29,25 @@ void load_cursors();
 void build_cursors();
 
 int main (int argc, char *argv[]) {
-  //WIDTH = 700;
-  //HEIGHT = 480;
-  WIDTH = 513;
-  HEIGHT = 513;
+  WIDTH = 700;
+  HEIGHT = 480;
+  //WIDTH = 513;
+  //HEIGHT = 513;
   window_width = WIDTH;
   window_height = HEIGHT;
   //terrain = generateTerrain(700, 480);
-  terrain = generateTerrain(WIDTH, HEIGHT);
+  //terrain = generateTerrain(WIDTH, HEIGHT);
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
-  SDL_Init (SDL_INIT_VIDEO || SDL_INIT_TIMER);
+  SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
   //TODO Load settings
   //load_settings ();
 
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
-  screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
-  printf("Allocated screen with pitch %d\n", screen->pitch);
+  //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
+  screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
+  printf("Allocated screen (%d x %d) pitch %d\n", window_width, window_height, screen->pitch);
   /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 
   SDL_WM_SetIcon(icon, NULL);
@@ -67,14 +68,14 @@ int main (int argc, char *argv[]) {
   build_cursors();
   change_cursor(cursor_put);
 
-  SDL_EnableKeyRepeat (200, 100);*/
+  SDL_EnableKeyRepeat (200, 100);
 
-	make_gray_pallete();
+	//make_gray_pallete();
 
   seed = time (NULL);
-  srand (seed);
+  srand (seed);*/
 
-  generateRandomTerrain(terrain);
+  //generateRandomTerrain(terrain);
 
   SDL_SetTimer (100, on_screen_pointer);
 

@@ -5,10 +5,9 @@
 #include "menus.h"
 
 void load_tool_bar() {
-	FILE *f = NULL;
 	char *temp_pointer = tool_bar_mem;
 	int f_size, i;
-	f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
+	FILE *f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
 	fseek (f, 0, SEEK_END);
 	f_size = ftell (f);
 
@@ -131,14 +130,14 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonCancel.title = "Cancel";
 
 	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
-	drawWindowTitle(&menu, this_screen);
+	/*drawWindowTitle(&menu, this_screen);
 
 	drawTextBox(&textboxXSize);
 	drawTextBox(&textboxYSize);
 	drawTextBox(&textboxBaseHeight);
 
 	drawButton(&buttonOk);
-	drawButton(&buttonCancel);
+	drawButton(&buttonCancel);*/
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
@@ -214,7 +213,7 @@ void draw_view_menu (SDL_Surface * this_screen) {
 	menu.width = x_view_menu_lenght;
 	menu.height = y_view_menu_lenght;
 	menu.title = "View...";
-	
+
   draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
   drawWindowTitle(&menu, this_screen);
 
