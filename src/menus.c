@@ -8,6 +8,7 @@ char *toolbarBmp = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp"
 
 #define WHITE 0xffffff00
 #define GREEN 0x00aa0000
+#define GRAY  0x77777700
 
 void load_tool_bar() {
 	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(toolbarBmp);
@@ -63,18 +64,25 @@ void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
 	printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);
 }
 
-void drawTextBox(TextBox *textbox) {
+void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
 	Menu *menu = textbox->menu;
 	DialogBox *dialogBox = textbox->dialogBox;
 
-	print_string (textbox->title, black, white, menu->x + 2, menu->y + 20);
+	printString(screen, textbox->title, menu->x + 2, menu->y + 20);
 
-	if (dialogBox->has_focus)
+	SDL_Rect rectangleTextBox;
+	rectangleTextBox.w = textbox->width;
+	rectangleTextBox.h = textbox->height;
+	rectangleTextBox.x = menu->x + textbox->x;
+	rectangleTextBox.y = menu->y + textbox->y + 2;
+
+	SDL_FillRect(currentScreen, &rectangleTextBox, GRAY);
+	/*if (dialogBox->has_focus)
 		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
 	else
 		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
 
-	print_string (dialogBox->dialog_text, black, white, menu->x + textbox->x + 2, menu->y + textbox->y + 2);
+	printString(screen, dialogBox->dialog_text, menu->x + textbox->x + 2, menu->y + textbox->y + 2);*/
 }
 
 void drawButton(Button *button) {
@@ -98,7 +106,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	TextBox textboxXSize;
 	textboxXSize.menu = &menu;
 	textboxXSize.title = "X Size:";
-	textboxXSize.x = 52;
+	textboxXSize.x = 42;
 	textboxXSize.y = 18;
 	textboxXSize.width = 42;
 	textboxXSize.height = 14;
@@ -148,8 +156,8 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	SDL_FillRect(screen, &rectangleMenu, WHITE);
 	drawWindowTitle(&menu, this_screen);
 
-	/*drawTextBox(&textboxXSize);
-	drawTextBox(&textboxYSize);
+	drawTextBox(&textboxXSize, screen);
+	/*drawTextBox(&textboxYSize);
 	drawTextBox(&textboxBaseHeight);
 
 	drawButton(&buttonOk);
@@ -183,7 +191,7 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
 	drawWindowTitle(&menu, this_screen);
 
-	drawTextBox(&textboxSeed);
+	//drawTextBox(&textboxSeed);
 
 	//draw the random seed box
 	draw_empty_menu (screen, white, x_generate_terrain_menu + 140, y_generate_terrain_menu + 18, 50, 14);
