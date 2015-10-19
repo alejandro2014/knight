@@ -9,6 +9,7 @@ char *toolbarBmp = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp"
 #define WHITE 0xffffff00
 #define GREEN 0x00aa0000
 #define GRAY  0x77777700
+#define YELLOW  0x77770000
 
 void load_tool_bar() {
 	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(toolbarBmp);
@@ -67,14 +68,16 @@ void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
 void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
 	Menu *menu = textbox->menu;
 	DialogBox *dialogBox = textbox->dialogBox;
+	int barWidth = 19;
+	int textWidth = 50;
 
-	printString(screen, textbox->title, menu->x + 2, menu->y + 20);
+	printString(screen, textbox->title, menu->x + textbox->x, menu->y + textbox->y + barWidth);
 
 	SDL_Rect rectangleTextBox;
 	rectangleTextBox.w = textbox->width;
 	rectangleTextBox.h = textbox->height;
-	rectangleTextBox.x = menu->x + textbox->x;
-	rectangleTextBox.y = menu->y + textbox->y + 2;
+	rectangleTextBox.x = menu->x + textbox->x + textWidth;
+	rectangleTextBox.y = menu->y + textbox->y + 2 + barWidth;
 
 	SDL_FillRect(currentScreen, &rectangleTextBox, GRAY);
 	/*if (dialogBox->has_focus)
@@ -85,11 +88,19 @@ void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
 	printString(screen, dialogBox->dialog_text, menu->x + textbox->x + 2, menu->y + textbox->y + 2);*/
 }
 
-void drawButton(Button *button) {
+void drawButton(Button *button, SDL_Surface *currentScreen) {
 	Menu *menu = button->menu;
+	int barWidth = 19;
 
-	draw_empty_menu (screen, white, menu->x + button->x, menu->y + button->y, button->width, button->height);
-	print_string (button->title, black, white, menu->x + button->x + 2, menu->y + button->y + 2);
+	SDL_Rect buttonBox;
+	buttonBox.w = button->width;
+	buttonBox.h = button->height;
+	buttonBox.x = menu->x + button->x + 2;
+	buttonBox.y = menu->y + button->y + barWidth;
+
+	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
+	
+	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);
 }
 
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
@@ -106,8 +117,8 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	TextBox textboxXSize;
 	textboxXSize.menu = &menu;
 	textboxXSize.title = "X Size:";
-	textboxXSize.x = 42;
-	textboxXSize.y = 18;
+	textboxXSize.x = 2;
+	textboxXSize.y = 2;
 	textboxXSize.width = 42;
 	textboxXSize.height = 14;
 	textboxXSize.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
@@ -115,8 +126,8 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	TextBox textboxYSize;
 	textboxYSize.menu = &menu;
 	textboxYSize.title = "Y Size:";
-	textboxYSize.x = 52;
-	textboxYSize.y = 36;
+	textboxYSize.x = 2;
+	textboxYSize.y = 22;
 	textboxYSize.width = 42;
 	textboxYSize.height = 14;
 	textboxYSize.dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
@@ -124,8 +135,8 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
   TextBox textboxBaseHeight;
 	textboxBaseHeight.menu = &menu;
 	textboxBaseHeight.title = "Base Height:";
-	textboxBaseHeight.x = 90;
-	textboxBaseHeight.y = 54;
+	textboxBaseHeight.x = 2;
+	textboxBaseHeight.y = 42;
 	textboxBaseHeight.width = 24;
 	textboxBaseHeight.height = 14;
 	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
@@ -133,7 +144,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	Button buttonOk;
 	buttonOk.menu = &menu;
 	buttonOk.x = 40;
-	buttonOk.y = 80;
+	buttonOk.y = 60;
 	buttonOk.width = 20;
 	buttonOk.height = 14;
 	buttonOk.title = "Ok";
@@ -141,7 +152,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	Button buttonCancel;
 	buttonCancel.menu = &menu;
 	buttonCancel.x = 70;
-	buttonCancel.y = 80;
+	buttonCancel.y = 60;
 	buttonCancel.width = 50;
 	buttonCancel.height = 14;
 	buttonCancel.title = "Cancel";
@@ -152,16 +163,15 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	rectangleMenu.w = menu.width;
 	rectangleMenu.h = menu.height;
 
-	//draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
 	SDL_FillRect(screen, &rectangleMenu, WHITE);
 	drawWindowTitle(&menu, this_screen);
 
 	drawTextBox(&textboxXSize, screen);
-	/*drawTextBox(&textboxYSize);
-	drawTextBox(&textboxBaseHeight);
+	drawTextBox(&textboxYSize, screen);
+	drawTextBox(&textboxBaseHeight, screen);
 
-	drawButton(&buttonOk);
-	drawButton(&buttonCancel);*/
+	drawButton(&buttonOk, screen);
+	drawButton(&buttonCancel, screen);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {
@@ -219,8 +229,8 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	buttonCancel.height = 14;
 	buttonCancel.title = "Cancel";
 
-	drawButton(&buttonOk);
-	drawButton(&buttonCancel);
+	//drawButton(&buttonOk);
+	//drawButton(&buttonCancel);
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
