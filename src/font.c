@@ -1,9 +1,8 @@
 #include "font.h"
 #include <stdlib.h>
+#include <SDL_ttf.h>
 
-void
-load_font ()
-{
+void load_font() {
   int f_size;
   FILE *f = NULL;
   f = fopen ("/Users/alejandro/programs/height-map-editor/res/font.bmp", "rb");
@@ -23,14 +22,9 @@ load_font ()
   font_mem += 46 - 22;		//y lenght is at offset+22
   font_colors_no = *((int *) font_mem);
   font_mem += 54 - 46 + font_colors_no * 4;
-
 }
 
-void
-draw_char (SDL_Surface * this_screen, Uint8 my_char, char font_color,
-	   char background_color, int char_xscreen, int char_yscreen)
-{
-
+void draw_char (SDL_Surface * this_screen, Uint8 my_char, char font_color, char background_color, int char_xscreen, int char_yscreen) {
   int x, y, my_pitch;
   char cur_pixel;
   Uint8 *screen_buffer;
@@ -61,4 +55,18 @@ void print_string (char *str, char char_color, char background_color, int char_x
     str++;
     char_xscreen += char_lenght;
   }
+}
+
+void printString(SDL_Surface *currentScreen, char *string) {
+  TTF_Font *font = TTF_OpenFont("/Library/Fonts/Arial.ttf", 12);
+
+  SDL_Color foregroundColor = {255, 255, 255};
+  SDL_Color backgroundColor = {0, 0, 255};
+
+  SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
+  SDL_Rect textLocation = {100, 100, 0, 0};
+  SDL_BlitSurface(textSurface, NULL, currentScreen, &textLocation);
+
+  SDL_FreeSurface(textSurface);
+  TTF_CloseFont(font);
 }

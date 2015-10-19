@@ -5,8 +5,8 @@ BINDIR=./bin
 OBJDIR=./obj
 SRCDIR=./src
 
-OPTC=-g -I/Library/Frameworks/SDL.framework/Headers -ferror-limit=200 #-Werror
-OPTL=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa
+OPTC=-g -I/Library/Frameworks/SDL.framework/Headers -I/Library/Frameworks/SDL_ttf.framework/Headers -ferror-limit=200 #-Werror
+OPTL=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa -framework SDL_ttf
 
 SRC01=actions
 SRC02=cursors

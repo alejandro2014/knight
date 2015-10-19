@@ -86,7 +86,7 @@ int current_cursor;
 
 
 //for tool bar
-char *tool_bar_mem;
+SDL_Surface *tool_bar_mem;
 char *handle_tool_bar_mem;
 int x_tool_bar_bmp, y_tool_bar_bmp, tool_bar_colors_no;
 int tool_bar_x = 1, tool_bar_y = 10;

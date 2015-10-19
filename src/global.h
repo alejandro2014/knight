@@ -311,7 +311,7 @@ extern int cursors_x_lenght;
 extern int cursors_y_lenght;
 
 //for tool bar
-extern char *tool_bar_mem;
+extern SDL_Surface *tool_bar_mem;
 extern char *handle_tool_bar_mem;
 extern int x_tool_bar_bmp, y_tool_bar_bmp, tool_bar_colors_no;
 extern int tool_bar_x, tool_bar_y;

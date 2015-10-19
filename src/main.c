@@ -23,6 +23,8 @@
 
 #include "actions_core.h"
 
+#include <SDL_ttf.h>
+
 void freeMemory(Terrain *terrain);
 void defineCustomColours();
 void load_cursors();
@@ -40,6 +42,7 @@ int main (int argc, char *argv[]) {
 
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
+  TTF_Init();
 
   //TODO Load settings
   //load_settings ();
@@ -58,9 +61,9 @@ int main (int argc, char *argv[]) {
     exit (1);
   }*/
 
-  /*load_font();
+  //load_font();
   load_tool_bar();
-  build_tool_bar();
+  /*build_tool_bar();
 
   load_cursors();
   build_numeric_dialog_boxes();

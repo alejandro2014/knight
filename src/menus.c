@@ -4,10 +4,19 @@
 #include <SDL/SDL_events.h>
 #include "menus.h"
 
+char *toolbarBmp = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
+
+#define WHITE 0xffffff00
+#define GREEN 0x00aa0000
+
 void load_tool_bar() {
+	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(toolbarBmp);
+	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
+	return;
+
 	char *temp_pointer = tool_bar_mem;
 	int f_size, i;
-	FILE *f = fopen ("/Users/alejandro/programs/height-map-editor/res/toolbar.bmp", "rb");
+	FILE *f = fopen (toolbarBmp, "rb");
 	fseek (f, 0, SEEK_END);
 	f_size = ftell (f);
 
@@ -20,10 +29,13 @@ void load_tool_bar() {
 
 	tool_bar_mem += 18;		//x lenght is at offset+18
 	x_tool_bar_bmp = *((int *) tool_bar_mem);
+
 	tool_bar_mem += 4;		//y lenght is at offset+22
 	y_tool_bar_bmp = *((int *) tool_bar_mem);
+
 	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
 	tool_bar_colors_no = *((int *) tool_bar_mem);
+
 	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
 
 	//get the color pallete
@@ -37,11 +49,11 @@ void load_tool_bar() {
 	temp_pointer=tool_bar_mem;
 	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
 		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
-	tool_bar_mem = temp_pointer;
+	tool_bar_mem = temp_pointer;*/
 }
 
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
-	Uint8 *screen_buffer = (Uint8 *) currentScreen->pixels;
+	/*Uint8 *screen_buffer = (Uint8 *) currentScreen->pixels;
 	int my_pitch = currentScreen->pitch;
 	int x, y;
 
@@ -49,9 +61,17 @@ void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
 		for (x = menu->x; x < menu->x + menu->width; x++) {
 			*(screen_buffer + y * my_pitch + x) = darkblue;
 		}
-	}
+	}*/
+	SDL_Rect rectangleMenu;
+	rectangleMenu.w = menu->width;
+	rectangleMenu.h = 15;
+	rectangleMenu.x = menu->x;
+	rectangleMenu.y = menu->y;
 
-	print_string (menu->title, white, darkblue, menu->x + 2, menu->y + 2);
+	SDL_FillRect(currentScreen, &rectangleMenu, GREEN);
+
+	//print_string (menu->title, white, darkblue, menu->x + 2, menu->y + 2);
+	printString(currentScreen, menu->title);
 }
 
 void drawTextBox(TextBox *textbox) {
@@ -129,10 +149,17 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonCancel.height = 14;
 	buttonCancel.title = "Cancel";
 
-	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
-	/*drawWindowTitle(&menu, this_screen);
+  SDL_Rect rectangleMenu;
+	rectangleMenu.x = menu.x;
+	rectangleMenu.y = menu.y;
+	rectangleMenu.w = menu.width;
+	rectangleMenu.h = menu.height;
 
-	drawTextBox(&textboxXSize);
+	//draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
+	SDL_FillRect(screen, &rectangleMenu, WHITE);
+	drawWindowTitle(&menu, this_screen);
+
+	/*drawTextBox(&textboxXSize);
 	drawTextBox(&textboxYSize);
 	drawTextBox(&textboxBaseHeight);
 

@@ -79,7 +79,7 @@ draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
 
 
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
-  int x, y;
+  /*int x, y;
   char cur_pixel;
   Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
   int my_pitch = this_screen->pitch;
@@ -89,19 +89,19 @@ void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymen
   for (y = ymenu; y < ymenu + ylen; y++)
   {
     for (x = xmenu; x < xmenu + xlen; x++) {
-      //*(screen_buffer++) = color;
+      *(screen_buffer++) = color;
       *(screen_buffer++) = 0xff000000;
     }
 
     screen_buffer += (my_pitch - xlen);
   }
 
-  draw_frame (screen, xmenu, ymenu, xlen, ylen);
+  draw_frame (screen, xmenu, ymenu, xlen, ylen);*/
 }
 
 
 void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
-  int x, y, my_pitch;
+  /*int x, y, my_pitch;
   char cur_pixel;
   Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
@@ -122,14 +122,14 @@ void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, i
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 32;
-  }
+  }*/
 
 }
 
 void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
 			  int icon_x_screen, int icon_y_screen)
 {
-  int x, y, my_pitch;
+  /*int x, y, my_pitch;
   char cur_pixel;
   Uint8 *screen_buffer;
   screen_buffer = (Uint8 *) this_screen->pixels;
@@ -153,7 +153,7 @@ void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 16;
-  }
+  }*/
 
 }
 

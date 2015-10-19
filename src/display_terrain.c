@@ -301,10 +301,11 @@ Uint32 on_screen (unsigned int some_int) {
   //if (status_bar)draw_status_bar ();
   //if (mini_map)draw_minimap (screen);
 
-  /*if (tool_bar)draw_tool_bar (screen);
-  if (show_tip)draw_tool_tip();
-  if (show_new_terrain_menu)draw_new_terrain_menu (screen);
-  if (show_generate_terrain_menu)draw_generate_menu (screen);
+  //if (tool_bar)draw_tool_bar (screen);
+  /*if (show_tip)draw_tool_tip();
+  if (show_new_terrain_menu)draw_new_terrain_menu (screen);*/
+  draw_new_terrain_menu(screen);
+  /*if (show_generate_terrain_menu)draw_generate_menu (screen);
   if (show_view_menu)draw_view_menu (screen);
   if (show_object_menu)draw_object_menu(screen);
   if (show_replace_menu)draw_replace_menu (screen);
