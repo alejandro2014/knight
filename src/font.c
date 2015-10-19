@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <SDL_ttf.h>
 
+TTF_Font *font;
+
 void load_font() {
   int f_size;
   FILE *f = NULL;
@@ -57,16 +59,13 @@ void print_string (char *str, char char_color, char background_color, int char_x
   }
 }
 
-void printString(SDL_Surface *currentScreen, char *string) {
-  TTF_Font *font = TTF_OpenFont("/Library/Fonts/Arial.ttf", 12);
-
+void printString(SDL_Surface *currentScreen, char *string, Uint32 x, Uint32 y) {
   SDL_Color foregroundColor = {255, 255, 255};
-  SDL_Color backgroundColor = {0, 0, 255};
+  SDL_Color backgroundColor = {0, 170, 0};
 
   SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
-  SDL_Rect textLocation = {100, 100, 0, 0};
+  SDL_Rect textLocation = {x, y, 0, 0};
   SDL_BlitSurface(textSurface, NULL, currentScreen, &textLocation);
 
   SDL_FreeSurface(textSurface);
-  TTF_CloseFont(font);
 }

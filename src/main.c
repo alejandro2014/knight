@@ -30,6 +30,8 @@ void defineCustomColours();
 void load_cursors();
 void build_cursors();
 
+extern TTF_Font *font;
+
 int main (int argc, char *argv[]) {
   WIDTH = 700;
   HEIGHT = 480;
@@ -43,6 +45,7 @@ int main (int argc, char *argv[]) {
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
   TTF_Init();
+  font = TTF_OpenFont("/Library/Fonts/Arial.ttf", 12);
 
   //TODO Load settings
   //load_settings ();
@@ -95,6 +98,7 @@ int main (int argc, char *argv[]) {
 }
 
 void freeMemory(Terrain *terrain) {
+  TTF_CloseFont(font);
   freeTerrain(terrain);
 
   if (terrain_height)free (terrain_height);

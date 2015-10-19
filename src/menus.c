@@ -53,25 +53,14 @@ void load_tool_bar() {
 }
 
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
-	/*Uint8 *screen_buffer = (Uint8 *) currentScreen->pixels;
-	int my_pitch = currentScreen->pitch;
-	int x, y;
-
-	for (y = menu->y; y < menu->y + 15; y++) {
-		for (x = menu->x; x < menu->x + menu->width; x++) {
-			*(screen_buffer + y * my_pitch + x) = darkblue;
-		}
-	}*/
 	SDL_Rect rectangleMenu;
 	rectangleMenu.w = menu->width;
-	rectangleMenu.h = 15;
+	rectangleMenu.h = 19;
 	rectangleMenu.x = menu->x;
 	rectangleMenu.y = menu->y;
 
 	SDL_FillRect(currentScreen, &rectangleMenu, GREEN);
-
-	//print_string (menu->title, white, darkblue, menu->x + 2, menu->y + 2);
-	printString(currentScreen, menu->title);
+	printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);
 }
 
 void drawTextBox(TextBox *textbox) {
@@ -124,7 +113,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	textboxYSize.height = 14;
 	textboxYSize.dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
 
-    TextBox textboxBaseHeight;
+  TextBox textboxBaseHeight;
 	textboxBaseHeight.menu = &menu;
 	textboxBaseHeight.title = "Base Height:";
 	textboxBaseHeight.x = 90;
