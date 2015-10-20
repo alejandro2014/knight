@@ -99,8 +99,43 @@ void drawButton(Button *button, SDL_Surface *currentScreen) {
 	buttonBox.y = menu->y + button->y + barWidth;
 
 	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
-	
+
 	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);
+}
+
+TextBox *loadTextBoxes(Menu *menu) {
+	TextBox *textBoxes = (TextBox *) malloc(sizeof(TextBox) * 3);
+	TextBox *currentTextBox;
+	memset(textBoxes, 0, sizeof(TextBox) * 3);
+
+  currentTextBox = textBoxes + 0;
+	currentTextBox->menu = menu;
+	currentTextBox->title = "X Size:";
+	currentTextBox->x = 2;
+	currentTextBox->y = 2;
+	currentTextBox->width = 42;
+	currentTextBox->height = 14;
+	currentTextBox->dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
+
+	currentTextBox = textBoxes + 1;
+	currentTextBox->menu = menu;
+	currentTextBox->title = "Y Size:";
+	currentTextBox->x = 2;
+	currentTextBox->y = 22;
+	currentTextBox->width = 42;
+	currentTextBox->height = 14;
+	currentTextBox->dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
+
+	currentTextBox = textBoxes + 2;
+	currentTextBox->menu = menu;
+	currentTextBox->title = "Base Height:";
+	currentTextBox->x = 2;
+	currentTextBox->y = 42;
+	currentTextBox->width = 24;
+	currentTextBox->height = 14;
+	currentTextBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];
+
+	return textBoxes;
 }
 
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
@@ -114,32 +149,8 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	menu.height = y_new_terrain_menu_lenght;
 	menu.title = "New terrain";
 
-	TextBox textboxXSize;
-	textboxXSize.menu = &menu;
-	textboxXSize.title = "X Size:";
-	textboxXSize.x = 2;
-	textboxXSize.y = 2;
-	textboxXSize.width = 42;
-	textboxXSize.height = 14;
-	textboxXSize.dialogBox = &numeric_dialog_boxes[x_map_size_dialog];
-
-	TextBox textboxYSize;
-	textboxYSize.menu = &menu;
-	textboxYSize.title = "Y Size:";
-	textboxYSize.x = 2;
-	textboxYSize.y = 22;
-	textboxYSize.width = 42;
-	textboxYSize.height = 14;
-	textboxYSize.dialogBox = &numeric_dialog_boxes[y_map_size_dialog];
-
-  TextBox textboxBaseHeight;
-	textboxBaseHeight.menu = &menu;
-	textboxBaseHeight.title = "Base Height:";
-	textboxBaseHeight.x = 2;
-	textboxBaseHeight.y = 42;
-	textboxBaseHeight.width = 24;
-	textboxBaseHeight.height = 14;
-	textboxBaseHeight.dialogBox = &numeric_dialog_boxes[base_height_dialog];
+	TextBox *textBoxes = loadTextBoxes(&menu);
+	int i;
 
 	Button buttonOk;
 	buttonOk.menu = &menu;
@@ -166,9 +177,11 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	SDL_FillRect(screen, &rectangleMenu, WHITE);
 	drawWindowTitle(&menu, this_screen);
 
-	drawTextBox(&textboxXSize, screen);
-	drawTextBox(&textboxYSize, screen);
-	drawTextBox(&textboxBaseHeight, screen);
+	for(i = 0; i < 3; i++) {
+		drawTextBox(textBoxes + i, screen);
+	}
+
+	drawTextBox(textBoxes + 0, screen);
 
 	drawButton(&buttonOk, screen);
 	drawButton(&buttonCancel, screen);
