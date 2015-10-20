@@ -38,6 +38,11 @@ typedef struct {
 	Button *buttons;
 } ButtonContainer;
 
+typedef struct {
+	int textBoxesNo;
+	TextBox *textBoxes;
+} TextBoxContainer;
+
 void load_tool_bar();
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen);
 

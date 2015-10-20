@@ -25,8 +25,9 @@ SRC14=menus
 SRC15=objects
 SRC16=settings
 SRC17=tools
+SRC18=load_widgets
 
-OBJ=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o ${OBJDIR}/${SRC06}.o ${OBJDIR}/${SRC07}.o ${OBJDIR}/${SRC08}.o ${OBJDIR}/${SRC09}.o ${OBJDIR}/${SRC10}.o ${OBJDIR}/${SRC11}.o ${OBJDIR}/${SRC12}.o ${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC14}.o ${OBJDIR}/${SRC15}.o ${OBJDIR}/${SRC16}.o ${OBJDIR}/${SRC17}.o ${OBJDIR}/SDLMain.o
+OBJ=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o ${OBJDIR}/${SRC06}.o ${OBJDIR}/${SRC07}.o ${OBJDIR}/${SRC08}.o ${OBJDIR}/${SRC09}.o ${OBJDIR}/${SRC10}.o ${OBJDIR}/${SRC11}.o ${OBJDIR}/${SRC12}.o ${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC14}.o ${OBJDIR}/${SRC15}.o ${OBJDIR}/${SRC16}.o ${OBJDIR}/${SRC17}.o ${OBJDIR}/${SRC18}.o ${OBJDIR}/SDLMain.o
 
 ${BINDIR}/${EXE}: ${OBJ}
 	${GCC} ${OPTL} ${OBJ} -o ${BINDIR}/${EXE}
