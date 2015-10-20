@@ -138,6 +138,17 @@ TextBox *loadTextBoxes(Menu *menu) {
 	return textBoxes;
 }
 
+void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
+	SDL_Rect rectangleMenu;
+	rectangleMenu.x = menu->x;
+	rectangleMenu.y = menu->y;
+	rectangleMenu.w = menu->width;
+	rectangleMenu.h = menu->height;
+
+	SDL_FillRect(currentScreen, &rectangleMenu, WHITE);
+	drawWindowTitle(menu, currentScreen);
+}
+
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
 	int my_pitch = this_screen->pitch;
@@ -168,14 +179,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	buttonCancel.height = 14;
 	buttonCancel.title = "Cancel";
 
-  SDL_Rect rectangleMenu;
-	rectangleMenu.x = menu.x;
-	rectangleMenu.y = menu.y;
-	rectangleMenu.w = menu.width;
-	rectangleMenu.h = menu.height;
-
-	SDL_FillRect(screen, &rectangleMenu, WHITE);
-	drawWindowTitle(&menu, this_screen);
+  drawDialogWindow(&menu, this_screen);
 
 	for(i = 0; i < 3; i++) {
 		drawTextBox(textBoxes + i, screen);
