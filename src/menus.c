@@ -99,8 +99,15 @@ void drawButton(Button *button, SDL_Surface *currentScreen) {
 	buttonBox.y = menu->y + button->y + barWidth;
 
 	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
-
 	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);
+}
+
+void drawButtons(ButtonContainer *buttonContainer, SDL_Surface *currentScreen) {
+	int i;
+
+	for(i = 0; i < buttonContainer->buttonsNo; i++) {
+		drawButton(buttonContainer->buttons + i, currentScreen);
+	}
 }
 
 TextBox *loadTextBoxes(Menu *menu) {
@@ -138,6 +145,41 @@ TextBox *loadTextBoxes(Menu *menu) {
 	return textBoxes;
 }
 
+Button *loadButtons(Menu *menu) {
+	Button *buttons = (Button *) malloc(sizeof(Button) * 2);
+	memset(buttons, 0, sizeof(Button) * 2);
+
+	Button *currentButton;
+
+	currentButton = buttons + 0;
+	currentButton->menu = menu;
+	currentButton->x = 40;
+	currentButton->y = 60;
+	currentButton->width = 20;
+	currentButton->height = 14;
+	currentButton->title = "Ok";
+
+	currentButton = buttons + 1;
+	currentButton->menu = menu;
+	currentButton->x = 70;
+	currentButton->y = 60;
+	currentButton->width = 50;
+	currentButton->height = 14;
+	currentButton->title = "Cancel";
+
+	return buttons;
+}
+
+ButtonContainer *loadButtonContainer(Menu *menu) {
+	ButtonContainer *buttonContainer = (ButtonContainer *) malloc(sizeof(ButtonContainer));
+	memset(buttonContainer, 0, sizeof(ButtonContainer));
+
+  buttonContainer->buttonsNo = 2;
+	buttonContainer->buttons = loadButtons(menu);
+
+	return buttonContainer;
+}
+
 void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
 	SDL_Rect rectangleMenu;
 	rectangleMenu.x = menu->x;
@@ -161,23 +203,9 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 	menu.title = "New terrain";
 
 	TextBox *textBoxes = loadTextBoxes(&menu);
+	//Button *buttons = loadButtons(&menu);
+	ButtonContainer *buttonContainer = loadButtonContainer(&menu);
 	int i;
-
-	Button buttonOk;
-	buttonOk.menu = &menu;
-	buttonOk.x = 40;
-	buttonOk.y = 60;
-	buttonOk.width = 20;
-	buttonOk.height = 14;
-	buttonOk.title = "Ok";
-
-	Button buttonCancel;
-	buttonCancel.menu = &menu;
-	buttonCancel.x = 70;
-	buttonCancel.y = 60;
-	buttonCancel.width = 50;
-	buttonCancel.height = 14;
-	buttonCancel.title = "Cancel";
 
   drawDialogWindow(&menu, this_screen);
 
@@ -185,10 +213,7 @@ void draw_new_terrain_menu (SDL_Surface *this_screen) {
 		drawTextBox(textBoxes + i, screen);
 	}
 
-	drawTextBox(textBoxes + 0, screen);
-
-	drawButton(&buttonOk, screen);
-	drawButton(&buttonCancel, screen);
+	drawButtons(buttonContainer, this_screen);
 }
 
 void draw_generate_menu (SDL_Surface * this_screen) {

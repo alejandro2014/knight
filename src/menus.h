@@ -33,6 +33,11 @@ typedef struct {
 	char *title;
 } Button;
 
+typedef struct {
+	int buttonsNo;
+	Button *buttons;
+} ButtonContainer;
+
 void load_tool_bar();
 void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen);
 
