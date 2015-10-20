@@ -132,20 +132,14 @@ void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
 }
 
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
-	Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-	int my_pitch = this_screen->pitch;
+	//Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+	//int my_pitch = this_screen->pitch;
 
-	Menu menu;
-	menu.x = x_new_terrain_menu;
-	menu.y = y_new_terrain_menu;
-	menu.width = x_new_terrain_menu_lenght;
-	menu.height = y_new_terrain_menu_lenght;
-	menu.title = "New terrain";
+  Menu *menu = loadMenu("newTerrainMenu");
+	TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
+	ButtonContainer *buttonContainer = loadButtonContainer(menu);
 
-	TextBoxContainer *textBoxes = loadTextBoxContainer(&menu);
-	ButtonContainer *buttonContainer = loadButtonContainer(&menu);
-
-  drawDialogWindow(&menu, this_screen);
+  drawDialogWindow(menu, this_screen);
 	drawTextBoxes(textBoxes, this_screen);
 	drawButtons(buttonContainer, this_screen);
 }

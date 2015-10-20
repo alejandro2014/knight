@@ -5,6 +5,19 @@
 TODO The loaders have been hardcoded on purpose. The next step is to extract all
 the values to a configuration file, like an XML or a JSON
 */
+Menu *loadMenu(char *dialog) {
+  Menu *menu = (Menu *) malloc(sizeof(Menu));
+  memset(menu, 0, sizeof(Menu));
+
+	menu->x = x_new_terrain_menu;
+	menu->y = y_new_terrain_menu;
+	menu->width = x_new_terrain_menu_lenght;
+	menu->height = y_new_terrain_menu_lenght;
+	menu->title = "New terrain";
+
+  return menu;
+}
+
 TextBox *loadTextBoxes(Menu *menu) {
 	TextBox *textBoxes = (TextBox *) malloc(sizeof(TextBox) * 3);
 	TextBox *currentTextBox;
