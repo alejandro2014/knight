@@ -103,8 +103,8 @@ void drawButton(Button *button, SDL_Surface *currentScreen) {
 	int barWidth = 19;
 
 	SDL_Rect buttonBox;
-	buttonBox.w = button->width;
-	buttonBox.h = button->height;
+	buttonBox.w = button->width + (button->padding * 2);
+	buttonBox.h = button->height + (button->padding * 2);
 	buttonBox.x = menu->x + button->x + 2;
 	buttonBox.y = menu->y + button->y + barWidth;
 
@@ -152,15 +152,10 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	screen_buffer = (Uint8 *) this_screen->pixels;
 	my_pitch = this_screen->pitch;
 
-	Menu menu;
-	menu.x = x_generate_terrain_menu;
-	menu.y = y_generate_terrain_menu;
-	menu.width = x_generate_terrain_menu_lenght;
-	menu.height = y_generate_terrain_menu_lenght;
-	menu.title = "Generate terrain";
-
+  Menu *menu = loadMenu("generateTerrainMenu");
+	
 	TextBox textboxSeed;
-	textboxSeed.menu = &menu;
+	textboxSeed.menu = menu;
 	textboxSeed.title = "Y Size:";
 	textboxSeed.x = 52;
 	textboxSeed.y = 18;
@@ -168,8 +163,7 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	textboxSeed.height = 14;
 	textboxSeed.dialogBox = &numeric_dialog_boxes[seed_dialog];
 
-	draw_empty_menu(screen, white, menu.x, menu.y, menu.width, menu.height);
-	drawWindowTitle(&menu, this_screen);
+	drawDialogWindow(menu, this_screen);
 
 	//drawTextBox(&textboxSeed);
 

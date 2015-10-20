@@ -9,11 +9,19 @@ Menu *loadMenu(char *dialog) {
   Menu *menu = (Menu *) malloc(sizeof(Menu));
   memset(menu, 0, sizeof(Menu));
 
-	menu->x = x_new_terrain_menu;
-	menu->y = y_new_terrain_menu;
-	menu->width = x_new_terrain_menu_lenght;
-	menu->height = y_new_terrain_menu_lenght;
-	menu->title = "New terrain";
+  if(!strcmp(dialog, "newTerrainMenu")) {
+    menu->x = x_new_terrain_menu;
+    menu->y = y_new_terrain_menu;
+    menu->width = x_new_terrain_menu_lenght;
+    menu->height = y_new_terrain_menu_lenght;
+    menu->title = "New terrain";
+  } else if(!strcmp(dialog, "generateTerrainMenu")) {
+    menu->x = x_generate_terrain_menu;
+  	menu->y = y_generate_terrain_menu;
+  	menu->width = x_generate_terrain_menu_lenght;
+  	menu->height = y_generate_terrain_menu_lenght;
+  	menu->title = "Generate terrain";
+  }
 
   return menu;
 }
@@ -66,6 +74,7 @@ Button *loadButtons(Menu *menu) {
 	currentButton->width = 20;
 	currentButton->height = 14;
 	currentButton->title = "Ok";
+  currentButton->padding = 2;
 
 	currentButton = buttons + 1;
 	currentButton->menu = menu;
@@ -74,6 +83,7 @@ Button *loadButtons(Menu *menu) {
 	currentButton->width = 50;
 	currentButton->height = 14;
 	currentButton->title = "Cancel";
+  currentButton->padding = 2;
 
 	return buttons;
 }

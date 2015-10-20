@@ -31,6 +31,7 @@ typedef struct {
 	int width;
 	int height;
 	char *title;
+	int padding;
 } Button;
 
 typedef struct {
