@@ -1,30 +1,110 @@
 #include "menus.h"
 #include "load_widgets.h"
 
+#define INITIAL 0
+#define DOUBLE_QUOTE_OPEN 1
+
+char *getToken(char *string, int *position) {
+    char *token = NULL;
+    char currentChar;
+    int currentStatus = INITIAL;
+    int currentPos = *position;
+
+    printf("getToken position %d\n", currentPos);
+
+    while(token == NULL) {
+        currentChar = *(string + currentPos);
+
+        switch(currentStatus) {
+          case INITIAL:
+            switch(currentChar) {
+              case '{':
+                token = "{";
+                break;
+              case '\"':
+                currentStatus = DOUBLE_QUOTE_OPEN;
+                break;
+            }
+            break;
+          case DOUBLE_QUOTE_OPEN:
+            if(currentChar == '\"') {
+              token = "string";
+            }
+            break;
+        }
+
+        currentPos++;
+    }
+
+    *position = currentPos;
+
+    return token;
+}
+
+Menu *loadMenus(char *nameOfFile) {
+    /*Menu *menu = (Menu *) malloc(sizeof(Menu));
+    memset(menu, 0, sizeof(Menu))*/
+    char *fileContent = "{\"dialogs\": {\"newTerrain\": {\"x\": 10,\"y\": 10,\"width\": 30,\"height\": 20,\"title\": \"New terrain\"}}}";
+    int stringLength = strlen(fileContent);
+
+    printf("Content of the file: %s\n", fileContent);
+    printf("length: %d\n", stringLength);
+
+    int position = 0;
+    printf(">> %s\n", getToken(fileContent, &position));
+    printf(">> %s\n", getToken(fileContent, &position));
+
+    return NULL;
+}
+
 /*
 TODO The loaders have been hardcoded on purpose. The next step is to extract all
-the values to a configuration file, like an XML or a JSON
+the values to a configuration file, like an XML or a JSON, and get rid of all
+these functions
 */
-Menu *loadMenu(char *dialog) {
-  Menu *menu = (Menu *) malloc(sizeof(Menu));
-  memset(menu, 0, sizeof(Menu));
 
-  if(!strcmp(dialog, "newTerrainMenu")) {
-    menu->x = x_new_terrain_menu;
-    menu->y = y_new_terrain_menu;
-    menu->width = x_new_terrain_menu_lenght;
-    menu->height = y_new_terrain_menu_lenght;
-    menu->title = "New terrain";
-  } else if(!strcmp(dialog, "generateTerrainMenu")) {
-    menu->x = x_generate_terrain_menu;
-  	menu->y = y_generate_terrain_menu;
-  	menu->width = x_generate_terrain_menu_lenght;
-  	menu->height = y_generate_terrain_menu_lenght;
-  	menu->title = "Generate terrain";
+Menu *loadMenu(char *dialogName) {
+  Menu *menu = NULL;
+
+  if(!strcmp(dialogName, "newTerrainMenu")) {
+    menu = loadNewTerrainDialog();
+    TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
+  } else if(!strcmp(dialogName, "generateTerrainMenu")) {
+    menu = loadGenerateTerrainDialog();
   }
 
   return menu;
 }
+
+Menu *loadNewTerrainDialog() {
+  Menu *menu = (Menu *) malloc(sizeof(Menu));
+  memset(menu, 0, sizeof(Menu));
+
+  menu->x = x_new_terrain_menu;
+  menu->y = y_new_terrain_menu;
+  menu->width = x_new_terrain_menu_lenght;
+  menu->height = y_new_terrain_menu_lenght;
+  menu->title = "New terrain";
+
+  return menu;
+}
+
+Menu *loadGenerateTerrainDialog() {
+  Menu *menu = (Menu *) malloc(sizeof(Menu));
+  memset(menu, 0, sizeof(Menu));
+
+  menu->x = x_generate_terrain_menu;
+  menu->y = y_generate_terrain_menu;
+  menu->width = x_generate_terrain_menu_lenght;
+  menu->height = y_generate_terrain_menu_lenght;
+  menu->title = "Generate terrain";
+
+  return menu;
+}
+
+/*TextBox *loadTextBoxes(char *dialogName, Menu *menu) {
+    if(!strcmp(dialogName))
+}*/
 
 TextBox *loadTextBoxes(Menu *menu) {
 	TextBox *textBoxes = (TextBox *) malloc(sizeof(TextBox) * 3);

@@ -22,6 +22,7 @@
 #include "objects.h"
 
 #include "actions_core.h"
+#include "load_widgets.h"
 
 #include <SDL_ttf.h>
 
@@ -33,6 +34,9 @@ void build_cursors();
 extern TTF_Font *font;
 
 int main (int argc, char *argv[]) {
+  loadMenus(NULL);
+
+  return 0;
   WIDTH = 700;
   HEIGHT = 480;
   //WIDTH = 513;

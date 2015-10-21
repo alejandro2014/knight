@@ -132,9 +132,6 @@ void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
 }
 
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
-	//Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-	//int my_pitch = this_screen->pitch;
-
   Menu *menu = loadMenu("newTerrainMenu");
 	TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
 	ButtonContainer *buttonContainer = loadButtonContainer(menu);
@@ -153,7 +150,7 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 	my_pitch = this_screen->pitch;
 
   Menu *menu = loadMenu("generateTerrainMenu");
-	
+
 	TextBox textboxSeed;
 	textboxSeed.menu = menu;
 	textboxSeed.title = "Y Size:";
