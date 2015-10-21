@@ -1,6 +1,12 @@
 #ifndef LOAD_WIDGETS_H
 #define LOAD_WIDGETS_H
 
+typedef struct {
+  int type;
+  char *content;
+} Token;
+
+Token *newToken(int type, char *content);
 Menu *loadMenus(char *nameOfFile);
 char *getToken(char *string, int *position);
 

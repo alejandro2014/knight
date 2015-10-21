@@ -34,7 +34,8 @@ void build_cursors();
 extern TTF_Font *font;
 
 int main (int argc, char *argv[]) {
-  loadMenus(NULL);
+  //loadMenus(NULL);
+  Token *token = newToken(12, "number12");
 
   return 0;
   WIDTH = 700;

@@ -4,6 +4,19 @@
 #define INITIAL 0
 #define DOUBLE_QUOTE_OPEN 1
 
+Token *newToken(int type, char *content) {
+    Token *token = (Token *) malloc(sizeof(Token));
+    memset(token, 0, sizeof(Token));
+
+    token->type = type;
+
+    token->content = (char *) malloc(sizeof(char) * strlen(content));
+    memset(token->content, 0, sizeof(char) * strlen(content));
+    memcpy(token->content, content, sizeof(char) * strlen(content));
+
+    return token;
+}
+
 char *getToken(char *string, int *position) {
     char *token = NULL;
     char currentChar;
