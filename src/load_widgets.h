@@ -3,7 +3,7 @@
 
 typedef struct {
   int type;
-  char *content;
+  char content[128];
 } Token;
 
 Token *newToken(int type, char *content);

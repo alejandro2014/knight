@@ -4,20 +4,24 @@
 #define INITIAL 0
 #define DOUBLE_QUOTE_OPEN 1
 
+void copyContentToken(Token *token, int initialPos, int finalPos, char *string) {
+  memcpy(token->content, string + initialPos, finalPos - initialPos);
+}
+
 Token *newToken(int type, char *content) {
     Token *token = (Token *) malloc(sizeof(Token));
     memset(token, 0, sizeof(Token));
 
     token->type = type;
 
-    token->content = (char *) malloc(sizeof(char) * strlen(content));
-    memset(token->content, 0, sizeof(char) * strlen(content));
-    memcpy(token->content, content, sizeof(char) * strlen(content));
+    //int sizeContent = sizeof(char) * strlen(content);
+    token->content = (char *) malloc(sizeContent);
+    memset(&token->content, 0, 128);
 
     return token;
 }
 
-char *getToken(char *string, int *position) {
+Token *getToken(char *string, int *position) {
     char *token = NULL;
     char currentChar;
     int currentStatus = INITIAL;
@@ -32,7 +36,7 @@ char *getToken(char *string, int *position) {
           case INITIAL:
             switch(currentChar) {
               case '{':
-                token = "{";
+                token = newToken(TOK_CURLY_OPEN, "{");
                 break;
               case '\"':
                 currentStatus = DOUBLE_QUOTE_OPEN;
@@ -41,6 +45,8 @@ char *getToken(char *string, int *position) {
             break;
           case DOUBLE_QUOTE_OPEN:
             if(currentChar == '\"') {
+              token = newToken(TOK_STRING, "{");
+              copyContentToken(token, string, *position, currentPos);
               token = "string";
             }
             break;
