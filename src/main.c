@@ -35,6 +35,9 @@ extern TTF_Font *font;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+char *FONT_PATH_MAC = "/Library/Fonts/Arial.ttf";
+char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+
 int main (int argc, char *argv[]) {
   WIDTH = 700;
   HEIGHT = 480;
@@ -48,7 +51,7 @@ int main (int argc, char *argv[]) {
   Uint32 (*on_screen_pointer) (unsigned int) = on_screen;
   SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
   TTF_Init();
-  font = TTF_OpenFont("/Library/Fonts/Arial.ttf", 12);
+  font = TTF_OpenFont(FONT_PATH_LINUX, 12);
 
   //TODO Load settings
   //load_settings ();

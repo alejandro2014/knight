@@ -4,10 +4,13 @@
 
 TTF_Font *font;
 
+char *FONTBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/font.bmp";
+char *FONTBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/font.bmp";
+
 void load_font() {
   int f_size;
   FILE *f = NULL;
-  f = fopen ("/Users/alejandro/programs/height-map-editor/res/font.bmp", "rb");
+  f = fopen (FONTBMP_PATH_LINUX, "rb");
   fseek (f, 0, SEEK_END);
   f_size = ftell (f);
 //ok, allocate memory for it
@@ -68,4 +71,5 @@ void printString(SDL_Surface *currentScreen, char *string, Uint32 x, Uint32 y) {
   SDL_BlitSurface(textSurface, NULL, currentScreen, &textLocation);
 
   SDL_FreeSurface(textSurface);
+
 }

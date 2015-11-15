@@ -6,7 +6,8 @@
 #include "menus.h"
 #include "load_widgets.h"
 
-char *toolbarBmp = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
+char *TOOLBARBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/toolbar.bmp";
+char *TOOLBARBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
 
 #define WHITE 0xffffff00
 #define GREEN 0x00aa0000
@@ -14,7 +15,7 @@ char *toolbarBmp = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp"
 #define YELLOW  0x77770000
 
 void load_tool_bar() {
-	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(toolbarBmp);
+	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(TOOLBARBMP_PATH_LINUX);
 	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
 	return;
 

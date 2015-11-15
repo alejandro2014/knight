@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <SDL2/SDL_mouse.h>
 
-void
-load_cursors()
-{
+char *CURSORSBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/cursors.bmp";
+char *CURSORSBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/cursors.bmp";
+
+void load_cursors() {
   int f_size,cursors_colors_no,x,y,i;
   FILE *f = NULL;
   Uint8 * cursors_mem_bmp;
   Uint8 *handle_cursors_mem_bmp;
   Uint8 cur_color;
-  f = fopen ("/Users/alejandro/programs/height-map-editor/res/cursors.bmp", "rb");
+  f = fopen (CURSORSBMP_PATH_LINUX, "rb");
   fseek (f, 0, SEEK_END);
   f_size = ftell (f);
   //ok, allocate memory for it
