@@ -119,7 +119,7 @@ void events_loop (void) {
     if (show_object_menu) { check_object_menu(getTypedChar(&event)); continue; }
 
     if (event.type == SDL_KEYDOWN) {
-      Uint8 *keystate = SDL_GetKeyState (NULL);
+      Uint8 *keystate = SDL_GetKeyboardState (NULL);
       if (keystate[SDLK_DOWN]&& (HEIGHT * terrain_ratio - yoffset) > window_height)yoffset += 4;
       if (keystate[SDLK_UP]&& yoffset > 0)yoffset -= 4;
       if (keystate[SDLK_LEFT] && xoffset > 0)xoffset -= 4;

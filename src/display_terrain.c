@@ -10,6 +10,8 @@
 #define BLACK 0x00000000
 #define RED   0x0000ff00
 
+//extern SDL_Renderer *renderer;
+
 void terrain_on_screen (SDL_Surface * this_screen) {
   Uint32 *screenPixels = (Uint32 *) this_screen->pixels;
   int xmax = 0, ymax = 0;
@@ -284,7 +286,7 @@ void put_right_cursor()
 }
 
 //build the 'scene'
-Uint32 on_screen (unsigned int some_int) {
+Uint32 on_screen (Uint32 interval, void *params) {
   /*put_right_cursor();
   check_toolbar_mouse_over();
   if(no_update_now) {
@@ -316,6 +318,8 @@ Uint32 on_screen (unsigned int some_int) {
   if (view_error_menu)draw_error_box(screen);
   if (view_file_menu)draw_file_menu(screen);*/
 
-  SDL_UpdateRect (screen, 0, 0, 0, 0);	//blit
-  return some_int;
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+  return interval;
 }

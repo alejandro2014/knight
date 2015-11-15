@@ -11,7 +11,7 @@ void make_gray_pallete() {
     colors[i].b = i;
   }
 
-  SDL_SetPalette (screen->format->palette, colors, 0, COLORS_PALETTE);
+SDL_SetPaletteColors(screen->format->palette, colors, 0, 256);
 }
 
 void build_tool_bar() {

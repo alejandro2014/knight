@@ -32,6 +32,8 @@ void load_cursors();
 void build_cursors();
 
 extern TTF_Font *font;
+SDL_Window *window;
+SDL_Renderer *renderer;
 
 int main (int argc, char *argv[]) {
   WIDTH = 700;
@@ -54,8 +56,10 @@ int main (int argc, char *argv[]) {
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
   
-  SDL_Window *window = SDL_CreateWindow("[No title2]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
+  window = SDL_CreateWindow("[No title2]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
+  renderer = SDL_CreateRenderer(window, -1, 0); 
   screen = screen = SDL_GetWindowSurface(window);
+  
   //screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
   printf("Allocated screen (%d x %d) pitch %d\n", window_width, window_height, screen->pitch);
   /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
@@ -87,7 +91,7 @@ int main (int argc, char *argv[]) {
 
   //generateRandomTerrain(terrain);
 
-  SDL_SetTimer (100, on_screen_pointer);
+  SDL_AddTimer(100, on_screen_pointer, NULL);
 
   events_loop ();
 

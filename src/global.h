@@ -31,6 +31,7 @@ extern char cur_file_name[120];
 extern struct file_names_struct file_names[1000];
 
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_render.h>
 
 #define dark_steel_blue 245
 #define very_light_steel_blue 246
@@ -445,5 +446,7 @@ extern char conf_file_path[200];
 extern SDL_Color colors[256];
 
 extern SDL_Surface *screen;
+extern SDL_Window *window;
+extern SDL_Renderer *renderer;
 
 #endif

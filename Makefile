@@ -10,7 +10,7 @@ CC=gcc
 	#OPTC=-g -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT
 	#OPTL=-L/usr/lib64 -lSDL -L/usr/lib -lSDL_ttf
 	OPTC=-I/usr/include/SDL2 -D_REENTRANT
-	OPTL=-L/usr/lib -lm -L/usr/lib/x86_64-linux-gnu -lSDL2
+	OPTL=-L/usr/lib/x86_64-linux-gnu -L/usr/local/lib -lSDL2 -lSDL2_ttf -lm
 #else
 #	OPTC=-g -I/Library/Frameworks/SDL.framework/Headers -I/Library/Frameworks/SDL_ttf.framework/Headers -ferror-limit=200 #-Werror
 #	OPTL=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa -framework SDL_ttf
