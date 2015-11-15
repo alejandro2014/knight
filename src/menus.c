@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <SDL/SDL_keysym.h>
-#include <SDL/SDL_events.h>
+//#include <SDL2/SDL_keysym.h>
+#include <SDL2/SDL_events.h>
 
 #include "menus.h"
 #include "load_widgets.h"

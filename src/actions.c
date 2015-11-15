@@ -1,4 +1,4 @@
-#include <SDL/SDL_events.h>
+#include <SDL2/SDL_events.h>
 #include "actions.h"
 
 void move_on_minimap() {

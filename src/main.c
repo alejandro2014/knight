@@ -1,5 +1,5 @@
-#include <SDL/SDL.h>
-#include <SDL/SDL_endian.h>	/* Used for the endian-dependent 24 bpp mode */
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_endian.h>	/* Used for the endian-dependent 24 bpp mode */
 #include <stdlib.h>
 #include <time.h>
 
@@ -34,10 +34,6 @@ void build_cursors();
 extern TTF_Font *font;
 
 int main (int argc, char *argv[]) {
-  //loadMenus(NULL);
-  Token *token = newToken(12, "number12");
-
-  return 0;
   WIDTH = 700;
   HEIGHT = 480;
   //WIDTH = 513;
@@ -57,7 +53,10 @@ int main (int argc, char *argv[]) {
 
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
-  screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
+  
+  SDL_Window *window = SDL_CreateWindow("[No title2]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
+  screen = screen = SDL_GetWindowSurface(window);
+  //screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
   printf("Allocated screen (%d x %d) pitch %d\n", window_width, window_height, screen->pitch);
   /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 

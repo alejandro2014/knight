@@ -30,7 +30,7 @@ extern char cur_file_name[120];
 
 extern struct file_names_struct file_names[1000];
 
-#include <SDL/SDL_video.h>
+#include <SDL2/SDL_video.h>
 
 #define dark_steel_blue 245
 #define very_light_steel_blue 246

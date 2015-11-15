@@ -1,4 +1,4 @@
-#include <SDL/SDL_events.h>
+#include <SDL2/SDL_events.h>
 #include "events.h"
 
 #include "actions.h"
@@ -8,13 +8,15 @@
 
 void resizeScreen(SDL_Event *event) {
   no_update_now=1;
-  window_width = event->resize.w;
-  window_height = event->resize.h;
+  window_width = event->window.data1;
+  window_height = event->window.data2;
   if (window_width < 680)window_width = 680;
   if (window_height < 450)window_height = 450;
   window_width=window_width|3;
   //screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
-  screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE);
+  SDL_Window *window = SDL_CreateWindow("[No title]", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
+  screen = screen = SDL_GetWindowSurface(window);
+  //screen = SDL_SetVideoMode (window_width, window_height,8,SDL_HWSURFACE | SDL_RESIZABLE);
   //SDL_SetPalette (screen, SDL_LOGPAL | SDL_PHYSPAL, colors, 0, 256);
 }
 
@@ -47,7 +49,7 @@ void manageButtonClick(SDL_Event *event) {
 
 void events_loop (void) {
   SDL_Event event;
-  SDLMod mod_key_status;
+  SDL_Keymod mod_key_status;
   int i;
 
   while (1) {
@@ -62,7 +64,7 @@ void events_loop (void) {
     switch(event.type) {
       //case SDL_QUIT: break;
       case SDL_MOUSEBUTTONUP: manageButtonClick(&event); break;
-      case SDL_VIDEORESIZE: resizeScreen(&event); break;
+      case SDL_WINDOWEVENT_RESIZED: resizeScreen(&event); break;
     }
 
       if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN) {

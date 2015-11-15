@@ -1,5 +1,5 @@
 #include "objects.h"
-#include <SDL/SDL_events.h>
+#include <SDL2/SDL_events.h>
 
 
 void pre_load_object()

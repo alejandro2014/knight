@@ -1,78 +1,10 @@
 #include "menus.h"
 #include "load_widgets.h"
 
-#define INITIAL 0
-#define DOUBLE_QUOTE_OPEN 1
-
-void copyContentToken(Token *token, int initialPos, int finalPos, char *string) {
-  memcpy(token->content, string + initialPos, finalPos - initialPos);
-}
-
-Token *newToken(int type, char *content) {
-    Token *token = (Token *) malloc(sizeof(Token));
-    memset(token, 0, sizeof(Token));
-
-    token->type = type;
-
-    //int sizeContent = sizeof(char) * strlen(content);
-    token->content = (char *) malloc(sizeContent);
-    memset(&token->content, 0, 128);
-
-    return token;
-}
-
-Token *getToken(char *string, int *position) {
-    char *token = NULL;
-    char currentChar;
-    int currentStatus = INITIAL;
-    int currentPos = *position;
-
-    printf("getToken position %d\n", currentPos);
-
-    while(token == NULL) {
-        currentChar = *(string + currentPos);
-
-        switch(currentStatus) {
-          case INITIAL:
-            switch(currentChar) {
-              case '{':
-                token = newToken(TOK_CURLY_OPEN, "{");
-                break;
-              case '\"':
-                currentStatus = DOUBLE_QUOTE_OPEN;
-                break;
-            }
-            break;
-          case DOUBLE_QUOTE_OPEN:
-            if(currentChar == '\"') {
-              token = newToken(TOK_STRING, "{");
-              copyContentToken(token, string, *position, currentPos);
-              token = "string";
-            }
-            break;
-        }
-
-        currentPos++;
-    }
-
-    *position = currentPos;
-
-    return token;
-}
-
 Menu *loadMenus(char *nameOfFile) {
     /*Menu *menu = (Menu *) malloc(sizeof(Menu));
     memset(menu, 0, sizeof(Menu))*/
-    char *fileContent = "{\"dialogs\": {\"newTerrain\": {\"x\": 10,\"y\": 10,\"width\": 30,\"height\": 20,\"title\": \"New terrain\"}}}";
-    int stringLength = strlen(fileContent);
-
-    printf("Content of the file: %s\n", fileContent);
-    printf("length: %d\n", stringLength);
-
-    int position = 0;
-    printf(">> %s\n", getToken(fileContent, &position));
-    printf(">> %s\n", getToken(fileContent, &position));
-
+    
     return NULL;
 }
 

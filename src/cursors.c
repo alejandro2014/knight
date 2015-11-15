@@ -1,6 +1,6 @@
 #include "font.h"
 #include <stdlib.h>
-#include <SDL/SDL_mouse.h>
+#include <SDL2/SDL_mouse.h>
 
 void
 load_cursors()
