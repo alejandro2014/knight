@@ -10,7 +10,7 @@
 #define BLACK 0x00000000
 #define RED   0x0000ff00
 
-//extern SDL_Renderer *renderer;
+extern SDL_Renderer *renderer;
 
 void terrain_on_screen (SDL_Surface * this_screen) {
   Uint32 *screenPixels = (Uint32 *) this_screen->pixels;
@@ -48,7 +48,8 @@ void putPixel(SDL_Surface *currentScreen, Uint32 x, Uint32 y, Uint32 colour) {
   *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;
 }
 
-void cls (SDL_Surface * this_screen) {
+//void cls (SDL_Surface * this_screen) {
+void cls() {
   int some_module, my_pitch;
   int map_size;
   int i,j;
@@ -87,7 +88,11 @@ void cls (SDL_Surface * this_screen) {
   /*for(i = 0; i < 50; i++) {
     putPixel(this_screen, i, i, RED);
   }*/
-  SDL_FillRect(this_screen, NULL, BLACK);
+  //SDL_FillRect(this_screen, NULL, BLACK);
+  
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
+  SDL_RenderPresent(renderer);
 }
 
 void
@@ -294,7 +299,7 @@ Uint32 on_screen (Uint32 interval, void *params) {
     return some_int;
   }*/
 
-  cls (screen);
+  cls();
   //terrain_on_screen(screen);
   //draw_selection(screen);
   //  debug_info();
@@ -308,7 +313,7 @@ Uint32 on_screen (Uint32 interval, void *params) {
   if (show_new_terrain_menu)draw_new_terrain_menu (screen);*/
 
   ///draw_new_terrain_menu(screen);
-  draw_generate_menu (screen);
+  //draw_generate_menu (screen);
   /*if (show_generate_terrain_menu)draw_generate_menu (screen);
   if (show_view_menu)draw_view_menu (screen);
   if (show_object_menu)draw_object_menu(screen);
@@ -318,8 +323,5 @@ Uint32 on_screen (Uint32 interval, void *params) {
   if (view_error_menu)draw_error_box(screen);
   if (view_file_menu)draw_file_menu(screen);*/
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
   return interval;
 }

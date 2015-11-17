@@ -47,7 +47,7 @@ void manageButtonClick(SDL_Event *event) {
   check_toolbar_release ();
 }
 
-void events_loop (void) {
+void events_loop() {
   SDL_Event event;
   SDL_Keymod mod_key_status;
   int i;
@@ -58,7 +58,7 @@ void events_loop (void) {
       break;
     }
 
-    mod_key_status=SDL_GetModState();
+    /*mod_key_status=SDL_GetModState();
     caps_look_on = (mod_key_status & KMOD_CAPS) ? 1 : 0;
 
     switch(event.type) {
@@ -128,7 +128,7 @@ void events_loop (void) {
 	    if (keystate[SDLK_z]) {
 			  mod_key_status=SDL_GetModState();
 		  }
-    }
+    }*/
   }
 }
 
