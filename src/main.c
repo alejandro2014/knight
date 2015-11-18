@@ -31,6 +31,10 @@ void defineCustomColours();
 void load_cursors();
 void build_cursors();
 
+void programLoop();
+int initResources(SDL_Window **window, SDL_Renderer **renderer);
+void freeResources(SDL_Window *window, SDL_Renderer *renderer);
+
 extern TTF_Font *font;
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -39,26 +43,19 @@ char *FONT_PATH_MAC = "/Library/Fonts/Arial.ttf";
 char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
-
-    int finish = 0;
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window *window = SDL_CreateWindow(
-        "HME",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        640,
-        480,
-        SDL_WINDOW_RESIZABLE
-    );
-
-    if (window == NULL) {
-        printf("Could not create window: %s\n", SDL_GetError());
-        return 1;
+    if(initResources(&window, &renderer) != -1) {
+        programLoop();
+        freeResources(window, renderer);
     }
+    
+    SDL_Quit();
+    return 0;
+}
 
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    // The window is open: could enter program loop here (see SDL_PollEvent())
+void programLoop() {
+    int finish = 0;
     SDL_Event event;
     
     while(!finish) {
@@ -71,13 +68,36 @@ int main(int argc, char* argv[]) {
         cls();
         SDL_Delay(1000);
     }
-    
-    // Close and destroy the window
-    SDL_DestroyWindow(window);
+}
 
-    // Clean up
-    SDL_Quit();
+int initResources(SDL_Window **window, SDL_Renderer **renderer) {
+    *window = SDL_CreateWindow(
+        "HME",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        640,
+        480,
+        SDL_WINDOW_RESIZABLE
+    );
+
+    if (*window == NULL) {
+        printf("Could not create window: %s\n", SDL_GetError());
+        return -1;
+    }
+
+    *renderer = SDL_CreateRenderer(*window, -1, 0);
+    
+    if(*renderer == NULL) {
+        printf("Could not create renderer: %s\n", SDL_GetError());
+        return -1;
+    }
+    
     return 0;
+}
+
+void freeResources(SDL_Window *window, SDL_Renderer *renderer) {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 }
 
 int main2(int argc, char *argv[]) {
