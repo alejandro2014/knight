@@ -11,7 +11,7 @@ void cls();
 
 void draw_grid(SDL_Surface * this_screen);
 void draw_selection(SDL_Surface * this_screen);
-Uint32 on_screen (Uint32 interval, void *params);
+void drawScreen();
 
 void debug_info ();
 #endif

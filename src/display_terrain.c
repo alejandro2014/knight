@@ -290,8 +290,7 @@ void put_right_cursor()
   if(current_cursor!=cursor_target)change_cursor_show(cursor_target);
 }
 
-//build the 'scene'
-Uint32 on_screen (Uint32 interval, void *params) {
+void drawScreen() {
   /*put_right_cursor();
   check_toolbar_mouse_over();
   if(no_update_now) {
@@ -322,6 +321,4 @@ Uint32 on_screen (Uint32 interval, void *params) {
   if (show_rotate_menu)draw_rotate_menu(screen);
   if (view_error_menu)draw_error_box(screen);
   if (view_file_menu)draw_file_menu(screen);*/
-
-  return interval;
 }

@@ -34,6 +34,7 @@ void build_cursors();
 void programLoop();
 int initResources(SDL_Window **window, SDL_Renderer **renderer);
 void freeResources(SDL_Window *window, SDL_Renderer *renderer);
+void readEvents(int *finish);
 
 extern TTF_Font *font;
 SDL_Window *window;
@@ -59,14 +60,19 @@ void programLoop() {
     SDL_Event event;
     
     while(!finish) {
-        while(SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                finish = 1;
-            }
-        }
-        
-        cls();
+        readEvents(&finish);
+        drawScreen();
         SDL_Delay(1000);
+    }
+}
+
+void readEvents(int *finish) {
+    SDL_Event event;
+    
+    while(SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            *finish = 1;
+        }
     }
 }
 
@@ -110,7 +116,6 @@ int main2(int argc, char *argv[]) {
   //terrain = generateTerrain(700, 480);
   //terrain = generateTerrain(WIDTH, HEIGHT);
 
-  Uint32 (*on_screen_pointer) (Uint32, void *) = on_screen;
   SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
   //TTF_Init();
   //font = TTF_OpenFont(FONT_PATH_LINUX, 12);
@@ -155,8 +160,6 @@ int main2(int argc, char *argv[]) {
   srand (seed);*/
 
   //generateRandomTerrain(terrain);
-
-  SDL_AddTimer(100, on_screen_pointer, NULL);
 
   events_loop ();
 
