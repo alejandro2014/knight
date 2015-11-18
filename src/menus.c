@@ -57,19 +57,19 @@ void load_tool_bar() {
 	tool_bar_mem = temp_pointer;*/
 }
 
-void drawWindowTitle(Menu *menu, SDL_Surface *currentScreen) {
-	SDL_Rect rectangleMenu;
+void drawWindowTitle(Menu *menu) {
+	/*SDL_Rect rectangleMenu;
 	rectangleMenu.w = menu->width;
 	rectangleMenu.h = 19;
 	rectangleMenu.x = menu->x;
 	rectangleMenu.y = menu->y;
 
 	SDL_FillRect(currentScreen, &rectangleMenu, GREEN);
-	printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);
+	printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);*/
 }
 
-void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
-	Menu *menu = textbox->menu;
+void drawTextBox(TextBox *textbox) {
+	/*Menu *menu = textbox->menu;
 	DialogBox *dialogBox = textbox->dialogBox;
 	int barWidth = 19;
 	int textWidth = 50;
@@ -82,7 +82,7 @@ void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
 	rectangleTextBox.x = menu->x + textbox->x + textWidth;
 	rectangleTextBox.y = menu->y + textbox->y + 2 + barWidth;
 
-	SDL_FillRect(currentScreen, &rectangleTextBox, GRAY);
+	SDL_FillRect(currentScreen, &rectangleTextBox, GRAY);*/
 	/*if (dialogBox->has_focus)
 		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
 	else
@@ -91,16 +91,16 @@ void drawTextBox(TextBox *textbox, SDL_Surface *currentScreen) {
 	printString(screen, dialogBox->dialog_text, menu->x + textbox->x + 2, menu->y + textbox->y + 2);*/
 }
 
-void drawTextBoxes(TextBoxContainer *textBoxContainer, SDL_Surface *currentScreen) {
-	int i;
+void drawTextBoxes(TextBoxContainer *textBoxContainer) {
+	/*int i;
 
 	for(i = 0; i < textBoxContainer->textBoxesNo; i++) {
 		drawTextBox(textBoxContainer->textBoxes + i, screen);
-	}
+	}*/
 }
 
-void drawButton(Button *button, SDL_Surface *currentScreen) {
-	Menu *menu = button->menu;
+void drawButton(Button *button) {
+	/*Menu *menu = button->menu;
 	int barWidth = 19;
 
 	SDL_Rect buttonBox;
@@ -110,39 +110,42 @@ void drawButton(Button *button, SDL_Surface *currentScreen) {
 	buttonBox.y = menu->y + button->y + barWidth;
 
 	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
-	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);
+	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);*/
 }
 
-void drawButtons(ButtonContainer *buttonContainer, SDL_Surface *currentScreen) {
-	int i;
+void drawButtons(ButtonContainer *buttonContainer) {
+	/*int i;
 
 	for(i = 0; i < buttonContainer->buttonsNo; i++) {
 		drawButton(buttonContainer->buttons + i, currentScreen);
-	}
+	}*/
 }
 
-void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
+void drawDialogWindow(Menu *menu) {
 	SDL_Rect rectangleMenu;
 	rectangleMenu.x = menu->x;
 	rectangleMenu.y = menu->y;
 	rectangleMenu.w = menu->width;
 	rectangleMenu.h = menu->height;
 
-	SDL_FillRect(currentScreen, &rectangleMenu, WHITE);
-	drawWindowTitle(menu, currentScreen);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rectangleMenu);
+    SDL_RenderPresent(renderer);
+	//SDL_FillRect(currentScreen, &rectangleMenu, WHITE);
+	//drawWindowTitle(menu, currentScreen);
 }
 
-void draw_new_terrain_menu (SDL_Surface *this_screen) {
+void draw_new_terrain_menu() {
     Menu *menu = loadMenu("newTerrainMenu");
     TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
     ButtonContainer *buttonContainer = loadButtonContainer(menu);
 
-    drawDialogWindow(menu, this_screen);
-	drawTextBoxes(textBoxes, this_screen);
-	drawButtons(buttonContainer, this_screen);
+    drawDialogWindow(menu);
+	/*drawTextBoxes(textBoxes);
+	drawButtons(buttonContainer);*/
 }
 
-void draw_generate_menu (SDL_Surface * this_screen) {
+/*void draw_generate_menu (SDL_Surface * this_screen) {
 	int x, y, my_pitch;
 	char cur_pixel;
 	char str[20];
@@ -726,7 +729,7 @@ print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-
 //draw the cancel button
   draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
   print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
-}
+}*/
 
 /*--------------------
  Check menus functions

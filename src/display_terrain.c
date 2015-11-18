@@ -311,7 +311,7 @@ void drawScreen() {
   /*if (show_tip)draw_tool_tip();
   if (show_new_terrain_menu)draw_new_terrain_menu (screen);*/
 
-  draw_new_terrain_menu(screen);
+  draw_new_terrain_menu();
   //draw_generate_menu (screen);
   /*if (show_generate_terrain_menu)draw_generate_menu (screen);
   if (show_view_menu)draw_view_menu (screen);
