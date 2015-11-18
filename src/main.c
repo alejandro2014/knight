@@ -32,11 +32,11 @@ void load_cursors();
 void build_cursors();
 
 void programLoop();
-int initResources(SDL_Window **window, SDL_Renderer **renderer);
-void freeResources(SDL_Window *window, SDL_Renderer *renderer);
+int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font);
+void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font);
 void readEvents(int *finish);
 
-extern TTF_Font *font;
+TTF_Font *font;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
@@ -46,9 +46,9 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
-    if(initResources(&window, &renderer) != -1) {
+    if(initResources(&window, &renderer, &font) != -1) {
         programLoop();
-        freeResources(window, renderer);
+        freeResources(window, renderer, font);
     }
     
     SDL_Quit();
@@ -76,7 +76,7 @@ void readEvents(int *finish) {
     }
 }
 
-int initResources(SDL_Window **window, SDL_Renderer **renderer) {
+int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font) {
     *window = SDL_CreateWindow(
         "HME",
         SDL_WINDOWPOS_UNDEFINED,
@@ -97,13 +97,22 @@ int initResources(SDL_Window **window, SDL_Renderer **renderer) {
         printf("Could not create renderer: %s\n", SDL_GetError());
         return -1;
     }
+  
+    TTF_Init();
+    *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
+    
+    if(*font == NULL) {
+        printf("Could not load the font\n");
+        return -1;
+    }
     
     return 0;
 }
 
-void freeResources(SDL_Window *window, SDL_Renderer *renderer) {
+void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(font);
 }
 
 int main2(int argc, char *argv[]) {

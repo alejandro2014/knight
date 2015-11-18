@@ -133,11 +133,11 @@ void drawDialogWindow(Menu *menu, SDL_Surface *currentScreen) {
 }
 
 void draw_new_terrain_menu (SDL_Surface *this_screen) {
-  Menu *menu = loadMenu("newTerrainMenu");
-	TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
-	ButtonContainer *buttonContainer = loadButtonContainer(menu);
+    Menu *menu = loadMenu("newTerrainMenu");
+    TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
+    ButtonContainer *buttonContainer = loadButtonContainer(menu);
 
-  drawDialogWindow(menu, this_screen);
+    drawDialogWindow(menu, this_screen);
 	drawTextBoxes(textBoxes, this_screen);
 	drawButtons(buttonContainer, this_screen);
 }
