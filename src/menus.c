@@ -58,14 +58,17 @@ void load_tool_bar() {
 }
 
 void drawWindowTitle(Menu *menu) {
-	/*SDL_Rect rectangleMenu;
+	SDL_Rect rectangleMenu;
 	rectangleMenu.w = menu->width;
 	rectangleMenu.h = 19;
 	rectangleMenu.x = menu->x;
 	rectangleMenu.y = menu->y;
 
-	SDL_FillRect(currentScreen, &rectangleMenu, GREEN);
-	printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);*/
+    SDL_SetRenderDrawColor(renderer, 0, 200, 0, 255);
+    SDL_RenderFillRect(renderer, &rectangleMenu);
+    SDL_RenderPresent(renderer);
+    
+	/*printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);*/
 }
 
 void drawTextBox(TextBox *textbox) {
@@ -131,8 +134,8 @@ void drawDialogWindow(Menu *menu) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
     SDL_RenderPresent(renderer);
-	//SDL_FillRect(currentScreen, &rectangleMenu, WHITE);
-	//drawWindowTitle(menu, currentScreen);
+    
+	drawWindowTitle(menu);
 }
 
 void draw_new_terrain_menu() {
