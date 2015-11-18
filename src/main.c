@@ -40,33 +40,38 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 
 int main(int argc, char* argv[]) {
 
-    SDL_Window *window;                    // Declare a pointer
+    int finish = 0;
+    SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL2
-
-    // Create an application window with the following settings:
-    window = SDL_CreateWindow(
-        "An SDL2 window",                  // window title
-        SDL_WINDOWPOS_UNDEFINED,           // initial x position
-        SDL_WINDOWPOS_UNDEFINED,           // initial y position
-        640,                               // width, in pixels
-        480,                               // height, in pixels
-        SDL_WINDOW_OPENGL                  // flags - see below
+    SDL_Window *window = SDL_CreateWindow(
+        "HME",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        640,
+        480,
+        SDL_WINDOW_RESIZABLE
     );
 
-    // Check that the window was successfully created
     if (window == NULL) {
-        // In the case that the window could not be made...
         printf("Could not create window: %s\n", SDL_GetError());
         return 1;
     }
 
-renderer = SDL_CreateRenderer(window, -1, 0);
+    renderer = SDL_CreateRenderer(window, -1, 0);
     // The window is open: could enter program loop here (see SDL_PollEvent())
-    cls();
-
-    SDL_Delay(3000);  // Pause execution for 3000 milliseconds, for example
-
+    SDL_Event event;
+    
+    while(!finish) {
+        while(SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                finish = 1;
+            }
+        }
+        
+        cls();
+        SDL_Delay(1000);
+    }
+    
     // Close and destroy the window
     SDL_DestroyWindow(window);
 
