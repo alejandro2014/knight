@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <SDL_ttf.h>
 
-TTF_Font *font;
+extern TTF_Font *font;
 
 char *FONTBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/font.bmp";
 char *FONTBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/font.bmp";
@@ -62,14 +62,19 @@ void print_string (char *str, char char_color, char background_color, int char_x
   }
 }
 
-void printString(SDL_Surface *currentScreen, char *string, Uint32 x, Uint32 y) {
-  SDL_Color foregroundColor = {255, 255, 255};
-  SDL_Color backgroundColor = {0, 170, 0};
+void printString(char *string, Uint32 x, Uint32 y) {
+    SDL_Color foregroundColor = {255, 255, 255};
+    SDL_Color backgroundColor = {0, 170, 0};
+    SDL_Rect textLocation;
+    textLocation.x = y;
+    textLocation.y = y;
+    textLocation.w = 100;
+    textLocation.h = 20;
 
-  SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
-  SDL_Rect textLocation = {x, y, 0, 0};
-  SDL_BlitSurface(textSurface, NULL, currentScreen, &textLocation);
-
-  SDL_FreeSurface(textSurface);
-
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+  
+    SDL_FreeSurface(textSurface);
+    SDL_RenderCopy(renderer, texture, NULL, &textLocation);
+    SDL_RenderPresent(renderer);
 }

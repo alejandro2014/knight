@@ -68,7 +68,7 @@ void drawWindowTitle(Menu *menu) {
     SDL_RenderFillRect(renderer, &rectangleMenu);
     SDL_RenderPresent(renderer);
     
-	/*printString(currentScreen, menu->title, menu->x + 2, menu->y + 2);*/
+	printString(menu->title, menu->x + 2, menu->y + 2);
 }
 
 void drawTextBox(TextBox *textbox) {
