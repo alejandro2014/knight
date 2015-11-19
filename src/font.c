@@ -69,7 +69,7 @@ void printString(char *string, Uint32 x, Uint32 y) {
     textLocation.x = y;
     textLocation.y = y;
     textLocation.w = 100;
-    textLocation.h = 20;
+    textLocation.h = 17;
 
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);

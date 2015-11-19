@@ -31,8 +31,8 @@ Menu *loadNewTerrainDialog() {
   Menu *menu = (Menu *) malloc(sizeof(Menu));
   memset(menu, 0, sizeof(Menu));
 
-  menu->x = x_new_terrain_menu;
-  menu->y = y_new_terrain_menu;
+  menu->x = 100;
+  menu->y = 100;
   menu->width = x_new_terrain_menu_lenght;
   menu->height = y_new_terrain_menu_lenght;
   menu->title = "New terrain";

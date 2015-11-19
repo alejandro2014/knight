@@ -64,11 +64,11 @@ void drawWindowTitle(Menu *menu) {
 	rectangleMenu.x = menu->x;
 	rectangleMenu.y = menu->y;
 
-    SDL_SetRenderDrawColor(renderer, 0, 200, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
     SDL_RenderPresent(renderer);
     
-	printString(menu->title, menu->x + 2, menu->y + 2);
+	printString(menu->title, menu->x + 1, menu->y + 1);
 }
 
 void drawTextBox(TextBox *textbox) {
