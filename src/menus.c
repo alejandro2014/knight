@@ -72,34 +72,36 @@ void drawWindowTitle(Menu *menu) {
 }
 
 void drawTextBox(TextBox *textbox) {
-	/*Menu *menu = textbox->menu;
 	DialogBox *dialogBox = textbox->dialogBox;
 	int barWidth = 19;
 	int textWidth = 50;
-
-	printString(screen, textbox->title, menu->x + textbox->x, menu->y + textbox->y + barWidth);
+    
+	printString(textbox->title, textbox->x, textbox->y + barWidth);
 
 	SDL_Rect rectangleTextBox;
 	rectangleTextBox.w = textbox->width;
 	rectangleTextBox.h = textbox->height;
-	rectangleTextBox.x = menu->x + textbox->x + textWidth;
-	rectangleTextBox.y = menu->y + textbox->y + 2 + barWidth;
-
-	SDL_FillRect(currentScreen, &rectangleTextBox, GRAY);*/
+	rectangleTextBox.x = textbox->x + textWidth;
+	rectangleTextBox.y = textbox->y + 2 + barWidth;
+    
+    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+    SDL_RenderFillRect(renderer, &rectangleTextBox);
+    SDL_RenderPresent(renderer);
+    
 	/*if (dialogBox->has_focus)
 		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
 	else
-		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
+		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);*/
 
-	printString(screen, dialogBox->dialog_text, menu->x + textbox->x + 2, menu->y + textbox->y + 2);*/
+	printString(dialogBox->dialog_text, textbox->x + 2, textbox->y + 2);
 }
 
 void drawTextBoxes(TextBoxContainer *textBoxContainer) {
-	/*int i;
+	int i;
 
 	for(i = 0; i < textBoxContainer->textBoxesNo; i++) {
-		drawTextBox(textBoxContainer->textBoxes + i, screen);
-	}*/
+		drawTextBox(textBoxContainer->textBoxes + i);
+	}
 }
 
 void drawButton(Button *button) {
@@ -141,11 +143,11 @@ void drawDialogWindow(Menu *menu) {
 void draw_new_terrain_menu() {
     Menu *menu = loadMenu("newTerrainMenu");
     TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
-    ButtonContainer *buttonContainer = loadButtonContainer(menu);
+    //ButtonContainer *buttonContainer = loadButtonContainer(menu);
 
     drawDialogWindow(menu);
-	/*drawTextBoxes(textBoxes);
-	drawButtons(buttonContainer);*/
+	drawTextBoxes(textBoxes);
+	//drawButtons(buttonContainer);
 }
 
 /*void draw_generate_menu (SDL_Surface * this_screen) {

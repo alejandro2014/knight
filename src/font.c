@@ -65,16 +65,20 @@ void print_string (char *str, char char_color, char background_color, int char_x
 void printString(char *string, Uint32 x, Uint32 y) {
     SDL_Color foregroundColor = {255, 255, 255};
     SDL_Color backgroundColor = {0, 170, 0};
-    SDL_Rect textLocation;
-    textLocation.x = y;
-    textLocation.y = y;
-    textLocation.w = 100;
-    textLocation.h = 17;
 
     SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, foregroundColor, backgroundColor);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
   
     SDL_FreeSurface(textSurface);
+    
+    SDL_Rect textLocation;
+    textLocation.x = y;
+    textLocation.y = y;
+    textLocation.w = 100;
+    textLocation.h = 17;
+    
+    SDL_QueryTexture(texture, NULL, NULL, &textLocation.w, &textLocation.h);
+    
     SDL_RenderCopy(renderer, texture, NULL, &textLocation);
     SDL_RenderPresent(renderer);
 }

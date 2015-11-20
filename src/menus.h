@@ -7,15 +7,6 @@
 typedef struct numeric_dialog_box_struct DialogBox;
 
 typedef struct {
-	int x;
-	int y;
-	int width;
-	int height;
-	char *title;
-} Menu;
-
-typedef struct {
-	Menu *menu;
 	DialogBox *dialogBox;
 	int x;
 	int y;
@@ -23,6 +14,15 @@ typedef struct {
 	int height;
 	char *title;
 } TextBox;
+
+typedef struct {
+	int x;
+	int y;
+	int width;
+	int height;
+	char *title;
+    TextBox *textBoxes;
+} Menu;
 
 typedef struct {
 	Menu *menu;
