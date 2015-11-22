@@ -1,6 +1,7 @@
 #ifndef __MENUS_H__
 #define __MENUS_H__
 
+#include <SDL2/SDL.h>
 #include "global.h"
 
 //#define DialogBox numeric_dialog_box_struct
@@ -13,6 +14,7 @@ typedef struct {
 	int width;
 	int height;
 	char *title;
+    SDL_Texture *titleTexture;
 } TextBox;
 
 typedef struct {

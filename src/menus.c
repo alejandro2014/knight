@@ -3,6 +3,7 @@
 //#include <SDL2/SDL_keysym.h>
 #include <SDL2/SDL_events.h>
 
+#include "font.h"
 #include "menus.h"
 #include "load_widgets.h"
 
@@ -73,16 +74,18 @@ void drawWindowTitle(Menu *menu) {
 
 void drawTextBox(TextBox *textbox) {
 	DialogBox *dialogBox = textbox->dialogBox;
-	int barWidth = 19;
-	int textWidth = 50;
+	int barHeight = 19;
+	int textWidth;
     
-	printString(textbox->title, textbox->x, textbox->y + barWidth);
+    SDL_Rect textLocation;
+	SDL_Texture *printTexture = printString(textbox->title, textbox->x, textbox->y + barHeight);
+    SDL_QueryTexture(printTexture, NULL, NULL, &textWidth, NULL);
 
 	SDL_Rect rectangleTextBox;
 	rectangleTextBox.w = textbox->width;
 	rectangleTextBox.h = textbox->height;
-	rectangleTextBox.x = textbox->x + textWidth;
-	rectangleTextBox.y = textbox->y + 2 + barWidth;
+	rectangleTextBox.x = textbox->x + textWidth + 1;
+	rectangleTextBox.y = textbox->y + barHeight;
     
     SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
     SDL_RenderFillRect(renderer, &rectangleTextBox);
@@ -93,7 +96,7 @@ void drawTextBox(TextBox *textbox) {
 	else
 		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);*/
 
-	printString(dialogBox->dialog_text, textbox->x + 2, textbox->y + 2);
+	//printString(dialogBox->dialog_text, textbox->x + 2, textbox->y + 2, &textLocation);
 }
 
 void drawTextBoxes(TextBoxContainer *textBoxContainer) {
