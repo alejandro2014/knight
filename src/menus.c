@@ -77,7 +77,6 @@ void drawTextBox(TextBox *textbox) {
 	int barHeight = 19;
 	int textWidth;
     
-    SDL_Rect textLocation;
 	SDL_Texture *printTexture = printString(textbox->title, textbox->x, textbox->y + barHeight);
     SDL_QueryTexture(printTexture, NULL, NULL, &textWidth, NULL);
 
@@ -96,7 +95,7 @@ void drawTextBox(TextBox *textbox) {
 	else
 		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);*/
 
-	//printString(dialogBox->dialog_text, textbox->x + 2, textbox->y + 2, &textLocation);
+	printString("1000", rectangleTextBox.x + 2, rectangleTextBox.y);
 }
 
 void drawTextBoxes(TextBoxContainer *textBoxContainer) {
