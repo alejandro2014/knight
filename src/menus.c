@@ -311,68 +311,20 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
 }
 
 void draw_object_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_object_menu, y_object_menu,
-		   x_object_menu_lenght, y_object_menu_lenght);
-  //draw the window title
-  for (y = y_object_menu; y < y_object_menu + 15; y++)
-    for (x = x_object_menu; x < x_object_menu + x_object_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Object Settings", white, darkblue, x_object_menu + 2,y_object_menu + 2);
-  //draw the "Mode string"
-  print_string ("Put object mode:", black, white, x_object_menu + 4,y_object_menu + 22);
-  //draw the put object mode
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 40,14, 14);
-  print_string ("Place over terain", black, white, x_object_menu + 42 + 14,y_object_menu + 42);
-  if(object_mode==put_object)
-  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 42);
-
-  //draw the increase terrain
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 60,14, 14);
-  print_string ("Increase terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 62);
-  if(object_mode==add_object)
-  print_string ("X", black, white, x_object_menu + 42,y_object_menu + 62);
-
-  //draw the decrease terrain
-  draw_empty_menu (screen, white, x_object_menu + 40, y_object_menu + 80,14, 14);
-  print_string ("Decrease terrain", black, white, x_object_menu + 42 + 14,y_object_menu + 82);
-  if (object_mode==sub_object)
-    print_string ("X", black, white, x_object_menu + 42,y_object_menu + 82);
-
-  //draw the OK and Cancel buttons
-  draw_empty_menu (screen, white, x_object_menu + 60, y_object_menu + 100,20, 14);
-  print_string ("Ok", black, white, x_object_menu + 62,y_object_menu + 102);
-  draw_empty_menu (screen, white, x_object_menu + 90, y_object_menu + 100,50, 14);
-  print_string ("Cancel", black, white, x_object_menu + 92,y_object_menu + 102);
+  //menu "objectMenu" "Object settings"
+  //string "Put object mode:" 4 22
+  //checkbox "Place over terrain" 40 40 14 14
+	//checkbox "Increase terrain" 40 60 14 14
+	//checkbox "Decrease terrain" 40 80 14 14
+  //button "Ok" 60 100 20 14
+	//button "Cancel" 90 100 50 14
 }
 
 void draw_error_box(SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_error_menu, y_error_menu, x_error_menu_lenght, y_error_menu_lenght);
-  //draw the window title
-  for (y = y_error_menu; y < y_error_menu + 15; y++)
-    for (x = x_error_menu; x < x_error_menu + x_error_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Error!", white, darkblue, x_error_menu + 2, y_error_menu + 2);
-  //draw the error strings
-  print_string (&error_msg_1, black, white, x_error_menu + 2, y_error_menu + 20);
-  print_string (&error_msg_2, black, white, x_error_menu + 2, y_error_menu + 36);
-
-  //draw the OK button
-  draw_empty_menu (screen, white, x_error_menu + 200, y_error_menu + 52, 20, 14);
-  print_string ("Ok", black, white, x_error_menu + 202, y_error_menu + 54);
+  //menu "errorBox" "Error!"
+	//string &error_msg_1
+	//string &error_msg_2
+  //button "Ok" 200 52 20 14
 }
 
 void draw_file_menu(SDL_Surface * this_screen) {
