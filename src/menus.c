@@ -1027,45 +1027,20 @@ void check_global_replace_menu (char text_input_char) {
 }
 
 void check_object_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
+	//right mouse button kills the menu (cancel)
   if(long_pressed_button_r == 1)
-  show_object_menu = 0;
-  else
-    //check the put mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_object_menu + 40
-	&& x_mouse_pos < x_object_menu + 40 + 14
-	&& y_mouse_pos >= y_object_menu + 40
-	&& y_mouse_pos < y_object_menu + 40 + 14)
-    object_mode=put_object;
-  else
-    //check the leaser than mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_object_menu + 40
-	&& x_mouse_pos < x_object_menu + 40 + 14
-	&& y_mouse_pos >= y_object_menu + 60
-	&& y_mouse_pos < y_object_menu + 60 + 14)
-    object_mode=add_object;
-  else
-    //check the leaser or greater mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_object_menu + 40
-	&& x_mouse_pos < x_object_menu + 40 + 14
-	&& y_mouse_pos >= y_object_menu + 80
-	&& y_mouse_pos < y_object_menu + 80 + 14)
-    object_mode=sub_object;
+  	show_object_menu = 0;
+  else if(buttonPressed(x_object_menu, y_object_menu, 40, 40, 14, 14)) //check the put mode
+    object_mode = put_object;
+  else if(buttonPressed(x_object_menu, y_object_menu, 40, 60, 14, 14)) //check the leaser than mode
+    object_mode = add_object;
+  else if (buttonPressed(x_object_menu, y_object_menu, 40, 80, 14, 14)) //check the leaser or greater mode
+    object_mode = sub_object;
 
   //check the cancel button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_object_menu + 90
-       && x_mouse_pos < x_object_menu + 90 + 50
-       && y_mouse_pos >= y_object_menu + 100
-       && y_mouse_pos < y_object_menu + 100 + 14)
-      || text_input_char == SDLK_ESCAPE)
+  if (buttonPressed(x_object_menu, y_object_menu, 90, 100, 50, 14) || text_input_char == SDLK_ESCAPE)
     show_object_menu = 0;
-  else
-    //check the OK button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_object_menu + 60
-	 && x_mouse_pos < x_object_menu + 60 + 20
-	 && y_mouse_pos >= y_object_menu + 100
-	 && y_mouse_pos < y_object_menu + 100 + 14)
-	|| text_input_char == SDLK_RETURN)
+  else if (buttonPressed(x_object_menu, y_object_menu, 60, 100, 20, 14) || text_input_char == SDLK_RETURN) //check the OK button
     show_object_menu = 0;
 }
 
@@ -1162,4 +1137,11 @@ void check_file_menu (unsigned char text_input_char) {
     	cur_file_name[dialog_text_offset+1]=0;
 	}
   }
+}
+
+int buttonPressed(int xMenu, int yMenu, int x, int y, int w, int h) {
+	return (long_pressed_button_l == 1 && x_mouse_pos >= xMenu + x
+	 && x_mouse_pos < xMenu + x + w
+	 && y_mouse_pos >= yMenu + y
+	 && y_mouse_pos < yMenu + y + h) ? 1 : 0;
 }
