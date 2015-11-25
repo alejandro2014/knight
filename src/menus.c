@@ -214,36 +214,11 @@ void draw_replace_menu (SDL_Surface * this_screen) {
   //draw the pattern file name.
   print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
   draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
-  j=0;
-	while(1)
-	{
-		if(pattern_file_name[j]==0)break;
-		j++;
-	}
-	i=j;
-	if(j>20)
-		{
-			j-=24;
-			k=i-j;
-		}
-	else
-		{
-			k=j;
-			j=0;
-		}
-	i=0;
-	while(i<k)
-	{
-		cur_char=pattern_file_name[j];
-		*(str+i)=cur_char;
-		if(cur_char==0)break;
-		j++;
-		i++;
-	}
-	*(str+i)=0;
-  if(!current_pattern.object_mem)print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
+
+  if(!current_pattern.object_mem)
+		print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
   else
-  print_string(str, black, white, x_replace_menu +62,y_replace_menu + 262);
+  	print_string(&pattern_file_name, black, white, x_replace_menu +62,y_replace_menu + 262);
 
 	//button "Ok" 30 280 20 14
 	//button "Cancel" 60 280 50 14
@@ -274,36 +249,10 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
   //draw the pattern file name.
   print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
   draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 260,172, 14);
-  j=0;
-		while(1)
-		{
-			if(pattern_file_name[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>20)
-			{
-				j-=24;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=pattern_file_name[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-  if(!current_pattern.object_mem)print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
+  if(!current_pattern.object_mem)
+		print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
   else
-  print_string(str, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
+  	print_string(&pattern_file_name, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
 
 	//button "Ok" 30 280 20 14
 	//button "Cancel" 60 280 50 14
@@ -336,36 +285,7 @@ void draw_file_menu(SDL_Surface * this_screen) {
   my_pitch = this_screen->pitch;
 
   draw_empty_menu (screen, white, x_file_menu, y_file_menu,x_file_menu_lenght, y_file_menu_lenght);
-
-//print the current directory name
-		j=0;
-		while(1)
-		{
-			if(cur_dir[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>54)
-			{
-				j-=54;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=cur_dir[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-print_string (str, black, white, x_file_menu + 2,y_file_menu+2);
+	print_string (&cur_dir, black, white, x_file_menu + 2,y_file_menu+2);
 
   draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,x_file_menu_lenght-4, y_file_menu_lenght-35);
   //ok, now, print the files from the current directory...
@@ -399,35 +319,7 @@ print_string (">>", black, white, x_file_menu + x_file_menu_lenght-20,y_file_men
 
 //draw the "current file" dialogue box
     draw_down_button (screen, x_file_menu + 2,y_file_menu+y_file_menu_lenght-18, x_file_menu_lenght-110, 14);
-//print the current selected file name
-		j=0;
-		while(1)
-		{
-			if(cur_file_name[j]==0)break;
-			j++;
-		}
-		i=j;
-		if(j>44)
-			{
-				j-=44;
-				k=i-j;
-			}
-		else
-			{
-				k=j;
-				j=0;
-			}
-		i=0;
-		while(i<k)
-		{
-			cur_char=cur_file_name[j];
-			*(str+i)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			i++;
-		}
-		*(str+i)=0;
-print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
+print_string (&cur_file_name, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
 
 //draw the load/save button
   draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-104, y_file_menu+y_file_menu_lenght-18,35, 14);
