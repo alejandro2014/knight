@@ -179,47 +179,14 @@ void draw_view_menu (SDL_Surface * this_screen) {
 }
 
 void draw_rotate_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white, x_rotation_menu, y_rotation_menu, x_rotation_menu_lenght, y_rotation_menu_lenght);
-  //draw the window title
-  for (y = y_rotation_menu; y < y_rotation_menu + 15; y++)
-    for (x = x_rotation_menu; x < x_rotation_menu + x_rotation_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-  print_string ("Flip and Rotation", white, darkblue, x_rotation_menu + 2, y_rotation_menu + 2);
-  //draw the Horizontal Flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 20, 14, 14);
-  print_string ("Horizontal (x) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 22);
-  if (rotation_type==rotation_flip_x)
-    print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 22);
-  //draw the Vertical flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 40, 14, 14);
-  print_string ("Vertical   (y) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 42);
-  if (rotation_type==rotation_flip_y)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 42);
-  //draw the Height flip
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 60, 14, 14);
-  print_string ("Height     (z) flip", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 62);
-  if (rotation_type==rotation_flip_z)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 62);
-  //draw the 90_CW rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 80, 14, 14);
-  print_string ("Rotate 90 CW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 82);
-  if (rotation_type==rotation_CW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 82);
-  //draw the 90_CCW rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 100, 14, 14);
-  print_string ("Rotate 90 CCW", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 102);
-  if (rotation_type==rotation_CCW_90)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 102);
-  //draw the 180 rotation
-  draw_empty_menu (screen, white, x_rotation_menu + 2, y_rotation_menu + 120, 14, 14);
-  print_string ("Rotate 180", black, white, x_rotation_menu + 4 + 14,y_rotation_menu + 122);
-  if (rotation_type==rotation_180)print_string ("X", black, white, x_rotation_menu + 4, y_rotation_menu + 122);
-  //draw the OK button
-  draw_empty_menu (screen, white, x_rotation_menu + 70, y_rotation_menu + 140, 20,14);
-  print_string ("Ok", black, white, x_rotation_menu + 72, y_rotation_menu + 142);
+  //menu "rotateMenu" "Flip and rotation" *rotation*
+	//checkbox "Horizontal (x) flip" 2 20 14 14
+	//checkbox "Vertical (y) flip" 2 40 14 14
+	//checkbox "Height (z) flip" 2 60 14 14
+	//checkbox "Rotate 90 CW 2 80 14 14"
+	//checkbox "Rotate 90 CCW 2 100 14 14"
+	//checkbox "Rotate 180 CCW 2 120 14 14"
+	//button "Ok" 70 140 20 14
 }
 
 void draw_replace_menu (SDL_Surface * this_screen) {
