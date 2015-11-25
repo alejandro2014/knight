@@ -154,7 +154,7 @@ void draw_new_terrain_menu() {
 
 //element title x y w h
 void draw_generate_menu (SDL_Surface * this_screen) {
-  //menu "generateTerrainMenu"
+  //menu "generateTerrainMenu" *generate_menu*
 	//textbox "Seed" 52 18 76 14
 	//textbox "Random" 140 18 50 14
   //checkbox "Overwrite existing terrain" 2 40 14 14
@@ -163,77 +163,19 @@ void draw_generate_menu (SDL_Surface * this_screen) {
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  char str[20];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-	Menu menu;
-	menu.x = x_view_menu;
-	menu.y = y_view_menu;
-	menu.width = x_view_menu_lenght;
-	menu.height = y_view_menu_lenght;
-	menu.title = "View...";
-
-  draw_empty_menu (screen, white, x_view_menu, y_view_menu, x_view_menu_lenght, y_view_menu_lenght);
-  drawWindowTitle(&menu, this_screen);
-
-  //draw the view toolbar box
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 20, 14, 14);
-  print_string ("Toolbar", black, white, x_view_menu + 4 + 14, y_view_menu + 22);
-  if (tool_bar)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 22);
-  //draw the view minimap box
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 40, 14, 14);
-  print_string ("Minimap", black, white, x_view_menu + 4 + 14,y_view_menu + 42);
-  if (mini_map)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 42);
-  //draw the view status_bar
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 60, 14, 14);
-  print_string ("Status bar", black, white, x_view_menu + 4 + 14,y_view_menu + 62);
-  if (status_bar)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 62);
-  //draw the Grid none
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 80, 14, 14);
-  print_string ("Grid: Off", black, white, x_view_menu + 4 + 14,y_view_menu + 82);
-  if (!grid)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 82);
-  //draw the Grid 16
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 100, 14, 14);
-  print_string ("Grid: 16x16", black, white, x_view_menu + 4 + 14,y_view_menu + 102);
-  if (grid == 16)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 102);
-  //draw the Grid 32
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 120, 14, 14);
-  print_string ("Grid: 32x32", black, white, x_view_menu + 4 + 14,y_view_menu + 122);
-  if (grid == 32)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 122);
-  //draw the Grid 64
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 140, 14, 14);
-  print_string ("Grid: 64x64", black, white, x_view_menu + 4 + 14,y_view_menu + 142);
-  if (grid == 64)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 142);
-  //draw the Grid 128
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 160, 14, 14);
-  print_string ("Grid: 128x128", black, white, x_view_menu + 4 + 14,y_view_menu + 162);
-  if (grid == 128)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 162);
-  //draw the Grid 256
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 180, 14, 14);
-  print_string ("Grid: 256x256", black, white, x_view_menu + 4 + 14,y_view_menu + 182);
-  if (grid == 256)
-    print_string ("X", black, white, x_view_menu + 4, y_view_menu + 182);
-
-  //draw the color/gray menu
-  draw_empty_menu (screen, white, x_view_menu + 2, y_view_menu + 200, 14, 14);
-  print_string ("Gray Shades", black, white, x_view_menu + 4 + 14,y_view_menu + 202);
-  //if (gray_shades) print_string ("X", black, white, x_view_menu + 4, y_view_menu + 202);
-
+	//menu "viewMenu" "View..." *view_menu*
+	//checkbox "Toolbar" 2 20 14 14
+  //checkbox "Minimap" 2 40 14 14
+	//checkbox "Status bar" 2 60 14 14
+	//checkbox "Grid: Off" 2 80 14 14
+	//groupCheckbox "Grid"
+	//	checkbox "16x16" 2 100 14 14
+	//	checkbox "32x32" 2 120 14 14
+	//	checkbox "64x64" 2 140 14 14
+	//	checkbox "128x128" 2 160 14 14
+	//	checkbox "256x256" 2 180 14 14
+	//button "Ok" 50 220 20 14
   //draw the OK button
-  draw_empty_menu (screen, white, x_view_menu + 50, y_view_menu + 220, 20,14);
-  print_string ("Ok", black, white, x_view_menu + 52, y_view_menu + 222);
 }
 
 void draw_rotate_menu (SDL_Surface * this_screen) {
@@ -693,7 +635,7 @@ print_string (str, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-
 //draw the cancel button
   draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
   print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
-}*/
+}
 
 /*--------------------
  Check menus functions
