@@ -251,81 +251,25 @@ void draw_replace_menu (SDL_Surface * this_screen) {
 }
 
 void draw_global_replace_menu (SDL_Surface * this_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  int i,j,k,l;
-  char cur_char;
-  char str[120];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  draw_empty_menu (screen, white,x_global_replace_menu,y_global_replace_menu,x_global_replace_menu_lenght,y_global_replace_menu_lenght);
-  //draw the window title
-  for (y = y_global_replace_menu; y < y_global_replace_menu + 15; y++)
-    for (x = x_global_replace_menu; x < x_global_replace_menu + x_global_replace_menu_lenght; x++)
-      *(screen_buffer + y * my_pitch + x) = darkblue;
-
-  print_string ("Replace Settings", white, darkblue, x_global_replace_menu + 2,y_global_replace_menu + 2);
+	//menu globalReplaceMenu "Replace Settings"
   //draw the tolerance string and box
   print_string ("Tolerance:", black, white, x_global_replace_menu + 2,y_global_replace_menu + 20);
   draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
   print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, white,x_global_replace_menu + 82, y_global_replace_menu + 20);
 
-  print_string ("Tolerance Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 42);
-  //draw the greater tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 60,14, 14);
-  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 62);
-  if(temp_global_tolerance_mode == greater)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 62);
+	//string "Tolerance mode:" 4 42
+	//checkbox "+" 40 60 14 14
+	//checkbox "-" 40 80 14 14
+	//checkbox "+/-" 40 100 14 14
 
-  //draw the leaser tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 80,14, 14);
-  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 82);
-  if(temp_global_tolerance_mode == leaser)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 82);
+	//string "Replace mode:" 4 122
+	//checkbox "+" 40 140 14 14
+	//checkbox "-" 40 160 14 14
+	//checkbox "=" 40 180 14 14
 
-  //draw the greater or leaser tolerance check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 100,14, 14);
-  print_string ("+/-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 102);
-  if(temp_global_tolerance_mode == greater_or_leaser)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 102);
-
-  print_string ("Replace Mode:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 122);
-
-  //draw the greater replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 140,14, 14);
-  print_string ("+", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 142);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_plus)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 142);
-
-  //draw the leaser replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 160,14, 14);
-  print_string ("-", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 162);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_minus)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 162);
-
-  //draw the equal replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 180,14, 14);
-  print_string ("=", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 182);
-  if(temp_global_tolerance_replace_mode == tolerance_replace_equal)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 182);
-
-
-  print_string ("Replace With:", black, white, x_global_replace_menu + 4,y_global_replace_menu + 202);
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 220,14, 14);
-  print_string ("Solid", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 222);
-  if(temp_global_tolerance_replace_mode_2 == replace_mode_solid)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 222);
-
-
-  //draw the pattern replace check box
-  draw_empty_menu (screen, white, x_global_replace_menu + 40, y_global_replace_menu + 240,14, 14);
-  print_string ("Pattern", black, white, x_global_replace_menu + 42 + 14,y_global_replace_menu + 242);
-  if(temp_global_tolerance_replace_mode_2 == replace_mode_pattern)
-  print_string ("X", black, white, x_global_replace_menu + 42,y_global_replace_menu + 242);
+	//string "Replace with:" 4 202
+  //checkbox "Solid" 40 220 14 14
+	//checkbox "Pattern" 40 240 14 14
 
   //draw the pattern file name.
   print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
@@ -361,13 +305,9 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
   else
   print_string(str, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
 
-  //draw the OK, Cancel and Change pattern buttons
-  draw_empty_menu (screen, white, x_global_replace_menu + 30, y_global_replace_menu + 280,20, 14);
-  print_string ("Ok", black, white, x_global_replace_menu + 32,y_global_replace_menu + 282);
-  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 280,50, 14);
-  print_string ("Cancel", black, white, x_global_replace_menu + 62,y_global_replace_menu + 282);
-  draw_empty_menu (screen, white, x_global_replace_menu + 120, y_global_replace_menu + 280,110, 14);
-  print_string ("Change Pattern", black, white, x_global_replace_menu + 122,y_global_replace_menu + 282);
+	//button "Ok" 30 280 20 14
+	//button "Cancel" 60 280 50 14
+	//button "Change pattern" 120 280 110 14
 }
 
 void draw_object_menu (SDL_Surface * this_screen) {
