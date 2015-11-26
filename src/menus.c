@@ -338,15 +338,9 @@ void check_new_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_new_terrain_menu = 0;
-  else
-    //check the cancel button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14))
-	|| text_input_char == SDLK_ESCAPE)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14)) || text_input_char == SDLK_ESCAPE) //check the cancel button
     show_new_terrain_menu = 0;
-  else
-    //check the OK button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14))
-	|| text_input_char == SDLK_RETURN)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14)) || text_input_char == SDLK_RETURN) //check the OK button
   {
     int color_to_fill;
     int i = 0;
@@ -375,25 +369,19 @@ void check_new_terrain_menu (char text_input_char) {
   }
   else
     //check to see if the x_map_size_dialog got the focus
-  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 18, 42, 14))
-  {
+  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 18, 42, 14)) {
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
     numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
     numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
   }
-  else
-    //check to see if the y_map_size_dialog got the focus
-  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 36, 42, 14))
-  {
+	else if (buttonPressed(x_replace_menu, y_replace_menu, 52, 36, 42, 14)) { //check to see if the y_map_size_dialog got the focus
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
     numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
     numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
   }
-  else
-    if (buttonPressed(x_replace_menu, y_replace_menu, 90, 54, 24, 14))
-  {
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 90, 54, 24, 14)) {
     numeric_dialog_boxes[base_height_dialog].has_focus = 1;
     numeric_dialog_boxes[base_height_dialog].text_offset = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
@@ -401,115 +389,79 @@ void check_new_terrain_menu (char text_input_char) {
   }
 
   //check to see for the tab
-  if (text_input_char == SDLK_TAB)
-  {
-    if (numeric_dialog_boxes[base_height_dialog].has_focus)
-    {
+  if (text_input_char == SDLK_TAB) {
+    if (numeric_dialog_boxes[base_height_dialog].has_focus) {
       numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
       numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
       numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
       numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     }
-    else if (numeric_dialog_boxes[x_map_size_dialog].has_focus)
-    {
+    else if (numeric_dialog_boxes[x_map_size_dialog].has_focus) {
       numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
       numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
       numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
       numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     }
-    else if (numeric_dialog_boxes[y_map_size_dialog].has_focus)
-    {
+    else if (numeric_dialog_boxes[y_map_size_dialog].has_focus) {
       numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
       numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
       numeric_dialog_boxes[base_height_dialog].has_focus = 1;
       numeric_dialog_boxes[base_height_dialog].text_offset = 0;
     }
-
-
   }
 
   //now, check to see if we get any character
-  if (text_input_char)
-  {
+  if (text_input_char) {
     int dialog_text_offset;
-    if (numeric_dialog_boxes[base_height_dialog].has_focus == 1)
-    {
-      //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-      if (text_input_char >= '0' && text_input_char <= '9' &&
-	  numeric_dialog_boxes[base_height_dialog].text_offset <
-	  numeric_dialog_boxes[base_height_dialog].dialog_lenght)
-      {
-	dialog_text_offset =
-	  numeric_dialog_boxes[base_height_dialog].text_offset;
-	numeric_dialog_boxes[base_height_dialog].
-	  dialog_text[dialog_text_offset] = text_input_char;
-	numeric_dialog_boxes[base_height_dialog].
-	  dialog_text[dialog_text_offset + 1] = 0;
-	numeric_dialog_boxes[base_height_dialog].text_offset++;
 
+		//check to see if it is a numeric char, and if we didn't exceede the max lenght limit
+    if (numeric_dialog_boxes[base_height_dialog].has_focus == 1) {
+      if (text_input_char >= '0' && text_input_char <= '9' &&
+	  		numeric_dialog_boxes[base_height_dialog].text_offset <
+	  		numeric_dialog_boxes[base_height_dialog].dialog_lenght) {
+					dialog_text_offset = numeric_dialog_boxes[base_height_dialog].text_offset;
+					numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset] = text_input_char;
+					numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset + 1] = 0;
+					numeric_dialog_boxes[base_height_dialog].text_offset++;
       }
-      else
-	if (text_input_char == SDLK_BACKSPACE
-	    && numeric_dialog_boxes[base_height_dialog].text_offset > 0)
-      {
-	numeric_dialog_boxes[base_height_dialog].text_offset--;
-	numeric_dialog_boxes[base_height_dialog].
-	  dialog_text[numeric_dialog_boxes[base_height_dialog].text_offset] =
-	  0;
+      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[base_height_dialog].text_offset > 0) {
+				numeric_dialog_boxes[base_height_dialog].text_offset--;
+				numeric_dialog_boxes[base_height_dialog].
+	  		dialog_text[numeric_dialog_boxes[base_height_dialog].text_offset] = 0;
       }
     }
+
     //check the x_map_size_dialog
-    if (numeric_dialog_boxes[x_map_size_dialog].has_focus == 1)
-    {
+    if (numeric_dialog_boxes[x_map_size_dialog].has_focus == 1) {
       //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
       if (text_input_char >= '0' && text_input_char <= '9' &&
-	  numeric_dialog_boxes[x_map_size_dialog].text_offset <
-	  numeric_dialog_boxes[x_map_size_dialog].dialog_lenght)
-      {
-	dialog_text_offset =
-	  numeric_dialog_boxes[x_map_size_dialog].text_offset;
-	numeric_dialog_boxes[x_map_size_dialog].
-	  dialog_text[dialog_text_offset] = text_input_char;
-	numeric_dialog_boxes[x_map_size_dialog].
-	  dialog_text[dialog_text_offset + 1] = 0;
-	numeric_dialog_boxes[x_map_size_dialog].text_offset++;
-
+	  		numeric_dialog_boxes[x_map_size_dialog].text_offset <
+	  		numeric_dialog_boxes[x_map_size_dialog].dialog_lenght) {
+					dialog_text_offset = numeric_dialog_boxes[x_map_size_dialog].text_offset;
+					numeric_dialog_boxes[x_map_size_dialog].dialog_text[dialog_text_offset] = text_input_char;
+					numeric_dialog_boxes[x_map_size_dialog].dialog_text[dialog_text_offset + 1] = 0;
+					numeric_dialog_boxes[x_map_size_dialog].text_offset++;
       }
-      else
-	if (text_input_char == SDLK_BACKSPACE
-	    && numeric_dialog_boxes[x_map_size_dialog].text_offset > 0)
-      {
-	numeric_dialog_boxes[x_map_size_dialog].text_offset--;
-	numeric_dialog_boxes[x_map_size_dialog].
-	  dialog_text[numeric_dialog_boxes[x_map_size_dialog].text_offset] =
-	  0;
+      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[x_map_size_dialog].text_offset > 0) {
+				numeric_dialog_boxes[x_map_size_dialog].text_offset--;
+				numeric_dialog_boxes[x_map_size_dialog].dialog_text[numeric_dialog_boxes[x_map_size_dialog].text_offset] = 0;
       }
     }
     //check the y_map_size_dialog
-    if (numeric_dialog_boxes[y_map_size_dialog].has_focus == 1)
-    {
+    if (numeric_dialog_boxes[y_map_size_dialog].has_focus == 1) {
       //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
       if (text_input_char >= '0' && text_input_char <= '9' &&
-	  numeric_dialog_boxes[y_map_size_dialog].text_offset <
-	  numeric_dialog_boxes[y_map_size_dialog].dialog_lenght)
-      {
-	dialog_text_offset =
-	  numeric_dialog_boxes[y_map_size_dialog].text_offset;
-	numeric_dialog_boxes[y_map_size_dialog].
-	  dialog_text[dialog_text_offset] = text_input_char;
-	numeric_dialog_boxes[y_map_size_dialog].
-	  dialog_text[dialog_text_offset + 1] = 0;
-	numeric_dialog_boxes[y_map_size_dialog].text_offset++;
-
+	  		numeric_dialog_boxes[y_map_size_dialog].text_offset <
+	  		numeric_dialog_boxes[y_map_size_dialog].dialog_lenght) {
+					dialog_text_offset = numeric_dialog_boxes[y_map_size_dialog].text_offset;
+					numeric_dialog_boxes[y_map_size_dialog].dialog_text[dialog_text_offset] = text_input_char;
+					numeric_dialog_boxes[y_map_size_dialog].dialog_text[dialog_text_offset + 1] = 0;
+					numeric_dialog_boxes[y_map_size_dialog].text_offset++;
       }
-      else
-	if (text_input_char == SDLK_BACKSPACE
-	    && numeric_dialog_boxes[y_map_size_dialog].text_offset > 0)
-      {
-	numeric_dialog_boxes[y_map_size_dialog].text_offset--;
-	numeric_dialog_boxes[y_map_size_dialog].
-	  dialog_text[numeric_dialog_boxes[y_map_size_dialog].text_offset] =
-	  0;
+      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[y_map_size_dialog].text_offset > 0) {
+				numeric_dialog_boxes[y_map_size_dialog].text_offset--;
+				numeric_dialog_boxes[y_map_size_dialog].
+	  		dialog_text[numeric_dialog_boxes[y_map_size_dialog].text_offset] = 0;
       }
     }
   }
@@ -518,7 +470,7 @@ void check_new_terrain_menu (char text_input_char) {
 void check_generate_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
-  show_generate_terrain_menu = 0;
+  	show_generate_terrain_menu = 0;
   else
     //check the overwrite terrain button
   if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
@@ -531,15 +483,12 @@ void check_generate_terrain_menu (char text_input_char) {
     this_seed = this_seed * rand ();
     sprintf (numeric_dialog_boxes[seed_dialog].dialog_text, "%d", this_seed);
     numeric_dialog_boxes[seed_dialog].text_offset = 0;
-
   }
-  else
-    //check the cancel button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14) || text_input_char == SDLK_ESCAPE)
+	//check the cancel button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14) || text_input_char == SDLK_ESCAPE)
     show_generate_terrain_menu = 0;
-  else
-    //check the OK button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14) || text_input_char == SDLK_RETURN) {
+	//check the OK button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14) || text_input_char == SDLK_RETURN) {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
 
@@ -547,33 +496,23 @@ void check_generate_terrain_menu (char text_input_char) {
     else make_terrain (WIDTH, HEIGHT);*/
     show_generate_terrain_menu = 0;
   }
-  else
-    //now, check to see if we get any character
-  if (text_input_char)
-  {
+	//now, check to see if we get any character
+  else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
     if (text_input_char >= '0' && text_input_char <= '9' &&
-	numeric_dialog_boxes[seed_dialog].text_offset <
-	numeric_dialog_boxes[seed_dialog].dialog_lenght)
-    {
-      dialog_text_offset = numeric_dialog_boxes[seed_dialog].text_offset;
-      numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset] =
-	text_input_char;
-      numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset + 1] =
-	0;
-      numeric_dialog_boxes[seed_dialog].text_offset++;
-
+			numeric_dialog_boxes[seed_dialog].text_offset <
+			numeric_dialog_boxes[seed_dialog].dialog_lenght) {
+      	dialog_text_offset = numeric_dialog_boxes[seed_dialog].text_offset;
+      	numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset] = text_input_char;
+      	numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset + 1] = 0;
+      	numeric_dialog_boxes[seed_dialog].text_offset++;
     }
-    else
-      if (text_input_char == SDLK_BACKSPACE
-	  && numeric_dialog_boxes[seed_dialog].text_offset > 0)
-    {
+    else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[seed_dialog].text_offset > 0) {
       numeric_dialog_boxes[seed_dialog].text_offset--;
       numeric_dialog_boxes[seed_dialog].
-	dialog_text[numeric_dialog_boxes[seed_dialog].text_offset] = 0;
+			dialog_text[numeric_dialog_boxes[seed_dialog].text_offset] = 0;
     }
-
   }
 }
 
@@ -589,22 +528,12 @@ void check_view_menu (char text_input_char) {
 
   if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) //check the statusbar button
     status_bar = !status_bar;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) //check the grid off button
-    grid = 0;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) //check the grid 16 button
-    grid = 16;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) //check the grid 32 button
-    grid = 32;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 140, 14, 14)) //check the grid 64 button
-    grid = 64;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 160, 14, 14)) //check the grid 128 button
-    grid = 128;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 180, 14, 14)) //check the grid 256 button
-    grid = 256;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 200, 14, 14)) //check the gray shades button
-    {
-  		make_gray_pallete();
-	}
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2,  80, 14, 14)) grid = 0;   //check the grid off button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) grid = 16;  //check the grid 16 button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) grid = 32;  //check the grid 32 button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 140, 14, 14)) grid = 64;  //check the grid 64 button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 160, 14, 14)) grid = 128; //check the grid 128 button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 180, 14, 14)) grid = 256; //check the grid 256 button
   else if (buttonPressed(x_replace_menu, y_replace_menu, 50, 220, 20, 14)) //check the OK button
     show_view_menu = 0;
 }
@@ -614,71 +543,56 @@ void check_rotate_menu (char text_input_char) {
   if (long_pressed_button_r == 1)
     show_rotate_menu = 0;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) //check the Hor. flip
-    rotation_type=rotation_flip_x;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) //check Ver. flip
-    rotation_type=rotation_flip_y;
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) rotation_type=rotation_flip_x; //check the Hor. flip
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) rotation_type=rotation_flip_y; //check Ver. flip
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) //check the Height flip
-    rotation_type=rotation_flip_z;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) //check 90 CW rotation
-    rotation_type=rotation_CW_90;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) //check the 90 CCW rotation
-    rotation_type=rotation_CCW_90;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) //check the 180 rotation
-    rotation_type=rotation_180;
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) rotation_type = rotation_flip_z; //check the Height flip
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) rotation_type = rotation_CW_90; //check 90 CW rotation
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) rotation_type = rotation_CCW_90; //check the 90 CCW rotation
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) rotation_type = rotation_180; //check the 180 rotation
   else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 140, 20, 14)) //check the OK button
-		{
+	{
 			if(rotation_type==rotation_flip_x)flip_x();
 			else if(rotation_type==rotation_flip_y)flip_y();
 			else if(rotation_type==rotation_flip_z)flip_z();
 			else if(rotation_type==rotation_CW_90)rotate_90_CW();
 			else if(rotation_type==rotation_CCW_90)rotate_90_CCW();
 			else if(rotation_type==rotation_180)rotate_180();
-		    show_rotate_menu = 0;
-		}
+
+		  show_rotate_menu = 0;
+	}
 }
 
 void check_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_replace_menu = 0;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 60, 14, 14)) //check the greater than tolerance mode
-    temp_tolerance_mode = greater;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 14, 14)) //check the leaser than tolerance mode
-    temp_tolerance_mode = leaser;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 100, 14, 14)) //check the leaser or greater tolerance mode
-    temp_tolerance_mode = greater_or_leaser;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 140, 14, 14)) //check the greater replace mode
-    temp_tolerance_replace_mode = tolerance_replace_plus;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 160, 14, 14)) //check the leaser replace mode
-    temp_tolerance_replace_mode = tolerance_replace_minus;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 180, 14, 14)) //check the equal replace mode
-    temp_tolerance_replace_mode = tolerance_replace_equal;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 220, 14, 14)) //check the pattern replace_mode_2
-    temp_tolerance_replace_mode_2 = replace_mode_solid;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 240, 14, 14)) //check the pattern replace_mode_2
-    temp_tolerance_replace_mode_2 = replace_mode_pattern;
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 60, 14, 14)) temp_tolerance_mode = greater; //check the greater than tolerance mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 14, 14)) temp_tolerance_mode = leaser; //check the leaser than tolerance mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 100, 14, 14)) temp_tolerance_mode = greater_or_leaser; //check the leaser or greater tolerance mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 140, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_plus; //check the greater replace mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 160, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_minus; //check the leaser replace mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 180, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_equal; //check the equal replace mode
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 220, 14, 14)) temp_tolerance_replace_mode_2 = replace_mode_solid; //check the pattern replace_mode_2
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 240, 14, 14)) temp_tolerance_replace_mode_2 = replace_mode_pattern; //check the pattern replace_mode_2
   else if (buttonPressed(x_replace_menu, y_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE) //check the cancel button
     show_replace_menu = 0;
-  else
-  //check the load pattern button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 120, 280, 110, 14)) {
+	//check the load pattern button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 120, 280, 110, 14)) {
 		SDL_Event event;
-		if(current_pattern.object_mem)
-			{
+
+		if(current_pattern.object_mem) {
 				free(current_pattern.object_mem);
 				current_pattern.object_mem=0;
-			}
+		}
+
 		load_object=2;//tell the file open save function to load a pattern
 		long_pressed_button_l = 0;
 		DoFileOpenSave (0);
-    	while (SDL_PollEvent (&event));	//clears all the events
+    while (SDL_PollEvent (&event));	//clears all the events
 	}
 
-  else
-    //check the OK button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN) //check the OK button
   {
     int box_tolerance;
     box_tolerance = atoi (numeric_dialog_boxes[tolerance].dialog_text);
@@ -687,36 +601,28 @@ void check_replace_menu (char text_input_char) {
       box_tolerance = numeric_dialog_boxes[tolerance].max_number;
     else if (box_tolerance < numeric_dialog_boxes[tolerance].min_number)
       box_tolerance = numeric_dialog_boxes[tolerance].min_number;
+
     tolerance_value = box_tolerance;
     tolerance_mode = temp_tolerance_mode;
     tolerance_replace_mode = temp_tolerance_replace_mode;
     tolerance_replace_mode_2 = temp_tolerance_replace_mode_2;
     show_replace_menu = 0;
   }
-  else
-    //now, check to see if we get any character
-  if (text_input_char)
-  {
+	//now, check to see if we get any character
+  else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
     if (text_input_char >= '0' && text_input_char <= '9' &&
-	numeric_dialog_boxes[tolerance].text_offset <
-	numeric_dialog_boxes[tolerance].dialog_lenght)
-    {
-      dialog_text_offset = numeric_dialog_boxes[tolerance].text_offset;
-      numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset] =
-	text_input_char;
-      numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset + 1] = 0;
-      numeric_dialog_boxes[tolerance].text_offset++;
-
+			numeric_dialog_boxes[tolerance].text_offset <
+			numeric_dialog_boxes[tolerance].dialog_lenght) {
+      	dialog_text_offset = numeric_dialog_boxes[tolerance].text_offset;
+      	numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset] = text_input_char;
+      	numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset + 1] = 0;
+      	numeric_dialog_boxes[tolerance].text_offset++;
     }
-    else
-      if (text_input_char == SDLK_BACKSPACE
-	  && numeric_dialog_boxes[tolerance].text_offset > 0)
-    {
+    else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[tolerance].text_offset > 0) {
       numeric_dialog_boxes[tolerance].text_offset--;
-      numeric_dialog_boxes[tolerance].
-	dialog_text[numeric_dialog_boxes[tolerance].text_offset] = 0;
+      numeric_dialog_boxes[tolerance].dialog_text[numeric_dialog_boxes[tolerance].text_offset] = 0;
     }
   }
 }
@@ -725,83 +631,64 @@ void check_global_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_global_replace_menu = 0;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 60, 14, 14)) //check the greater than tolerance mode
-    temp_global_tolerance_mode = greater;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 80, 14, 14)) //check the leaser than tolerance mode
-    temp_global_tolerance_mode = leaser;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 100, 14, 14)) //check the leaser or greater tolerance mode
-    temp_global_tolerance_mode = greater_or_leaser;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 140, 14, 14)) //check the greater replace mode
-    temp_global_tolerance_replace_mode = tolerance_replace_plus;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 160, 14, 14)) //check the leaser replace mode
-    temp_global_tolerance_replace_mode = tolerance_replace_minus;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 180, 14, 14)) //check the equal replace mode
-    temp_global_tolerance_replace_mode = tolerance_replace_equal;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 220, 14, 14)) //check the pattern replace_mode_2
-    temp_global_tolerance_replace_mode_2 = replace_mode_solid;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 240, 14, 14)) //check the pattern replace_mode_2
-    temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
-  else
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 60, 14, 14)) temp_global_tolerance_mode = greater; //check the greater than tolerance mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 80, 14, 14)) temp_global_tolerance_mode = leaser; //check the leaser than tolerance mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 100, 14, 14)) temp_global_tolerance_mode = greater_or_leaser; //check the leaser or greater tolerance mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 140, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_plus; //check the greater replace mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 160, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_minus; //check the leaser replace mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 180, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_equal; //check the equal replace mode
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 220, 14, 14)) temp_global_tolerance_replace_mode_2 = replace_mode_solid; //check the pattern replace_mode_2
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 240, 14, 14)) temp_global_tolerance_replace_mode_2 = replace_mode_pattern; //check the pattern replace_mode_2
 
-  //check the cancel button
-  if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE)
+	//check the cancel button
+	else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE)
     show_global_replace_menu = 0;
-  else
-  //check the load pattern button
-  if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 120, 280, 110, 14) {
+	//check the load pattern button
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 120, 280, 110, 14) {
 		SDL_Event event;
-		if(current_pattern.object_mem)
-			{
+		if(current_pattern.object_mem) {
 				free(current_pattern.object_mem);
 				current_pattern.object_mem=0;
-			}
+		}
+
 		load_object=2;//tell the file open save function to load a pattern
 		long_pressed_button_l = 0;
 		DoFileOpenSave (0);
-    	while (SDL_PollEvent (&event));	//clears all the events
+    while (SDL_PollEvent (&event));	//clears all the events
 	}
 
-  else
-    //check the OK button
-  if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN)
-  {
-    int box_tolerance;
-    box_tolerance = atoi (numeric_dialog_boxes[global_tolerance].dialog_text);
+	//check the OK button
+  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN) {
+    int box_tolerance = atoi (numeric_dialog_boxes[global_tolerance].dialog_text);
     //bounds checking
     if (box_tolerance > numeric_dialog_boxes[global_tolerance].max_number)
       box_tolerance = numeric_dialog_boxes[global_tolerance].max_number;
     else if (box_tolerance < numeric_dialog_boxes[global_tolerance].min_number)
       box_tolerance = numeric_dialog_boxes[global_tolerance].min_number;
+
     global_tolerance_value = box_tolerance;
     global_tolerance_mode = temp_global_tolerance_mode;
     global_tolerance_replace_mode = temp_global_tolerance_replace_mode;
     global_tolerance_replace_mode_2 = temp_global_tolerance_replace_mode_2;
     show_global_replace_menu = 0;
   }
-  else
-    //now, check to see if we get any character
-  if (text_input_char)
-  {
+
+	//now, check to see if we get any character
+  else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
     if (text_input_char >= '0' && text_input_char <= '9' &&
-	numeric_dialog_boxes[global_tolerance].text_offset <
-	numeric_dialog_boxes[global_tolerance].dialog_lenght)
-    {
-      dialog_text_offset = numeric_dialog_boxes[global_tolerance].text_offset;
-      numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset] =
-	text_input_char;
-      numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset + 1] = 0;
-      numeric_dialog_boxes[global_tolerance].text_offset++;
-
+			numeric_dialog_boxes[global_tolerance].text_offset <
+			numeric_dialog_boxes[global_tolerance].dialog_lenght) {
+      	dialog_text_offset = numeric_dialog_boxes[global_tolerance].text_offset;
+      	numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset] = text_input_char;
+      	numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset + 1] = 0;
+      	numeric_dialog_boxes[global_tolerance].text_offset++;
     }
-    else
-      if (text_input_char == SDLK_BACKSPACE
-	  && numeric_dialog_boxes[global_tolerance].text_offset > 0)
-    {
+		else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[global_tolerance].text_offset > 0) {
       numeric_dialog_boxes[global_tolerance].text_offset--;
       numeric_dialog_boxes[global_tolerance].
-	dialog_text[numeric_dialog_boxes[global_tolerance].text_offset] = 0;
+			dialog_text[numeric_dialog_boxes[global_tolerance].text_offset] = 0;
     }
   }
 }
@@ -810,26 +697,19 @@ void check_object_menu (char text_input_char) {
 	//right mouse button kills the menu (cancel)
   if(long_pressed_button_r == 1)
   	show_object_menu = 0;
-  else if(buttonPressed(x_object_menu, y_object_menu, 40, 40, 14, 14)) //check the put mode
-    object_mode = put_object;
-  else if(buttonPressed(x_object_menu, y_object_menu, 40, 60, 14, 14)) //check the leaser than mode
-    object_mode = add_object;
-  else if (buttonPressed(x_object_menu, y_object_menu, 40, 80, 14, 14)) //check the leaser or greater mode
-    object_mode = sub_object;
+  else if(buttonPressed(x_object_menu, y_object_menu, 40, 40, 14, 14)) object_mode = put_object; //check the put mode
+  else if(buttonPressed(x_object_menu, y_object_menu, 40, 60, 14, 14)) object_mode = add_object; //check the leaser than mode
+  else if (buttonPressed(x_object_menu, y_object_menu, 40, 80, 14, 14)) object_mode = sub_object;//check the leaser or greater mode
 
-  //check the cancel button
-  if (buttonPressed(x_object_menu, y_object_menu, 90, 100, 50, 14) || text_input_char == SDLK_ESCAPE)
-    show_object_menu = 0;
-  else if (buttonPressed(x_object_menu, y_object_menu, 60, 100, 20, 14) || text_input_char == SDLK_RETURN) //check the OK button
-    show_object_menu = 0;
+  //check the cancel and OK buttons
+  if (buttonPressed(x_object_menu, y_object_menu, 90, 100, 50, 14) || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
+  else if (buttonPressed(x_object_menu, y_object_menu, 60, 100, 20, 14) || text_input_char == SDLK_RETURN) show_object_menu = 0;
 }
 
 void check_error_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1 || text_input_char==SDLK_RETURN || text_input_char==SDLK_ESCAPE)
-    view_error_menu = 0;
-  else if (buttonPressed(x_error_menu, y_error_menu, 202, 54, 14, 14))
-    view_error_menu = 0;
+  if (long_pressed_button_r == 1 || text_input_char==SDLK_RETURN || text_input_char==SDLK_ESCAPE) view_error_menu = 0;
+  else if (buttonPressed(x_error_menu, y_error_menu, 202, 54, 14, 14)) view_error_menu = 0;
 }
 
 void check_file_menu (unsigned char text_input_char) {
@@ -838,20 +718,16 @@ void check_file_menu (unsigned char text_input_char) {
     view_file_menu = 0;
   else
     //check the load/save button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_file_menu_lenght+x_file_menu-104
-	 && x_mouse_pos < x_file_menu_lenght+x_file_menu-104 + 35
-	 && y_mouse_pos >= y_file_menu+y_file_menu_lenght-18
-	 && y_mouse_pos < y_file_menu+y_file_menu_lenght-18 + 14)
-	|| text_input_char == SDLK_RETURN)
-  {
-	if(save_file)SaveFile(&cur_file_name);
-	else
-	if(load_object)do_load_object(&cur_file_name,&current_object);
-	else LoadFile(&cur_file_name);
-    view_file_menu = 0;
-  }
+
+  if (buttonPressed(x_file_menu, y_file_menu, -104, -18, 35, 14) || text_input_char == SDLK_RETURN) {
+		if(save_file)SaveFile(&cur_file_name);
+		else if(load_object)do_load_object(&cur_file_name,&current_object);
+		else LoadFile(&cur_file_name);
+	    view_file_menu = 0;
+	}
+
+	//check to see if we selected any file/dir
   else
-  //check to see if we selected any file/dir
   if (long_pressed_button_l == 1 && x_mouse_pos >= x_file_menu+2
 	 && x_mouse_pos < x_file_menu+x_file_menu_lenght-4
 	 && y_mouse_pos >= y_file_menu+14
@@ -865,53 +741,38 @@ void check_file_menu (unsigned char text_input_char) {
 		 //see if it is dir, and, if so, change the current dir
 		 if(file_names[i].is_directory)ChangeDir(file_names[i].file_name);
 		 else
-		while(1)
-		 {
-		 	cur_char=file_names[i].file_name[j];
-		 	*(cur_file_name+j)=cur_char;
-		 	if(cur_char==0)break;
-		 	j++;
+		 	while(1) {
+		 		cur_char=file_names[i].file_name[j];
+		 		*(cur_file_name+j)=cur_char;
+		 		if(cur_char==0)break;
+		 		j++;
+			}
+	 }
+	 //check for the cancel button
+	 else if (buttonPressed(x_file_menu, y_file_menu, -62, -18, 50, 14) || text_input_char == SDLK_ESCAPE)
+		 	view_file_menu=0;
+	//check for the << button
+	else if (buttonPressed(x_file_menu, y_file_menu, 4, -34, 14, 14))
+	 		start_file_offset-=18;
+	//check for the >> button
+	else if (buttonPressed(x_file_menu, y_file_menu, -20, -34, 14, 14))
+			start_file_offset+=18;
+	//now, check to see if we get any character
+  else if (text_input_char) {
+    int dialog_text_offset=0;
+
+		while(1) {
+			if(cur_file_name[dialog_text_offset]==0)break;
+			dialog_text_offset++;
 		}
 
-	 }
-	 else
-	 //check for the cancel button
-	   if ((long_pressed_button_l == 1 && x_mouse_pos >= x_file_menu_lenght+x_file_menu-62
-	 	 && x_mouse_pos < x_file_menu_lenght+x_file_menu-62 + 50
-	 	 && y_mouse_pos >= y_file_menu+y_file_menu_lenght-18
-	 	&& y_mouse_pos < y_file_menu+y_file_menu_lenght-18 + 14)
-	 	|| text_input_char == SDLK_ESCAPE)view_file_menu=0;
-	else
-	//check for the << button
-	   if (long_pressed_button_l == 1 && x_mouse_pos >= x_file_menu+4
-	 	 && x_mouse_pos < x_file_menu + 4 + 14
-	 	 && y_mouse_pos >= y_file_menu+y_file_menu_lenght-34
-	 	&& y_mouse_pos < y_file_menu+y_file_menu_lenght-34 + 14)start_file_offset-=18;
-	else
-	//check for the >> button
-	   if (long_pressed_button_l == 1 && x_mouse_pos >= x_file_menu+x_file_menu_lenght-20
-	 	 && x_mouse_pos < x_file_menu+x_file_menu_lenght-20 + 14
-	 	 && y_mouse_pos >= y_file_menu+y_file_menu_lenght-34
-	 	&& y_mouse_pos < y_file_menu+y_file_menu_lenght-34 + 14)start_file_offset+=18;
-  else
-    //now, check to see if we get any character
-  if (text_input_char)
-  {
-    int dialog_text_offset=0;
-	while(1)
-	{
-		if(cur_file_name[dialog_text_offset]==0)break;
-		dialog_text_offset++;
-	}
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
     if (text_input_char == SDLK_BACKSPACE && dialog_text_offset > 0)
-	cur_file_name[dialog_text_offset-1]=0;
-    else
-    if (text_input_char >=32 && text_input_char<128 && dialog_text_offset<119)
-    {
+			cur_file_name[dialog_text_offset-1]=0;
+    else if (text_input_char >=32 && text_input_char<128 && dialog_text_offset<119) {
     	cur_file_name[dialog_text_offset]=text_input_char;
     	cur_file_name[dialog_text_offset+1]=0;
-	}
+		}
   }
 }
 
