@@ -58,7 +58,7 @@ void events_loop() {
       break;
     }
 
-    /*mod_key_status=SDL_GetModState();
+    mod_key_status=SDL_GetModState();
     caps_look_on = (mod_key_status & KMOD_CAPS) ? 1 : 0;
 
     switch(event.type) {
@@ -86,12 +86,9 @@ void events_loop() {
         } else
 	        button_r = 0;
 
-      if (drag_minimap)
-	      move_minimap ();
-      else if (drag_toolbar)
-	      move_toolbar ();
-      else if (drag_statusbar)
-	      move_statusbar ();
+      if (drag_minimap) move_minimap ();
+      else if (drag_toolbar) move_toolbar ();
+      else if (drag_statusbar) move_statusbar ();
 
       if (view_file_menu)	{ check_file_menu (0); continue; }
       if (view_error_menu) { check_error_menu (0); continue; }
@@ -128,7 +125,7 @@ void events_loop() {
 	    if (keystate[SDLK_z]) {
 			  mod_key_status=SDL_GetModState();
 		  }
-    }*/
+    }
   }
 }
 
@@ -136,48 +133,35 @@ char getTypedChar(SDL_Event *event) {
   return ((*event).type == SDL_KEYDOWN) ? (*event).key.keysym.sym : 0;
 }
 
-void
-mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y)
-{
-  //check the tool bar
-  if (tool_bar)
-    if (check_toolbar_press ())return;
+void mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y) {
+  if (tool_bar && check_toolbar_press()) return;
+  if (mini_map && check_mouse_minimap()) return;
+  if (status_bar && status_bar_press()) return;
 
-  //check to see if we clicked on the minimap
-  if (mini_map)
-    if (check_mouse_minimap ())return;
-  //ok, so no minimap
+  //check if there is a right click on the terrain, to show the view menu
+  if(long_pressed_button_r == 1) {
+    //see if we are dragging a terrain object
+    if(current_tool==t_object) {
+      int i;
 
-  //check the status bar
-  if (status_bar)
-    if (status_bar_press ())return;
+      free(current_object.object_mem);
+      current_object.object_mem=0;
+      //change the tool to the draw tool
+      current_tool=t_place;
 
-    //check if there is a right click on the terrain, to show the view menu
-    if(long_pressed_button_r == 1) {
-      //see if we are dragging a terrain object
-      if(current_tool==t_object)
-      {
-        int i;
-        free(current_object.object_mem);
-        current_object.object_mem=0;
-        //change the tool to the draw tool
-        current_tool=t_place;
-
-        for(i=0;i<no_of_main_tool_bar_icons;i++) {
-          main_tool_bar[i].icon_active = 0;
-        }
-
-        main_tool_bar[0].icon_active = 1;
+      for(i=0;i<no_of_main_tool_bar_icons;i++) {
+        main_tool_bar[i].icon_active = 0;
       }
-      //if not, then just pop up the View menu
-      else {
-        show_view_menu = 1;
-      }
+
+      main_tool_bar[0].icon_active = 1;
+    } else {
+      show_view_menu = 1;
+    }
   }
 
-  //don't do any terain realted things, if the right button is pressed
-  if (long_pressed_button_r != 0)
-    return;
+  //don't do any terain related things, if the right button is pressed
+  if (long_pressed_button_r != 0) return;
+
   //after all tests ended
   if (last_click_on != click_terrain) {
     if (long_pressed_button_l != 1)
@@ -188,19 +172,19 @@ mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y)
     }
   }
 
-    switch (current_tool) {
-      case t_peek: pick_height (left_b, right_b); break;
-      case t_place: draw_brush_line (); break;
-      case t_elevate: draw_brush_line (); break;
-      case t_escavate: draw_brush_line (); break;
-      case t_flood: pre_flood_area (); break;
-      case t_replace: pre_change_area (); break;
-      case t_global_replace: global_replace(); break;
-      case t_zoom_in: zoom_in (); break;
-      case t_select: select_area(); break;
-      case t_object:
-        if(long_pressed_button_l==1)
-          stamp_object();
-        break;
+  switch (current_tool) {
+    case t_peek: pick_height (left_b, right_b); break;
+    case t_place: draw_brush_line (); break;
+    case t_elevate: draw_brush_line (); break;
+    case t_escavate: draw_brush_line (); break;
+    case t_flood: pre_flood_area (); break;
+    case t_replace: pre_change_area (); break;
+    case t_global_replace: global_replace(); break;
+    case t_zoom_in: zoom_in (); break;
+    case t_select: select_area(); break;
+    case t_object:
+      if(long_pressed_button_l==1)
+        stamp_object();
+      break;
   }
 }

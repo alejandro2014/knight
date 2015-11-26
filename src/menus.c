@@ -452,13 +452,11 @@ void check_generate_terrain_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
   	show_generate_terrain_menu = 0;
-  else
-    //check the overwrite terrain button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
+	//check the overwrite terrain button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
     overwrite_terrain = !overwrite_terrain;
-  else
-    //check the random seed button
-  if (buttonPressed(x_replace_menu, y_replace_menu, 140, 18, 50, 14)) {
+	//check the random seed button
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 140, 18, 50, 14)) {
     int this_seed;
     this_seed = rand ();
     this_seed = this_seed * rand ();
@@ -522,8 +520,8 @@ void check_rotate_menu (char text_input_char) {
   if (long_pressed_button_r == 1)
     show_rotate_menu = 0;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) rotation_type=rotation_flip_x; //check the Hor. flip
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) rotation_type=rotation_flip_y; //check Ver. flip
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) rotation_type = rotation_flip_x; //check the Hor. flip
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) rotation_type = rotation_flip_y; //check Ver. flip
 
   if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) rotation_type = rotation_flip_z; //check the Height flip
   else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) rotation_type = rotation_CW_90; //check 90 CW rotation
@@ -531,14 +529,16 @@ void check_rotate_menu (char text_input_char) {
   else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) rotation_type = rotation_180; //check the 180 rotation
   else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 140, 20, 14)) //check the OK button
 	{
-			if(rotation_type==rotation_flip_x)flip_x();
-			else if(rotation_type==rotation_flip_y)flip_y();
-			else if(rotation_type==rotation_flip_z)flip_z();
-			else if(rotation_type==rotation_CW_90)rotate_90_CW();
-			else if(rotation_type==rotation_CCW_90)rotate_90_CCW();
-			else if(rotation_type==rotation_180)rotate_180();
+		switch(rotation_type) {
+			case rotation_flip_x: flip_x(); break;
+			case rotation_flip_y: flip_y(); break;
+			case rotation_flip_z: flip_z(); break;
+			case rotation_CW_90: rotate_90_CW(); break;
+			case rotation_CCW_90: rotate_90_CCW(); break;
+			case rotation_180: rotate_180(); break;
+		}
 
-		  show_rotate_menu = 0;
+		show_rotate_menu = 0;
 	}
 }
 
