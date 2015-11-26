@@ -340,18 +340,12 @@ void check_new_terrain_menu (char text_input_char) {
     show_new_terrain_menu = 0;
   else
     //check the cancel button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_new_terrain_menu + 70
-	 && x_mouse_pos < x_new_terrain_menu + 70 + 50
-	 && y_mouse_pos >= y_new_terrain_menu + 80
-	 && y_mouse_pos < y_new_terrain_menu + 80 + 14)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14))
 	|| text_input_char == SDLK_ESCAPE)
     show_new_terrain_menu = 0;
   else
     //check the OK button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_new_terrain_menu + 40
-	 && x_mouse_pos < x_new_terrain_menu + 40 + 20
-	 && y_mouse_pos >= y_new_terrain_menu + 80
-	 && y_mouse_pos < y_new_terrain_menu + 80 + 14)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14))
 	|| text_input_char == SDLK_RETURN)
   {
     int color_to_fill;
@@ -381,10 +375,7 @@ void check_new_terrain_menu (char text_input_char) {
   }
   else
     //check to see if the x_map_size_dialog got the focus
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_new_terrain_menu + 52
-	&& x_mouse_pos < x_new_terrain_menu + 52 + 42
-	&& y_mouse_pos >= y_new_terrain_menu + 18
-	&& y_mouse_pos < y_new_terrain_menu + 18 + 14)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 18, 42, 14))
   {
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
@@ -393,10 +384,7 @@ void check_new_terrain_menu (char text_input_char) {
   }
   else
     //check to see if the y_map_size_dialog got the focus
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_new_terrain_menu + 52
-	&& x_mouse_pos < x_new_terrain_menu + 52 + 42
-	&& y_mouse_pos >= y_new_terrain_menu + 36
-	&& y_mouse_pos < y_new_terrain_menu + 36 + 14)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 36, 42, 14))
   {
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
@@ -404,10 +392,7 @@ void check_new_terrain_menu (char text_input_char) {
     numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
   }
   else
-    if (long_pressed_button_l == 1 && x_mouse_pos >= x_new_terrain_menu + 90
-	&& x_mouse_pos < x_new_terrain_menu + 90 + 24
-	&& y_mouse_pos >= y_new_terrain_menu + 54
-	&& y_mouse_pos < y_new_terrain_menu + 54 + 14)
+    if (buttonPressed(x_replace_menu, y_replace_menu, 90, 54, 24, 14))
   {
     numeric_dialog_boxes[base_height_dialog].has_focus = 1;
     numeric_dialog_boxes[base_height_dialog].text_offset = 0;
@@ -536,20 +521,11 @@ void check_generate_terrain_menu (char text_input_char) {
   show_generate_terrain_menu = 0;
   else
     //check the overwrite terrain button
-  if (long_pressed_button_l == 1
-	&& x_mouse_pos >= x_generate_terrain_menu + 2
-	&& x_mouse_pos < x_generate_terrain_menu + 2 + 14
-	&& y_mouse_pos >= y_generate_terrain_menu + 40
-	&& y_mouse_pos < y_generate_terrain_menu + 40 + 14)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
     overwrite_terrain = !overwrite_terrain;
   else
     //check the random seed button
-  if (long_pressed_button_l == 1
-	&& x_mouse_pos >= x_generate_terrain_menu + 140
-	&& x_mouse_pos < x_generate_terrain_menu + 140 + 50
-	&& y_mouse_pos >= y_generate_terrain_menu + 18
-	&& y_mouse_pos < y_generate_terrain_menu + 18 + 14)
-  {
+  if (buttonPressed(x_replace_menu, y_replace_menu, 140, 18, 50, 14)) {
     int this_seed;
     this_seed = rand ();
     this_seed = this_seed * rand ();
@@ -559,22 +535,11 @@ void check_generate_terrain_menu (char text_input_char) {
   }
   else
     //check the cancel button
-  if ((long_pressed_button_l == 1
-	 && x_mouse_pos >= x_generate_terrain_menu + 70
-	 && x_mouse_pos < x_generate_terrain_menu + 70 + 50
-	 && y_mouse_pos >= y_generate_terrain_menu + 80
-	 && y_mouse_pos < y_generate_terrain_menu + 80 + 14)
-	|| text_input_char == SDLK_ESCAPE)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14) || text_input_char == SDLK_ESCAPE)
     show_generate_terrain_menu = 0;
   else
     //check the OK button
-  if ((long_pressed_button_l == 1
-	 && x_mouse_pos >= x_generate_terrain_menu + 40
-	 && x_mouse_pos < x_generate_terrain_menu + 40 + 20
-	 && y_mouse_pos >= y_generate_terrain_menu + 80
-	 && y_mouse_pos < y_generate_terrain_menu + 80 + 14)
-	|| text_input_char == SDLK_RETURN)
-  {
+  if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14) || text_input_char == SDLK_RETURN) {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
 
