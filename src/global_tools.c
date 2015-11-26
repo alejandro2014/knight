@@ -86,31 +86,31 @@ void global_replace() {
 }
 
 void rise_terrain() {
-  int i;
+  int x, y;
   int map_size=WIDTH*HEIGHT;
   if(!terrain_height)return;
   change_cursor(cursor_wait);
 
-  for (i = 0; i < map_size; i++)
-    if (*(terrain_height + i) + color_1 < 255)
-      *(terrain_height + i) += color_1;
-    else
-      *(terrain_height + i) = 255;
+  for (y = 0; y < HEIGHT; y++) {
+    for (x = 0; x < WIDTH; x++) {
+        increaseColor(x, y, color_1);
+    }
+  }
 
   change_cursor(last_cursor);
 }
 
 void sink_terrain () {
-  int i;
+  int x, y;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
-  for (i = 0; i < map_size; i++)
-    if (*(terrain_height + i) - color_1 > 0)
-      *(terrain_height + i) -= color_1;
-    else
-      *(terrain_heigh t + i) = 0;
+  for (y = 0; y < HEIGHT; y++) {
+    for (x = 0; x < WIDTH; x++) {
+        decreaseColor(x, y, color_1);
+    }
+  }
 
   change_cursor(last_cursor);
 }
@@ -287,10 +287,7 @@ void rise_selection () {
 
   for (y = start_y; y < end_y; y++) {
     for (x = start_x; x < end_x; x++) {
-		    if (*(terrain_height + y * WIDTH + x) + color_1 < 255)
-		      *(terrain_height + y * WIDTH + x) += color_1;
-		    else
-		      *(terrain_height + y * WIDTH + x) = 255;
+        increaseColor(x, y, color_1);
     }
   }
   change_cursor(last_cursor);
@@ -305,10 +302,7 @@ void sink_selection() {
 
   for (y = start_y; y < end_y; y++) {
     for (x = start_x; x < end_x; x++) {
-		    if (*(terrain_height + y * WIDTH + x) - color_1 > 0)
-		      *(terrain_height + y * WIDTH + x) -= color_1;
-		    else
-		      *(terrain_height + y * WIDTH + x) = 0;
+        decreaseColor(x, y, color_1);
     }
   }
   change_cursor(last_cursor);
@@ -341,4 +335,18 @@ void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2)
 	  *startValue = value2;
 	  *endValue = value1;
 	}
+}
+
+void increaseColor(int x, int y, int delta) {
+  int *currentPoint = terrain_height + y * WIDTH + x;
+  int nextHeight = *currentPoint + delta;
+
+  *currentPoint = (nextHeight < 255) ? nextHeight : 255;
+}
+
+void decreaseColor(int x, int y, int delta) {
+  int *currentPoint = terrain_height + y * WIDTH + x;
+  int nextHeight = *currentPoint - delta;
+
+  *currentPoint = (nextHeight > 0) ? nextHeight : 0;
 }
