@@ -616,80 +616,31 @@ void check_view_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_view_menu = 0;
-  //check the toolbar button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-      && x_mouse_pos < x_view_menu + 2 + 14 && y_mouse_pos >= y_view_menu + 20
-      && y_mouse_pos < y_view_menu + 20 + 14)
+
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) //check the toolbar button
     tool_bar = !tool_bar;
-  else
-    //check the minimap button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 40
-	&& y_mouse_pos < y_view_menu + 40 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) //check the minimap button
     mini_map = !mini_map;
-  //check the statusbar button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-      && x_mouse_pos < x_view_menu + 2 + 14 && y_mouse_pos >= y_view_menu + 60
-      && y_mouse_pos < y_view_menu + 60 + 14)
+
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) //check the statusbar button
     status_bar = !status_bar;
-  else
-    //check the grid off button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 80
-	&& y_mouse_pos < y_view_menu + 80 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) //check the grid off button
     grid = 0;
-  else
-    //check the grid 16 button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 100
-	&& y_mouse_pos < y_view_menu + 100 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) //check the grid 16 button
     grid = 16;
-  else
-    //check the grid 32 button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 120
-	&& y_mouse_pos < y_view_menu + 120 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) //check the grid 32 button
     grid = 32;
-  else
-    //check the grid 64 button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 140
-	&& y_mouse_pos < y_view_menu + 140 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 140, 14, 14)) //check the grid 64 button
     grid = 64;
-  else
-    //check the grid 128 button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 160
-	&& y_mouse_pos < y_view_menu + 160 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 160, 14, 14)) //check the grid 128 button
     grid = 128;
-  else
-    //check the grid 256 button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 180
-	&& y_mouse_pos < y_view_menu + 180 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 180, 14, 14)) //check the grid 256 button
     grid = 256;
-  else
-  //check the gray shades button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 2
-	&& x_mouse_pos < x_view_menu + 2 + 14
-	&& y_mouse_pos >= y_view_menu + 200
-	&& y_mouse_pos < y_view_menu + 200 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 200, 14, 14)) //check the gray shades button
     {
   		make_gray_pallete();
 	}
-  else
-    //check the OK button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_view_menu + 50
-	&& x_mouse_pos < x_view_menu + 50 + 20
-	&& y_mouse_pos >= y_view_menu + 220
-	&& y_mouse_pos < y_view_menu + 220 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 50, 220, 20, 14)) //check the OK button
     show_view_menu = 0;
 }
 
