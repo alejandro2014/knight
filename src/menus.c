@@ -756,78 +756,27 @@ void check_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_replace_menu = 0;
-  else
-    //check the greater than tolerance mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 60
-	&& y_mouse_pos < y_replace_menu + 60 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 60, 14, 14)) //check the greater than tolerance mode
     temp_tolerance_mode = greater;
-  else
-    //check the leaser than tolerance mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 80
-	&& y_mouse_pos < y_replace_menu + 80 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 14, 14)) //check the leaser than tolerance mode
     temp_tolerance_mode = leaser;
-  else
-    //check the leaser or greater tolerance mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 100
-	&& y_mouse_pos < y_replace_menu + 100 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 100, 14, 14)) //check the leaser or greater tolerance mode
     temp_tolerance_mode = greater_or_leaser;
-  else
-  //check the greater replace mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 140
-	&& y_mouse_pos < y_replace_menu + 140 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 140, 14, 14)) //check the greater replace mode
     temp_tolerance_replace_mode = tolerance_replace_plus;
-  else
-  //check the leaser replace mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 160
-	&& y_mouse_pos < y_replace_menu + 160 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 160, 14, 14)) //check the leaser replace mode
     temp_tolerance_replace_mode = tolerance_replace_minus;
-  else
-  //check the equal replace mode
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 180
-	&& y_mouse_pos < y_replace_menu + 180 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 180, 14, 14)) //check the equal replace mode
     temp_tolerance_replace_mode = tolerance_replace_equal;
-  else
-  //check the pattern replace_mode_2
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 220
-	&& y_mouse_pos < y_replace_menu + 220 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 220, 14, 14)) //check the pattern replace_mode_2
     temp_tolerance_replace_mode_2 = replace_mode_solid;
-  else
-  //check the pattern replace_mode_2
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 40
-	&& x_mouse_pos < x_replace_menu + 40 + 14
-	&& y_mouse_pos >= y_replace_menu + 240
-	&& y_mouse_pos < y_replace_menu + 240 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 240, 14, 14)) //check the pattern replace_mode_2
     temp_tolerance_replace_mode_2 = replace_mode_pattern;
-  else
-
-  //check the cancel button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 60
-       && x_mouse_pos < x_replace_menu + 60 + 50
-       && y_mouse_pos >= y_replace_menu + 280
-       && y_mouse_pos < y_replace_menu + 280 + 14)
-      || text_input_char == SDLK_ESCAPE)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE) //check the cancel button
     show_replace_menu = 0;
   else
   //check the load pattern button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 120
-       && x_mouse_pos < x_replace_menu + 120 + 110
-       && y_mouse_pos >= y_replace_menu + 280
-       && y_mouse_pos < y_replace_menu + 280 + 14)
-    {
+  if (buttonPressed(x_replace_menu, y_replace_menu, 120, 280, 110, 14)) {
 		SDL_Event event;
 		if(current_pattern.object_mem)
 			{
@@ -842,11 +791,7 @@ void check_replace_menu (char text_input_char) {
 
   else
     //check the OK button
-  if ((long_pressed_button_l == 1 && x_mouse_pos >= x_replace_menu + 30
-	 && x_mouse_pos < x_replace_menu + 30 + 20
-	 && y_mouse_pos >= y_replace_menu + 280
-	 && y_mouse_pos < y_replace_menu + 280 + 14)
-	|| text_input_char == SDLK_RETURN)
+  if (buttonPressed(x_replace_menu, y_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN)
   {
     int box_tolerance;
     box_tolerance = atoi (numeric_dialog_boxes[tolerance].dialog_text);
