@@ -369,13 +369,7 @@ void clear_selection() {
 	  end_x=selection_x_1;
 	}
 
-  if(selection_y_1<selection_y_2) {
-	  start_y=selection_y_1;
-	  end_y=selection_y_2;
-	} else {
-	  start_y=selection_y_2;
-	  end_y=selection_y_1;
-	}
+  setStartAndEndCoords(selection_y_1, selection_y_2, &start_y, &end_y);
 
   for (y = start_y; y < end_y; y++)
     for (x = start_x; x < end_x; x++)
@@ -384,6 +378,12 @@ void clear_selection() {
   change_cursor(last_cursor);
 }
 
-void setStartAndEndCoords() {
-
+void setStartAndEndCoords(int value1, int value2, int *startValue, int *endValue) {
+  if(value1 < value2) {
+	  *startValue = value1;
+	  *endValue = value2;
+	} else {
+	  *startValue = value2;
+	  *endValue = value1;
+	}
 }
