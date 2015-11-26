@@ -697,50 +697,21 @@ void check_rotate_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_rotate_menu = 0;
-  //check the Hor. flip
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-      && x_mouse_pos < x_rotation_menu + 2 + 14 && y_mouse_pos >= y_rotation_menu + 20
-      && y_mouse_pos < y_rotation_menu + 20 + 14)
+
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) //check the Hor. flip
     rotation_type=rotation_flip_x;
-  else
-    //check Ver. flip
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-	&& x_mouse_pos < x_rotation_menu + 2 + 14
-	&& y_mouse_pos >= y_rotation_menu + 40
-	&& y_mouse_pos < y_rotation_menu + 40 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) //check Ver. flip
     rotation_type=rotation_flip_y;
-  //check the Height flip
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-      && x_mouse_pos < x_rotation_menu + 2 + 14 && y_mouse_pos >= y_rotation_menu + 60
-      && y_mouse_pos < y_rotation_menu + 60 + 14)
+
+  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) //check the Height flip
     rotation_type=rotation_flip_z;
-  else
-    //check 90 CW rotation
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-	&& x_mouse_pos < x_rotation_menu + 2 + 14
-	&& y_mouse_pos >= y_rotation_menu + 80
-	&& y_mouse_pos < y_rotation_menu + 80 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) //check 90 CW rotation
     rotation_type=rotation_CW_90;
-  else
-    //check the 90 CCW rotation
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-	&& x_mouse_pos < x_rotation_menu + 2 + 14
-	&& y_mouse_pos >= y_rotation_menu + 100
-	&& y_mouse_pos < y_rotation_menu + 100 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) //check the 90 CCW rotation
     rotation_type=rotation_CCW_90;
-  else
-    //check the 180 rotation
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 2
-	&& x_mouse_pos < x_rotation_menu + 2 + 14
-	&& y_mouse_pos >= y_rotation_menu + 120
-	&& y_mouse_pos < y_rotation_menu + 120 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) //check the 180 rotation
     rotation_type=rotation_180;
-  else
-    //check the OK button
-  if (long_pressed_button_l == 1 && x_mouse_pos >= x_rotation_menu + 70
-	&& x_mouse_pos < x_rotation_menu + 70 + 20
-	&& y_mouse_pos >= y_rotation_menu + 140
-	&& y_mouse_pos < y_rotation_menu + 140 + 14)
+  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 140, 20, 14)) //check the OK button
 		{
 			if(rotation_type==rotation_flip_x)flip_x();
 			else if(rotation_type==rotation_flip_y)flip_y();
