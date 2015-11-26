@@ -349,14 +349,10 @@ void check_new_terrain_menu (char text_input_char) {
     WIDTH = atoi (numeric_dialog_boxes[x_map_size_dialog].dialog_text);
     HEIGHT = atoi (numeric_dialog_boxes[y_map_size_dialog].dialog_text);
     //do a bounds check
-    if (WIDTH > numeric_dialog_boxes[x_map_size_dialog].max_number)
-      WIDTH = numeric_dialog_boxes[x_map_size_dialog].max_number;
-    if (WIDTH < numeric_dialog_boxes[x_map_size_dialog].min_number)
-      WIDTH = numeric_dialog_boxes[x_map_size_dialog].min_number;
-    if (HEIGHT > numeric_dialog_boxes[y_map_size_dialog].max_number)
-      HEIGHT = numeric_dialog_boxes[y_map_size_dialog].max_number;
-    if (HEIGHT < numeric_dialog_boxes[y_map_size_dialog].min_number)
-      HEIGHT = numeric_dialog_boxes[y_map_size_dialog].min_number;
+    if (WIDTH > numeric_dialog_boxes[x_map_size_dialog].max_number) WIDTH = numeric_dialog_boxes[x_map_size_dialog].max_number;
+    if (WIDTH < numeric_dialog_boxes[x_map_size_dialog].min_number) WIDTH = numeric_dialog_boxes[x_map_size_dialog].min_number;
+    if (HEIGHT > numeric_dialog_boxes[y_map_size_dialog].max_number) HEIGHT = numeric_dialog_boxes[y_map_size_dialog].max_number;
+    if (HEIGHT < numeric_dialog_boxes[y_map_size_dialog].min_number) HEIGHT = numeric_dialog_boxes[y_map_size_dialog].min_number;
     if (color_to_fill > 255 || color_to_fill < 0)
       color_to_fill = 0;
 
@@ -416,7 +412,7 @@ void check_new_terrain_menu (char text_input_char) {
 
 		//check to see if it is a numeric char, and if we didn't exceede the max lenght limit
     if (numeric_dialog_boxes[base_height_dialog].has_focus == 1) {
-      if (text_input_char >= '0' && text_input_char <= '9' &&
+      if (isNumeric(text_input_char) &&
 	  		numeric_dialog_boxes[base_height_dialog].text_offset <
 	  		numeric_dialog_boxes[base_height_dialog].dialog_lenght) {
 					dialog_text_offset = numeric_dialog_boxes[base_height_dialog].text_offset;
@@ -434,7 +430,7 @@ void check_new_terrain_menu (char text_input_char) {
     //check the x_map_size_dialog
     if (numeric_dialog_boxes[x_map_size_dialog].has_focus == 1) {
       //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-      if (text_input_char >= '0' && text_input_char <= '9' &&
+      if (isNumeric(text_input_char) &&
 	  		numeric_dialog_boxes[x_map_size_dialog].text_offset <
 	  		numeric_dialog_boxes[x_map_size_dialog].dialog_lenght) {
 					dialog_text_offset = numeric_dialog_boxes[x_map_size_dialog].text_offset;
@@ -450,7 +446,7 @@ void check_new_terrain_menu (char text_input_char) {
     //check the y_map_size_dialog
     if (numeric_dialog_boxes[y_map_size_dialog].has_focus == 1) {
       //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-      if (text_input_char >= '0' && text_input_char <= '9' &&
+      if (isNumeric(text_input_char) &&
 	  		numeric_dialog_boxes[y_map_size_dialog].text_offset <
 	  		numeric_dialog_boxes[y_map_size_dialog].dialog_lenght) {
 					dialog_text_offset = numeric_dialog_boxes[y_map_size_dialog].text_offset;
@@ -500,7 +496,7 @@ void check_generate_terrain_menu (char text_input_char) {
   else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-    if (text_input_char >= '0' && text_input_char <= '9' &&
+    if (isNumeric(text_input_char) &&
 			numeric_dialog_boxes[seed_dialog].text_offset <
 			numeric_dialog_boxes[seed_dialog].dialog_lenght) {
       	dialog_text_offset = numeric_dialog_boxes[seed_dialog].text_offset;
@@ -612,7 +608,7 @@ void check_replace_menu (char text_input_char) {
   else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-    if (text_input_char >= '0' && text_input_char <= '9' &&
+    if (isNumeric(text_input_char) &&
 			numeric_dialog_boxes[tolerance].text_offset <
 			numeric_dialog_boxes[tolerance].dialog_lenght) {
       	dialog_text_offset = numeric_dialog_boxes[tolerance].text_offset;
@@ -677,7 +673,7 @@ void check_global_replace_menu (char text_input_char) {
   else if (text_input_char) {
     int dialog_text_offset;
     //check to see if it is a numeric char, and if we didn't exceede the max lenght limit
-    if (text_input_char >= '0' && text_input_char <= '9' &&
+    if (isNumeric(text_input_char) &&
 			numeric_dialog_boxes[global_tolerance].text_offset <
 			numeric_dialog_boxes[global_tolerance].dialog_lenght) {
       	dialog_text_offset = numeric_dialog_boxes[global_tolerance].text_offset;
@@ -751,12 +747,8 @@ void check_file_menu (unsigned char text_input_char) {
 	 //check for the cancel button
 	 else if (buttonPressed(x_file_menu, y_file_menu, -62, -18, 50, 14) || text_input_char == SDLK_ESCAPE)
 		 	view_file_menu=0;
-	//check for the << button
-	else if (buttonPressed(x_file_menu, y_file_menu, 4, -34, 14, 14))
-	 		start_file_offset-=18;
-	//check for the >> button
-	else if (buttonPressed(x_file_menu, y_file_menu, -20, -34, 14, 14))
-			start_file_offset+=18;
+	else if (buttonPressed(x_file_menu, y_file_menu, 4, -34, 14, 14)) start_file_offset-=18; //check for the << button
+	else if (buttonPressed(x_file_menu, y_file_menu, -20, -34, 14, 14)) start_file_offset+=18; //check for the >> button
 	//now, check to see if we get any character
   else if (text_input_char) {
     int dialog_text_offset=0;
@@ -781,4 +773,8 @@ int buttonPressed(int xMenu, int yMenu, int x, int y, int w, int h) {
 	 && x_mouse_pos < xMenu + x + w
 	 && y_mouse_pos >= yMenu + y
 	 && y_mouse_pos < yMenu + y + h) ? 1 : 0;
+}
+
+int isNumeric(char *charToTest) {
+	return charToTest >= '0' && charToTest <= '9' ? 1 : 0;
 }
