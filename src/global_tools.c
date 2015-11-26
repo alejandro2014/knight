@@ -252,21 +252,7 @@ void smooth_selection() {
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
-  if(selection_x_1<selection_x_2) {
-	  start_x=selection_x_1;
-	  end_x=selection_x_2;
-	} else {
-	  start_x=selection_x_2;
-	  end_x=selection_x_1;
-	}
-
-  if(selection_y_1<selection_y_2) {
-	  start_y=selection_y_1;
-	  end_y=selection_y_2;
-	} else {
-	  start_y=selection_y_2;
-	  end_y=selection_y_1;
-	}
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
 
   if(start_x==0) start_x = 1;
   if(start_y==0) start_y = 1;
@@ -297,21 +283,7 @@ void rise_selection () {
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
-  if(selection_x_1<selection_x_2) {
-	  start_x=selection_x_1;
-	  end_x=selection_x_2;
-	} else {
-	  start_x=selection_x_2;
-	  end_x=selection_x_1;
-	}
-
-  if(selection_y_1<selection_y_2) {
-	  start_y=selection_y_1;
-	  end_y=selection_y_2;
-	} else {
-	  start_y=selection_y_2;
-	  end_y=selection_y_1;
-	}
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
 
   for (y = start_y; y < end_y; y++) {
     for (x = start_x; x < end_x; x++) {
@@ -329,21 +301,7 @@ void sink_selection() {
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
-  if(selection_x_1<selection_x_2) {
-	  start_x=selection_x_1;
-	  end_x=selection_x_2;
-	} else {
-	  start_x=selection_x_2;
-	  end_x=selection_x_1;
-	}
-
-  if(selection_y_1<selection_y_2) {
-	  start_y=selection_y_1;
-	  end_y=selection_y_2;
-	} else {
-	  start_y=selection_y_2;
-	  end_y=selection_y_1;
-	}
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
 
   for (y = start_y; y < end_y; y++) {
     for (x = start_x; x < end_x; x++) {
@@ -361,15 +319,7 @@ void clear_selection() {
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
-  if(selection_x_1<selection_x_2) {
-	  start_x=selection_x_1;
-	  end_x=selection_x_2;
-	} else {
-	  start_x=selection_x_2;
-	  end_x=selection_x_1;
-	}
-
-  setStartAndEndCoords(selection_y_1, selection_y_2, &start_y, &end_y);
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
 
   for (y = start_y; y < end_y; y++)
     for (x = start_x; x < end_x; x++)
@@ -378,7 +328,12 @@ void clear_selection() {
   change_cursor(last_cursor);
 }
 
-void setStartAndEndCoords(int value1, int value2, int *startValue, int *endValue) {
+void setStartAndEndCoord(int *startX, int *endX, int *startY, int *endY) {
+  setStartAndEndCoords(startX, endX, selection_x_1, selection_x_2);
+  setStartAndEndCoords(startY, endY, selection_y_1, selection_y_2);
+}
+
+void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2) {
   if(value1 < value2) {
 	  *startValue = value1;
 	  *endValue = value2;
