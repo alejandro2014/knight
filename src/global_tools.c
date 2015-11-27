@@ -85,36 +85,6 @@ void global_replace() {
   change_cursor(last_cursor);
 }
 
-void rise_terrain() {
-  int x, y;
-  int map_size=WIDTH*HEIGHT;
-  if(!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  for (y = 0; y < HEIGHT; y++) {
-    for (x = 0; x < WIDTH; x++) {
-        increaseColor(x, y, color_1);
-    }
-  }
-
-  change_cursor(last_cursor);
-}
-
-void sink_terrain () {
-  int x, y;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  for (y = 0; y < HEIGHT; y++) {
-    for (x = 0; x < WIDTH; x++) {
-        decreaseColor(x, y, color_1);
-    }
-  }
-
-  change_cursor(last_cursor);
-}
-
 void flip_z() {
   int i;
   int map_size=WIDTH*HEIGHT;
@@ -278,46 +248,53 @@ void smooth_selection() {
 	change_cursor(last_cursor);
 }
 
-void rise_selection () {
-  int x, y, start_x,start_y,end_x,end_y,cur_height;
+void rise_terrain() {
+  if(!terrain_height)return;
+
+  change_cursor(cursor_wait);
+  rise(0, 0, WIDTH, HEIGHT, color_1);
+  change_cursor(last_cursor);
+}
+
+void sink_terrain() {
   if (!terrain_height)return;
+
+  change_cursor(cursor_wait);
+  sink(0, 0, WIDTH, HEIGHT, color_1);
+  change_cursor(last_cursor);
+}
+
+void rise_selection () {
+  int start_x, start_y, end_x, end_y;
+  if (!terrain_height)return;
+
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+  rise(start_x, start_y, end_x, end_y, color_1);
 
-  for (y = start_y; y < end_y; y++) {
-    for (x = start_x; x < end_x; x++) {
-        increaseColor(x, y, color_1);
-    }
-  }
   change_cursor(last_cursor);
 }
 
 void sink_selection() {
-  int x, y, start_x,start_y,end_x,end_y,cur_height;
+  int start_x, start_y, end_x, end_y;
   if (!terrain_height)return;
+
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+  sink(start_x, start_y, end_x, end_y, color_1);
 
-  for (y = start_y; y < end_y; y++) {
-    for (x = start_x; x < end_x; x++) {
-        decreaseColor(x, y, color_1);
-    }
-  }
   change_cursor(last_cursor);
 }
 
 void clear_selection() {
-  int x, y, start_x,start_y,end_x,end_y,cur_height;
+  int start_x, start_y, end_x, end_y;
   if (!terrain_height)return;
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-
-  for (y = start_y; y < end_y; y++)
-    for (x = start_x; x < end_x; x++)
-      *(terrain_height + y * WIDTH + x) = color_1;
+  setColor(start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -349,4 +326,34 @@ void decreaseColor(int x, int y, int delta) {
   int nextHeight = *currentPoint - delta;
 
   *currentPoint = (nextHeight > 0) ? nextHeight : 0;
+}
+
+void rise(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        increaseColor(x, y, color);
+    }
+  }
+}
+
+void sink(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        decreaseColor(x, y, color);
+    }
+  }
+}
+
+void setColor(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        *(terrain_height + y * WIDTH + x) = color_1;
+    }
+  }
 }
