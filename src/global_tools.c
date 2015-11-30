@@ -29,60 +29,47 @@ void do_clear_temp_buffer () {
 }
 
 void global_replace() {
-  int i,x,y;
-  int cur_height;
-  int map_size=WIDTH*HEIGHT;
+    int i,x,y;
+    int cur_height;
+    int map_size=WIDTH*HEIGHT;
 
-  if(!terrain_height || !get_cur_x_y())return;
+    if(!terrain_height || !get_cur_x_y())return;
 
-  if(global_tolerance_replace_mode_2==replace_mode_pattern) {
-	  if(!current_pattern.object_mem) {
-			sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
-			sprintf(error_msg_2,"Please select a pattern!");
-			view_error_menu=1;
-      return;
-	  }
-  }
+    if(global_tolerance_replace_mode_2==replace_mode_pattern) {
+        if(!current_pattern.object_mem) {
+            sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
+            sprintf(error_msg_2,"Please select a pattern!");
+            view_error_menu=1;
+            return;
+        }
+    }
 
-  change_cursor(cursor_wait);
-  color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
+    change_cursor(cursor_wait);
+    color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
 
-  for (i = 0; i < map_size; i++) {
-  	cur_height=*(terrain_height + i);
-  	//check to see if we got a match
-		if ((global_tolerance_mode == greater &&
-		    cur_height>=color_2 && cur_height<=color_2+global_tolerance_value) ||
-		    (global_tolerance_mode == leaser &&
-		    cur_height<=color_2 && cur_height>=color_2-global_tolerance_value) ||
-		    (global_tolerance_mode == greater_or_leaser &&
-		    cur_height>=color_2-global_tolerance_value && cur_height<=color_2+global_tolerance_value))
-		{
-			if(global_tolerance_replace_mode_2 == replace_mode_pattern) {
-				y=i/WIDTH;
-				x=i%WIDTH;
-				put_pattern(terrain_height+i,x,y);
-			}
-			else {
-			    if(global_tolerance_replace_mode==tolerance_replace_equal)
-						 *(terrain_height+i)=color_1;
-					else
-						if(global_tolerance_replace_mode==tolerance_replace_plus) {
-							if(*(terrain_height+i) + color_1 > 255)
-                                *(terrain_height+i) = 255;
-							else
-                                *(terrain_height+i) += color_1;
-						}
-						else if(global_tolerance_replace_mode==tolerance_replace_minus) {
-							if(*(terrain_height+i)-color_1 < 0)
-                *(terrain_height+i) = 0;
-							else
-                *(terrain_height+i) -= color_1;
-						}
-					}
-			}
-	}
+    for(x = 0; x < WIDTH; x++) {
+        for(y = 0; y < HEIGHT; y++) {
+            cur_height = *(terrain_height + y * WIDTH + x);
 
-  change_cursor(last_cursor);
+            //check to see if we got a match
+            if ((global_tolerance_mode == greater && cur_height>=color_2 && cur_height<=color_2+global_tolerance_value) ||
+                (global_tolerance_mode == leaser && cur_height<=color_2 && cur_height>=color_2-global_tolerance_value) ||
+                (global_tolerance_mode == greater_or_leaser && cur_height>=color_2 - global_tolerance_value && cur_height<=color_2 + global_tolerance_value)) {
+
+                if(global_tolerance_replace_mode_2 == replace_mode_pattern) {
+                    i = y * WIDTH + x;
+                    put_pattern(terrain_height+i,x,y);
+                } else {
+                    switch(global_tolerance_mode) {
+                        case tolerance_replace_equal: setColor(x, y, color_1); break;
+                        case tolerance_replace_plus: increaseColor(x, y, color_1); break;
+                        case tolerance_replace_minus: decreaseColor(x, y, color_1); break;
+                    }
+                }
+            }
+        }
+    }
+    change_cursor(last_cursor);
 }
 
 void flip_z() {
@@ -93,7 +80,7 @@ void flip_z() {
   change_cursor(cursor_wait);
 
   for (i = 0; i < map_size; i++)
-    *(terrain_height + i) = 0 - *(terrain_height + i);
+    *(terrain_height + i) = *(terrain_height + i) * (-1);
 
   change_cursor(last_cursor);
 }
@@ -131,7 +118,7 @@ void flip_x() {
   change_cursor(last_cursor);
 }
 
-void rotate_90_CW() {
+void rotate_90() {
   int x,y,map_offset,old_height,old_width;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
@@ -154,7 +141,24 @@ void rotate_90_CW() {
 	change_cursor(last_cursor);
 }
 
-void rotate_90_CCW() {
+void rotate_180() {
+  int x,y,map_offset;
+  int map_size=WIDTH*HEIGHT;
+  if (!terrain_height)return;
+  change_cursor(cursor_wait);
+
+  for (y = 0; y<HEIGHT; y++) {
+		map_offset=(y+1)*WIDTH-1;
+
+		for (x = 0; x<WIDTH; x++) {
+			map_offset--;
+		}
+	}
+
+  change_cursor(last_cursor);
+}
+
+void rotate_270() {
   int x,y,map_offset,old_height,old_width;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
@@ -176,28 +180,11 @@ void rotate_90_CCW() {
 	change_cursor(last_cursor);
 }
 
-void rotate_180() {
-  int x,y,map_offset;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  for (y = 0; y<HEIGHT; y++) {
-		map_offset=(y+1)*WIDTH-1;
-
-		for (x = 0; x<WIDTH; x++) {
-			map_offset--;
-		}
-	}
-
-  change_cursor(last_cursor);
-}
-
 void smooth_terrain() {
   if(!terrain_height)return;
-  
+
   change_cursor(cursor_wait);
-  smooth(start_x, start_y, end_x, end_y, -1);
+  smoothSelection(1, 1, WIDTH - 1, HEIGHT - 1 , -1);
   change_cursor(last_cursor);
 }
 
@@ -213,38 +200,15 @@ void smooth_selection() {
   if(end_x==WIDTH) end_x = WIDTH - 1;
   if(end_y==HEIGHT) end_y = HEIGHT - 1;
 
-  smooth(start_x, start_y, end_x, end_y, -1);
+  smoothSelection(start_x, start_y, end_x, end_y, -1);
   change_cursor(last_cursor);
-}
-
-void smooth(int startX, int startY, int endX, int endY, int uselessParam) {
-    int x, y;
-    int sum;
-
-    for (y = startY; y < endY; y++) {
-        for (x = startX; x < endX; x++) {
-            sum = *(terrain_height + y * WIDTH + x);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
-            sum += *(terrain_height + (y * WIDTH) + x - 1);
-            sum += *(terrain_height + (y * WIDTH) + x + 1);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
-
-            sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
-
-            smoothPoint(x, y, sum);
-        }
-    }
 }
 
 void rise_terrain() {
   if(!terrain_height)return;
 
   change_cursor(cursor_wait);
-  rise(0, 0, WIDTH, HEIGHT, color_1);
+  riseSelection(0, 0, WIDTH, HEIGHT, color_1);
   change_cursor(last_cursor);
 }
 
@@ -252,7 +216,7 @@ void sink_terrain() {
   if (!terrain_height)return;
 
   change_cursor(cursor_wait);
-  sink(0, 0, WIDTH, HEIGHT, color_1);
+  sinkSelection(0, 0, WIDTH, HEIGHT, color_1);
   change_cursor(last_cursor);
 }
 
@@ -263,7 +227,7 @@ void rise_selection () {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  rise(start_x, start_y, end_x, end_y, color_1);
+  riseSelection(start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -275,7 +239,7 @@ void sink_selection() {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  sink(start_x, start_y, end_x, end_y, color_1);
+  sinkSelection(start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -286,7 +250,7 @@ void clear_selection() {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  setColor(start_x, start_y, end_x, end_y, color_1);
+  setHeightSelection(start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -306,50 +270,73 @@ void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2)
 	}
 }
 
-void increaseColor(int x, int y, int delta) {
+void smoothSelection(int startX, int startY, int endX, int endY, int uselessParam) {
+    int x, y;
+    int sum;
+
+    for (y = startY; y < endY; y++) {
+        for (x = startX; x < endX; x++) {
+            sum = *(terrain_height + y * WIDTH + x);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
+            sum += *(terrain_height + (y * WIDTH) + x - 1);
+            sum += *(terrain_height + (y * WIDTH) + x + 1);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
+
+            sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
+
+            setHeightPoint(x, y, sum);
+        }
+    }
+}
+
+void riseSelection(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        risePoint(x, y, color);
+    }
+  }
+}
+
+void sinkSelection(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        sinkPoint(x, y, color);
+    }
+  }
+}
+
+void setHeightSelection(int startX, int startY, int endX, int endY, int color) {
+  int x, y;
+
+  for (y = startY; y < endY; y++) {
+    for (x = startX; x < endX; x++) {
+        setHeightPoint(x, y, color_1);
+    }
+  }
+}
+
+void setHeightPoint(int x, int y, int color) {
+    *(terrain_height + y * WIDTH + x) = color;
+}
+
+void risePoint(int x, int y, int delta) {
   int *currentPoint = terrain_height + y * WIDTH + x;
   int nextHeight = *currentPoint + delta;
 
   *currentPoint = (nextHeight < 255) ? nextHeight : 255;
 }
 
-void decreaseColor(int x, int y, int delta) {
+void sinkPoint(int x, int y, int delta) {
   int *currentPoint = terrain_height + y * WIDTH + x;
   int nextHeight = *currentPoint - delta;
 
   *currentPoint = (nextHeight > 0) ? nextHeight : 0;
-}
-
-void smoothPoint(int x, int y, int value) {
-    *(terrain_height + y * WIDTH + x) = value;
-}
-
-void rise(int startX, int startY, int endX, int endY, int color) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        increaseColor(x, y, color);
-    }
-  }
-}
-
-void sink(int startX, int startY, int endX, int endY, int color) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        decreaseColor(x, y, color);
-    }
-  }
-}
-
-void setColor(int startX, int startY, int endX, int endY, int color) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        *(terrain_height + y * WIDTH + x) = color_1;
-    }
-  }
 }
