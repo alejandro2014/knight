@@ -79,8 +79,12 @@ void flip_z() {
 
   change_cursor(cursor_wait);
 
-  for (i = 0; i < map_size; i++)
-    *(terrain_height + i) = *(terrain_height + i) * (-1);
+  for(x = 0; x < WIDTH; x++) {
+      for(y = 0; y < HEIGHT; y++) {
+          currentHeight = getHeight(x, y);
+          setHeight(x, y, -currentHeight);
+      }
+  }
 
   change_cursor(last_cursor);
 }
@@ -288,55 +292,57 @@ void smoothSelection(int startX, int startY, int endX, int endY, int uselessPara
 
             sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
 
-            setHeightPoint(x, y, sum);
+            setHeight(x, y, sum);
         }
     }
 }
 
-void riseSelection(int startX, int startY, int endX, int endY, int color) {
+void riseSelection(int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        risePoint(x, y, color);
+        risePoint(x, y, height);
     }
   }
 }
 
-void sinkSelection(int startX, int startY, int endX, int endY, int color) {
+void sinkSelection(int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        sinkPoint(x, y, color);
+        sinkPoint(x, y, height);
     }
   }
 }
 
-void setHeightSelection(int startX, int startY, int endX, int endY, int color) {
+void setHeightSelection(int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        setHeightPoint(x, y, color_1);
+        setHeight(x, y, height);
     }
   }
-}
-
-void setHeightPoint(int x, int y, int color) {
-    *(terrain_height + y * WIDTH + x) = color;
 }
 
 void risePoint(int x, int y, int delta) {
-  int *currentPoint = terrain_height + y * WIDTH + x;
-  int nextHeight = *currentPoint + delta;
+    int currentHeight = getHeight(x, y);
+    int nextHeight = currentHeight + delta;
 
-  *currentPoint = (nextHeight < 255) ? nextHeight : 255;
+    nextHeight = (nextHeight < 255) ? nextHeight : 255;
+    setHeight(x, y, nextHeight);
 }
 
 void sinkPoint(int x, int y, int delta) {
-  int *currentPoint = terrain_height + y * WIDTH + x;
-  int nextHeight = *currentPoint - delta;
+    int currentHeight = getHeight(x, y);
+    int nextHeight = currentHeight + delta;
 
-  *currentPoint = (nextHeight > 0) ? nextHeight : 0;
+    nextHeight = (nextHeight > 0) ? nextHeight : 0;
+    setHeight(x, y, nextHeight);
+}
+
+void setHeight(int x, int y, int height) {
+    *(terrain_height + y * WIDTH + x) = height;
 }
