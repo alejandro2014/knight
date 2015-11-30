@@ -68,9 +68,9 @@ void global_replace() {
 					else
 						if(global_tolerance_replace_mode==tolerance_replace_plus) {
 							if(*(terrain_height+i) + color_1 > 255)
-                *(terrain_height+i) = 255;
+                                *(terrain_height+i) = 255;
 							else
-                *(terrain_height+i) += color_1;
+                                *(terrain_height+i) += color_1;
 						}
 						else if(global_tolerance_replace_mode==tolerance_replace_minus) {
 							if(*(terrain_height+i)-color_1 < 0)
@@ -99,20 +99,20 @@ void flip_z() {
 }
 
 void flip_y() {
-  int x,y,map_offset;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
+    int x,y,map_offset;
+    int map_size=WIDTH*HEIGHT;
+    if (!terrain_height)return;
+    change_cursor(cursor_wait);
 
-  for (y = 0; y<HEIGHT; y++) {
-		map_offset=y*WIDTH;
+    for (y = 0; y<HEIGHT; y++) {
+        map_offset=y*WIDTH;
 
-		for (x = 0; x<WIDTH; x++) {
-		  map_offset++;
-		}
-	}
+	    for (x = 0; x<WIDTH; x++) {
+            map_offset++;
+	    }
+    }
 
-  change_cursor(last_cursor);
+    change_cursor(last_cursor);
 }
 
 void flip_x() {
@@ -194,27 +194,11 @@ void rotate_180() {
 }
 
 void smooth_terrain() {
-  int x, y, sum;
   if(!terrain_height)return;
+  
   change_cursor(cursor_wait);
-
-  for (y = 1; y < HEIGHT - 1; y++)
-    for (x = 1; x < WIDTH - 1; x++) {
-      sum = *(terrain_height + y * WIDTH + x);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
-      sum += *(terrain_height + (y * WIDTH) + x - 1);
-      sum += *(terrain_height + (y * WIDTH) + x + 1);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
-
-      sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
-
-      *(terrain_height + y * WIDTH + x) = sum;
-    }
-    change_cursor(last_cursor);
+  smooth(start_x, start_y, end_x, end_y, -1);
+  change_cursor(last_cursor);
 }
 
 void smooth_selection() {
@@ -229,23 +213,31 @@ void smooth_selection() {
   if(end_x==WIDTH) end_x = WIDTH - 1;
   if(end_y==HEIGHT) end_y = HEIGHT - 1;
 
-  for (y = start_y; y < end_y; y++)
-    for (x = start_x; x < end_x; x++) {
-      sum = *(terrain_height + y * WIDTH + x);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x);
-      sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
-      sum += *(terrain_height + (y * WIDTH) + x - 1);
-      sum += *(terrain_height + (y * WIDTH) + x + 1);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x);
-      sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
+  smooth(start_x, start_y, end_x, end_y, -1);
+  change_cursor(last_cursor);
+}
 
-      sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
+void smooth(int startX, int startY, int endX, int endY, int uselessParam) {
+    int x, y;
+    int sum;
 
-      *(terrain_height + y * WIDTH + x) = sum;
+    for (y = startY; y < endY; y++) {
+        for (x = startX; x < endX; x++) {
+            sum = *(terrain_height + y * WIDTH + x);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x);
+            sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
+            sum += *(terrain_height + (y * WIDTH) + x - 1);
+            sum += *(terrain_height + (y * WIDTH) + x + 1);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x);
+            sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
+
+            sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
+
+            smoothPoint(x, y, sum);
+        }
     }
-	change_cursor(last_cursor);
 }
 
 void rise_terrain() {
@@ -299,9 +291,9 @@ void clear_selection() {
   change_cursor(last_cursor);
 }
 
-void setStartAndEndCoord(int *startX, int *endX, int *startY, int *endY) {
-  setStartAndEndCoords(startX, endX, selection_x_1, selection_x_2);
-  setStartAndEndCoords(startY, endY, selection_y_1, selection_y_2);
+void setStartAndEndCoords(int *startX, int *endX, int *startY, int *endY) {
+  setStartAndEndCoord(startX, endX, selection_x_1, selection_x_2);
+  setStartAndEndCoord(startY, endY, selection_y_1, selection_y_2);
 }
 
 void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2) {
@@ -326,6 +318,10 @@ void decreaseColor(int x, int y, int delta) {
   int nextHeight = *currentPoint - delta;
 
   *currentPoint = (nextHeight > 0) ? nextHeight : 0;
+}
+
+void smoothPoint(int x, int y, int value) {
+    *(terrain_height + y * WIDTH + x) = value;
 }
 
 void rise(int startX, int startY, int endX, int endY, int color) {
