@@ -104,9 +104,7 @@ void replace_ver_line(short orig_x,short orig_y) {
 	for(;y>=0;y--) {
 		buffer_offset=y*WIDTH+x;
 		curent_height=*(terrain_height+buffer_offset);
-		if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			(tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			(tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled)
+		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled)
 			{
                 replacePoint(terrain_height, x, y);
 
@@ -115,18 +113,14 @@ void replace_ver_line(short orig_x,short orig_y) {
 			if(x>0) {
 			    curent_height=*(terrain_height+buffer_offset-1);
 
-				if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 	 (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 	 (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset-1)!=already_filled)
+				if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset-1)!=already_filled)
 				    *(temp_buffer+buffer_offset-1)=pending_fill;
 			}
 
 			if(x<WIDTH-1) {
      			curent_height=*(terrain_height+buffer_offset+1);
 
-     			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-     			     (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-     			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset+1)!=already_filled)
+     			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+1)!=already_filled)
     			    *(temp_buffer+buffer_offset+1)=pending_fill;
 				}
             }
@@ -137,18 +131,14 @@ void replace_ver_line(short orig_x,short orig_y) {
 			buffer_offset=y*WIDTH+x;
 			curent_height=*(terrain_height+buffer_offset);
 
-			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			(tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			(tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled)
+			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled)
 			{
 				replacePoint(terrain_height, x, y);
 				 *(temp_buffer+buffer_offset)=already_filled;
 				 //now, scan for the up and down neighbours
 				 if(x>0) {
 				 			curent_height=*(terrain_height+buffer_offset-1);
-				 			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset-1)!=already_filled)
+				 			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-1)!=already_filled)
 							    *(temp_buffer+buffer_offset-1)=pending_fill;
 					}
 				 if(x<WIDTH-1) {
@@ -188,13 +178,7 @@ void replace_line(short orig_x,short orig_y)
 		{
 			buffer_offset=y*WIDTH+x;
 			curent_height=*(terrain_height+buffer_offset);
-			if (((tolerance_mode == greater &&
-			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			(tolerance_mode == leaser &&
-			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			(tolerance_mode == greater_or_leaser &&
-			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-			&& *(temp_buffer+buffer_offset)!=already_filled)
+			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled)
 			 {
 				replacePoint(terrain_height, x, y);
 
@@ -203,26 +187,14 @@ void replace_line(short orig_x,short orig_y)
 				 if(y>0)
 				 	{
 				 			curent_height=*(terrain_height+buffer_offset-WIDTH);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset-WIDTH)!=already_filled)
+				 			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-WIDTH)!=already_filled)
 				 			replace_ver_line((short)x,(short)y-1);
 					}
 
 				 if(y<HEIGHT-1)
 				    {
 				 			curent_height=*(terrain_height+buffer_offset+WIDTH);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset+WIDTH)!=already_filled)
+				 			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+WIDTH)!=already_filled)
 				 			replace_ver_line((short)x,(short)y+1);
 					}
 
@@ -235,9 +207,7 @@ void replace_line(short orig_x,short orig_y)
 		{
 			buffer_offset=y*WIDTH+x;
 			curent_height=*(terrain_height+buffer_offset);
-			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			     (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled) {
+			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled) {
 				replacePoint(terrain_height, x, y);
 
 				 *(temp_buffer+buffer_offset)=already_filled;
@@ -245,26 +215,14 @@ void replace_line(short orig_x,short orig_y)
 				 if(y>0)
 				 	{
 				 			curent_height=*(terrain_height+buffer_offset-WIDTH);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset-WIDTH)!=already_filled)
+				 			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-WIDTH)!=already_filled)
 				 			replace_ver_line((short)x,(short)y-1);
 					}
 
 				 if(y<HEIGHT-1)
 				 	{
 				 			curent_height=*(terrain_height+buffer_offset+WIDTH);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset+WIDTH)!=already_filled)
+				 			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+WIDTH)!=already_filled)
 				 			replace_ver_line((short)x,(short)y+1);
 					}
 
