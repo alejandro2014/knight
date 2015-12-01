@@ -61,9 +61,9 @@ void global_replace() {
                     put_pattern(terrain_height+i,x,y);
                 } else {
                     switch(global_tolerance_mode) {
-                        case tolerance_replace_equal: setColor(x, y, color_1); break;
-                        case tolerance_replace_plus: increaseColor(x, y, color_1); break;
-                        case tolerance_replace_minus: decreaseColor(x, y, color_1); break;
+                        case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
+                        case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
+                        case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
                     }
                 }
             }
@@ -188,7 +188,7 @@ void smooth_terrain() {
   if(!terrain_height)return;
 
   change_cursor(cursor_wait);
-  smoothSelection(1, 1, WIDTH - 1, HEIGHT - 1 , -1);
+  smoothSelection(terrain_height, 1, 1, WIDTH - 1, HEIGHT - 1 , -1);
   change_cursor(last_cursor);
 }
 
@@ -204,7 +204,7 @@ void smooth_selection() {
   if(end_x==WIDTH) end_x = WIDTH - 1;
   if(end_y==HEIGHT) end_y = HEIGHT - 1;
 
-  smoothSelection(start_x, start_y, end_x, end_y, -1);
+  smoothSelection(terrain_height, start_x, start_y, end_x, end_y, -1);
   change_cursor(last_cursor);
 }
 
@@ -212,7 +212,7 @@ void rise_terrain() {
   if(!terrain_height)return;
 
   change_cursor(cursor_wait);
-  riseSelection(0, 0, WIDTH, HEIGHT, color_1);
+  riseSelection(terrain_height, 0, 0, WIDTH, HEIGHT, color_1);
   change_cursor(last_cursor);
 }
 
@@ -220,7 +220,7 @@ void sink_terrain() {
   if (!terrain_height)return;
 
   change_cursor(cursor_wait);
-  sinkSelection(0, 0, WIDTH, HEIGHT, color_1);
+  sinkSelection(terrain_height, 0, 0, WIDTH, HEIGHT, color_1);
   change_cursor(last_cursor);
 }
 
@@ -231,7 +231,7 @@ void rise_selection () {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  riseSelection(start_x, start_y, end_x, end_y, color_1);
+  riseSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -243,7 +243,7 @@ void sink_selection() {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  sinkSelection(start_x, start_y, end_x, end_y, color_1);
+  sinkSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -254,7 +254,7 @@ void clear_selection() {
   change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  setHeightSelection(start_x, start_y, end_x, end_y, color_1);
+  setHeightSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
 
   change_cursor(last_cursor);
 }
@@ -274,75 +274,75 @@ void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2)
 	}
 }
 
-void smoothSelection(int startX, int startY, int endX, int endY, int uselessParam) {
+void smoothSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int uselessParam) {
     int x, y;
     int sum;
 
     for (y = startY; y < endY; y++) {
         for (x = startX; x < endX; x++) {
-            sum = *(terrain_height + y * WIDTH + x);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x - 1);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x);
-            sum += *(terrain_height + ((y - 1) * WIDTH) + x + 1);
-            sum += *(terrain_height + (y * WIDTH) + x - 1);
-            sum += *(terrain_height + (y * WIDTH) + x + 1);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x - 1);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x);
-            sum += *(terrain_height + ((y + 1) * WIDTH) + x + 1);
+            sum = *(terrain + y * WIDTH + x);
+            sum += *(terrain + ((y - 1) * WIDTH) + x - 1);
+            sum += *(terrain + ((y - 1) * WIDTH) + x);
+            sum += *(terrain + ((y - 1) * WIDTH) + x + 1);
+            sum += *(terrain + (y * WIDTH) + x - 1);
+            sum += *(terrain + (y * WIDTH) + x + 1);
+            sum += *(terrain + ((y + 1) * WIDTH) + x - 1);
+            sum += *(terrain + ((y + 1) * WIDTH) + x);
+            sum += *(terrain + ((y + 1) * WIDTH) + x + 1);
 
             sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
 
-            setHeight(x, y, sum);
+            setHeight(terrain, x, y, sum);
         }
     }
 }
 
-void riseSelection(int startX, int startY, int endX, int endY, int height) {
+void riseSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        risePoint(x, y, height);
+        risePoint(terrain, x, y, height);
     }
   }
 }
 
-void sinkSelection(int startX, int startY, int endX, int endY, int height) {
+void sinkSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        sinkPoint(x, y, height);
+        sinkPoint(terrain, x, y, height);
     }
   }
 }
 
-void setHeightSelection(int startX, int startY, int endX, int endY, int height) {
+void setHeightSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
   int x, y;
 
   for (y = startY; y < endY; y++) {
     for (x = startX; x < endX; x++) {
-        setHeight(x, y, height);
+        setHeight(terrain, x, y, height);
     }
   }
 }
 
-void risePoint(int x, int y, int delta) {
-    int currentHeight = getHeight(x, y);
+void risePoint(Uint8 *terrain, int x, int y, int delta) {
+    int currentHeight = getHeight(terrain, x, y);
     int nextHeight = currentHeight + delta;
 
     nextHeight = (nextHeight < 255) ? nextHeight : 255;
-    setHeight(x, y, nextHeight);
+    setHeight(terrain, x, y, nextHeight);
 }
 
-void sinkPoint(int x, int y, int delta) {
-    int currentHeight = getHeight(x, y);
+void sinkPoint(Uint8 *terrain, int x, int y, int delta) {
+    int currentHeight = getHeight(terrain, x, y);
     int nextHeight = currentHeight + delta;
 
     nextHeight = (nextHeight > 0) ? nextHeight : 0;
-    setHeight(x, y, nextHeight);
+    setHeight(terrain, x, y, nextHeight);
 }
 
-void setHeight(int x, int y, int height) {
-    *(terrain_height + y * WIDTH + x) = height;
+void setHeight(Uint8 *terrain, int x, int y, int height) {
+    *(terrain + y * WIDTH + x) = height;
 }

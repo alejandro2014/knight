@@ -11,20 +11,24 @@ int get_cur_x_y () {
   if(!terrain_height)return 0;//we don't have a terrain
   cur_x = (x_mouse_pos - x_screen_offset) / terrain_ratio + xoffset;
   cur_y = (y_mouse_pos - y_screen_offset) / terrain_ratio + yoffset;
+
   if (cur_x >= 0 && cur_x < WIDTH && cur_y >= 0 && cur_y < HEIGHT)
     return 1;
+
   last_drawn_x = -1;
   last_drawn_y = -1;
   return 0;
 }
 
-void zoom_in ()
-{
+void zoom_in () {
   int some_x_lenght, some_y_lenght;
+
   if (terrain_ratio > 15)
     return;
+
   if (!get_cur_x_y ())
     return;
+
   some_x_lenght = (window_width / (terrain_ratio + 1)) / 2;
   some_y_lenght = (window_height / (terrain_ratio + 1)) / 2;
   xoffset = (cur_x - some_x_lenght);
@@ -33,16 +37,14 @@ void zoom_in ()
 }
 
 //the 'eye drop' tool, get the current pixel, under the mouse.
-void pick_height (bool button_l, bool button_r)
-{
+void pick_height (bool button_l, bool button_r) {
   if (!get_cur_x_y ())
     return;
   color_1 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
 }
 
 
-void select_area()
-{
+void select_area() {
 	if (!get_cur_x_y ())return;
 	if(long_pressed_button_l==1 && selection_x_1!=-1)//we already have a selection, kill it
 	{
@@ -53,41 +55,33 @@ void select_area()
 		return;
 	}
 
-	if(long_pressed_button_l==1 && selection_x_1==-1 && selection_y_1==-1)
-		{
-			selection_x_1=cur_x;
-			selection_y_1=cur_y;
-			return;
-		}
+	if(long_pressed_button_l==1 && selection_x_1==-1 && selection_y_1==-1) {
+		selection_x_1=cur_x;
+		selection_y_1=cur_y;
+		return;
+	}
 
-	if(long_pressed_button_l!=0 && selection_x_1!=-1)
-		{
-			selection_x_2=cur_x;
-			selection_y_2=cur_y;
-		}
-
-
+	if(long_pressed_button_l!=0 && selection_x_1!=-1) {
+		selection_x_2=cur_x;
+		selection_y_2=cur_y;
+	}
 }
 
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-void put_pattern(Uint8 * this_location,int x,int y)
-{
+void put_pattern(Uint8 * this_location,int x,int y) {
 	int x_pattern,y_pattern,pattern_height;
 
-	x_pattern=x%current_pattern.object_x_len;
-	y_pattern=y%current_pattern.object_y_len;
-	pattern_height=*(current_pattern.object_mem+y_pattern*current_pattern.object_x_len+x_pattern);
-  if(pattern_height)
-  {
+	x_pattern = x % current_pattern.object_x_len;
+	y_pattern = y % current_pattern.object_y_len;
+	pattern_height = *(current_pattern.object_mem+y_pattern*current_pattern.object_x_len+x_pattern);
+
+    if(pattern_height) {
 		if(tolerance_replace_mode==tolerance_replace_equal)
-		*this_location=pattern_height;
-		else if(tolerance_replace_mode==tolerance_replace_plus)
-		{
+            *this_location=pattern_height;
+		else if(tolerance_replace_mode==tolerance_replace_plus) {
 			if(*this_location+pattern_height>255)
-			*this_location=255;
+			    *this_location=255;
 			else
-			*this_location+=pattern_height;
+			    *this_location+=pattern_height;
 		}
 		else if(tolerance_replace_mode==tolerance_replace_minus)
 		{
@@ -96,79 +90,64 @@ void put_pattern(Uint8 * this_location,int x,int y)
 			else
 			*this_location-=pattern_height;
 		}
- }
-
+    }
 }
 
-
-///////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////
-void replace_ver_line(short orig_x,short orig_y)
-{
+void replace_ver_line(short orig_x,short orig_y) {
 	int x=orig_x;
 	int y=orig_y;
 	int buffer_offset;
 	//fill upwards
-	for(;y>=0;y--)
-		{
-			buffer_offset=y*WIDTH+x;
-			curent_height=*(terrain_height+buffer_offset);
-			if (((tolerance_mode == greater &&
-			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			(tolerance_mode == leaser &&
-			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			(tolerance_mode == greater_or_leaser &&
-			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-			&& *(temp_buffer+buffer_offset)!=already_filled)
+	for(;y>=0;y--) {
+		buffer_offset=y*WIDTH+x;
+		curent_height=*(terrain_height+buffer_offset);
+		if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
+			(tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
+			(tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled)
 			{
-				//now, try to see the mode we should use for the replacing
+			//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
-			put_pattern(terrain_height+buffer_offset,x,y);
+                put_pattern(terrain_height+buffer_offset,x,y);
 			else
 			{
-
 				if(tolerance_replace_mode==tolerance_replace_equal)
-				 *(terrain_height+buffer_offset)=color_1;
-				else
-				if(tolerance_replace_mode==tolerance_replace_plus)
-				{
-					if(*(terrain_height+buffer_offset)+color_1>255)*(terrain_height+buffer_offset)=255;
-					else *(terrain_height+buffer_offset)+=color_1;
+				    *(terrain_height+buffer_offset)=color_1;
+				else if(tolerance_replace_mode==tolerance_replace_plus) {
+					if(*(terrain_height+buffer_offset)+color_1>255)
+                        *(terrain_height+buffer_offset)=255;
+					else
+                        *(terrain_height+buffer_offset)+=color_1;
 				}
 				else if(tolerance_replace_mode==tolerance_replace_minus)
 				{
-					if(*(terrain_height+buffer_offset)-color_1<0)*(terrain_height+buffer_offset)=0;
-					else *(terrain_height+buffer_offset)-=color_1;
+					if(*(terrain_height+buffer_offset)-color_1<0)
+                        *(terrain_height+buffer_offset)=0;
+					else
+                        *(terrain_height+buffer_offset)-=color_1;
 				}
 			}
-				 *(temp_buffer+buffer_offset)=already_filled;
-				 //now, scan for the up and down neighbours
-				 if(x>0)
-				 	{
-				 			curent_height=*(terrain_height+buffer_offset-1);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset-1)!=already_filled)
-							*(temp_buffer+buffer_offset-1)=pending_fill;
-					}
-				 if(x<WIDTH-1)
-				 	{
-				 			curent_height=*(terrain_height+buffer_offset+1);
-				 			if (((tolerance_mode == greater &&
-				 			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-				 			(tolerance_mode == leaser &&
-				 			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-				 			(tolerance_mode == greater_or_leaser &&
-				 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-				 			&& *(temp_buffer+buffer_offset+1)!=already_filled)
-							*(temp_buffer+buffer_offset+1)=pending_fill;
-					}
-			 }
-			 else break;
+
+			*(temp_buffer+buffer_offset)=already_filled;
+			//now, scan for the up and down neighbours
+			if(x>0) {
+			    curent_height=*(terrain_height+buffer_offset-1);
+
+				if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
+				 	 (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
+				 	 (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset-1)!=already_filled)
+				    *(temp_buffer+buffer_offset-1)=pending_fill;
+			}
+
+			if(x<WIDTH-1) {
+     			curent_height=*(terrain_height+buffer_offset+1);
+
+     			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
+     			     (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
+     			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset+1)!=already_filled)
+    			    *(temp_buffer+buffer_offset+1)=pending_fill;
+				}
+            }
+			else break;
 		}
 	//fill downwards
 	for(y=orig_y+1;y<HEIGHT;y++)
