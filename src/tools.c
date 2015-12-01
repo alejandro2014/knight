@@ -97,11 +97,23 @@ void replacePoint(Uint8 *terrain, int x, int y) {
 }
 
 int isFilled(int x, int y) {
-    return *(temp_buffer + y * WIDTH + x) != already_filled;
+    return *(temp_buffer + y * WIDTH + x) == already_filled ? 1 : 0;
 }
 
 void setFilled(int x, int y) {
     *(temp_buffer + y * WIDTH + x) = already_filled;
+}
+
+void setPendingFill(int x, int y) {
+    *(temp_buffer + y * WIDTH + x) = pending_filled;
+}
+
+void setPendingFillIfNeeded(int x, int y, int tolerance, int deltaMax) {
+    int currentHeight = getHeight(terrain_height, x, y);
+
+    if(isHeightInsideLimits(tolerance, currentHeight, deltaMax) && !isFilled(x, y)) {
+        setPendingFill(x, y);
+    }
 }
 
 void replace_ver_line(short orig_x,short orig_y) {
@@ -110,58 +122,31 @@ void replace_ver_line(short orig_x,short orig_y) {
 	int buffer_offset;
 
 	//fill upwards
-	for(y = orig_y; y >= 0; y--) {
+    for(y = 0; y < orig_y + 1; y++) {
 		curent_height = getHeight(terrain_height, x, y);
 
-		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && isFilled(x, y)) {
+		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x, y)) {
             replacePoint(terrain_height, x, y);
             setFilled(x, y);
 
 			//now, scan for the up and down neighbours
-			if(x > 0) {
-			    curent_height = getHeight(terrain_height, x-1, y);
-
-				if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && isFilled(x-1, y)) {
-                    setFilled(x-1, y, pending_fill);
-                }
-			}
-
-			if(x < WIDTH-1) {
-     			curent_height = getHeight(terrain_height, x+1, y);
-
-     			if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && isFilled(x+1, y)) {
-                    setFilled(x-1, y, pending_fill);
-                }
-			}
+			if(x > 0) setPendingFillIfNeeded(x-1, y, tolerance_mode, color_2);
+            if(x < WIDTH-1) setPendingFillIfNeeded(x+1, y, tolerance_mode, color_2);
         }
-
 		else break;
 	}
 
 	//fill downwards
 	for(y = orig_y+1; y < HEIGHT; y++) {
-		buffer_offset = y*WIDTH+x;
-		curent_height = *(terrain_height+buffer_offset);
+		curent_height = getHeight(terrain_height, x, y);
 
-		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled) {
+		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x, y)) {
 		    replacePoint(terrain_height, x, y);
-			*(temp_buffer+buffer_offset)=already_filled;
+			setFilled(x, y);
 
 			//now, scan for the up and down neighbours
-			if(x>0) {
-			    curent_height=*(terrain_height+buffer_offset-1);
-
-				if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-1)!=already_filled) {
-                    *(temp_buffer+buffer_offset-1)=pending_fill;
-                }
-			}
-
-			if(x<WIDTH-1) {
-			    curent_height=*(terrain_height+buffer_offset+1);
-                if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+1) != already_filled) {
-                    *(temp_buffer+buffer_offset+1)=pending_fill;
-                }
-			}
+            if(x > 0) setPendingFillIfNeeded(x-1, y, tolerance_mode, color_2);
+            if(x < WIDTH-1) setPendingFillIfNeeded(x+1, y, tolerance_mode, color_2);
 		}
 		else break;
 	}
