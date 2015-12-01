@@ -83,6 +83,19 @@ void put_pattern(Uint8 * terrain, int x, int y) {
     }
 }
 
+void replacePoint(Uint8 *terrain, int x, int y) {
+    if(tolerance_replace_mode_2 == replace_mode_pattern)
+        put_pattern(terrain, x, y);
+    else
+    {
+        switch(tolerance_replace_mode) {
+            case tolerance_replace_equal: setHeight(terrain, x, y, color_1); break;
+            case tolerance_replace_plus: risePoint(terrain, x, y, color_1); break;
+            case tolerance_replace_minus: sinkPoint(terrain, x, y, color_1); break;
+        }
+    }
+}
+
 void replace_ver_line(short orig_x,short orig_y) {
 	int x=orig_x;
 	int y=orig_y;
@@ -95,17 +108,7 @@ void replace_ver_line(short orig_x,short orig_y) {
 			(tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
 			(tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled)
 			{
-			//now, try to see the mode we should use for the replacing
-			if(tolerance_replace_mode_2==replace_mode_pattern)
-                put_pattern(terrain_height, x, y);
-			else
-			{
-                switch(tolerance_replace_mode) {
-                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
-                }
-			}
+                replacePoint(terrain_height, x, y);
 
 			*(temp_buffer+buffer_offset)=already_filled;
 			//now, scan for the up and down neighbours
@@ -142,17 +145,7 @@ void replace_ver_line(short orig_x,short orig_y) {
 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
 			&& *(temp_buffer+buffer_offset)!=already_filled)
 			{
-				//now, try to see the mode we should use for the replacing
-			if(tolerance_replace_mode_2==replace_mode_pattern)
-			    put_pattern(terrain_height, x, y);
-			else
-			{
-                switch(tolerance_replace_mode) {
-                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
-                }
-			}
+				replacePoint(terrain_height, x, y);
 
 				 *(temp_buffer+buffer_offset)=already_filled;
 				 //now, scan for the up and down neighbours
@@ -205,17 +198,7 @@ void replace_line(short orig_x,short orig_y)
 			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
 			&& *(temp_buffer+buffer_offset)!=already_filled)
 			 {
-				//now, try to see the mode we should use for the replacing
-			if(tolerance_replace_mode_2==replace_mode_pattern)
-			    put_pattern(terrain_height, x, y);
-			else
-			{
-                switch(tolerance_replace_mode) {
-                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
-                }
-			}
+				replacePoint(terrain_height, x, y);
 
 				 *(temp_buffer+buffer_offset)=already_filled;
 				 //now, scan for the up and down neighbours
@@ -257,17 +240,7 @@ void replace_line(short orig_x,short orig_y)
 			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
 			     (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
 			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled) {
-				//now, try to see the mode we should use for the replacing
-			if(tolerance_replace_mode_2==replace_mode_pattern)
-			    put_pattern(terrain_height, x, y);
-			else
-			{
-                switch(tolerance_replace_mode) {
-                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
-                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
-                }
-			}
+				replacePoint(terrain_height, x, y);
 
 				 *(temp_buffer+buffer_offset)=already_filled;
 				 //now, scan for the up and down neighbours
