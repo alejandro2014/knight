@@ -210,21 +210,12 @@ void replace_line(short orig_x,short orig_y)
 			    put_pattern(terrain_height, x, y);
 			else
 			{
-				if(tolerance_replace_mode==tolerance_replace_equal)
-				 *(terrain_height+buffer_offset)=color_1;
-				else
-				if(tolerance_replace_mode==tolerance_replace_plus)
-				{
-					if(*(terrain_height+buffer_offset)+color_1>255)*(terrain_height+buffer_offset)=255;
-					else *(terrain_height+buffer_offset)+=color_1;
-				}
-				else if(tolerance_replace_mode==tolerance_replace_minus)
-				{
-					if(*(terrain_height+buffer_offset)-color_1<0)*(terrain_height+buffer_offset)=0;
-					else *(terrain_height+buffer_offset)-=color_1;
-				}
+                switch(tolerance_replace_mode) {
+                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
+                }
 			}
-
 
 				 *(temp_buffer+buffer_offset)=already_filled;
 				 //now, scan for the up and down neighbours
@@ -271,19 +262,11 @@ void replace_line(short orig_x,short orig_y)
 			    put_pattern(terrain_height, x, y);
 			else
 			{
-				if(tolerance_replace_mode==tolerance_replace_equal)
-				 *(terrain_height+buffer_offset)=color_1;
-				else
-				if(tolerance_replace_mode==tolerance_replace_plus)
-				{
-					if(*(terrain_height+buffer_offset)+color_1>255)*(terrain_height+buffer_offset)=255;
-					else *(terrain_height+buffer_offset)+=color_1;
-				}
-				else if(tolerance_replace_mode==tolerance_replace_minus)
-				{
-					if(*(terrain_height+buffer_offset)-color_1<0)*(terrain_height+buffer_offset)=0;
-					else *(terrain_height+buffer_offset)-=color_1;
-				}
+                switch(tolerance_replace_mode) {
+                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
+                }
 			}
 
 				 *(temp_buffer+buffer_offset)=already_filled;
