@@ -29,7 +29,7 @@ void do_clear_temp_buffer () {
 }
 
 void global_replace() {
-    int i,x,y;
+    int x,y;
     int cur_height;
     int map_size=WIDTH*HEIGHT;
 
@@ -57,8 +57,7 @@ void global_replace() {
                 (global_tolerance_mode == greater_or_leaser && cur_height>=color_2 - global_tolerance_value && cur_height<=color_2 + global_tolerance_value)) {
 
                 if(global_tolerance_replace_mode_2 == replace_mode_pattern) {
-                    i = y * WIDTH + x;
-                    put_pattern(terrain_height+i,x,y);
+                    put_pattern(terrain_height, x, y);
                 } else {
                     switch(global_tolerance_mode) {
                         case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;

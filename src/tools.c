@@ -97,24 +97,14 @@ void replace_ver_line(short orig_x,short orig_y) {
 			{
 			//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
-                put_pattern(terrain_height+buffer_offset,x,y);
+                put_pattern(terrain_height, x, y);
 			else
 			{
-				if(tolerance_replace_mode==tolerance_replace_equal)
-				    *(terrain_height+buffer_offset)=color_1;
-				else if(tolerance_replace_mode==tolerance_replace_plus) {
-					if(*(terrain_height+buffer_offset)+color_1>255)
-                        *(terrain_height+buffer_offset)=255;
-					else
-                        *(terrain_height+buffer_offset)+=color_1;
-				}
-				else if(tolerance_replace_mode==tolerance_replace_minus)
-				{
-					if(*(terrain_height+buffer_offset)-color_1<0)
-                        *(terrain_height+buffer_offset)=0;
-					else
-                        *(terrain_height+buffer_offset)-=color_1;
-				}
+                switch(tolerance_replace_mode) {
+                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
+                }
 			}
 
 			*(temp_buffer+buffer_offset)=already_filled;
@@ -154,23 +144,14 @@ void replace_ver_line(short orig_x,short orig_y) {
 			{
 				//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
-			put_pattern(terrain_height+buffer_offset,x,y);
+			    put_pattern(terrain_height, x, y);
 			else
 			{
-
-				if(tolerance_replace_mode==tolerance_replace_equal)
-				 *(terrain_height+buffer_offset)=color_1;
-				else
-				if(tolerance_replace_mode==tolerance_replace_plus)
-				{
-					if(*(terrain_height+buffer_offset)+color_1>255)*(terrain_height+buffer_offset)=255;
-					else *(terrain_height+buffer_offset)+=color_1;
-				}
-				else if(tolerance_replace_mode==tolerance_replace_minus)
-				{
-					if(*(terrain_height+buffer_offset)-color_1<0)*(terrain_height+buffer_offset)=0;
-					else *(terrain_height+buffer_offset)-=color_1;
-				}
+                switch(tolerance_replace_mode) {
+                    case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
+                    case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
+                }
 			}
 
 				 *(temp_buffer+buffer_offset)=already_filled;
@@ -226,7 +207,7 @@ void replace_line(short orig_x,short orig_y)
 			 {
 				//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
-			put_pattern(terrain_height+buffer_offset,x,y);
+			    put_pattern(terrain_height, x, y);
 			else
 			{
 				if(tolerance_replace_mode==tolerance_replace_equal)
@@ -287,7 +268,7 @@ void replace_line(short orig_x,short orig_y)
 			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled) {
 				//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
-			put_pattern(terrain_height+buffer_offset,x,y);
+			    put_pattern(terrain_height, x, y);
 			else
 			{
 				if(tolerance_replace_mode==tolerance_replace_equal)
