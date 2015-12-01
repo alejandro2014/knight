@@ -67,7 +67,7 @@ void select_area() {
 	}
 }
 
-void put_pattern(Uint8 * this_location,int x,int y) {
+void put_pattern(Uint8 * terrain, int x, int y) {
 	int x_pattern,y_pattern,pattern_height;
 
 	x_pattern = x % current_pattern.object_x_len;
@@ -75,21 +75,11 @@ void put_pattern(Uint8 * this_location,int x,int y) {
 	pattern_height = *(current_pattern.object_mem+y_pattern*current_pattern.object_x_len+x_pattern);
 
     if(pattern_height) {
-		if(tolerance_replace_mode==tolerance_replace_equal)
-            *this_location=pattern_height;
-		else if(tolerance_replace_mode==tolerance_replace_plus) {
-			if(*this_location+pattern_height>255)
-			    *this_location=255;
-			else
-			    *this_location+=pattern_height;
-		}
-		else if(tolerance_replace_mode==tolerance_replace_minus)
-		{
-			if(*this_location-pattern_height<0)
-			*this_location=0;
-			else
-			*this_location-=pattern_height;
-		}
+        switch(tolerance_replace_mode) {
+            case tolerance_replace_equal: setHeight(terrain, x, y, pattern_height); break;
+            case tolerance_replace_plus: risePoint(terrain, x, y, pattern_height); break;
+            case tolerance_replace_minus: sinkPoint(terrain, x, y, pattern_height); break;
+        }
     }
 }
 
@@ -292,14 +282,9 @@ void replace_line(short orig_x,short orig_y)
 		{
 			buffer_offset=y*WIDTH+x;
 			curent_height=*(terrain_height+buffer_offset);
-			if (((tolerance_mode == greater &&
-			curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
-			(tolerance_mode == leaser &&
-			curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
-			(tolerance_mode == greater_or_leaser &&
-			curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value))
-			&& *(temp_buffer+buffer_offset)!=already_filled)
-			 {
+			if (((tolerance_mode == greater && curent_height>=color_2 && curent_height<=color_2+tolerance_value) ||
+			     (tolerance_mode == leaser && curent_height<=color_2 && curent_height>=color_2-tolerance_value) ||
+			     (tolerance_mode == greater_or_leaser && curent_height>=color_2-tolerance_value && curent_height<=color_2+tolerance_value)) && *(temp_buffer+buffer_offset)!=already_filled) {
 				//now, try to see the mode we should use for the replacing
 			if(tolerance_replace_mode_2==replace_mode_pattern)
 			put_pattern(terrain_height+buffer_offset,x,y);
