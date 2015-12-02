@@ -86,8 +86,7 @@ void put_pattern(Uint8 * terrain, int x, int y) {
 void replacePoint(Uint8 *terrain, int x, int y) {
     if(tolerance_replace_mode_2 == replace_mode_pattern)
         put_pattern(terrain, x, y);
-    else
-    {
+    else {
         switch(tolerance_replace_mode) {
             case tolerance_replace_equal: setHeight(terrain, x, y, color_1); break;
             case tolerance_replace_plus: risePoint(terrain, x, y, color_1); break;
@@ -248,58 +247,34 @@ void floodVerticalLine(int x, int yIni, int yFin, int height) {
 	}
 }
 
+void floodLine(int xIni, int xFin, int y, int height) {
+    int x;
+
+    for(x = xIni; x <= xFin; x++) {
+
+		if(getHeight(x, y) != color_1) {
+            setHeight(x, y, color_1);
+            setFilled(x, y);
+
+			//now, scan for the up and down neighbours
+			if(y > 0 && getHeight(x - WIDTH, y) != color_1) flood_ver_line(x, y-1);
+			if(y < HEIGHT-1 && getHeight(x + WIDTH, y) != color_1) flood_ver_line(x, y+1);
+		}
+		 else break;
+	}
+}
+
 //Fills upwards and downwards
-void flood_ver_line(short orig_x, short orig_y) {
+void flood_ver_line(int orig_x, int orig_y) {
     floodVerticalLine(orig_x, 0, orig_y, color_1);
     floodVerticalLine(orig_x, orig_y + 1, HEIGHT - 1, color_1);
 }
 
-///////////////////////////////////////////////////////////////////////////
-void flood_line(short orig_x,short orig_y)
-{
-	int x=orig_x;
-	int y=orig_y;
-	int buffer_offset;
-	//scan left
-	for(;x>=0;x--)
-		{
-			buffer_offset=y*WIDTH+x;
-			if(*(terrain_height+buffer_offset)!=color_1)
-			 {
-				 *(terrain_height+buffer_offset)=color_1;
-				 *(temp_buffer+buffer_offset)=already_filled;
-				 //now, scan for the up and down neighbours
-				 if(y>0)
-				 if(*(terrain_height+buffer_offset-WIDTH)!=color_1)
-				 flood_ver_line((short)x,(short)y-1);
-				 if(y<HEIGHT-1)
-				 if(*(terrain_height+buffer_offset+WIDTH)!=color_1)
-				 flood_ver_line((short)x,(short)y+1);
-			 }
-			 else break;
-		}
-
-	//scan right
-	for(x=orig_x+1;x<WIDTH;x++)
-		{
-			buffer_offset=y*WIDTH+x;
-			if(*(terrain_height+buffer_offset)!=color_1)
-			 {
-				 *(terrain_height+buffer_offset)=color_1;
-				 *(temp_buffer+buffer_offset)=already_filled;
-				 //now, scan for the up and down neighbours
-				 if(y>0)
-				 if(*(terrain_height+buffer_offset-WIDTH)!=color_1)
-				 flood_ver_line((short)x,(short)y-1);
-				 if(y<HEIGHT-1)
-				 if(*(terrain_height+buffer_offset+WIDTH)!=color_1)
-				 flood_ver_line((short)x,(short)y+1);
-			 }
-			 else break;
-		}
+//Scans left an right
+void flood_line(short orig_x,short orig_y) {
+    floodLine(0, orig_x, orig_y, color_1);
+    floodLine(orig_x + 1, WIDTH, orig_y, color_1);
 }
-
-
 
 //the fill tool
 void pre_flood_area ()
