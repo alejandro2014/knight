@@ -116,13 +116,10 @@ void setPendingFillIfNeeded(int x, int y, int tolerance, int deltaMax) {
     }
 }
 
-void replace_ver_line(short orig_x,short orig_y) {
-	int x=orig_x;
-	int y;
-	int buffer_offset;
+void replaceVerticalLine(int x, int yIni, int yFin) {
+    int y;
 
-	//fill upwards
-    for(y = 0; y < orig_y + 1; y++) {
+    for(y = yIni; y <= yFin; y++) {
 		curent_height = getHeight(terrain_height, x, y);
 
 		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x, y)) {
@@ -135,80 +132,44 @@ void replace_ver_line(short orig_x,short orig_y) {
         }
 		else break;
 	}
-
-	//fill downwards
-	for(y = orig_y+1; y < HEIGHT; y++) {
-		curent_height = getHeight(terrain_height, x, y);
-
-		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x, y)) {
-		    replacePoint(terrain_height, x, y);
-			setFilled(x, y);
-
-			//now, scan for the up and down neighbours
-            if(x > 0) setPendingFillIfNeeded(x-1, y, tolerance_mode, color_2);
-            if(x < WIDTH-1) setPendingFillIfNeeded(x+1, y, tolerance_mode, color_2);
-		}
-		else break;
-	}
 }
 
-void replace_line(short orig_x,short orig_y) {
+void replaceVerticalLineIfNeeded(int x, int y, int tolerance_mode, int deltaMax) {
+    int curent_height = getHeight(terrain_height, x - WIDTH, y);
+
+    if(isHeightInsideLimits(tolerance_mode, curent_height, deltaMax) && !isFilled(x - WIDTH, y)) {
+        replace_ver_line(x, y);
+    }
+}
+
+void replaceHorizontalLine(int xIni, int xFin, int y) {
     int x;
-    int y=orig_y;
-    int buffer_offset;
 
-    //scan left
-    for(x = orig_x; x>=0; x--) {
-        buffer_offset=y*WIDTH+x;
-        curent_height=*(terrain_height+buffer_offset);
+    for(x = xIni; x < xFin; x++) {
+        curent_height = getHeight(terrain_height, x, y);
 
-        if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled) {
+        if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x y)) {
             replacePoint(terrain_height, x, y);
-
-            *(temp_buffer+buffer_offset)=already_filled;
+            setFilled(x, y);
 
             //now, scan for the up and down neighbours
-            if(y>0) {
-                curent_height=*(terrain_height+buffer_offset-WIDTH);
-                if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-WIDTH)!=already_filled)
-                replace_ver_line((short)x,(short)y-1);
-            }
-
-            if(y<HEIGHT-1) {
-                curent_height=*(terrain_height+buffer_offset+WIDTH);
-                if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+WIDTH)!=already_filled)
-                replace_ver_line((short)x,(short)y+1);
-            }
+            if(y>0) replaceVerticalLineIfNeeded(x - WIDTH, y, tolerance_mode, color_2);
+            if(y < HEIGHT-1) replaceVerticalLineIfNeeded(x + WIDTH, y, tolerance_mode, color_2);
         }
         else break;
     }
+}
 
-    //scan right
-    for(x=orig_x+1; x<WIDTH; x++) {
-        buffer_offset = y*WIDTH+x;
-        curent_height = *(terrain_height+buffer_offset);
+//Replaces two lines, upwards and downwards
+void replace_ver_line(int orig_x, int orig_y) {
+    replaceVerticalLine(orig_x, 0, orig_y);
+    replaceVerticalLine(orig_x, orig_y + 1, HEIGHT - 1);
+}
 
-        if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset)!=already_filled) {
-            replacePoint(terrain_height, x, y);
-            *(temp_buffer+buffer_offset)=already_filled;
-
-            //now, scan for the up and down neighbours
-            if(y>0) {
-                curent_height=*(terrain_height+buffer_offset-WIDTH);
-                if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset-WIDTH)!=already_filled) {
-                    replace_ver_line((short)x,(short)y-1);
-                }
-            }
-
-            if(y<HEIGHT-1) {
-                curent_height=*(terrain_height+buffer_offset+WIDTH);
-                if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && *(temp_buffer+buffer_offset+WIDTH)!=already_filled) {
-                    replace_ver_line((short)x,(short)y+1);
-                }
-            }
-        }
-        else break;
-    }
+//Scans left and right
+void replace_line(short orig_x, short orig_y) {
+    replaceLine(0, orig_x, orig_y);
+    replaceLine(orig_x + 1, WIDTH - 1, orig_y);
 }
 
 int isHeightInsideLimits(int condition, int height, int deltaMax) {
