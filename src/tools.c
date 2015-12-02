@@ -234,36 +234,24 @@ void pre_change_area()
 	change_cursor(last_cursor);
 }
 
-void flood_ver_line(short orig_x,short orig_y) {
-	int x=orig_x;
-	int y=orig_y;
-	int buffer_offset;
-
-	//fill upwards and downwards
-    for(y = orig_y; y>=0; y--) {
-		if(getHeight(x, y) != color_1) {
-			setHeight(x, y, color_1);
+void floodVerticalLine(int x, int yIni, int yFin, int height) {
+    for (y = xIni; y <= xFin; y++) {
+		if(getHeight(x, y) != height) {
+			setHeight(x, y, height);
             setFilled(x, y);
 
             //now, scan for the up and down neighbours
-			if(x > 0 && getHeight(x-1, y) != color_1) setPendingFill(x-1, y);
-			if(x < WIDTH-1 && getHeight(x+1, y) != color_1) setPendingFill(x+1, y);
+			if(x > 0 && getHeight(x-1, y) != height) setPendingFill(x-1, y);
+			if(x < WIDTH-1 && getHeight(x+1, y) != height) setPendingFill(x+1, y);
 		}
 		else break;
 	}
+}
 
-	for(y=orig_y+1;y<HEIGHT;y++) {
-			buffer_offset=y*WIDTH+x;
-            if(getHeight(x, y) != color_1) {
-    			setHeight(x, y, color_1);
-                setFilled(x, y);
-
-				//now, scan for the up and down neighbours
-                if(x > 0 && getHeight(x-1, y) != color_1) setPendingFill(x-1, y);
-     			if(x < WIDTH-1 && getHeight(x+1, y) != color_1) setPendingFill(x+1, y);
-			 }
-			 else break;
-		}
+//Fills upwards and downwards
+void flood_ver_line(short orig_x, short orig_y) {
+    floodVerticalLine(orig_x, 0, orig_y, color_1);
+    floodVerticalLine(orig_x, orig_y + 1, HEIGHT - 1, color_1);
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -481,15 +469,13 @@ void decHeightOld(Uint8 *terrain, int x, int y, int delta) {
   setHeightOld(terrain, x, y, (newColour > 0 ? newColour : 0));
 }
 
-void stamp_object()
-{
+void stamp_object() {
 	  int object_x_start=0;
 	  int object_y_start=0;
 	  int object_x_terrain_start,object_y_terrain_start;
 	  int object_x_terrain_end,object_y_terrain_end;
 
 	  int x,y,j,k;
-
 	  int cur_height;
 
 	  //now, do get the terrain coordinates.
@@ -497,7 +483,6 @@ void stamp_object()
 	  object_y_terrain_start=((y_mouse_pos-y_screen_offset)-(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
 	  object_x_terrain_end=((x_mouse_pos-x_screen_offset)+(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
 	  object_y_terrain_end=((y_mouse_pos-y_screen_offset)+(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
-
 
 	  if(object_x_terrain_start<0)object_x_start=object_x_terrain_start*-1;
 	  if(object_y_terrain_start<0)object_y_start=object_y_terrain_start*-1;
@@ -509,17 +494,13 @@ void stamp_object()
 	  if(object_y_terrain_end>HEIGHT)object_y_terrain_end=HEIGHT;
 
 	  //ok, now just display the object
-	  if(object_mode==put_object)
-	  {
+	  if(object_mode==put_object) {
 		j=object_y_start;
-	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++)
-	  		{
+	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++) {
 				k=object_x_start;
-	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++)
-	  				{
+	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++) {
 						cur_height=*(current_object.object_mem+j*current_object.object_x_len+k);
-						if(cur_height)
-							{
+						if(cur_height) {
 	  							*(terrain_height+y*WIDTH+x)=cur_height;
 							}
 						k++;
@@ -528,18 +509,13 @@ void stamp_object()
 			}
 	  return;
 	  }//ok, end of place_mode
-	  else
-	  if(object_mode==add_object)
-	  {
+	  else if(object_mode==add_object) {
 		j=object_y_start;
-	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++)
-	  		{
+	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++) {
 				k=object_x_start;
-	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++)
-	  				{
+	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++) {
 						cur_height=*(current_object.object_mem+j*current_object.object_x_len+k);
-						if(cur_height)
-							{
+						if(cur_height) {
 								cur_height+=*(terrain_height+y*WIDTH+x);
 								if(cur_height>255)cur_height=255;
 			  					*(terrain_height+y*WIDTH+x)=cur_height;
@@ -550,18 +526,13 @@ void stamp_object()
 			}
 	  return;
 	  }//ok, end of add_mode
-	  else
-	  if(object_mode==sub_object)
-	  {
+	  else if(object_mode==sub_object) {
 		j=object_y_start;
-	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++)
-	  		{
+	  	for(y=object_y_terrain_start;y<object_y_terrain_end;y++) {
 				k=object_x_start;
-	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++)
-	  				{
+	  			for(x=object_x_terrain_start;x<object_x_terrain_end;x++) {
 						cur_height=*(current_object.object_mem+j*current_object.object_x_len+k);
-						if(cur_height)
-							{
+						if(cur_height) {
 								cur_height=*(terrain_height+y*WIDTH+x)-cur_height;
 								if(cur_height<0)cur_height=0;
 			  					*(terrain_height+y*WIDTH+x)=cur_height;
@@ -572,5 +543,4 @@ void stamp_object()
 			}
 	  return;
 	  }//ok, end of sub_mode
-
 }
