@@ -234,50 +234,36 @@ void pre_change_area()
 	change_cursor(last_cursor);
 }
 
-
-
-void flood_ver_line(short orig_x,short orig_y)
-{
+void flood_ver_line(short orig_x,short orig_y) {
 	int x=orig_x;
 	int y=orig_y;
 	int buffer_offset;
-	//fill upwards
-	for(;y>=0;y--)
-		{
-			buffer_offset=y*WIDTH+x;
-			if(*(terrain_height+buffer_offset)!=color_1)
-			 {
-				 *(terrain_height+buffer_offset)=color_1;
-				 *(temp_buffer+buffer_offset)=already_filled;
-				 //now, scan for the up and down neighbours
-				 if(x>0)
-				 if(*(terrain_height+buffer_offset-1)!=color_1)
-				 *(temp_buffer+buffer_offset-1)=pending_fill;
-				 if(x<WIDTH-1)
-				 if(*(terrain_height+buffer_offset+1)!=color_1)
-				 *(temp_buffer+buffer_offset+1)=pending_fill;
-			 }
-			 else break;
-		}
-	//fill downwards
-	for(y=orig_y+1;y<HEIGHT;y++)
-		{
-			buffer_offset=y*WIDTH+x;
-			if(*(terrain_height+buffer_offset)!=color_1)
-			 {
-				 *(terrain_height+buffer_offset)=color_1;
-				 *(temp_buffer+buffer_offset)=already_filled;
-				 //now, scan for the up and down neighbours
-				 if(x>0)
-				 if(*(terrain_height+buffer_offset-1)!=color_1)
-				 *(temp_buffer+buffer_offset-1)=pending_fill;
-				 if(x<WIDTH-1)
-				 if(*(terrain_height+buffer_offset+1)!=color_1)
-				 *(temp_buffer+buffer_offset+1)=pending_fill;
-			 }
-			 else break;
-		}
 
+	//fill upwards and downwards
+    for(y = orig_y; y>=0; y--) {
+		if(getHeight(x, y) != color_1) {
+			setHeight(x, y, color_1);
+            setFilled(x, y);
+
+            //now, scan for the up and down neighbours
+			if(x > 0 && getHeight(x-1, y) != color_1) setPendingFill(x-1, y);
+			if(x < WIDTH-1 && getHeight(x+1, y) != color_1) setPendingFill(x+1, y);
+		}
+		else break;
+	}
+
+	for(y=orig_y+1;y<HEIGHT;y++) {
+			buffer_offset=y*WIDTH+x;
+            if(getHeight(x, y) != color_1) {
+    			setHeight(x, y, color_1);
+                setFilled(x, y);
+
+				//now, scan for the up and down neighbours
+                if(x > 0 && getHeight(x-1, y) != color_1) setPendingFill(x-1, y);
+     			if(x < WIDTH-1 && getHeight(x+1, y) != color_1) setPendingFill(x+1, y);
+			 }
+			 else break;
+		}
 }
 
 ///////////////////////////////////////////////////////////////////////////
