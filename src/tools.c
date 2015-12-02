@@ -188,46 +188,45 @@ int isHeightInsideLimits(int condition, int height, int deltaMax) {
 }
 
 //the fill tool
-void pre_change_area()
-{
-  int i,x,y;
-  int map_size=WIDTH*HEIGHT;
-  char * some_temp_buffer;
-  bool no_pending_found=0;
-  if (!get_cur_x_y())return;
-  //try to see if the desired filling mode is pattern fill, and if we have a current pattern.
-  if(tolerance_replace_mode_2==replace_mode_pattern)
-  {
-	  if(!current_pattern.object_mem)
-	  {
-					sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
-					sprintf(error_msg_2,"Righ click on the Magic Wand tool, and select a pattern!");
-					view_error_menu=1;
-					return;
-	  }
+void pre_change_area() {
+    int i,x,y;
+    int map_size=WIDTH*HEIGHT;
+    char * some_temp_buffer;
+    bool no_pending_found=0;
 
-  }
+    if (!get_cur_x_y())return;
 
-  change_cursor(cursor_wait);
+    //try to see if the desired filling mode is pattern fill, and if we have a current pattern.
+    if(tolerance_replace_mode_2==replace_mode_pattern && !current_pattern.object_mem) {
+        sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
+        sprintf(error_msg_2,"Righ click on the Magic Wand tool, and select a pattern!");
+		view_error_menu=1;
+		return;
+	}
 
-  color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
-  some_temp_buffer=temp_buffer;
-  for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
-  replace_line((short)cur_x,(short)cur_y);
-	while(1)
-	{
+    change_cursor(cursor_wait);
+
+    color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
+    some_temp_buffer=temp_buffer;
+    for (i = 0; i <map_size; i++)
+        *(some_temp_buffer++)=not_filled;//clear the temp buffer
+
+    replace_line((short)cur_x,(short)cur_y);
+	while(1) {
 		no_pending_found=0;
 		some_temp_buffer=temp_buffer;
-		for(i=0;i<map_size;i++)
-		if(*(some_temp_buffer++)==pending_fill)
-			{
+		for(i=0;i<map_size;i++) {
+		    if(*(some_temp_buffer++)==pending_fill) {
 				no_pending_found=1;
 				y=i/WIDTH;
 				x=i-y*WIDTH;
 				replace_line((short)x,(short)y);
 			}
-		if(!no_pending_found)break;
+        }
+
+		if(!no_pending_found) break;
 	}
+
 	some_temp_buffer=temp_buffer;
 	for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
 	change_cursor(last_cursor);
