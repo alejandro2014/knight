@@ -44,10 +44,6 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   }
 }
 
-void putPixel(SDL_Surface *currentScreen, Uint32 x, Uint32 y, Uint32 colour) {
-  *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;
-}
-
 //void cls (SDL_Surface * this_screen) {
 void cls() {
   int some_module, my_pitch;
@@ -89,7 +85,7 @@ void cls() {
     putPixel(this_screen, i, i, RED);
   }*/
   //SDL_FillRect(this_screen, NULL, BLACK);
-  
+
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   SDL_RenderPresent(renderer);
@@ -265,25 +261,15 @@ void put_right_cursor()
   if(!caps_look_on)
   {
 	if(current_tool==t_place && current_cursor!=cursor_put)change_cursor_show(cursor_put);
-	else
-	if(current_tool==t_escavate && current_cursor!=cursor_dig)change_cursor_show(cursor_dig);
-	else
-	if(current_tool==t_elevate && current_cursor!=cursor_elevate)change_cursor_show(cursor_elevate);
-	else
-	if(current_tool==t_peek && current_cursor!=cursor_peek)change_cursor_show(cursor_peek);
-	else
-	if(current_tool==t_replace && current_cursor!=cursor_replace)change_cursor_show(cursor_replace);
-	else
-	if(current_tool==t_flood && current_cursor!=cursor_flood)change_cursor_show(cursor_flood);
-	else
-	if(current_tool==t_zoom_in && current_cursor!=cursor_zoom)change_cursor_show(cursor_zoom);
-	else
-	if(current_tool==t_select && current_cursor!=cursor_select)change_cursor_show(cursor_select);
-	else
-	if(current_tool==t_object && current_cursor!=cursor_null)change_cursor_show(cursor_null);
-	else
-	if(current_tool==t_global_replace && current_cursor!=cursor_global_replace)change_cursor_show(cursor_global_replace);
-
+	else if(current_tool==t_escavate && current_cursor!=cursor_dig)change_cursor_show(cursor_dig);
+	else if(current_tool==t_elevate && current_cursor!=cursor_elevate)change_cursor_show(cursor_elevate);
+	else if(current_tool==t_peek && current_cursor!=cursor_peek)change_cursor_show(cursor_peek);
+	else if(current_tool==t_replace && current_cursor!=cursor_replace)change_cursor_show(cursor_replace);
+	else if(current_tool==t_flood && current_cursor!=cursor_flood)change_cursor_show(cursor_flood);
+	else if(current_tool==t_zoom_in && current_cursor!=cursor_zoom)change_cursor_show(cursor_zoom);
+	else if(current_tool==t_select && current_cursor!=cursor_select)change_cursor_show(cursor_select);
+	else if(current_tool==t_object && current_cursor!=cursor_null)change_cursor_show(cursor_null);
+	else if(current_tool==t_global_replace && current_cursor!=cursor_global_replace)change_cursor_show(cursor_global_replace);
   }
   else
   //draw the target cursor

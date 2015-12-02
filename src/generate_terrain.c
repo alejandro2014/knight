@@ -13,23 +13,6 @@ int maxIterations = 10;
 int iterator = 0;
 int countPoints = 0;
 
-Point *hmeGetPoint(Terrain *terrain, int x, int y) {
-  return terrain->points + (y * terrain->width + x);
-}
-
-Uint32 hmeGetHeight(Terrain *terrain, Uint32 x, Uint32 y) {
-    return (terrain->points + (y * terrain->width + x))->z;
-}
-
-void hmeSetHeight(Terrain *terrain, Uint32 x, Uint32 y, Uint32 height) {
-  Point *point = hmeGetPoint(terrain, x, y);
-  if(point->isHeightSetted) return;
-
-  countPoints++;
-  point->z = height;
-  point->isHeightSetted = true;
-}
-
 __inline unsigned int mrandom (unsigned int max) {
   int value = (rand() % max);
   unsigned int value2 = (unsigned int) (rand() % max);
@@ -132,10 +115,6 @@ void printLine(int width) {
 
   for(i = 0; i < width; i++) printf("+-----");
   printf("+\n");
-}
-
-unsigned int valueCell(Terrain *terrain, int x, int y) {
-  return hmeGetHeight(terrain, x, y);;
 }
 
 void showTerrainCmd(Terrain *terrain) {

@@ -325,23 +325,3 @@ void setHeightSelection(Uint8 *terrain, int startX, int startY, int endX, int en
     }
   }
 }
-
-void risePoint(Uint8 *terrain, int x, int y, int delta) {
-    int currentHeight = getHeight(terrain, x, y);
-    int nextHeight = currentHeight + delta;
-
-    nextHeight = (nextHeight < 255) ? nextHeight : 255;
-    setHeight(terrain, x, y, nextHeight);
-}
-
-void sinkPoint(Uint8 *terrain, int x, int y, int delta) {
-    int currentHeight = getHeight(terrain, x, y);
-    int nextHeight = currentHeight + delta;
-
-    nextHeight = (nextHeight > 0) ? nextHeight : 0;
-    setHeight(terrain, x, y, nextHeight);
-}
-
-void setHeight(Uint8 *terrain, int x, int y, int height) {
-    *(terrain + y * WIDTH + x) = height;
-}

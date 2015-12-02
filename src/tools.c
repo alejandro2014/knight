@@ -95,18 +95,6 @@ void replacePoint(Uint8 *terrain, int x, int y) {
     }
 }
 
-int isFilled(int x, int y) {
-    return *(temp_buffer + y * WIDTH + x) == already_filled ? 1 : 0;
-}
-
-void setFilled(int x, int y) {
-    *(temp_buffer + y * WIDTH + x) = already_filled;
-}
-
-void setPendingFill(int x, int y) {
-    *(temp_buffer + y * WIDTH + x) = pending_filled;
-}
-
 void setPendingFillIfNeeded(int x, int y, int tolerance, int deltaMax) {
     int currentHeight = getHeight(terrain_height, x, y);
 
@@ -416,28 +404,6 @@ void updateMinMaxDrawnCoords(int x, int y) {
   //00000000 00000000 00000000 00000011 wtf??
   max_drawn_x = max_drawn_x & 0xfffc;
   min_drawn_x = min_drawn_x | 3;
-}
-
-int isPointInWindow(int x, int y) {
-  return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
-}
-
-int getHeightOld(Uint8 *terrain, int x, int y) {
-  return *(terrain + y * WIDTH + x);
-}
-
-void setHeightOld(Uint8 *terrain, int x, int y, int colour) {
-  *(terrain + y * WIDTH + x) = colour;
-}
-
-void incHeightOld(Uint8 *terrain, int x, int y, int delta) {
-  int newColour = getHeightOld(terrain, x, y) + delta;
-  setHeightOld(terrain, x, y, (newColour < 255 ? newColour : 255));
-}
-
-void decHeightOld(Uint8 *terrain, int x, int y, int delta) {
-  int newColour = getHeightOld(terrain, x, y) - delta;
-  setHeightOld(terrain, x, y, (newColour > 0 ? newColour : 0));
 }
 
 void stamp_object() {
