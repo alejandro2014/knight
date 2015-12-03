@@ -21,10 +21,7 @@ void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int 
     *(screen_buffer + my_pitch * y + xmenu + xlen) = black;
 }
 
-void
-draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
-		  int ylen)
-{
+void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
   int x, y, my_pitch;
   Uint8 *screen_buffer;
   screen_buffer = (Uint8 *) this_screen->pixels;
@@ -49,10 +46,7 @@ draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
     *(screen_buffer + my_pitch * y + xmenu + xlen + 1) = light_steel_blue;
 }
 
-void
-draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
-		int ylen)
-{
+void draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
   int x, y, my_pitch;
   Uint8 *screen_buffer;
   screen_buffer = (Uint8 *) this_screen->pixels;
@@ -76,7 +70,6 @@ draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen,
   for (y = ymenu + 1; y < ymenu + ylen + 1; y++)
     *(screen_buffer + my_pitch * y + xmenu + xlen + 1) = dark_steel_blue;
 }
-
 
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
   /*int x, y;
@@ -123,12 +116,9 @@ void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, i
     }
     screen_buffer += my_pitch - 32;
   }*/
-
 }
 
-void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
-			  int icon_x_screen, int icon_y_screen)
-{
+void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
   /*int x, y, my_pitch;
   char cur_pixel;
   Uint8 *screen_buffer;
@@ -154,11 +144,9 @@ void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
     }
     screen_buffer += my_pitch - 16;
   }*/
-
 }
 
-void draw_tool_bar (SDL_Surface * this_screen)
-{
+void draw_tool_bar (SDL_Surface * this_screen) {
   int i, my_pitch;
   char str[20];
   int x, y;
@@ -171,72 +159,40 @@ void draw_tool_bar (SDL_Surface * this_screen)
     tool_bar_x = 0;
   else if ((tool_bar_x + tool_bar_x_lenght + 1) > window_width)
     tool_bar_x = window_width - tool_bar_x_lenght - 1;
+
   if (tool_bar_y < 0)
     tool_bar_y = 0;
   else if ((tool_bar_y + tool_bar_y_lenght + 1) > window_height)
     tool_bar_y = window_height - tool_bar_y_lenght - 1;
 
 
-  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y,
-		   tool_bar_x_lenght, tool_bar_y_lenght);
+  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
   //now, draw the icons
-  for (i = 0; i < no_of_main_tool_bar_icons; i++)
-  {
-
-    if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1)
-    {
-      draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-      draw_down_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
+    for (i = 0; i < no_of_main_tool_bar_icons; i++) {
+        if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1) {
+            draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+            draw_down_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
+        } else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over) {
+            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+            draw_up_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
+        } else if (main_tool_bar[i].icon_dont_stay_pressed) {
+            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+        }
     }
 
-    else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over)
-    {
-      draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-      draw_up_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
-    }
-    else if (main_tool_bar[i].icon_dont_stay_pressed)
-    {
-      draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-    }
-  }
-///////////////////////////////////////////////////////
-//now, draw the small icons
-  for (i = 0; i < no_of_small_tool_bar_icons; i++)
-  {
-
-    if (small_tool_bar[i].icon_active == 1
-	|| small_tool_bar[i].icon_pressed == 1)
-    {
-      draw_tool_bar_small_icon (screen, mode_pushed,
-				small_tool_bar[i].icon_id,
-				tool_bar_x + (i * 20) + 3,
-				tool_bar_y + 3 + 38);
-      draw_down_button (screen, tool_bar_x + (i * 20) + 2,
-			tool_bar_y + 2 + 38, 17, 17);
+    //now, draw the small icons
+    for (i = 0; i < no_of_small_tool_bar_icons; i++) {
+        if (small_tool_bar[i].icon_active == 1 || small_tool_bar[i].icon_pressed == 1) {
+            draw_tool_bar_small_icon (screen, mode_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
+            draw_down_button (screen, tool_bar_x + (i * 20) + 2, tool_bar_y + 2 + 38, 17, 17);
+        } else if (!small_tool_bar[i].icon_dont_stay_pressed || small_tool_bar[i].icon_mouse_over) {
+            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
+            draw_up_button (screen, tool_bar_x + (i * 20) + 2, tool_bar_y + 2 + 38, 17, 17);
+        } else if (small_tool_bar[i].icon_dont_stay_pressed) {
+            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
+        }
     }
 
-    else if (!small_tool_bar[i].icon_dont_stay_pressed
-	     || small_tool_bar[i].icon_mouse_over)
-    {
-      draw_tool_bar_small_icon (screen, mode_not_pushed,
-				small_tool_bar[i].icon_id,
-				tool_bar_x + (i * 20) + 3,
-				tool_bar_y + 3 + 38);
-      draw_up_button (screen, tool_bar_x + (i * 20) + 2, tool_bar_y + 2 + 38,
-		      17, 17);
-    }
-
-    else if (small_tool_bar[i].icon_dont_stay_pressed)
-    {
-      draw_tool_bar_small_icon (screen, mode_not_pushed,
-				small_tool_bar[i].icon_id,
-				tool_bar_x + (i * 20) + 3,
-				tool_bar_y + 3 + 38);
-    }
-
-  }
-
-/////////////////////////////////////////////////////////
 // draw the heights bar
 
   i = 0;
@@ -254,25 +210,16 @@ void draw_tool_bar (SDL_Surface * this_screen)
   *(screen_buffer + y * my_pitch + x + 1) = red;
   *(screen_buffer + (y + 1) * my_pitch + x) = red;
   *(screen_buffer + (y + 1) * my_pitch + x + 1) = red;
-  draw_frame (screen, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4,
-	      tool_bar_y + 2 + 40, 256, 14);
+  draw_frame (screen, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4, tool_bar_y + 2 + 40, 256, 14);
 
 //now, print the current color
-  draw_empty_menu (screen, white,
-		   tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4,
-		   tool_bar_y + 2 + 40, 25, 14);
+  draw_empty_menu (screen, white, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4, tool_bar_y + 2 + 40, 25, 14);
 
   sprintf (str, "%d", color_1);
-  print_string (str, black, white,
-		tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4 +
-		2, tool_bar_y + 2 + 40 + 2);
-
+  print_string (str, black, white, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4 + 2, tool_bar_y + 2 + 40 + 2);
 }
 
-
-
-void draw_status_bar ()
-{
+void draw_status_bar () {
   char str[80];
   int cur_z;
 
@@ -281,24 +228,20 @@ void draw_status_bar ()
     status_bar_x = 0;
   else if ((status_bar_x + status_bar_x_lenght + 1) > window_width)
     status_bar_x = window_width - status_bar_x_lenght - 1;
+
   if (status_bar_y < 0)
     status_bar_y = 0;
   else if ((status_bar_y + status_bar_y_lenght + 1) > window_height)
     status_bar_y = window_height - status_bar_y_lenght - 1;
 
-  if (!get_cur_x_y ())
-    return;
+  if (!get_cur_x_y ()) return;
   cur_z = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
-  draw_empty_menu (screen, white, status_bar_x, status_bar_y,
-		   status_bar_x_lenght, status_bar_y_lenght);
-  sprintf (str, "XSize: %d, YSize: %d, Map scale: %d/1, X: %d, Y: %d Z: %d",
-	   WIDTH, HEIGHT, terrain_ratio, cur_x, cur_y, cur_z);
+  draw_empty_menu (screen, white, status_bar_x, status_bar_y, status_bar_x_lenght, status_bar_y_lenght);
+  sprintf (str, "XSize: %d, YSize: %d, Map scale: %d/1, X: %d, Y: %d Z: %d", WIDTH, HEIGHT, terrain_ratio, cur_x, cur_y, cur_z);
   print_string (str, black, white, status_bar_x + 2, status_bar_y + 3);
-
 }
 
-void draw_tool_tip()
-{
+void draw_tool_tip() {
   tip_x_lenght=7*strlen(tip_text)+6;
   //check to see if we didn't drag the tip outside of the screen
   if (tip_x < 0)tip_x = 0;
@@ -307,12 +250,9 @@ void draw_tool_tip()
   else if ((tip_y + tip_y_lenght + 1) > window_height)tip_y =window_height - tip_y_lenght - 1;
   draw_empty_menu (screen, white, tip_x, tip_y,tip_x_lenght, tip_y_lenght);
   print_string (tip_text, black, white, tip_x + 2, tip_y + 3);
-
 }
 
-
-void draw_minimap (SDL_Surface * this_screen)
-{
+void draw_minimap (SDL_Surface * this_screen) {
   int my_pitch;
   float x, y, x_ratio, y_ratio;
   Uint8 cur_pixel;
@@ -330,6 +270,7 @@ void draw_minimap (SDL_Surface * this_screen)
     min_map_x = 0;
   else if ((min_map_x + 256) > window_width)
     min_map_x = window_width - 256;
+
   if (min_map_y < 0)
     min_map_y = 0;
   else if ((min_map_y + 256) > window_height)
@@ -338,36 +279,29 @@ void draw_minimap (SDL_Surface * this_screen)
   screen_buffer += min_map_y * my_pitch + min_map_x;
   x_ratio = (float) WIDTH / (float) 256;
   y_ratio = (float) HEIGHT / (float) 256;
-  for (y = 0; y < 256; y++)
-  {
-    for (x = 0; x < 256; x++)
-    {
-      cur_pixel =
-	*(height_map + (int) (WIDTH * (int) (y * y_ratio) + (x * x_ratio)));
+
+  for (y = 0; y < 256; y++) {
+    for (x = 0; x < 256; x++) {
+      cur_pixel = *(height_map + (int) (WIDTH * (int) (y * y_ratio) + (x * x_ratio)));
       if (cur_pixel)
-	cur_pixel = cur_pixel / 4;
+	     cur_pixel = cur_pixel / 4;
       else
-	cur_pixel = 255;	//black
+	     cur_pixel = 255;	//black
       *(screen_buffer++) = cur_pixel;
     }
     screen_buffer += my_pitch - 256;
   }
+
   //now, let's draw the rectangle that shows us where exactly we are
-
-
   min_map_pos_x = (int) (xoffset / x_ratio + min_map_x);
   min_map_pos_y = (int) (yoffset / y_ratio + min_map_y);
   min_map_x_pos_lenght = (int) (window_width / (x_ratio * terrain_ratio) - 1);
-  min_map_y_pos_lenght =
-    (int) (window_height / (y_ratio * terrain_ratio) - 1);
+  min_map_y_pos_lenght = (int) (window_height / (y_ratio * terrain_ratio) - 1);
 
   //take care not to exceede the minmap limits, for smaller maps
-  if (min_map_x_pos_lenght > 255)
-    min_map_x_pos_lenght = 255;
-  if (min_map_y_pos_lenght > 255)
-    min_map_y_pos_lenght = 255;
-  draw_frame (screen, min_map_pos_x, min_map_pos_y, min_map_x_pos_lenght,
-	      min_map_y_pos_lenght);
+  if (min_map_x_pos_lenght > 255) min_map_x_pos_lenght = 255;
+  if (min_map_y_pos_lenght > 255) min_map_y_pos_lenght = 255;
+  draw_frame (screen, min_map_pos_x, min_map_pos_y, min_map_x_pos_lenght, min_map_y_pos_lenght);
 
   //now, draw the minimap frame
   draw_frame (screen, min_map_x, min_map_y, 255, 255);
