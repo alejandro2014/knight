@@ -72,7 +72,7 @@ void draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, 
 }
 
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
-  /*int x, y;
+  int x, y;
   char cur_pixel;
   Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
   int my_pitch = this_screen->pitch;
@@ -89,12 +89,12 @@ void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymen
     screen_buffer += (my_pitch - xlen);
   }
 
-  draw_frame (screen, xmenu, ymenu, xlen, ylen);*/
+  draw_frame (screen, xmenu, ymenu, xlen, ylen);
 }
 
 
 void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
-  /*int x, y, my_pitch;
+  int x, y, my_pitch;
   char cur_pixel;
   Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
@@ -115,11 +115,11 @@ void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, i
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 32;
-  }*/
+  }
 }
 
 void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
-  /*int x, y, my_pitch;
+  int x, y, my_pitch;
   char cur_pixel;
   Uint8 *screen_buffer;
   screen_buffer = (Uint8 *) this_screen->pixels;
@@ -143,7 +143,7 @@ void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
       *(++screen_buffer) = cur_color;
     }
     screen_buffer += my_pitch - 16;
-  }*/
+  }
 }
 
 void draw_tool_bar (SDL_Surface * this_screen) {
@@ -169,14 +169,17 @@ void draw_tool_bar (SDL_Surface * this_screen) {
   draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
   //now, draw the icons
     for (i = 0; i < no_of_main_tool_bar_icons; i++) {
+        int buttonX = tool_bar_x + (i * 36) + 2;
+        int buttonY = tool_bar_y + 2;
+
         if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1) {
-            draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-            draw_down_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
+            draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+            draw_down_button (screen, buttonX, buttonY, 33, 33);
         } else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over) {
-            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
-            draw_up_button (screen, tool_bar_x + (i * 36) + 2, tool_bar_y + 2, 33, 33);
+            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+            draw_up_button (screen, buttonX, buttonY, 33, 33);
         } else if (main_tool_bar[i].icon_dont_stay_pressed) {
-            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, tool_bar_x + (i * 36) + 3, tool_bar_y + 3);
+            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
         }
     }
 
