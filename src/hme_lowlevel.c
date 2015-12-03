@@ -53,6 +53,11 @@ int isPointInWindow(int x, int y) {
   return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
 }
 
-void putPixel(SDL_Surface *currentScreen, Uint32 x, Uint32 y, Uint32 colour) {
-  *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;
+void setPixel(int x, int y, int colour) {
+    currentScreen = NULL;
+    *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;
+}
+
+int getPixel(int x, int y) {
+    return 0;
 }

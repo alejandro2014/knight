@@ -171,13 +171,15 @@ void draw_tool_bar (SDL_Surface * this_screen) {
     for (i = 0; i < no_of_main_tool_bar_icons; i++) {
         int buttonX = tool_bar_x + (i * 36) + 2;
         int buttonY = tool_bar_y + 2;
+        int buttonWidth = 33;
+        int buttonHeight = 33;
 
         if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1) {
             draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
-            draw_down_button (screen, buttonX, buttonY, 33, 33);
+            draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
         } else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over) {
             draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
-            draw_up_button (screen, buttonX, buttonY, 33, 33);
+            draw_up_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
         } else if (main_tool_bar[i].icon_dont_stay_pressed) {
             draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
         }
@@ -185,41 +187,52 @@ void draw_tool_bar (SDL_Surface * this_screen) {
 
     //now, draw the small icons
     for (i = 0; i < no_of_small_tool_bar_icons; i++) {
+        int buttonX = tool_bar_x + (i * 20) + 2;
+        int buttonY = tool_bar_y + 40;
+        int buttonWidth = 17;
+        int buttonHeight = 17;
+
         if (small_tool_bar[i].icon_active == 1 || small_tool_bar[i].icon_pressed == 1) {
-            draw_tool_bar_small_icon (screen, mode_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
-            draw_down_button (screen, tool_bar_x + (i * 20) + 2, tool_bar_y + 2 + 38, 17, 17);
+            draw_tool_bar_small_icon(screen, mode_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+            draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
         } else if (!small_tool_bar[i].icon_dont_stay_pressed || small_tool_bar[i].icon_mouse_over) {
-            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
-            draw_up_button (screen, tool_bar_x + (i * 20) + 2, tool_bar_y + 2 + 38, 17, 17);
+            draw_tool_bar_small_icon(screen, mode_not_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+            draw_up_button(screen, buttonX, buttonY, buttonWidth, buttonHeight);
         } else if (small_tool_bar[i].icon_dont_stay_pressed) {
-            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, tool_bar_x + (i * 20) + 3, tool_bar_y + 3 + 38);
+            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
         }
     }
 
-// draw the heights bar
+    // draw the heights bar
+    int heightsBarX = tool_bar_x + no_of_small_tool_bar_icons * 20 + 4;
+    int heightsBarY = tool_bar_y + 42;
+    int heightsBarWidth = 256;
+    int heightsBarHeight = 14;
 
-  i = 0;
-  for (x = tool_bar_x + no_of_small_tool_bar_icons * 20 + 4;
-       x < tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256; x++)
-  {
-    for (y = tool_bar_y + 2 + 40; y < tool_bar_y + 2 + 40 + 14; y++)
-      *(screen_buffer + y * my_pitch + x) = i / 4;
-    i++;
-  }
-//draw the current color pointer
-  x = tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + color_1;
-  y = tool_bar_y + 2 + 40 + 6;
-  *(screen_buffer + y * my_pitch + x) = red;
-  *(screen_buffer + y * my_pitch + x + 1) = red;
-  *(screen_buffer + (y + 1) * my_pitch + x) = red;
-  *(screen_buffer + (y + 1) * my_pitch + x + 1) = red;
-  draw_frame (screen, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4, tool_bar_y + 2 + 40, 256, 14);
+    i = 0;
+    for (x = heightsBarX; x < heightsBarX + heightsBarWidth; x++) {
+        for (y = heightsBarY; y < heightsBarY + heightsBarHeight; y++) {
+            setPixel(x, y, i / 4);
+        }
+        i++;
+    }
 
-//now, print the current color
-  draw_empty_menu (screen, white, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4, tool_bar_y + 2 + 40, 25, 14);
+    //draw the current color pointer
+    x = heightsBarX + color_1;
+    y = heightsBarY + 6;
 
-  sprintf (str, "%d", color_1);
-  print_string (str, black, white, tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256 + 4 + 2, tool_bar_y + 2 + 40 + 2);
+    setPixel(x, y, red);
+    setPixel(x+1, y, red);
+    setPixel(x, y+1, red);
+    setPixel(x+1, y+1, red);
+
+    draw_frame (screen, heightsBarX, heightsBarY, heightsBarWidth, heightsBarHeight);
+
+    //now, print the current color
+    draw_empty_menu (screen, white, heightsBarX + heightsBarWidth + 4, heightsBarY, 25, heightsBarHeight);
+
+    sprintf (str, "%d", color_1);
+    print_string (str, black, white, heightsBarX + heightsBarWidth + 6, heightsBarY + 2);
 }
 
 void draw_status_bar () {
