@@ -1,5 +1,4 @@
 #include "draw_stuff.h"
-
 #include "font.h"
 #include "tools.h"
 
@@ -50,7 +49,7 @@ void drawLineVer(int yIni, int yFin, int x, int color) {
     for (y = yIni; y < yFin; y++) setPixel(x, y, color);
 }
 
-
+//TODO Use the rectangle function
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
   int x, y;
   char cur_pixel;
@@ -79,16 +78,13 @@ void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, i
   my_pitch = this_screen->pitch;
   screen_buffer += icon_y_screen * my_pitch + icon_x_screen;
 
-  for (y = y_tool_bar_bmp - 1; y != 15; y--) {
+  for(y = 16; y < y_tool_bar_bmp; y++) {
     Uint32 cur_color;
     for (x = icon_no * 32; x < icon_no * 32 + 32; x++) {
       cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
 
       if (cur_color == 131 || cur_color == 130) {
-				if (mode == mode_pushed)
-	  			cur_color = light_steel_blue;
-				else if (mode == mode_not_pushed)
-	  			cur_color = steel_blue;
+            cur_color = (mode == mode_pushed) ? light_steel_blue : steel_blue;
 			}
 
       *(++screen_buffer) = cur_color;
@@ -104,24 +100,22 @@ void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no,
   screen_buffer = (Uint8 *) this_screen->pixels;
   my_pitch = this_screen->pitch;
   screen_buffer += icon_y_screen * my_pitch + icon_x_screen;
+  int buttonWidth = 16;
+  int y1 = 0;
+  int y2 = y1 + buttonWidth;
+  int x1 = icon_no * buttonWidth;
+  int x2 = x1 + buttonWidth;
 
-
-  for (y = 15; y != -1; y--)
-  {
+  for(y = y1; y < y2; y++) {
     Uint8 cur_color;
-    for (x = icon_no * 16; x < icon_no * 16 + 16; x++)
-    {
+    for (x = x1; x < x2; x++) {
       cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
       if (cur_color == 131 || cur_color == 130) {
-	      if (mode == mode_pushed)
-	        cur_color = light_steel_blue;
-	      else if (mode == mode_not_pushed)
-	        cur_color = steel_blue;
-			}
+          cur_color = (mode == mode_pushed) ? light_steel_blue : steel_blue;
 
       *(++screen_buffer) = cur_color;
     }
-    screen_buffer += my_pitch - 16;
+    screen_buffer += my_pitch - buttonWidth;
   }
 }
 
