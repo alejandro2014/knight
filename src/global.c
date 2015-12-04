@@ -39,7 +39,6 @@ int global_tolerance_replace_mode;
 int global_tolerance_replace_mode_2;
 int global_temp_tolerance_replace_mode_2;
 
-
 int last_drawn_x = -1;
 int last_drawn_y = -1;
 
@@ -84,7 +83,6 @@ int cursors_y_lenght;
 int last_cursor;
 int current_cursor;
 
-
 //for tool bar
 SDL_Surface *tool_bar_mem;
 char *handle_tool_bar_mem;
@@ -98,54 +96,15 @@ int status_bar_y = 300;
 int status_bar_x_lenght = 500;
 int status_bar_y_lenght = 17;
 
-//for the new terrain menu
-int x_new_terrain_menu = 200;
-int y_new_terrain_menu = 100;
-int x_new_terrain_menu_lenght = 150;
-int y_new_terrain_menu_lenght = 100;
-
-//for the generate terrain menu
-int x_generate_terrain_menu = 200;
-int y_generate_terrain_menu = 50;
-int x_generate_terrain_menu_lenght = 220;
-int y_generate_terrain_menu_lenght = 100;
-
-//for the object menu
-int x_object_menu=200;
-int y_object_menu=50;
-int x_object_menu_lenght=200;
-int y_object_menu_lenght=120;
-
-//for the view menu
-int x_view_menu = 200;
-int y_view_menu = 50;
-int x_view_menu_lenght = 120;
-int y_view_menu_lenght = 240;
-
-//for the replace menu (the magic wand)
-int x_replace_menu = 200;
-int y_replace_menu = 50;
-int x_replace_menu_lenght = 240;
-int y_replace_menu_lenght = 300;
 int temp_tolerance_mode = 0;
 int temp_tolerance_replace_mode = 0;
 int temp_tolerance_replace_mode_2;
 
-//for the global replace menu (the magic wand)
-int x_global_replace_menu = 200;
-int y_global_replace_menu = 50;
-int x_global_replace_menu_lenght = 240;
-int y_global_replace_menu_lenght = 300;
 int temp_global_tolerance_mode;
 int temp_global_tolerance_replace_mode;
 int temp_global_tolerance_replace_mode_2;
 
-
-int x_rotation_menu=200;
-int y_rotation_menu=50;
-int x_rotation_menu_lenght=160;
-int y_rotation_menu_lenght=160;
-int rotation_type=rotation_none;
+int rotation_type = rotation_none;
 
 //for the tip
 int tip_x=0;
@@ -154,11 +113,6 @@ int tip_x_lenght=0;
 int tip_y_lenght=16;
 char tip_text[30];
 
-//for the error dialog box
-int x_error_menu=200;
-int y_error_menu=200;
-int x_error_menu_lenght=400;
-int y_error_menu_lenght=70;
 char error_msg_1[80];
 char error_msg_2[80];
 

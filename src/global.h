@@ -1,9 +1,6 @@
 #ifndef __GLOBAL_H__
 #define __GLOBAL_H__
 
-// ANSI C has no "bool", so typedef it here.
-// It also has no true/false, and because Entropy Serpent is a nit and used 1
-// not -1 I have to define it as 1.
 typedef unsigned char bool;
 #define true 1
 #define false 0
@@ -12,18 +9,14 @@ typedef unsigned char bool;
 #define TERRAIN_UNDO 1
 #define TERRAIN_TEMP 2
 
-  struct file_names_struct
-  {
+struct file_names_struct {
     char file_name[100];
     char is_directory; //1 for directory, 0 for normal file
-  };
+};
+
 extern int no_of_files;
 extern int start_file_offset;
 extern bool view_file_menu;
-extern int x_file_menu;
-extern int y_file_menu;
-extern int x_file_menu_lenght;
-extern int y_file_menu_lenght;
 extern bool save_file;
 extern char cur_dir[200];
 extern char cur_file_name[120];
@@ -81,7 +74,6 @@ extern struct file_names_struct file_names[1000];
 #define icon_generate 9
 #define icon_rotate 18
 #define icon_global_replace 19
-
 
 //small icons
 #define icon_brush_1 0
@@ -149,17 +141,15 @@ extern struct file_names_struct file_names[1000];
 #define cursor_null 10
 #define cursor_global_replace 11
 
-  struct cursors_struct
-  {
+struct cursors_struct {
     int hot_x;
     int hot_y;
     Uint8 *cursor_pointer;
-  };
+};
 
 extern struct cursors_struct cursors_array[20];
 
-struct tool_bar_struct
-{
+struct tool_bar_struct {
   int icon_id;
   int associated_window_message;
   int right_click_message;
@@ -176,8 +166,7 @@ struct tool_bar_struct
 extern struct tool_bar_struct main_tool_bar[no_of_main_tool_bar_icons];
 extern struct tool_bar_struct small_tool_bar[no_of_small_tool_bar_icons];
 
-struct numeric_dialog_box_struct
-{
+struct numeric_dialog_box_struct {
   int dialog_id;
   int max_number;
   int min_number;
@@ -192,10 +181,8 @@ struct numeric_dialog_box_struct
 #define no_of_numeric_dialog_boxes 15
 extern struct numeric_dialog_box_struct numeric_dialog_boxes[no_of_numeric_dialog_boxes];
 
-
 //here, we save/load the settings, at startup and exit
-struct settings_struct
-{
+struct settings_struct {
   short window_x;
   short window_y;
   short minmap_x;
@@ -230,7 +217,6 @@ extern int terrain_ratio;
 #define total_undo_swap_x_y 3
 
 //replace (magic wand) settings
-
 #define greater 0
 #define leaser 1
 #define greater_or_leaser 2
@@ -262,12 +248,11 @@ extern int selection_y_1;
 extern int selection_x_2;
 extern int selection_y_2;
 
-typedef struct
-  {
+typedef struct {
     int object_x_len;
     int object_y_len;
     Uint8 * object_mem;
-  } terrain_object;
+} terrain_object;
 
 #define add_object 0
 #define sub_object 1
@@ -318,50 +303,10 @@ extern int x_tool_bar_bmp, y_tool_bar_bmp, tool_bar_colors_no;
 extern int tool_bar_x, tool_bar_y;
 extern int tool_bar_x_lenght, tool_bar_y_lenght;
 
-//for status bar
-extern int status_bar_x;
-extern int status_bar_y;
-extern int status_bar_x_lenght;
-extern int status_bar_y_lenght;
-
-//for the new terrain menu
-extern int x_new_terrain_menu;
-extern int y_new_terrain_menu;
-extern int x_new_terrain_menu_lenght;
-extern int y_new_terrain_menu_lenght;
-
-//for the generate terrain menu
-extern int x_generate_terrain_menu;
-extern int y_generate_terrain_menu;
-extern int x_generate_terrain_menu_lenght;
-extern int y_generate_terrain_menu_lenght;
-
-//for the object menu
-extern int x_object_menu;
-extern int y_object_menu;
-extern int x_object_menu_lenght;
-extern int y_object_menu_lenght;
-
-//for the view menu
-extern int x_view_menu;
-extern int y_view_menu;
-extern int x_view_menu_lenght;
-extern int y_view_menu_lenght;
-
-//for the replace menu (the magic wand)
-extern int x_replace_menu;
-extern int y_replace_menu;
-extern int x_replace_menu_lenght;
-extern int y_replace_menu_lenght;
 extern int temp_tolerance_mode;
 extern int temp_tolerance_replace_mode;
 extern int temp_tolerance_replace_mode_2;
 
-//for the global replace menu (the magic wand)
-extern int x_global_replace_menu;
-extern int y_global_replace_menu;
-extern int x_global_replace_menu_lenght;
-extern int y_global_replace_menu_lenght;
 extern int temp_global_tolerance_mode;
 extern int temp_global_tolerance_replace_mode;
 extern int temp_global_tolerance_replace_mode_2;
@@ -375,10 +320,6 @@ extern int temp_global_tolerance_replace_mode_2;
 #define rotation_180 6
 
 //for the rotation menu
-extern int x_rotation_menu;
-extern int y_rotation_menu;
-extern int x_rotation_menu_lenght;
-extern int y_rotation_menu_lenght;
 extern int rotation_type;
 
 //for the tip
@@ -388,12 +329,7 @@ extern int tip_x_lenght;
 extern int tip_y_lenght;
 extern char tip_text[30];
 
-
 //for the error dialog box
-extern int x_error_menu;
-extern int y_error_menu;
-extern int x_error_menu_lenght;
-extern int y_error_menu_lenght;
 extern bool view_error_menu;
 extern char error_msg_1[80];
 extern char error_msg_2[80];
@@ -409,15 +345,7 @@ extern bool status_bar;
 extern bool mini_map;
 extern bool main_menu;
 extern bool tool_bar;
-extern bool show_new_terrain_menu;
-extern bool show_generate_terrain_menu;
-extern bool show_view_menu;
-extern bool show_replace_menu;
-extern bool show_global_replace_menu;
-extern bool show_rotate_menu;
 extern bool show_tip;
-extern bool show_object_menu;
-Uint8 *isometric_window_buffer;
 
 extern bool overwrite_terrain;
 extern bool clear_temp_buffer;
@@ -427,7 +355,7 @@ extern bool drag_minimap;
 extern bool drag_toolbar;
 extern bool drag_statusbar;
 extern bool no_update_now;
-//extern bool gray_shades;
+
 extern bool undo;
 extern bool caps_look_on;
 extern bool kill_isometric_buffer_semaphore;

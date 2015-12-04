@@ -4,7 +4,7 @@
 Menu *loadMenus(char *nameOfFile) {
     /*Menu *menu = (Menu *) malloc(sizeof(Menu));
     memset(menu, 0, sizeof(Menu))*/
-    
+
     return NULL;
 }
 
@@ -36,7 +36,7 @@ Menu *loadNewTerrainDialog() {
   menu->width = x_new_terrain_menu_lenght;
   menu->height = y_new_terrain_menu_lenght;
   menu->title = "New terrain";
-  
+
   menu->textBoxes = loadTextBoxes(menu);
 
   return menu;
@@ -62,7 +62,7 @@ TextBox *loadTextBoxes(Menu *menu) {
 
     int basex = menu->x;
     int basey = menu->y;
-    
+
     currentTextBox = textBoxes + 0;
 	currentTextBox->title = "X Size:";
 	currentTextBox->x = basex + 2;
@@ -136,3 +136,59 @@ TextBoxContainer *loadTextBoxContainer(Menu *menu) {
 
 	return textBoxContainer;
 }
+
+Dialog *dialogNewTerrain;
+dialogNewTerrain->title = "New terrain";
+dialogNewTerrain->x = 200;
+dialogNewTerrain->y = 100;
+dialogNewTerrain->height = 150;
+dialogNewTerrain->width = 100;
+
+Dialog *dialogGenerateTerrain;
+dialogGenerateTerrain->title = "Generate terrain";
+dialogGenerateTerrain->x = 200;
+dialogGenerateTerrain->y = 50;
+dialogGenerateTerrain->height = 220;
+dialogGenerateTerrain->width = 100;
+
+Dialog *dialogObject;
+dialogObject->title = "Object";
+dialogObject->x = 200;
+dialogObject->y = 50;
+dialogObject->height = 200;
+dialogObject->width = 120;
+
+Dialog *dialogView;
+dialogView->title = "View";
+dialogView->x = 200;
+dialogView->y = 50;
+dialogView->height = 120;
+dialogView->width = 240;
+
+Dialog *dialogReplace;
+dialogReplace->title = "Replace";
+dialogReplace->x = 200;
+dialogReplace->y = 50;
+dialogReplace->height = 240;
+dialogReplace->width = 300;
+
+Dialog *dialogGlobalReplace;
+dialogGlobalReplace->title = "Global replace";
+dialogGlobalReplace->x = 200;
+dialogGlobalReplace->y = 50;
+dialogGlobalReplace->height = 240;
+dialogGlobalReplace->width = 300;
+
+Dialog *dialogRotation;
+dialogRotation->title = "Rotation";
+dialogRotation->x = 200;
+dialogRotation->y = 50;
+dialogRotation->height = 160;
+dialogRotation->width = 160;
+
+Dialog *dialogError;
+dialogError->title = "Error";
+dialogError->x = 200;
+dialogError->y = 200;
+dialogError->height = 400;
+dialogError->width = 70;

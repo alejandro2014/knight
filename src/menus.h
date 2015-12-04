@@ -24,7 +24,8 @@ typedef struct {
 	int height;
 	char *title;
     TextBox *textBoxes;
-} Menu;
+    bool show;
+} Dialog;
 
 typedef struct {
 	Menu *menu;
