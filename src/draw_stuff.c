@@ -21,56 +21,44 @@ void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int 
     *(screen_buffer + my_pitch * y + xmenu + xlen) = black;
 }
 
-void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
-  int x, y, my_pitch;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-
-  for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * ymenu + x) = dark_steel_blue;
-  for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * (ymenu + 1) + x) = dark_steel_blue;
-  for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * (ymenu + ylen) + x) = light_steel_blue;
-  for (x = xmenu + 1; x < xmenu + xlen + 1; x++)
-    *(screen_buffer + my_pitch * (ymenu + ylen + 1) + x) = light_steel_blue;
-
-  for (y = ymenu; y < ymenu + ylen; y++)
-    *(screen_buffer + my_pitch * y + xmenu) = dark_steel_blue;
-  for (y = ymenu + 1; y < ymenu + ylen + 1; y++)
-    *(screen_buffer + my_pitch * y + xmenu + 1) = dark_steel_blue;
-  for (y = ymenu; y < ymenu + ylen; y++)
-    *(screen_buffer + my_pitch * y + xmenu + xlen) = light_steel_blue;
-  for (y = ymenu + 1; y < ymenu + ylen + 1; y++)
-    *(screen_buffer + my_pitch * y + xmenu + xlen + 1) = light_steel_blue;
+void draw_down_button (int xmenu, int ymenu, int xlen, int ylen) {
+  drawPushableButton(xmenu, ymenu, xlen, ylen, true);
 }
 
-void draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
-    int x, y, my_pitch;
-    Uint8 *screen_buffer;
-    screen_buffer = (Uint8 *) this_screen->pixels;
-    my_pitch = this_screen->pitch;
-
-    drawHorizontalLine(xmenu, xmenu + xlen, ymenu, light_steel_blue);
-    drawHorizontalLine(xmenu, xmenu + xlen, ymenu + 1, light_steel_blue);
-
-    for (y = ymenu; y < ymenu + ylen; y++) setPixel(xmenu, y, light_steel_blue);
-    for (y = ymenu + 1; y < ymenu + ylen + 1; y++) setPixel(xmenu + 1, y, light_steel_blue);
-
-    drawHorizontalLine(xmenu, xmenu + xlen, ymenu + ylen, dark_steel_blue);
-    drawHorizontalLine(xmenu + 1, xmenu + xlen + 1, ymenu + ylen + 1, dark_steel_blue);
-
-    for (y = ymenu; y < ymenu + ylen; y++) setPixel(xmenu + xlen, y, dark_steel_blue);
-    for (y = ymenu + 1; y < ymenu + ylen + 1; y++) setPixel(xmenu + xlen + 1, y, dark_steel_blue);
+void draw_up_button (int xmenu, int ymenu, int xlen, int ylen) {
+    drawPushableButton(xmenu, ymenu, xlen, ylen, false);
 }
 
-void drawHorizontalLine(int xIni, int xFin, int y, int color) {
+void drawPushableButton(int xmenu, int ymenu, int xlen, int ylen, bool isPushed) {
+    int x1 = xmenu;
+    int x2 = xmenu + xlen;
+    int y1 = ymenu;
+    int y2 = ymenu + ylen;
+
+    int color1 = isPushed ? dark_steel_blue : light_steel_blue;
+    int color2 = isPushed ? light_steel_blue : dark_steel_blue;
+
+    drawLineHor(x1,     x2,   y1, color1);
+    drawLineHor(x1,     x2, y1+1, color1);
+    drawLineHor(x1,     x2,   y2, color2);
+    drawLineHor(x1+1, x2+1, y2+1, color2);
+
+    drawLineVer(y1,     y2,   x1, color1);
+    drawLineVer(y1+1, y2+1, x1+1, color1);
+    drawLineVer(y1,     y2,   x2, color2);
+    drawLineVer(y1+1, y2+1, x2+1, color2);
+}
+
+void drawLineHor(int xIni, int xFin, int y, int color) {
     int x;
-
-    for (x = xIni; x < xFin; x++)
-        setPixel(x, y, color);
+    for (x = xIni; x < xFin; x++) setPixel(x, y, color);
 }
+
+void drawLineVer(int yIni, int yFin, int x, int color) {
+    int y;
+    for (y = yIni; y < yFin; y++) setPixel(x, y, color);
+}
+
 
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen) {
   int x, y;
