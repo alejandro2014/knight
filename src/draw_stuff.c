@@ -3,22 +3,13 @@
 #include "font.h"
 #include "tools.h"
 
-void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen) {
+void draw_frame(int xmenu, int ymenu, int xlen, int ylen) {
   int x, y;
-  Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
-  int my_pitch = this_screen->pitch;
 
-  for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * ymenu + x) = 0xff000000;
-
-  for (y = ymenu; y < ymenu + ylen; y++)
-    *(screen_buffer + my_pitch * y + xmenu) = gray;
-
-  for (x = xmenu; x < xmenu + xlen; x++)
-    *(screen_buffer + my_pitch * (ymenu + ylen) + x) = black;
-
-  for (y = ymenu; y < ymenu + ylen; y++)
-    *(screen_buffer + my_pitch * y + xmenu + xlen) = black;
+  for (x = xmenu; x < xmenu + xlen; x++) setPixel(x, y, gray);
+  for (y = ymenu; y < ymenu + ylen; y++) setPixel(xmenu, y, gray);
+  for (x = xmenu; x < xmenu + xlen; x++) setPixel(x, ymenu + ylen, black);
+  for (y = ymenu; y < ymenu + ylen; y++) setPixel(xmenu + xlen, y, black);
 }
 
 void draw_down_button (int xmenu, int ymenu, int xlen, int ylen) {
@@ -68,8 +59,7 @@ void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymen
   screen_buffer += ymenu * my_pitch + xmenu;
 
   //draw the main menu (without borders)
-  for (y = ymenu; y < ymenu + ylen; y++)
-  {
+  for (y = ymenu; y < ymenu + ylen; y++) {
     for (x = xmenu; x < xmenu + xlen; x++) {
       *(screen_buffer++) = color;
       *(screen_buffer++) = 0xff000000;
