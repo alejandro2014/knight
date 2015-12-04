@@ -98,65 +98,29 @@ void drawToolbarIcon(Button button, int mode) {
     }
 }
 
-void draw_tool_bar (SDL_Surface * this_screen) {
-  int i, my_pitch;
-  char str[20];
-  int x, y;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+void drawIcons(Toolbar toolbar) {
+    int numIcons = toolbar.numIcons;
+    int i;
 
-  //check to see if we didn't drag the tool bar outside of the screen
-  if (tool_bar_x < 0)
-    tool_bar_x = 0;
-  else if ((tool_bar_x + tool_bar_x_lenght + 1) > window_width)
-    tool_bar_x = window_width - tool_bar_x_lenght - 1;
-
-  if (tool_bar_y < 0)
-    tool_bar_y = 0;
-  else if ((tool_bar_y + tool_bar_y_lenght + 1) > window_height)
-    tool_bar_y = window_height - tool_bar_y_lenght - 1;
-
-
-  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
-  //now, draw the icons
-    for (i = 0; i < no_of_main_tool_bar_icons; i++) {
-        int button = main_tool_bar[i];
-        int buttonX = tool_bar_x + (i * 36) + 2;
-        int buttonY = tool_bar_y + 2;
-        int buttonWidth = 33;
-        int buttonHeight = 33;
+    for (i = 0; i < numIcons; i++) {
+        int button = toolbar.buttons[i];
+        int buttonX = toolbar.x + button.x;
+        int buttonY = toolbar.y + button.y;
+        int buttonSize = button.size;
 
         if (button.icon_active == 1 || button.icon_pressed == 1) {
-            draw_tool_bar_big_icon (button, mode_pushed);
-            draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
+            drawToolbarIcon(button, mode_pushed);
+            draw_down_button(button);
         } else if (!button.icon_dont_stay_pressed || button.icon_mouse_over) {
-            draw_tool_bar_big_icon (button, mode_not_pushed);
-            draw_up_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
+            drawToolbarIcon(button, mode_not_pushed);
+            draw_up_button(button);
         } else if (button.icon_dont_stay_pressed) {
-            draw_tool_bar_big_icon (button, mode_not_pushed);
+            drawToolbarIcon(button, mode_not_pushed);
         }
     }
+}
 
-    //now, draw the small icons
-    for (i = 0; i < no_of_small_tool_bar_icons; i++) {
-        int button = small_tool_bar[i];
-        int buttonX = tool_bar_x + (i * 20) + 2;
-        int buttonY = tool_bar_y + 40;
-        int buttonWidth = 17;
-        int buttonHeight = 17;
-
-        if (button.icon_active == 1 || button.icon_pressed == 1) {
-            draw_tool_bar_small_icon(screen, mode_pushed, button.icon_id, buttonX + 1, buttonY + 1);
-            draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (!button.icon_dont_stay_pressed || button.icon_mouse_over) {
-            draw_tool_bar_small_icon(screen, mode_not_pushed, button.icon_id, buttonX + 1, buttonY + 1);
-            draw_up_button(screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (button.icon_dont_stay_pressed) {
-            draw_tool_bar_small_icon (screen, mode_not_pushed, button.icon_id, buttonX + 1, buttonY + 1);
-        }
-    }
-
+void drawHeightsBar(HeightsBar *heightsBar) {
     // draw the heights bar
     int heightsBarX = tool_bar_x + no_of_small_tool_bar_icons * 20 + 4;
     int heightsBarY = tool_bar_y + 42;
@@ -170,7 +134,9 @@ void draw_tool_bar (SDL_Surface * this_screen) {
         }
         i++;
     }
+}
 
+void drawColorPointer() {
     //draw the current color pointer
     x = heightsBarX + color_1;
     y = heightsBarY + 6;
@@ -179,6 +145,32 @@ void draw_tool_bar (SDL_Surface * this_screen) {
     setPixel(x+1, y, red);
     setPixel(x, y+1, red);
     setPixel(x+1, y+1, red);
+}
+
+void draw_tool_bar(Toolbar *toolbar) {
+  char str[20];
+  int x, y, i;
+
+  //check to see if we didn't drag the tool bar outside of the screen
+  if (toolbar.x < 0)
+    toolbar.x = 0;
+  else if ((toolbar.x + toolbar.width + 1) > window_width)
+    toolbar.x = window_width - toolbar.width - 1;
+
+    if (toolbar.y < 0)
+      toolbar.y = 0;
+    else if ((toolbar.y + toolbar.height + 1) > window_height)
+      toolbar.y = window_height - toolbar.height - 1;
+
+  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
+  /*int button = main_tool_bar[i];
+  int buttonX = tool_bar_x + (i * 36,20) + 2;
+  int buttonY = tool_bar_y + 2,40;
+  int buttonSize = 33,17; */
+  drawIcons(main_tool_bar);
+  drawIcons(small_tool_bar);
+  drawHeightsBar(heightsBar);
+  drawColorPointer();
 
     draw_frame (screen, heightsBarX, heightsBarY, heightsBarWidth, heightsBarHeight);
 
