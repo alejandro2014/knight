@@ -70,53 +70,32 @@ void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymen
   draw_frame (screen, xmenu, ymenu, xlen, ylen);
 }
 
+void drawToolbarIcon(Button button, int mode) {
+    int x, y;
+    int my_pitch = this_screen->pitch;
+    Uint8 *screen_buffer = (Uint8 *) this_screen->pixels + buttonY * my_pitch + buttonX;
 
-void draw_tool_bar_big_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  Uint32 *screen_buffer = (Uint32 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-  screen_buffer += icon_y_screen * my_pitch + icon_x_screen;
+    int buttonWidth = button.width; //16, 32
+    int x1 = button.x;//icon_no * buttonWidth
+    int y1 = button.y;//0, 16
+    int x2 = x1 + buttonWidth;
+    int y2 = y1 + buttonWidth;
 
-  for(y = 16; y < y_tool_bar_bmp; y++) {
-    Uint32 cur_color;
-    for (x = icon_no * 32; x < icon_no * 32 + 32; x++) {
-      cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
+    for(y = y1; y < y2; y++) {
+        Uint8 cur_color;
 
-      if (cur_color == 131 || cur_color == 130) {
-            cur_color = (mode == mode_pushed) ? light_steel_blue : steel_blue;
-			}
+        for (x = x1; x < x2; x++) {
+            cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
 
-      *(++screen_buffer) = cur_color;
+            if (cur_color == 131 || cur_color == 130) {
+                cur_color = (mode == mode_pushed) ? light_steel_blue : steel_blue;
+            }
+
+            *(++screen_buffer) = cur_color;
+        }
+
+        screen_buffer += my_pitch - buttonWidth;
     }
-    screen_buffer += my_pitch - 32;
-  }
-}
-
-void draw_tool_bar_small_icon (SDL_Surface * this_screen, int mode, int icon_no, int icon_x_screen, int icon_y_screen) {
-  int x, y, my_pitch;
-  char cur_pixel;
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
-  screen_buffer += icon_y_screen * my_pitch + icon_x_screen;
-  int buttonWidth = 16;
-  int y1 = 0;
-  int y2 = y1 + buttonWidth;
-  int x1 = icon_no * buttonWidth;
-  int x2 = x1 + buttonWidth;
-
-  for(y = y1; y < y2; y++) {
-    Uint8 cur_color;
-    for (x = x1; x < x2; x++) {
-      cur_color = *(tool_bar_mem + x_tool_bar_bmp * y + x);
-      if (cur_color == 131 || cur_color == 130) {
-          cur_color = (mode == mode_pushed) ? light_steel_blue : steel_blue;
-
-      *(++screen_buffer) = cur_color;
-    }
-    screen_buffer += my_pitch - buttonWidth;
-  }
 }
 
 void draw_tool_bar (SDL_Surface * this_screen) {
@@ -142,37 +121,39 @@ void draw_tool_bar (SDL_Surface * this_screen) {
   draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
   //now, draw the icons
     for (i = 0; i < no_of_main_tool_bar_icons; i++) {
+        int button = main_tool_bar[i];
         int buttonX = tool_bar_x + (i * 36) + 2;
         int buttonY = tool_bar_y + 2;
         int buttonWidth = 33;
         int buttonHeight = 33;
 
-        if (main_tool_bar[i].icon_active == 1 || main_tool_bar[i].icon_pressed == 1) {
-            draw_tool_bar_big_icon (screen, mode_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        if (button.icon_active == 1 || button.icon_pressed == 1) {
+            draw_tool_bar_big_icon (button, mode_pushed);
             draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (!main_tool_bar[i].icon_dont_stay_pressed || main_tool_bar[i].icon_mouse_over) {
-            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        } else if (!button.icon_dont_stay_pressed || button.icon_mouse_over) {
+            draw_tool_bar_big_icon (button, mode_not_pushed);
             draw_up_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (main_tool_bar[i].icon_dont_stay_pressed) {
-            draw_tool_bar_big_icon (screen, mode_not_pushed, main_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        } else if (button.icon_dont_stay_pressed) {
+            draw_tool_bar_big_icon (button, mode_not_pushed);
         }
     }
 
     //now, draw the small icons
     for (i = 0; i < no_of_small_tool_bar_icons; i++) {
+        int button = small_tool_bar[i];
         int buttonX = tool_bar_x + (i * 20) + 2;
         int buttonY = tool_bar_y + 40;
         int buttonWidth = 17;
         int buttonHeight = 17;
 
-        if (small_tool_bar[i].icon_active == 1 || small_tool_bar[i].icon_pressed == 1) {
-            draw_tool_bar_small_icon(screen, mode_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        if (button.icon_active == 1 || button.icon_pressed == 1) {
+            draw_tool_bar_small_icon(screen, mode_pushed, button.icon_id, buttonX + 1, buttonY + 1);
             draw_down_button (screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (!small_tool_bar[i].icon_dont_stay_pressed || small_tool_bar[i].icon_mouse_over) {
-            draw_tool_bar_small_icon(screen, mode_not_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        } else if (!button.icon_dont_stay_pressed || button.icon_mouse_over) {
+            draw_tool_bar_small_icon(screen, mode_not_pushed, button.icon_id, buttonX + 1, buttonY + 1);
             draw_up_button(screen, buttonX, buttonY, buttonWidth, buttonHeight);
-        } else if (small_tool_bar[i].icon_dont_stay_pressed) {
-            draw_tool_bar_small_icon (screen, mode_not_pushed, small_tool_bar[i].icon_id, buttonX + 1, buttonY + 1);
+        } else if (button.icon_dont_stay_pressed) {
+            draw_tool_bar_small_icon (screen, mode_not_pushed, button.icon_id, buttonX + 1, buttonY + 1);
         }
     }
 
