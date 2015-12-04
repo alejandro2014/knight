@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         programLoop();
         freeResources(window, renderer, font);
     }
-    
+
     SDL_Quit();
     return 0;
 }
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 void programLoop() {
     int finish = 0;
     SDL_Event event;
-    
+
     while(!finish) {
         readEvents(&finish);
         drawScreen();
@@ -68,7 +68,7 @@ void programLoop() {
 
 void readEvents(int *finish) {
     SDL_Event event;
-    
+
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             *finish = 1;
@@ -77,14 +77,7 @@ void readEvents(int *finish) {
 }
 
 int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font) {
-    *window = SDL_CreateWindow(
-        "HME",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        640,
-        480,
-        SDL_WINDOW_RESIZABLE
-    );
+    *window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());
@@ -92,20 +85,20 @@ int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font)
     }
 
     *renderer = SDL_CreateRenderer(*window, -1, 0);
-    
+
     if(*renderer == NULL) {
         printf("Could not create renderer: %s\n", SDL_GetError());
         return -1;
     }
-  
+
     TTF_Init();
     *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
-    
+
     if(*font == NULL) {
         printf("Could not load the font\n");
         return -1;
     }
-    
+
     return 0;
 }
 
@@ -134,11 +127,11 @@ int main2(int argc, char *argv[]) {
 
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_RESIZABLE | SDL_HWPALETTE);
   //screen = SDL_SetVideoMode (window_width, window_height, 8, SDL_HWSURFACE | SDL_HWPALETTE);
-  
+
   window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, window_width, window_height, SDL_WINDOW_RESIZABLE);
-  renderer = SDL_CreateRenderer(window, -1, 0); 
+  renderer = SDL_CreateRenderer(window, -1, 0);
   //screen = screen = SDL_GetWindowSurface(window);
-  
+
   //screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
   //printf("Allocated screen (%d x %d) pitch %d\n", window_width, window_height, screen->pitch);
   /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
