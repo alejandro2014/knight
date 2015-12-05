@@ -148,16 +148,12 @@ void draw_new_terrain_menu() {
 
 //element title x y w h
 void draw_generate_menu (SDL_Surface * this_screen) {
-  //menu "generateTerrainMenu" *generate_menu*
-	//textbox "Seed" 52 18 76 14
-	//textbox "Random" 140 18 50 14
-  //checkbox "Overwrite existing terrain" 2 40 14 14
+    //checkbox "Overwrite existing terrain" 2 40 14 14
 	//button "Ok" 40 80 20 14
 	//button "Cancel" 70 80 50 14
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
-	//menu "viewMenu" "View..." *view_menu*
 	//checkbox "Toolbar" 2 20 14 14
   //checkbox "Minimap" 2 40 14 14
 	//checkbox "Status bar" 2 60 14 14
@@ -169,7 +165,6 @@ void draw_view_menu (SDL_Surface * this_screen) {
 	//	checkbox "128x128" 2 160 14 14
 	//	checkbox "256x256" 2 180 14 14
 	//button "Ok" 50 220 20 14
-  //draw the OK button
 }
 
 void draw_rotate_menu (SDL_Surface * this_screen) {
@@ -264,7 +259,6 @@ void draw_object_menu (SDL_Surface * this_screen) {
 }
 
 void draw_error_box(SDL_Surface * this_screen) {
-  //menu "errorBox" "Error!"
 	//string &error_msg_1
 	//string &error_msg_2
   //button "Ok" 200 52 20 14
