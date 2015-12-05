@@ -148,30 +148,15 @@ void draw_new_terrain_menu() {
 
 //element title x y w h
 void draw_generate_menu (SDL_Surface * this_screen) {
-    //checkbox "Overwrite existing terrain" 2 40 14 14
+
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
-	//checkbox "Toolbar" 2 20 14 14
-  //checkbox "Minimap" 2 40 14 14
-	//checkbox "Status bar" 2 60 14 14
-	//checkbox "Grid: Off" 2 80 14 14
-	//groupCheckbox "Grid"
-	//	checkbox "16x16" 2 100 14 14
-	//	checkbox "32x32" 2 120 14 14
-	//	checkbox "64x64" 2 140 14 14
-	//	checkbox "128x128" 2 160 14 14
-	//	checkbox "256x256" 2 180 14 14
+
 }
 
 void draw_rotate_menu (SDL_Surface * this_screen) {
-  //menu "rotateMenu" "Flip and rotation" *rotation*
-	//checkbox "Horizontal (x) flip" 2 20 14 14
-	//checkbox "Vertical (y) flip" 2 40 14 14
-	//checkbox "Height (z) flip" 2 60 14 14
-	//checkbox "Rotate 90 CW 2 80 14 14"
-	//checkbox "Rotate 90 CCW 2 100 14 14"
-	//checkbox "Rotate 180 CCW 2 120 14 14"
+
 }
 
 void draw_replace_menu (SDL_Surface * this_screen) {
@@ -183,18 +168,8 @@ void draw_replace_menu (SDL_Surface * this_screen) {
   print_string (numeric_dialog_boxes[tolerance].dialog_text, black, white,x_replace_menu + 82, y_replace_menu + 20);
 
 	//string "Tolerance mode" 4 42
-	//checkbox "+" 40 60 14 14
-	//checkbox "-" 40 80 14 14
-	//checkbox "+/-" 40 100 14 14
-
 	//string "Replace mode" 4 122
-	//checkbox "+" 40 140 14 14
-	//checkbox "-" 40 160 14 14
-	//checkbox "=" 40 180 14 14
-
 	//string "Replace with:" 4 202
-	//checkbox "Solid" 40 220 14 14
-	//checkbox "Pattern" 40 240 14 14
 
   //draw the pattern file name.
   print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
@@ -214,18 +189,8 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
   print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, white,x_global_replace_menu + 82, y_global_replace_menu + 20);
 
 	//string "Tolerance mode:" 4 42
-	//checkbox "+" 40 60 14 14
-	//checkbox "-" 40 80 14 14
-	//checkbox "+/-" 40 100 14 14
-
 	//string "Replace mode:" 4 122
-	//checkbox "+" 40 140 14 14
-	//checkbox "-" 40 160 14 14
-	//checkbox "=" 40 180 14 14
-
 	//string "Replace with:" 4 202
-  //checkbox "Solid" 40 220 14 14
-	//checkbox "Pattern" 40 240 14 14
 
   //draw the pattern file name.
   print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
@@ -238,9 +203,6 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
 
 void draw_object_menu (SDL_Surface * this_screen) {
   //string "Put object mode:" 4 22
-  //checkbox "Place over terrain" 40 40 14 14
-	//checkbox "Increase terrain" 40 60 14 14
-	//checkbox "Decrease terrain" 40 80 14 14
 }
 
 void draw_error_box(SDL_Surface * this_screen) {
