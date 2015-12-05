@@ -149,8 +149,6 @@ void draw_new_terrain_menu() {
 //element title x y w h
 void draw_generate_menu (SDL_Surface * this_screen) {
     //checkbox "Overwrite existing terrain" 2 40 14 14
-	//button "Ok" 40 80 20 14
-	//button "Cancel" 70 80 50 14
 }
 
 void draw_view_menu (SDL_Surface * this_screen) {
@@ -164,7 +162,6 @@ void draw_view_menu (SDL_Surface * this_screen) {
 	//	checkbox "64x64" 2 140 14 14
 	//	checkbox "128x128" 2 160 14 14
 	//	checkbox "256x256" 2 180 14 14
-	//button "Ok" 50 220 20 14
 }
 
 void draw_rotate_menu (SDL_Surface * this_screen) {
@@ -175,7 +172,6 @@ void draw_rotate_menu (SDL_Surface * this_screen) {
 	//checkbox "Rotate 90 CW 2 80 14 14"
 	//checkbox "Rotate 90 CCW 2 100 14 14"
 	//checkbox "Rotate 180 CCW 2 120 14 14"
-	//button "Ok" 70 140 20 14
 }
 
 void draw_replace_menu (SDL_Surface * this_screen) {
@@ -208,10 +204,6 @@ void draw_replace_menu (SDL_Surface * this_screen) {
 		print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
   else
   	print_string(&pattern_file_name, black, white, x_replace_menu +62,y_replace_menu + 262);
-
-	//button "Ok" 30 280 20 14
-	//button "Cancel" 60 280 50 14
-	//button "Change pattern" 120 280 110 14
 }
 
 void draw_global_replace_menu (SDL_Surface * this_screen) {
@@ -242,26 +234,18 @@ void draw_global_replace_menu (SDL_Surface * this_screen) {
 		print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
   else
   	print_string(&pattern_file_name, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
-
-	//button "Ok" 30 280 20 14
-	//button "Cancel" 60 280 50 14
-	//button "Change pattern" 120 280 110 14
 }
 
 void draw_object_menu (SDL_Surface * this_screen) {
-  //menu "objectMenu" "Object settings"
   //string "Put object mode:" 4 22
   //checkbox "Place over terrain" 40 40 14 14
 	//checkbox "Increase terrain" 40 60 14 14
 	//checkbox "Decrease terrain" 40 80 14 14
-  //button "Ok" 60 100 20 14
-	//button "Cancel" 90 100 50 14
 }
 
 void draw_error_box(SDL_Surface * this_screen) {
 	//string &error_msg_1
 	//string &error_msg_2
-  //button "Ok" 200 52 20 14
 }
 
 void draw_file_menu(SDL_Surface * this_screen) {
