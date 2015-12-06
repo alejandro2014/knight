@@ -6,208 +6,36 @@
 #include "menus.h"
 #include "load_widgets.h"
 
-char *TOOLBARBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/toolbar.bmp";
-char *TOOLBARBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
-
-void load_tool_bar() {
-	/*SDL_Surface *tempToolbarBmp = SDL_LoadBMP(TOOLBARBMP_PATH_LINUX);
-	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
-	return;
-
-	char *temp_pointer = tool_bar_mem;
-	int f_size, i;
-	FILE *f = fopen (toolbarBmp, "rb");
-	fseek (f, 0, SEEK_END);
-	f_size = ftell (f);
-
-	//ok, allocate memory for it
-	tool_bar_mem = calloc ( f_size, sizeof(char) );
-	handle_tool_bar_mem=tool_bar_mem;
-	fseek (f, 0, SEEK_SET);
-	fread (tool_bar_mem, 1, f_size, f);
-	fclose (f);
-
-	tool_bar_mem += 18;		//x lenght is at offset+18
-	x_tool_bar_bmp = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 4;		//y lenght is at offset+22
-	y_tool_bar_bmp = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
-	tool_bar_colors_no = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
-
-	//get the color pallete
-	for (i = 0; i < tool_bar_colors_no; i++) {
-		colors[i + 128].b = *(tool_bar_mem++);
-		colors[i + 128].g = *(tool_bar_mem++);
-		colors[i + 128].r = *(tool_bar_mem++);
-		tool_bar_mem++;
-	}
-
-	temp_pointer=tool_bar_mem;
-	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
-		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
-	tool_bar_mem = temp_pointer;*/
-}
-
-void drawWindowTitle(Menu *menu) {
-	SDL_Rect rectangleMenu;
-	rectangleMenu.w = menu->width;
-	rectangleMenu.h = 19;
-	rectangleMenu.x = menu->x;
-	rectangleMenu.y = menu->y;
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
-    SDL_RenderFillRect(renderer, &rectangleMenu);
-    SDL_RenderPresent(renderer);
-
-	printString(menu->title, menu->x + 1, menu->y + 1);
-}
-
-void drawTextBox(TextBox *textbox) {
-	DialogBox *dialogBox = textbox->dialogBox;
-	int barHeight = 19;
-	int textWidth;
-
-	SDL_Texture *printTexture = printString(textbox->title, textbox->x, textbox->y + barHeight);
-    SDL_QueryTexture(printTexture, NULL, NULL, &textWidth, NULL);
-
-	SDL_Rect rectangleTextBox;
-	rectangleTextBox.w = textbox->width;
-	rectangleTextBox.h = textbox->height;
-	rectangleTextBox.x = textbox->x + textWidth + 1;
-	rectangleTextBox.y = textbox->y + barHeight;
-
-    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
-    SDL_RenderFillRect(renderer, &rectangleTextBox);
-    SDL_RenderPresent(renderer);
-
-	/*if (dialogBox->has_focus)
-		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
-	else
-		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);*/
-
-	printString("1000", rectangleTextBox.x + 2, rectangleTextBox.y);
-}
-
-void drawTextBoxes(TextBoxContainer *textBoxContainer) {
-	int i;
-
-	for(i = 0; i < textBoxContainer->textBoxesNo; i++) {
-		drawTextBox(textBoxContainer->textBoxes + i);
-	}
-}
-
-void drawButton(Button *button) {
-	/*Menu *menu = button->menu;
-	int barWidth = 19;
-
-	SDL_Rect buttonBox;
-	buttonBox.w = button->width + (button->padding * 2);
-	buttonBox.h = button->height + (button->padding * 2);
-	buttonBox.x = menu->x + button->x + 2;
-	buttonBox.y = menu->y + button->y + barWidth;
-
-	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
-	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);*/
-}
-
-void drawButtons(ButtonContainer *buttonContainer) {
-	/*int i;
-
-	for(i = 0; i < buttonContainer->buttonsNo; i++) {
-		drawButton(buttonContainer->buttons + i, currentScreen);
-	}*/
-}
-
-void drawDialogWindow(Menu *menu) {
-	SDL_Rect rectangleMenu;
-	rectangleMenu.x = menu->x;
-	rectangleMenu.y = menu->y;
-	rectangleMenu.w = menu->width;
-	rectangleMenu.h = menu->height;
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &rectangleMenu);
-    SDL_RenderPresent(renderer);
-
-	drawWindowTitle(menu);
-}
-
-void draw_new_terrain_menu() {
-    Menu *menu = loadMenu("newTerrainMenu");
-    TextBoxContainer *textBoxes = loadTextBoxContainer(menu);
-    //ButtonContainer *buttonContainer = loadButtonContainer(menu);
-
-    drawDialogWindow(menu);
-	drawTextBoxes(textBoxes);
-	//drawButtons(buttonContainer);
-}
-
-//element title x y w h
-void draw_generate_menu (SDL_Surface * this_screen) {
-
-}
-
-void draw_view_menu (SDL_Surface * this_screen) {
-
-}
-
-void draw_rotate_menu (SDL_Surface * this_screen) {
-
-}
-
 void draw_replace_menu (SDL_Surface * this_screen) {
-	//menu "replaceMenu" "Replace Settings" *replace*
 
 	//draw the tolerance string and box
   print_string ("Tolerance:", black, white, x_replace_menu + 2,y_replace_menu + 20);
   draw_down_button (screen, x_replace_menu + 80, y_replace_menu + 18, 25, 14);
   print_string (numeric_dialog_boxes[tolerance].dialog_text, black, white,x_replace_menu + 82, y_replace_menu + 20);
 
-	//string "Tolerance mode" 4 42
-	//string "Replace mode" 4 122
-	//string "Replace with:" 4 202
-
   //draw the pattern file name.
+  char *string = current_pattern.object_mem ? &pattern_file_name : "None";
   print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
   draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
-
-  if(!current_pattern.object_mem)
-		print_string("None", black, white, x_replace_menu +62,y_replace_menu + 262);
-  else
-  	print_string(&pattern_file_name, black, white, x_replace_menu +62,y_replace_menu + 262);
+  print_string(string, black, white, x_replace_menu +62,y_replace_menu + 262);
 }
 
 void draw_global_replace_menu (SDL_Surface * this_screen) {
-	//menu globalReplaceMenu "Replace Settings"
   //draw the tolerance string and box
-  print_string ("Tolerance:", black, white, x_global_replace_menu + 2,y_global_replace_menu + 20);
-  draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
-  print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, white,x_global_replace_menu + 82, y_global_replace_menu + 20);
+  int x = x_global_replace_menu + 2;
+  int y = y_global_replace_menu + 20;
 
-	//string "Tolerance mode:" 4 42
-	//string "Replace mode:" 4 122
-	//string "Replace with:" 4 202
+  print_string ("Tolerance:", black, white, x, y);
+  draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
+  print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, x + 80, y);
 
   //draw the pattern file name.
-  print_string ("Pattern:", black, white, x_global_replace_menu +2,y_global_replace_menu + 262);
-  draw_empty_menu (screen, white, x_global_replace_menu + 60, y_global_replace_menu + 260,172, 14);
-  if(!current_pattern.object_mem)
-		print_string("None", black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
-  else
-  	print_string(&pattern_file_name, black, white, x_global_replace_menu +62,y_global_replace_menu + 262);
-}
-
-void draw_object_menu (SDL_Surface * this_screen) {
-  //string "Put object mode:" 4 22
-}
-
-void draw_error_box(SDL_Surface * this_screen) {
-	//string &error_msg_1
-	//string &error_msg_2
+  int x = x_global_replace_menu + 2;
+  int y = y_global_replace_menu + 262;
+  char *string = current_pattern.object_mem ? &pattern_file_name : "None";
+  print_string ("Pattern:", black, white, x, y);
+  draw_empty_menu (screen, white, x + 58, y_global_replace_menu + 260,172, 14);
+  print_string(string, black, white, x + 60, y);
 }
 
 void draw_file_menu(SDL_Surface * this_screen) {
@@ -700,4 +528,134 @@ int isNumeric(char *charToTest) {
 
 int maxLengthExcedeed(numeric_dialog_box_struct dialogBox) {
 	return dialogBox.text_offset >= dialogBox.dialog_lenght ? 1 : 0;
+}
+
+char *TOOLBARBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/toolbar.bmp";
+char *TOOLBARBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
+
+void load_tool_bar() {
+	SDL_Surface *tempToolbarBmp = SDL_LoadBMP(TOOLBARBMP_PATH_LINUX);
+	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
+	return;
+
+	char *temp_pointer = tool_bar_mem;
+	int f_size, i;
+	FILE *f = fopen (toolbarBmp, "rb");
+	fseek (f, 0, SEEK_END);
+	f_size = ftell (f);
+
+	//ok, allocate memory for it
+	tool_bar_mem = calloc ( f_size, sizeof(char) );
+	handle_tool_bar_mem=tool_bar_mem;
+	fseek (f, 0, SEEK_SET);
+	fread (tool_bar_mem, 1, f_size, f);
+	fclose (f);
+
+	tool_bar_mem += 18;		//x lenght is at offset+18
+	x_tool_bar_bmp = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 4;		//y lenght is at offset+22
+	y_tool_bar_bmp = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
+	tool_bar_colors_no = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
+
+	//get the color pallete
+	for (i = 0; i < tool_bar_colors_no; i++) {
+		colors[i + 128].b = *(tool_bar_mem++);
+		colors[i + 128].g = *(tool_bar_mem++);
+		colors[i + 128].r = *(tool_bar_mem++);
+		tool_bar_mem++;
+	}
+
+	temp_pointer=tool_bar_mem;
+	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
+		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
+	tool_bar_mem = temp_pointer;
+}
+
+void drawWindowTitle(Menu *menu) {
+	SDL_Rect rectangleMenu;
+	rectangleMenu.w = menu->width;
+	rectangleMenu.h = 19;
+	rectangleMenu.x = menu->x;
+	rectangleMenu.y = menu->y;
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
+    SDL_RenderFillRect(renderer, &rectangleMenu);
+    SDL_RenderPresent(renderer);
+
+	printString(menu->title, menu->x + 1, menu->y + 1);
+}
+
+void drawTextBox(TextBox *textbox) {
+	DialogBox *dialogBox = textbox->dialogBox;
+	int barHeight = 19;
+	int textWidth;
+
+	SDL_Texture *printTexture = printString(textbox->title, textbox->x, textbox->y + barHeight);
+    SDL_QueryTexture(printTexture, NULL, NULL, &textWidth, NULL);
+
+	SDL_Rect rectangleTextBox;
+	rectangleTextBox.w = textbox->width;
+	rectangleTextBox.h = textbox->height;
+	rectangleTextBox.x = textbox->x + textWidth + 1;
+	rectangleTextBox.y = textbox->y + barHeight;
+
+    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+    SDL_RenderFillRect(renderer, &rectangleTextBox);
+    SDL_RenderPresent(renderer);
+
+	/*if (dialogBox->has_focus)
+		draw_down_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);
+	else
+		draw_up_button (screen, menu->x + textbox->x, menu->y + textbox->y, textbox->width, textbox->height);*/
+
+	printString("1000", rectangleTextBox.x + 2, rectangleTextBox.y);
+}
+
+void drawTextBoxes(TextBoxContainer *textBoxContainer) {
+	int i;
+
+	for(i = 0; i < textBoxContainer->textBoxesNo; i++) {
+		drawTextBox(textBoxContainer->textBoxes + i);
+	}
+}
+
+void drawButton(Button *button) {
+	/*Menu *menu = button->menu;
+	int barWidth = 19;
+
+	SDL_Rect buttonBox;
+	buttonBox.w = button->width + (button->padding * 2);
+	buttonBox.h = button->height + (button->padding * 2);
+	buttonBox.x = menu->x + button->x + 2;
+	buttonBox.y = menu->y + button->y + barWidth;
+
+	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
+	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);*/
+}
+
+void drawButtons(ButtonContainer *buttonContainer) {
+	/*int i;
+
+	for(i = 0; i < buttonContainer->buttonsNo; i++) {
+		drawButton(buttonContainer->buttons + i, currentScreen);
+	}*/
+}
+
+void drawDialogWindow(Menu *menu) {
+	SDL_Rect rectangleMenu;
+	rectangleMenu.x = menu->x;
+	rectangleMenu.y = menu->y;
+	rectangleMenu.w = menu->width;
+	rectangleMenu.h = menu->height;
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rectangleMenu);
+    SDL_RenderPresent(renderer);
+
+	drawWindowTitle(menu);
 }

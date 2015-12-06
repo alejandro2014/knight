@@ -36,6 +36,34 @@ Menu *loadDialogFake(char *title, int x, int y, int width, int height) {
   return menu;
 }
 
+Text **loadTextsFake(char *dialogName, int numTexts) {
+    Text **texts = (Text **) malloc(sizeof(Text *) * numTexts);
+    memset(texts, 0, sizeof(Text *) * numTexts);
+
+    if(!strcmp(dialogName, "newTerrain")) {
+
+    } else if(!strcmp(dialogName, "generateTerrain")) {
+
+    } else if(!strcmp(dialogName, "object")) {
+        *(texts + 0) = loadTextFake("Put object mode:", 4, 22);
+    } else if(!strcmp(dialogName, "view")) {
+    } else if(!strcmp(dialogName, "replace")) {
+        *(texts + 0) = loadTextFake("Tolerance mode", 4, 42);
+        *(texts + 1) = loadTextFake("Replace mode", 4, 122);
+        *(texts + 2) = loadTextFake("Replace with:", 4, 202);
+    } else if(!strcmp(dialogName, "globalReplace")) {
+        *(texts + 0) = loadTextFake("Tolerance mode", 4, 42);
+        *(texts + 1) = loadTextFake("Replace mode", 4, 122);
+        *(texts + 2) = loadTextFake("Replace with:", 4, 202);
+    } else if(!strcmp(dialogName, "rotation")) {
+    } else if(!strcmp(dialogName, "error")) {
+        *(texts + 0) = loadTextFake(&error_msg_1, , );
+        *(texts + 1) = loadTextFake(&error_msg_2, , );
+    }
+
+	return textBoxes;
+}
+
 TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
 	TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextboxes);
     memset(textBoxes, 0, sizeof(TextBox *) * numTextboxes);
@@ -48,17 +76,11 @@ TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
         *(textBoxes + 0) = loadTextBoxFake("Seed", 52, 18, 76, 14);
     	*(textBoxes + 1) = loadTextBoxFake("Random", 140, 18, 50, 14);
     } else if(!strcmp(dialogName, "object")) {
-
     } else if(!strcmp(dialogName, "view")) {
-
     } else if(!strcmp(dialogName, "replace")) {
-
     } else if(!strcmp(dialogName, "globalReplace")) {
-
     } else if(!strcmp(dialogName, "rotation")) {
-
     } else if(!strcmp(dialogName, "error")) {
-
     }
 
 	return textBoxes;
@@ -69,7 +91,6 @@ CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
 	memset(checkBoxes, 0, sizeof(CheckBox) * numCheckBoxes);
 
     if(!strcmp(dialogName, "newTerrain")) {
-
     } else if(!strcmp(dialogName, "generateTerrain")) {
         *(checkBoxes + 0) = loadCheckboxesFake("Overwrite existing terrain", 2, 40, 14, 14);
     } else if(!strcmp(dialogName, "object")) {
@@ -117,7 +138,6 @@ CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
         *(checkBoxes + 4) = loadCheckboxesFake("Rotate 90 CCW", 2, 100, 14, 14);
         *(checkBoxes + 5) = loadCheckboxesFake("Rotate 180 CCW", 2, 120, 14, 14);
     } else if(!strcmp(dialogName, "error")) {
-
     }
 
 	return checkBoxes;
@@ -153,6 +173,17 @@ Button **loadButtonsFake(char *dialogName, int numButtons) {
     }
 
 	return buttons;
+}
+
+Text *loadTextFake(char *string, int x, int y) {
+    Text *text = (Text *) malloc(sizeof(Text));
+    memset(text, 0, sizeof(Text));
+
+    text->string = string;
+    text->x = x;
+    text->y = y;
+
+    return text;
 }
 
 Textbox *loadTextBoxFake(char *text, int x, int y, int width, int height) {

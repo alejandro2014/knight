@@ -285,17 +285,26 @@ void drawScreen() {
   //if (mini_map)draw_minimap (screen);
 
   //if (tool_bar)draw_tool_bar (screen);
-  /*if (show_tip)draw_tool_tip();
-  if (show_new_terrain_menu)draw_new_terrain_menu (screen);*/
+  /*if (show_tip)draw_tool_tip();*/
 
-  draw_new_terrain_menu();
-  //draw_generate_menu (screen);
-  /*if (show_generate_terrain_menu)draw_generate_menu (screen);
-  if (show_view_menu)draw_view_menu (screen);
-  if (show_object_menu)draw_object_menu(screen);
+  if (show_new_terrain_menu) drawMenu("newTerrain");
+  if (show_generate_terrain_menu) drawMenu("generateTerrain");
+  if (show_view_menu) drawMenu("view");
+  if (show_object_menu) drawMenu("object");
   if (show_replace_menu)draw_replace_menu (screen);
   if (show_global_replace_menu)draw_global_replace_menu (screen);
-  if (show_rotate_menu)draw_rotate_menu(screen);
-  if (view_error_menu)draw_error_box(screen);
-  if (view_file_menu)draw_file_menu(screen);*/
+  if (show_rotate_menu) drawMenu("rotation");
+  if (view_error_menu) drawMenu("error");
+  if (view_file_menu)draw_file_menu(screen);
+
+  /*
+  if(!strcmp(dialogName, "newTerrain")) {
+  } else if(!strcmp(dialogName, "generateTerrain")) {
+  } else if(!strcmp(dialogName, "object")) {
+  } else if(!strcmp(dialogName, "view")) {
+  } else if(!strcmp(dialogName, "replace")) {
+  } else if(!strcmp(dialogName, "globalReplace")) {
+  } else if(!strcmp(dialogName, "rotation")) {
+  } else if(!strcmp(dialogName, "error"))
+  */
 }
