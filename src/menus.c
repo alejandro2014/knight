@@ -6,38 +6,6 @@
 #include "menus.h"
 #include "load_widgets.h"
 
-void draw_replace_menu (SDL_Surface * this_screen) {
-
-	//draw the tolerance string and box
-  print_string ("Tolerance:", black, white, x_replace_menu + 2,y_replace_menu + 20);
-  draw_down_button (screen, x_replace_menu + 80, y_replace_menu + 18, 25, 14);
-  print_string (numeric_dialog_boxes[tolerance].dialog_text, black, white,x_replace_menu + 82, y_replace_menu + 20);
-
-  //draw the pattern file name.
-  char *string = current_pattern.object_mem ? &pattern_file_name : "None";
-  print_string ("Pattern:", black, white, x_replace_menu +2,y_replace_menu + 262);
-  draw_empty_menu (screen, white, x_replace_menu + 60, y_replace_menu + 260,172, 14);
-  print_string(string, black, white, x_replace_menu +62,y_replace_menu + 262);
-}
-
-void draw_global_replace_menu (SDL_Surface * this_screen) {
-  //draw the tolerance string and box
-  int x = x_global_replace_menu + 2;
-  int y = y_global_replace_menu + 20;
-
-  print_string ("Tolerance:", black, white, x, y);
-  draw_down_button (screen, x_global_replace_menu + 80, y_global_replace_menu + 18, 25, 14);
-  print_string (numeric_dialog_boxes[global_tolerance].dialog_text, black, x + 80, y);
-
-  //draw the pattern file name.
-  int x = x_global_replace_menu + 2;
-  int y = y_global_replace_menu + 262;
-  char *string = current_pattern.object_mem ? &pattern_file_name : "None";
-  print_string ("Pattern:", black, white, x, y);
-  draw_empty_menu (screen, white, x + 58, y_global_replace_menu + 260,172, 14);
-  print_string(string, black, white, x + 60, y);
-}
-
 void draw_file_menu(SDL_Surface * this_screen) {
   int x, y, my_pitch,i,j,k,l;
   char cur_char;

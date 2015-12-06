@@ -78,7 +78,11 @@ TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
     } else if(!strcmp(dialogName, "object")) {
     } else if(!strcmp(dialogName, "view")) {
     } else if(!strcmp(dialogName, "replace")) {
+        *(textBoxes + 0) = loadTextBoxFake("Tolerance:", 2, 20, 25, 14); //numeric_dialog_boxes[tolerance].dialog_text
+        *(textBoxes + 1) = loadTextBoxFake("Pattern:", 2, 262, 172, 14); //current_pattern.object_mem ? &pattern_file_name : "None";
     } else if(!strcmp(dialogName, "globalReplace")) {
+        *(textBoxes + 0) = loadTextBoxFake("Tolerance:", 2, 20, 25, 14); //numeric_dialog_boxes[global_tolerance].dialog_text
+        *(textBoxes + 1) = loadTextBoxFake("Pattern:", 2, 262, 172, 14); //current_pattern.object_mem ? &pattern_file_name : "None";
     } else if(!strcmp(dialogName, "rotation")) {
     } else if(!strcmp(dialogName, "error")) {
     }

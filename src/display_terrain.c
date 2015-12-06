@@ -291,8 +291,8 @@ void drawScreen() {
   if (show_generate_terrain_menu) drawMenu("generateTerrain");
   if (show_view_menu) drawMenu("view");
   if (show_object_menu) drawMenu("object");
-  if (show_replace_menu)draw_replace_menu (screen);
-  if (show_global_replace_menu)draw_global_replace_menu (screen);
+  if (show_replace_menu) drawMenu("replace");
+  if (show_global_replace_menu) drawMenu("globalReplace");
   if (show_rotate_menu) drawMenu("rotation");
   if (view_error_menu) drawMenu("error");
   if (view_file_menu)draw_file_menu(screen);
