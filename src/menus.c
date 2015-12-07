@@ -245,28 +245,27 @@ void check_view_menu (char text_input_char) {
 }
 
 void check_rotate_menu (char text_input_char) {
-  if (long_pressed_button_r == 1) show_rotate_menu = 0;
+    if (long_pressed_button_r == 1) show_rotate_menu = 0;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) rotation_type = rotation_flip_x; //check the Hor. flip
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) rotation_type = rotation_flip_y; //check Ver. flip
+    if (buttonPressed("x")) rotation_type = rotation_flip_x;
+    else if (buttonPressed("y")) rotation_type = rotation_flip_y;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) rotation_type = rotation_flip_z; //check the Height flip
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 80, 14, 14)) rotation_type = rotation_CW_90; //check 90 CW rotation
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) rotation_type = rotation_CCW_90; //check the 90 CCW rotation
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) rotation_type = rotation_180; //check the 180 rotation
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 140, 20, 14)) //check the OK button
-	{
-		switch(rotation_type) {
-			case rotation_flip_x: flip_x(); break;
-			case rotation_flip_y: flip_y(); break;
-			case rotation_flip_z: flip_z(); break;
-			case rotation_CW_90: rotate_90_CW(); break;
-			case rotation_CCW_90: rotate_90_CCW(); break;
-			case rotation_180: rotate_180(); break;
-		}
+    if (buttonPressed("z") rotation_type = rotation_flip_z;
+    else if (buttonPressed("90")) rotation_type = rotation_CW_90;
+    else if (buttonPressed("270")) rotation_type = rotation_CCW_90;
+    else if (buttonPressed("180")) rotation_type = rotation_180;
+    else if (buttonPressed("ok") {
+        switch(rotation_type) {
+            case rotation_flip_x: flip_x(); break;
+            case rotation_flip_y: flip_y(); break;
+            case rotation_flip_z: flip_z(); break;
+            case rotation_CW_90: rotate_90_CW(); break;
+            case rotation_CCW_90: rotate_90_CCW(); break;
+            case rotation_180: rotate_180(); break;
+        }
 
-		show_rotate_menu = 0;
-	}
+        show_rotate_menu = 0;
+    }
 }
 
 void check_replace_menu (char text_input_char) {
