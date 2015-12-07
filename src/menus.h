@@ -6,6 +6,7 @@
 
 //#define DialogBox numeric_dialog_box_struct
 typedef struct numeric_dialog_box_struct DialogBox;
+typedef void (*action)(void) Action;
 
 typedef struct {
 	DialogBox *dialogBox;
@@ -35,6 +36,7 @@ typedef struct {
 	int height;
 	char *title;
 	int padding;
+    Action action;
 } Button;
 
 typedef struct {

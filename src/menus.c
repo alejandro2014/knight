@@ -7,33 +7,39 @@
 #include "load_widgets.h"
 
 void draw_file_menu(SDL_Surface * this_screen) {
-  int x, y, my_pitch,i,j,k,l;
-  char cur_char;
-  char str[120];
-  Uint8 *screen_buffer;
-  screen_buffer = (Uint8 *) this_screen->pixels;
-  my_pitch = this_screen->pitch;
+    int x, y,i,j,k,l = 0;
+    char cur_char;
+    char str[120];
+    Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
+    int my_pitch = this_screen->pitch;
 
-  draw_empty_menu (screen, white, x_file_menu, y_file_menu,x_file_menu_lenght, y_file_menu_lenght);
-	print_string (&cur_dir, black, white, x_file_menu + 2,y_file_menu+2);
+    int x1 = x_file_menu;
+    int y1 = y_file_menu;
+    int width = x_file_menu_lenght;
+    int height = y_file_menu_lenght;
+    int x2 = x_file_menu + width;
+    int y2 = y_file_menu + height;
 
-  draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,x_file_menu_lenght-4, y_file_menu_lenght-35);
-  //ok, now, print the files from the current directory...
-  if(no_of_files-start_file_offset<18)start_file_offset=no_of_files-18;
-  if(start_file_offset<0)start_file_offset=0;
-  l=0;
-  for(i=start_file_offset;i<start_file_offset+18;i++)
-  	{
+    draw_empty_menu (screen, white, width, y_file_menu,width, height);
+    print_string (&cur_dir, black, white, x_file_menu + 2,y_file_menu+2);
+
+    draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,width-4, height-35);
+
+    //ok, now, print the files from the current directory...
+    if(no_of_files-start_file_offset<18) start_file_offset=no_of_files-18;
+    if(start_file_offset<0)start_file_offset=0;
+
+    for(i=start_file_offset;i<start_file_offset+18;i++) {
 		j=0;
 		k=0;
+
 		//if it is a directory, add a / before
-		if(file_names[i].is_directory==1)
-			{
-				*(str+k)='/';
-				k++;
-			}
-		while(j<55)
-		{
+		if(file_names[i].is_directory==1) {
+		    *(str+k)='/';
+			k++;
+		}
+
+		while(j<55) {
 			cur_char=file_names[i].file_name[j];
 			*(str+k)=cur_char;
 			if(cur_char==0)break;
@@ -44,21 +50,22 @@ void draw_file_menu(SDL_Surface * this_screen) {
 		print_string (str, black, white, x_file_menu + 2,y_file_menu+16+(l*12));
 		l++;
 	}
-print_string ("<<", black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-34);
-print_string (">>", black, white, x_file_menu + x_file_menu_lenght-20,y_file_menu+y_file_menu_lenght-34);
 
-//draw the "current file" dialogue box
-    draw_down_button (screen, x_file_menu + 2,y_file_menu+y_file_menu_lenght-18, x_file_menu_lenght-110, 14);
-print_string (&cur_file_name, black, white, x_file_menu + 4,y_file_menu+y_file_menu_lenght-16);
+    print_string ("<<", black, white, x_file_menu + 4,y2-34);
+    print_string (">>", black, white, x2-20, y2-34);
 
-//draw the load/save button
-  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-104, y_file_menu+y_file_menu_lenght-18,35, 14);
-  if(!save_file)print_string ("Load", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
-  else print_string ("Save", black, white, x_file_menu_lenght+x_file_menu-102,y_file_menu+y_file_menu_lenght-16);
+    //draw the "current file" dialogue box
+    draw_down_button (screen, x_file_menu + 2, y2-18, width-110, 14);
+    print_string (&cur_file_name, black, white, x_file_menu + 4, y2-16);
 
-//draw the cancel button
-  draw_empty_menu (screen, white, x_file_menu_lenght+x_file_menu-64, y_file_menu+y_file_menu_lenght-18,50, 14);
-  print_string ("Cancel", black, white, x_file_menu_lenght+x_file_menu-62,y_file_menu+y_file_menu_lenght-16);
+    //draw the load/save button
+    char *text = save_file ? "Save" : "Load";
+    draw_empty_menu (screen, white, x2-104, y2-18, 35, 14);
+    print_string (text, black, white, x2-102, y2-16);
+
+    //draw the cancel button
+    draw_empty_menu (screen, white, x2-64, y2-18,50, 14);
+    print_string ("Cancel", black, white, x2-62, y2-16);
 }
 
 /*--------------------
@@ -200,10 +207,10 @@ void check_generate_terrain_menu (char text_input_char) {
     numeric_dialog_boxes[seed_dialog].text_offset = 0;
   }
 	//check the cancel button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14) || text_input_char == SDLK_ESCAPE)
+  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE)
     show_generate_terrain_menu = 0;
 	//check the OK button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14) || text_input_char == SDLK_RETURN) {
+  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
 
@@ -234,21 +241,17 @@ void check_view_menu (char text_input_char) {
   if (long_pressed_button_r == 1)
     show_view_menu = 0;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) //check the toolbar button
-    tool_bar = !tool_bar;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) //check the minimap button
-    mini_map = !mini_map;
+  if (buttonPressed("toolbar")) tool_bar = !tool_bar;
+  else if (buttonPressed("minimap")) mini_map = !mini_map;
 
-  if (buttonPressed(x_replace_menu, y_replace_menu, 2, 60, 14, 14)) //check the statusbar button
-    status_bar = !status_bar;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2,  80, 14, 14)) grid = 0;   //check the grid off button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 100, 14, 14)) grid = 16;  //check the grid 16 button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 120, 14, 14)) grid = 32;  //check the grid 32 button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 140, 14, 14)) grid = 64;  //check the grid 64 button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 160, 14, 14)) grid = 128; //check the grid 128 button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 180, 14, 14)) grid = 256; //check the grid 256 button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 50, 220, 20, 14)) //check the OK button
-    show_view_menu = 0;
+  if (buttonPressed("statusBar")) status_bar = !status_bar;
+  else if (buttonPressed("gridOff")) grid = 0;
+  else if (buttonPressed("grid16")) grid = 16;
+  else if (buttonPressed("grid32")) grid = 32;
+  else if (buttonPressed("grid64")) grid = 64;
+  else if (buttonPressed("grid128")) grid = 128;
+  else if (buttonPressed("grid256")) grid = 256;
+  else if (buttonPressed("okButton")) show_view_menu = 0;
 }
 
 void check_rotate_menu (char text_input_char) {
