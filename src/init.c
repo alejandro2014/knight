@@ -39,71 +39,13 @@ void build_tool_bar() {
   main_tool_bar[16] = buildToolBarButton(icon_open, do_load, 0, 0, 1, do_nothing, "Load terrain", 0);
   main_tool_bar[17] = buildToolBarButton(icon_save, do_save, 0, 0, 1, do_nothing, "Save terrain", 0);
 
-//////////////////////////
-//build the small tool bar
-  i = 0;
-  small_tool_bar[i].icon_id = icon_brush_1;
-  small_tool_bar[i].associated_window_message = change_brush_1;
-  small_tool_bar[i].icon_active = 1;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 0;
-  sprintf(small_tool_bar[i].tool_tip, "Brush size 1x1");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_brush_2;
-  small_tool_bar[i].associated_window_message = change_brush_2;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 0;
-  sprintf(small_tool_bar[i].tool_tip, "Brush size 3x3");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_brush_3;
-  small_tool_bar[i].associated_window_message = change_brush_3;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 0;
-  sprintf(small_tool_bar[i].tool_tip, "Brush size 5x5");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_brush_4;
-  small_tool_bar[i].associated_window_message = change_brush_4;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 0;
-  sprintf(small_tool_bar[i].tool_tip, "Brush size 7x7");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_brush_5;
-  small_tool_bar[i].associated_window_message = change_brush_5;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 0;
-  sprintf(small_tool_bar[i].tool_tip, "Brush size 9x9");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_left_arrow;
-  small_tool_bar[i].associated_window_message = do_decrease_tools_height;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 1;
-  sprintf(small_tool_bar[i].tool_tip, "Prev. height");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
-
-  small_tool_bar[i].icon_id = icon_right_arrow;
-  small_tool_bar[i].associated_window_message = do_increase_tools_height;
-  small_tool_bar[i].icon_active = 0;
-  small_tool_bar[i].icon_pressed = 0;
-  small_tool_bar[i].icon_dont_stay_pressed = 1;
-  sprintf(small_tool_bar[i].tool_tip, "Next height");
-  small_tool_bar[i].mouse_over_timer=0;
-  i++;
+  small_tool_bar[0] = buildToolBarButton(icon_brush_1, change_brush_1, 1, 0, 0, "Brush size 1x1", 0);
+  small_tool_bar[1] = buildToolBarButton(icon_brush_2, change_brush_2, 0, 0, 0, "Brush size 3x3", 0);
+  small_tool_bar[2] = buildToolBarButton(icon_brush_3, change_brush_3, 0, 0, 0, "Brush size 5x5", 0);
+  small_tool_bar[3] = buildToolBarButton(icon_brush_4, change_brush_4, 0, 0, 0, "Brush size 7x7", 0);
+  small_tool_bar[4] = buildToolBarButton(icon_brush_5, change_brush_5, 0, 0, 0, "Brush size 9x9", 0);
+  small_tool_bar[5] = buildToolBarButton(icon_left_arrow, do_decrease_tools_height, 0, 0, 1, "Prev. height", 0);
+  small_tool_bar[6] = buildToolBarButton(icon_right_arrow, do_increase_tools_height, 0, 0, 1, "Next height", 0);
 }
 
 void build_numeric_dialog_boxes () {
