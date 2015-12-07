@@ -96,21 +96,19 @@ void check_new_terrain_menu (char text_input_char) {
     for (i = 0; i < HEIGHT * WIDTH; i++)
       *(terrain_height + i) = color_to_fill;
   }
-  else
-    //check to see if the x_map_size_dialog got the focus
-  if (buttonPressed(x_replace_menu, y_replace_menu, 52, 18, 42, 14)) {
+  else if (buttonPressed("xSize")) {
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
     numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
     numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
   }
-	else if (buttonPressed(x_replace_menu, y_replace_menu, 52, 36, 42, 14)) { //check to see if the y_map_size_dialog got the focus
+	else if (buttonPressed("ySize")) {
     numeric_dialog_boxes[base_height_dialog].has_focus = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
     numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
     numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
   }
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 90, 54, 24, 14)) {
+  else if (buttonPressed("baseHeight")) {
     numeric_dialog_boxes[base_height_dialog].has_focus = 1;
     numeric_dialog_boxes[base_height_dialog].text_offset = 0;
     numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
