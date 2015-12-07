@@ -67,10 +67,7 @@ void draw_file_menu(SDL_Surface * this_screen) {
     draw_empty_menu (screen, white, x2-64, y2-18,50, 14);
     print_string ("Cancel", black, white, x2-62, y2-16);
 }
-
-/*--------------------
- Check menus functions
- *------------------*/
+s
 void check_new_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
   else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) show_new_terrain_menu = 0;
@@ -142,17 +139,16 @@ void check_new_terrain_menu (char text_input_char) {
     int dialog_text_offset;
 
     if (numeric_dialog_boxes[base_height_dialog].has_focus == 1) {
-			if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[base_height_dialog])) {
-					dialog_text_offset = numeric_dialog_boxes[base_height_dialog].text_offset;
-					numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset] = text_input_char;
-					numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset + 1] = 0;
-					numeric_dialog_boxes[base_height_dialog].text_offset++;
-      }
-      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[base_height_dialog].text_offset > 0) {
-				numeric_dialog_boxes[base_height_dialog].text_offset--;
-				numeric_dialog_boxes[base_height_dialog].
-	  		dialog_text[numeric_dialog_boxes[base_height_dialog].text_offset] = 0;
-      }
+        if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[base_height_dialog])) {
+            dialog_text_offset = numeric_dialog_boxes[base_height_dialog].text_offset;
+            numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset] = text_input_char;
+            numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset + 1] = 0;
+            numeric_dialog_boxes[base_height_dialog].text_offset++;
+        }
+        else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[base_height_dialog].text_offset > 0) {
+            numeric_dialog_boxes[base_height_dialog].text_offset--;
+            numeric_dialog_boxes[base_height_dialog].dialog_text[numeric_dialog_boxes[base_height_dialog].text_offset] = 0;
+        }
     }
 
     //check the x_map_size_dialog
