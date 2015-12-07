@@ -72,13 +72,9 @@ void draw_file_menu(SDL_Surface * this_screen) {
  Check menus functions
  *------------------*/
 void check_new_terrain_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-    show_new_terrain_menu = 0;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 70, 80, 50, 14)) || text_input_char == SDLK_ESCAPE) //check the cancel button
-    show_new_terrain_menu = 0;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 20, 14)) || text_input_char == SDLK_RETURN) //check the OK button
-  {
+  if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
+  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) show_new_terrain_menu = 0;
+  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) {
     int color_to_fill;
     int i = 0;
     color_to_fill = atoi(numeric_dialog_boxes[base_height_dialog].dialog_text);
@@ -192,9 +188,7 @@ void check_new_terrain_menu (char text_input_char) {
 }
 
 void check_generate_terrain_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-  	show_generate_terrain_menu = 0;
+  if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
 	//check the overwrite terrain button
   else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
     overwrite_terrain = !overwrite_terrain;
@@ -206,10 +200,8 @@ void check_generate_terrain_menu (char text_input_char) {
     sprintf (numeric_dialog_boxes[seed_dialog].dialog_text, "%d", this_seed);
     numeric_dialog_boxes[seed_dialog].text_offset = 0;
   }
-	//check the cancel button
   else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE)
     show_generate_terrain_menu = 0;
-	//check the OK button
   else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) {
     seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
     srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
@@ -237,9 +229,7 @@ void check_generate_terrain_menu (char text_input_char) {
 }
 
 void check_view_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-    show_view_menu = 0;
+  if (long_pressed_button_r == 1) show_view_menu = 0;
 
   if (buttonPressed("toolbar")) tool_bar = !tool_bar;
   else if (buttonPressed("minimap")) mini_map = !mini_map;
@@ -255,9 +245,7 @@ void check_view_menu (char text_input_char) {
 }
 
 void check_rotate_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-    show_rotate_menu = 0;
+  if (long_pressed_button_r == 1) show_rotate_menu = 0;
 
   if (buttonPressed(x_replace_menu, y_replace_menu, 2, 20, 14, 14)) rotation_type = rotation_flip_x; //check the Hor. flip
   else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14)) rotation_type = rotation_flip_y; //check Ver. flip
@@ -282,21 +270,17 @@ void check_rotate_menu (char text_input_char) {
 }
 
 void check_replace_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-    show_replace_menu = 0;
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 60, 14, 14)) temp_tolerance_mode = greater; //check the greater than tolerance mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 80, 14, 14)) temp_tolerance_mode = leaser; //check the leaser than tolerance mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 100, 14, 14)) temp_tolerance_mode = greater_or_leaser; //check the leaser or greater tolerance mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 140, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_plus; //check the greater replace mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 160, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_minus; //check the leaser replace mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 180, 14, 14)) temp_tolerance_replace_mode = tolerance_replace_equal; //check the equal replace mode
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 220, 14, 14)) temp_tolerance_replace_mode_2 = replace_mode_solid; //check the pattern replace_mode_2
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 40, 240, 14, 14)) temp_tolerance_replace_mode_2 = replace_mode_pattern; //check the pattern replace_mode_2
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE) //check the cancel button
-    show_replace_menu = 0;
-	//check the load pattern button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 120, 280, 110, 14)) {
+  if (long_pressed_button_r == 1) show_replace_menu = 0;
+  else if (buttonPressed("+")) temp_tolerance_mode = greater;
+  else if (buttonPressed("-")) temp_tolerance_mode = leaser;
+  else if (buttonPressed("+/-")) temp_tolerance_mode = greater_or_leaser;
+  else if (buttonPressed("+")) temp_tolerance_replace_mode = tolerance_replace_plus;
+  else if (buttonPressed("-")) temp_tolerance_replace_mode = tolerance_replace_minus;
+  else if (buttonPressed("=")) temp_tolerance_replace_mode = tolerance_replace_equal;
+  else if (buttonPressed("Solid")) temp_tolerance_replace_mode_2 = replace_mode_solid;
+  else if (buttonPressed("Pattern")) temp_tolerance_replace_mode_2 = replace_mode_pattern;
+  else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_replace_menu = 0;
+  else if (buttonPressed("changePattern")) {
 		SDL_Event event;
 
 		if(current_pattern.object_mem) {
@@ -310,8 +294,7 @@ void check_replace_menu (char text_input_char) {
     while (SDL_PollEvent (&event));	//clears all the events
 	}
 
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN) //check the OK button
-  {
+  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) {
     int box_tolerance;
     box_tolerance = atoi (numeric_dialog_boxes[tolerance].dialog_text);
     //bounds checking
@@ -347,20 +330,16 @@ void check_global_replace_menu (char text_input_char) {
   //right mouse button kills the menu (cancel)
   if (long_pressed_button_r == 1)
     show_global_replace_menu = 0;
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 60, 14, 14)) temp_global_tolerance_mode = greater; //check the greater than tolerance mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 80, 14, 14)) temp_global_tolerance_mode = leaser; //check the leaser than tolerance mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 100, 14, 14)) temp_global_tolerance_mode = greater_or_leaser; //check the leaser or greater tolerance mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 140, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_plus; //check the greater replace mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 160, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_minus; //check the leaser replace mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 180, 14, 14)) temp_global_tolerance_replace_mode = tolerance_replace_equal; //check the equal replace mode
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 220, 14, 14)) temp_global_tolerance_replace_mode_2 = replace_mode_solid; //check the pattern replace_mode_2
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 40, 240, 14, 14)) temp_global_tolerance_replace_mode_2 = replace_mode_pattern; //check the pattern replace_mode_2
-
-	//check the cancel button
-	else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 60, 280, 50, 14) || text_input_char == SDLK_ESCAPE)
-    show_global_replace_menu = 0;
-	//check the load pattern button
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 120, 280, 110, 14) {
+else if (buttonPressed("+")) temp_global_tolerance_mode = greater;
+else if (buttonPressed("-")) temp_global_tolerance_mode = leaser;
+else if (buttonPressed("+/-")) temp_global_tolerance_mode = greater_or_leaser;
+else if (buttonPressed("+")) temp_global_tolerance_replace_mode = tolerance_replace_plus;
+else if (buttonPressed("-")) temp_global_tolerance_replace_mode = tolerance_replace_minus;
+else if (buttonPressed("=")) temp_global_tolerance_replace_mode = tolerance_replace_equal;
+else if (buttonPressed("Solid")) temp_global_tolerance_replace_mode_2 = replace_mode_solid;
+else if (buttonPressed("Pattern")) temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
+else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_global_replace_menu = 0;
+else if (buttonPressed("changePattern") {
 		SDL_Event event;
 		if(current_pattern.object_mem) {
 				free(current_pattern.object_mem);
@@ -374,7 +353,7 @@ void check_global_replace_menu (char text_input_char) {
 	}
 
 	//check the OK button
-  else if (buttonPressed(x_global_replace_menu, y_global_replace_menu, 30, 280, 20, 14) || text_input_char == SDLK_RETURN) {
+  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) {
     int box_tolerance = atoi (numeric_dialog_boxes[global_tolerance].dialog_text);
     //bounds checking
     if (box_tolerance > numeric_dialog_boxes[global_tolerance].max_number)
@@ -408,22 +387,18 @@ void check_global_replace_menu (char text_input_char) {
 }
 
 void check_object_menu (char text_input_char) {
-	//right mouse button kills the menu (cancel)
-  if(long_pressed_button_r == 1)
-  	show_object_menu = 0;
-  else if(buttonPressed(x_object_menu, y_object_menu, 40, 40, 14, 14)) object_mode = put_object; //check the put mode
-  else if(buttonPressed(x_object_menu, y_object_menu, 40, 60, 14, 14)) object_mode = add_object; //check the leaser than mode
-  else if (buttonPressed(x_object_menu, y_object_menu, 40, 80, 14, 14)) object_mode = sub_object;//check the leaser or greater mode
+  if(long_pressed_button_r == 1) show_object_menu = 0;
+  else if(buttonPressed("placeOver") object_mode = put_object;
+  else if(buttonPressed("increase") object_mode = add_object; //check the leaser than mode
+  else if (buttonPressed("decrease") object_mode = sub_object;//check the leaser or greater mode
 
-  //check the cancel and OK buttons
-  if (buttonPressed(x_object_menu, y_object_menu, 90, 100, 50, 14) || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
-  else if (buttonPressed(x_object_menu, y_object_menu, 60, 100, 20, 14) || text_input_char == SDLK_RETURN) show_object_menu = 0;
+  if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
+  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) show_object_menu = 0;
 }
 
 void check_error_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1 || text_input_char==SDLK_RETURN || text_input_char==SDLK_ESCAPE) view_error_menu = 0;
-  else if (buttonPressed(x_error_menu, y_error_menu, 202, 54, 14, 14)) view_error_menu = 0;
+  if (long_pressed_button_r == true || text_input_char==SDLK_RETURN ||
+      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) view_error_menu = 0;
 }
 
 void check_file_menu (unsigned char text_input_char) {
