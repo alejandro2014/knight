@@ -98,3 +98,46 @@ void cb_newTerrain_ok() {
 void cb_newTerrain_cancel() {
     show_new_terrain_menu = 0;
 }
+
+void cb_rotate_ok() {
+    switch(rotation_type) {
+        case rotation_flip_x: flip_x(); break;
+        case rotation_flip_y: flip_y(); break;
+        case rotation_flip_z: flip_z(); break;
+        case rotation_CW_90: rotate_90_CW(); break;
+        case rotation_CCW_90: rotate_90_CCW(); break;
+        case rotation_180: rotate_180(); break;
+    }
+
+    show_rotate_menu = 0;
+}
+
+void cb_replace_changePattern() {
+      SDL_Event event;
+
+      if(current_pattern.object_mem) {
+              free(current_pattern.object_mem);
+              current_pattern.object_mem=0;
+      }
+
+      load_object=2;//tell the file open save function to load a pattern
+      long_pressed_button_l = 0;
+      DoFileOpenSave (0);
+  while (SDL_PollEvent (&event));	//clears all the events
+}
+
+void cb_replace_ok() {
+  int box_tolerance;
+  box_tolerance = atoi (numeric_dialog_boxes[tolerance].dialog_text);
+  //bounds checking
+  if (box_tolerance > numeric_dialog_boxes[tolerance].max_number)
+    box_tolerance = numeric_dialog_boxes[tolerance].max_number;
+  else if (box_tolerance < numeric_dialog_boxes[tolerance].min_number)
+    box_tolerance = numeric_dialog_boxes[tolerance].min_number;
+
+  tolerance_value = box_tolerance;
+  tolerance_mode = temp_tolerance_mode;
+  tolerance_replace_mode = temp_tolerance_replace_mode;
+  tolerance_replace_mode_2 = temp_tolerance_replace_mode_2;
+  show_replace_menu = 0;
+}
