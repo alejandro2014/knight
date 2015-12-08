@@ -159,3 +159,23 @@ void cb_rotate_z() { rotation_type = rotation_flip_z; }
 void cb_rotate_90() { rotation_type = rotation_CW_90; }
 void cb_rotate_270() { rotation_type = rotation_CCW_90; }
 void cb_rotate_180() { rotation_type = rotation_180; }
+
+void cb_replace_greater() { temp_tolerance_mode = greater; }
+void cb_replace_leaser() { temp_tolerance_mode = leaser; }
+void cb_replace_greaterLeaser() { temp_tolerance_mode = greater_or_leaser; }
+void cb_replace_plus() { temp_tolerance_replace_mode = tolerance_replace_plus; }
+void cb_replace_minus() { temp_tolerance_replace_mode = tolerance_replace_minus; }
+void cb_replace_equal() { temp_tolerance_replace_mode = tolerance_replace_equal; }
+void cb_replace_Solid() { temp_tolerance_replace_mode_2 = replace_mode_solid; }
+void cb_replace_Pattern() { temp_tolerance_replace_mode_2 = replace_mode_pattern; }
+void cb_replace_cancel() { show_replace_menu = 0; }
+
+void cb_globalReplace_greater() { temp_tolerance_mode = greater; }
+void cb_globalReplace_leaser() { temp_tolerance_mode = leaser; }
+void cb_globalReplace_greaterLeaser() { temp_tolerance_mode = greater_or_leaser; }
+void cb_globalReplace_plus() { temp_tolerance_replace_mode = tolerance_replace_plus; }
+void cb_globalReplace_minus() { temp_tolerance_replace_mode = tolerance_replace_minus; }
+void cb_globalReplace_equal() { temp_tolerance_replace_mode = tolerance_replace_equal; }
+void cb_globalReplace_Solid() { temp_tolerance_replace_mode_2 = replace_mode_solid; }
+void cb_globalReplace_Pattern() { temp_tolerance_replace_mode_2 = replace_mode_pattern; }
+void cb_globalReplace_cancel() { show_replace_menu = 0; }

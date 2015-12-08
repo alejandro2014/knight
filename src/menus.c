@@ -78,16 +78,16 @@ void check_rotate_menu (char text_input_char) {
 
 void check_replace_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_replace_menu = 0;
-    else if (buttonPressed("+")) temp_tolerance_mode = greater;
-    else if (buttonPressed("-")) temp_tolerance_mode = leaser;
-    else if (buttonPressed("+/-")) temp_tolerance_mode = greater_or_leaser;
-    else if (buttonPressed("+")) temp_tolerance_replace_mode = tolerance_replace_plus;
-    else if (buttonPressed("-")) temp_tolerance_replace_mode = tolerance_replace_minus;
-    else if (buttonPressed("=")) temp_tolerance_replace_mode = tolerance_replace_equal;
-    else if (buttonPressed("Solid")) temp_tolerance_replace_mode_2 = replace_mode_solid;
-    else if (buttonPressed("Pattern")) temp_tolerance_replace_mode_2 = replace_mode_pattern;
-    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_replace_menu = 0;
+    else if (buttonPressed("greater")) cb_replace_greater();
+    else if (buttonPressed("leaser")) cb_replace_leaser();
+    else if (buttonPressed("greaterLeaser")) cb_replace_greaterLeaser();
+    else if (buttonPressed("plus")) cb_replace_plus();
+    else if (buttonPressed("minus")) cb_replace_minus();
+    else if (buttonPressed("equal")) cb_replace_equal();
+    else if (buttonPressed("Solid")) cb_replace_Solid();
+    else if (buttonPressed("Pattern")) cb_replace_Pattern();
     else if (buttonPressed("changePattern")) cb_replace_changePattern();
+    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) cb_replace_cancel();
     else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_replace_ok();
     else if (text_input_char) {
         checkNumericTextBox(numeric_dialog_boxes[tolerance], text_input_char);
@@ -96,16 +96,16 @@ void check_replace_menu (char text_input_char) {
 
 void check_global_replace_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_global_replace_menu = 0;
-    else if (buttonPressed("+")) temp_global_tolerance_mode = greater;
-    else if (buttonPressed("-")) temp_global_tolerance_mode = leaser;
-    else if (buttonPressed("+/-")) temp_global_tolerance_mode = greater_or_leaser;
-    else if (buttonPressed("+")) temp_global_tolerance_replace_mode = tolerance_replace_plus;
-    else if (buttonPressed("-")) temp_global_tolerance_replace_mode = tolerance_replace_minus;
-    else if (buttonPressed("=")) temp_global_tolerance_replace_mode = tolerance_replace_equal;
-    else if (buttonPressed("Solid")) temp_global_tolerance_replace_mode_2 = replace_mode_solid;
-    else if (buttonPressed("Pattern")) temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
-    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_global_replace_menu = 0;
-    else if (buttonPressed("changePattern") cb_globalReplace_changePattern();
+    else if (buttonPressed("greater")) cb_globalReplace_greater();
+    else if (buttonPressed("leaser")) cb_globalReplace_leaser();
+    else if (buttonPressed("greaterLeaser")) cb_globalReplace_greaterLeaser();
+    else if (buttonPressed("plus")) cb_globalReplace_plus();
+    else if (buttonPressed("minus")) cb_globalReplace_minus();
+    else if (buttonPressed("equal")) cb_globalReplace_equal();
+    else if (buttonPressed("Solid")) cb_globalReplace_Solid();
+    else if (buttonPressed("Pattern")) cb_globalReplace_Pattern();
+    else if (buttonPressed("changePattern")) cb_globalReplace_changePattern();
+    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) cb_globalReplace_cancel();
     else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_globalReplace_ok();
     else if (text_input_char) {
         checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
