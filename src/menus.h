@@ -51,17 +51,8 @@ typedef struct {
 
 void load_tool_bar();
 void drawWindowTitle(Menu *menu);
-
 void draw_file_menu (SDL_Surface * this_screen);
 
-void check_new_terrain_menu (char text_input_char);
-void check_generate_terrain_menu (char text_input_char);
-void check_view_menu (char text_input_char);
-void check_replace_menu (char text_input_char);
-void check_object_menu (char text_input_char);
-void check_global_replace_menu (char text_input_char);
-void check_rotate_menu (char text_input_char);
 void check_file_menu (unsigned char text_input_char);
-void check_error_menu (char text_input_char);
 
 #endif
