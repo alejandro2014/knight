@@ -152,3 +152,10 @@ void cb_view_grid64() { grid = 64; }
 void cb_view_grid128() { grid = 128; }
 void cb_view_grid256() { grid = 256; }
 void cb_view_okButton() { show_view_menu = 0; }
+
+void cb_rotate_x() { rotation_type = rotation_flip_x; }
+void cb_rotate_y() { rotation_type = rotation_flip_y; }
+void cb_rotate_z() { rotation_type = rotation_flip_z; }
+void cb_rotate_90() { rotation_type = rotation_CW_90; }
+void cb_rotate_270() { rotation_type = rotation_CCW_90; }
+void cb_rotate_180() { rotation_type = rotation_180; }

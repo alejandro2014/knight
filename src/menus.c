@@ -67,12 +67,12 @@ void check_view_menu (char text_input_char) {
 
 void check_rotate_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_rotate_menu = 0;
-    else if (buttonPressed("x")) rotation_type = rotation_flip_x;
-    else if (buttonPressed("y")) rotation_type = rotation_flip_y;
-    else if (buttonPressed("z") rotation_type = rotation_flip_z;
-    else if (buttonPressed("90")) rotation_type = rotation_CW_90;
-    else if (buttonPressed("270")) rotation_type = rotation_CCW_90;
-    else if (buttonPressed("180")) rotation_type = rotation_180;
+    else if (buttonPressed("x")) cb_rotate_x();
+    else if (buttonPressed("y")) cb_rotate_y();
+    else if (buttonPressed("z") cb_rotate_z();
+    else if (buttonPressed("90")) cb_rotate_90();
+    else if (buttonPressed("270")) cb_rotate_270();
+    else if (buttonPressed("180")) cb_rotate_180();
     else if (buttonPressed("ok") cb_rotate_ok();
 }
 
