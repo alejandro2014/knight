@@ -67,7 +67,7 @@ void draw_file_menu(SDL_Surface * this_screen) {
     draw_empty_menu (screen, white, x2-64, y2-18,50, 14);
     print_string ("Cancel", black, white, x2-62, y2-16);
 }
-s
+
 void check_new_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
   else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) show_new_terrain_menu = 0;
@@ -136,48 +136,9 @@ void check_new_terrain_menu (char text_input_char) {
 
   //now, check to see if we get any character
   if (text_input_char) {
-    int dialog_text_offset;
-
-    if (numeric_dialog_boxes[base_height_dialog].has_focus == 1) {
-        if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[base_height_dialog])) {
-            dialog_text_offset = numeric_dialog_boxes[base_height_dialog].text_offset;
-            numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset] = text_input_char;
-            numeric_dialog_boxes[base_height_dialog].dialog_text[dialog_text_offset + 1] = 0;
-            numeric_dialog_boxes[base_height_dialog].text_offset++;
-        }
-        else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[base_height_dialog].text_offset > 0) {
-            numeric_dialog_boxes[base_height_dialog].text_offset--;
-            numeric_dialog_boxes[base_height_dialog].dialog_text[numeric_dialog_boxes[base_height_dialog].text_offset] = 0;
-        }
-    }
-
-    //check the x_map_size_dialog
-    if (numeric_dialog_boxes[x_map_size_dialog].has_focus == 1) {
-			if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[x_map_size_dialog])) {
-					dialog_text_offset = numeric_dialog_boxes[x_map_size_dialog].text_offset;
-					numeric_dialog_boxes[x_map_size_dialog].dialog_text[dialog_text_offset] = text_input_char;
-					numeric_dialog_boxes[x_map_size_dialog].dialog_text[dialog_text_offset + 1] = 0;
-					numeric_dialog_boxes[x_map_size_dialog].text_offset++;
-      }
-      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[x_map_size_dialog].text_offset > 0) {
-				numeric_dialog_boxes[x_map_size_dialog].text_offset--;
-				numeric_dialog_boxes[x_map_size_dialog].dialog_text[numeric_dialog_boxes[x_map_size_dialog].text_offset] = 0;
-      }
-    }
-    //check the y_map_size_dialog
-    if (numeric_dialog_boxes[y_map_size_dialog].has_focus == 1) {
-			if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[y_map_size_dialog])) {
-					dialog_text_offset = numeric_dialog_boxes[y_map_size_dialog].text_offset;
-					numeric_dialog_boxes[y_map_size_dialog].dialog_text[dialog_text_offset] = text_input_char;
-					numeric_dialog_boxes[y_map_size_dialog].dialog_text[dialog_text_offset + 1] = 0;
-					numeric_dialog_boxes[y_map_size_dialog].text_offset++;
-      }
-      else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[y_map_size_dialog].text_offset > 0) {
-				numeric_dialog_boxes[y_map_size_dialog].text_offset--;
-				numeric_dialog_boxes[y_map_size_dialog].
-	  		dialog_text[numeric_dialog_boxes[y_map_size_dialog].text_offset] = 0;
-      }
-    }
+    checkNumericTextBox(numeric_dialog_boxes[base_height_dialog], text_input_char);
+    checkNumericTextBox(numeric_dialog_boxes[x_map_size_dialog], text_input_char);
+    checkNumericTextBox(numeric_dialog_boxes[y_map_size_dialog], text_input_char);
   }
 }
 
@@ -204,21 +165,8 @@ void check_generate_terrain_menu (char text_input_char) {
     else make_terrain (WIDTH, HEIGHT);*/
     show_generate_terrain_menu = 0;
   }
-	//now, check to see if we get any character
   else if (text_input_char) {
-    int dialog_text_offset;
-
-		if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[seed_dialog])) {
-      	dialog_text_offset = numeric_dialog_boxes[seed_dialog].text_offset;
-      	numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset] = text_input_char;
-      	numeric_dialog_boxes[seed_dialog].dialog_text[dialog_text_offset + 1] = 0;
-      	numeric_dialog_boxes[seed_dialog].text_offset++;
-    }
-    else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[seed_dialog].text_offset > 0) {
-      numeric_dialog_boxes[seed_dialog].text_offset--;
-      numeric_dialog_boxes[seed_dialog].
-			dialog_text[numeric_dialog_boxes[seed_dialog].text_offset] = 0;
-    }
+      checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
   }
 }
 
@@ -302,20 +250,8 @@ void check_replace_menu (char text_input_char) {
     tolerance_replace_mode_2 = temp_tolerance_replace_mode_2;
     show_replace_menu = 0;
   }
-	//now, check to see if we get any character
   else if (text_input_char) {
-    int dialog_text_offset;
-
-		if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[tolerance])) {
-      	dialog_text_offset = numeric_dialog_boxes[tolerance].text_offset;
-      	numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset] = text_input_char;
-      	numeric_dialog_boxes[tolerance].dialog_text[dialog_text_offset + 1] = 0;
-      	numeric_dialog_boxes[tolerance].text_offset++;
-    }
-    else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[tolerance].text_offset > 0) {
-      numeric_dialog_boxes[tolerance].text_offset--;
-      numeric_dialog_boxes[tolerance].dialog_text[numeric_dialog_boxes[tolerance].text_offset] = 0;
-    }
+      checkNumericTextBox(numeric_dialog_boxes[tolerance], text_input_char);
   }
 }
 
@@ -360,22 +296,8 @@ else if (buttonPressed("changePattern") {
     global_tolerance_replace_mode_2 = temp_global_tolerance_replace_mode_2;
     show_global_replace_menu = 0;
   }
-
-	//now, check to see if we get any character
   else if (text_input_char) {
-    int dialog_text_offset;
-
-    if (isNumeric(text_input_char) && !maxLengthExcedeed(numeric_dialog_boxes[global_tolerance])) {
-      	dialog_text_offset = numeric_dialog_boxes[global_tolerance].text_offset;
-      	numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset] = text_input_char;
-      	numeric_dialog_boxes[global_tolerance].dialog_text[dialog_text_offset + 1] = 0;
-      	numeric_dialog_boxes[global_tolerance].text_offset++;
-    }
-		else if (text_input_char == SDLK_BACKSPACE && numeric_dialog_boxes[global_tolerance].text_offset > 0) {
-      numeric_dialog_boxes[global_tolerance].text_offset--;
-      numeric_dialog_boxes[global_tolerance].
-			dialog_text[numeric_dialog_boxes[global_tolerance].text_offset] = 0;
-    }
+      checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
   }
 }
 
@@ -597,4 +519,21 @@ void drawDialogWindow(Menu *menu) {
     SDL_RenderPresent(renderer);
 
 	drawWindowTitle(menu);
+}
+
+void checkNumericTextBox(TextBox *textbox, int inputChar) {
+    int dialog_text_offset;
+
+    if (textbox.has_focus == 1) {
+        if (isNumeric(inputChar) && !maxLengthExcedeed(textbox)) {
+            dialog_text_offset = textbox.text_offset;
+            textbox.dialog_text[dialog_text_offset] = inputChar;
+            textbox.dialog_text[dialog_text_offset + 1] = 0;
+            textbox.text_offset++;
+        }
+        else if (inputChar == SDLK_BACKSPACE && textbox.text_offset > 0) {
+            textbox.text_offset--;
+            textbox.dialog_text[textbox.text_offset] = 0;
+        }
+    }
 }
