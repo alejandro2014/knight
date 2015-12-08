@@ -70,47 +70,11 @@ void draw_file_menu(SDL_Surface * this_screen) {
 
 void check_new_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
-  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) show_new_terrain_menu = 0;
-  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) {
-    int color_to_fill;
-    int i = 0;
-    color_to_fill = atoi(numeric_dialog_boxes[base_height_dialog].dialog_text);
-    show_new_terrain_menu = 0;
-    WIDTH = atoi (numeric_dialog_boxes[x_map_size_dialog].dialog_text);
-    HEIGHT = atoi (numeric_dialog_boxes[y_map_size_dialog].dialog_text);
-    //do a bounds check
-    if (WIDTH > numeric_dialog_boxes[x_map_size_dialog].max_number) WIDTH = numeric_dialog_boxes[x_map_size_dialog].max_number;
-    if (WIDTH < numeric_dialog_boxes[x_map_size_dialog].min_number) WIDTH = numeric_dialog_boxes[x_map_size_dialog].min_number;
-    if (HEIGHT > numeric_dialog_boxes[y_map_size_dialog].max_number) HEIGHT = numeric_dialog_boxes[y_map_size_dialog].max_number;
-    if (HEIGHT < numeric_dialog_boxes[y_map_size_dialog].min_number) HEIGHT = numeric_dialog_boxes[y_map_size_dialog].min_number;
-    if (color_to_fill > 255 || color_to_fill < 0)
-      color_to_fill = 0;
-
-    //everything is OK now
-    allocate_mem(WIDTH, HEIGHT);
-
-    if(!terrain_height)return;
-    for (i = 0; i < HEIGHT * WIDTH; i++)
-      *(terrain_height + i) = color_to_fill;
-  }
-  else if (buttonPressed("xSize")) {
-    numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-    numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-    numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
-    numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
-  }
-	else if (buttonPressed("ySize")) {
-    numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-    numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
-    numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
-    numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-  }
-  else if (buttonPressed("baseHeight")) {
-    numeric_dialog_boxes[base_height_dialog].has_focus = 1;
-    numeric_dialog_boxes[base_height_dialog].text_offset = 0;
-    numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-    numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-  }
+  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) cb_newTerrain_cancel();
+  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) cb_newTerrain_ok();
+  else if (buttonPressed("xSize")) cb_newTerrain_xSize();
+  else if (buttonPressed("ySize")) cb_newTerrain_ySize();
+  else if (buttonPressed("baseHeight")) cb_newTerrain_baseHeight();
 
   //check to see for the tab
   if (text_input_char == SDLK_TAB) {
@@ -134,7 +98,6 @@ void check_new_terrain_menu (char text_input_char) {
     }
   }
 
-  //now, check to see if we get any character
   if (text_input_char) {
     checkNumericTextBox(numeric_dialog_boxes[base_height_dialog], text_input_char);
     checkNumericTextBox(numeric_dialog_boxes[x_map_size_dialog], text_input_char);
@@ -144,10 +107,10 @@ void check_new_terrain_menu (char text_input_char) {
 
 void check_generate_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
-  else if (buttonPressed("overwriteTerrain")) cb_overwriteTerrain();
-  else if (buttonPressed("seed")) cb_seed();
-  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_cancelButton();
-  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_okButton();
+  else if (buttonPressed("overwriteTerrain")) cb_generateTerrain_overwriteTerrain();
+  else if (buttonPressed("seed")) cb_generateTerrain_seed();
+  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_generateTerrain_cancelButton();
+  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_generateTerrain_okButton();
   else if (text_input_char) {
       checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
   }
@@ -174,8 +137,7 @@ void check_rotate_menu (char text_input_char) {
 
     if (buttonPressed("x")) rotation_type = rotation_flip_x;
     else if (buttonPressed("y")) rotation_type = rotation_flip_y;
-
-    if (buttonPressed("z") rotation_type = rotation_flip_z;
+    else if (buttonPressed("z") rotation_type = rotation_flip_z;
     else if (buttonPressed("90")) rotation_type = rotation_CW_90;
     else if (buttonPressed("270")) rotation_type = rotation_CCW_90;
     else if (buttonPressed("180")) rotation_type = rotation_180;
@@ -251,34 +213,8 @@ else if (buttonPressed("=")) temp_global_tolerance_replace_mode = tolerance_repl
 else if (buttonPressed("Solid")) temp_global_tolerance_replace_mode_2 = replace_mode_solid;
 else if (buttonPressed("Pattern")) temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
 else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_global_replace_menu = 0;
-else if (buttonPressed("changePattern") {
-		SDL_Event event;
-		if(current_pattern.object_mem) {
-				free(current_pattern.object_mem);
-				current_pattern.object_mem=0;
-		}
-
-		load_object=2;//tell the file open save function to load a pattern
-		long_pressed_button_l = 0;
-		DoFileOpenSave (0);
-    while (SDL_PollEvent (&event));	//clears all the events
-	}
-
-	//check the OK button
-  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) {
-    int box_tolerance = atoi (numeric_dialog_boxes[global_tolerance].dialog_text);
-    //bounds checking
-    if (box_tolerance > numeric_dialog_boxes[global_tolerance].max_number)
-      box_tolerance = numeric_dialog_boxes[global_tolerance].max_number;
-    else if (box_tolerance < numeric_dialog_boxes[global_tolerance].min_number)
-      box_tolerance = numeric_dialog_boxes[global_tolerance].min_number;
-
-    global_tolerance_value = box_tolerance;
-    global_tolerance_mode = temp_global_tolerance_mode;
-    global_tolerance_replace_mode = temp_global_tolerance_replace_mode;
-    global_tolerance_replace_mode_2 = temp_global_tolerance_replace_mode_2;
-    show_global_replace_menu = 0;
-  }
+else if (buttonPressed("changePattern") cb_globalReplace_changePattern();
+  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_globalReplace_ok();
   else if (text_input_char) {
       checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
   }
