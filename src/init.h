@@ -7,6 +7,4 @@ void build_tool_bar ();
 
 void build_numeric_dialog_boxes ();
 
-void make_gray_pallete();
-
 #endif

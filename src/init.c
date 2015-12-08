@@ -1,25 +1,8 @@
 #include "init.h"
 
-#define COLORS_PALETTE 256
-
 typedef tool_bar_struct Button;
 
-void buildToolBarButton(int iconId, int windowMessage, int iconActive, int iconPush,
-                        int iconNotPush, int righClickMessage, char *tooltip, int mouseOverTimer) {
-    Button *button;
-    button->icon_id = iconId;
-    button->associated_window_message = windowMessage;
-    button->icon_active = 1;
-    button->icon_pressed = 0;
-    button->icon_dont_stay_pressed = 0;
-    button->right_click_message = do_nothing;
-    sprintf(button->tool_tip, "Place");
-    button->mouse_over_timer=0;
-}
-
 void build_tool_bar() {
-  int i = 0;
-
   main_tool_bar[0] = buildToolBarButton(icon_place, change_tool_place, 1, 0, 0, do_nothing, "Place", 0);
   main_tool_bar[1] = buildToolBarButton(icon_escavate, change_tool_escavate, 0, 0, 0, do_nothing, "Escavate", 0);
   main_tool_bar[2] = buildToolBarButton(icon_elevate, change_tool_elevate, 0, 0, 0, do_nothing, "Elevate", 0);
@@ -49,53 +32,40 @@ void build_tool_bar() {
 }
 
 void build_numeric_dialog_boxes () {
-  numeric_dialog_boxes[x_map_size_dialog].max_number = 9999;
-  numeric_dialog_boxes[x_map_size_dialog].min_number = 64;
-  numeric_dialog_boxes[x_map_size_dialog].current_number = 256;
-  numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
-  numeric_dialog_boxes[x_map_size_dialog].dialog_lenght = 4;
-  numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
-  numeric_dialog_boxes[x_map_size_dialog].is_pressed = 0;
+    numeric_dialog_boxes[x_map_size_dialog] = buildNumericTextbox(9999, 64, 256, 0, 4, 1, 0);
+    numeric_dialog_boxes[y_map_size_dialog] = buildNumericTextbox(9999, 64, 256, 0, 4, 0, 0);
+    numeric_dialog_boxes[base_height_dialog] = buildNumericTextbox(255, 0, 0, 0, 3, 0, 0);
+    numeric_dialog_boxes[seed_dialog] = buildNumericTextbox(0xffffffff, 0, 0, 0, 10, 1, 0);
+    numeric_dialog_boxes[tolerance] = buildNumericTextbox(255, 0, 0, 0, 3, 1, 0);
+    numeric_dialog_boxes[global_tolerance] = buildNumericTextbox(255, 0, 0, 0, 3, 1, 0);
+}
 
-  numeric_dialog_boxes[y_map_size_dialog].max_number = 9999;
-  numeric_dialog_boxes[y_map_size_dialog].min_number = 64;
-  numeric_dialog_boxes[y_map_size_dialog].current_number = 256;
-  numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
-  numeric_dialog_boxes[y_map_size_dialog].dialog_lenght = 4;
-  numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-  numeric_dialog_boxes[y_map_size_dialog].is_pressed = 0;
+void buildToolBarButton(int iconId, int windowMessage, int iconActive, int iconPush,
+                        int iconNotPush, int righClickMessage, char *tooltip, int mouseOverTimer) {
+    Button *button;
+    button->icon_id = iconId;
+    button->associated_window_message = windowMessage;
+    button->icon_active = 1;
+    button->icon_pressed = 0;
+    button->icon_dont_stay_pressed = 0;
+    button->right_click_message = do_nothing;
+    sprintf(button->tool_tip, "Place");
+    button->mouse_over_timer=0;
+}
 
-  numeric_dialog_boxes[base_height_dialog].max_number = 255;
-  numeric_dialog_boxes[base_height_dialog].min_number = 0;
-  numeric_dialog_boxes[base_height_dialog].current_number = 0;
-  numeric_dialog_boxes[base_height_dialog].text_offset = 0;
-  numeric_dialog_boxes[base_height_dialog].dialog_lenght = 3;
-  numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-  numeric_dialog_boxes[base_height_dialog].is_pressed = 0;
+TextBox *buildNumericTextbox(int max, int min, int current, int offset, int length, int hasFocus, int isPressed) {
+    TextBox *textbox = (Textbox *) malloc(sizeof(TextBox));
+    memset(textbox, 0, sizeof(Textbox));
 
-  numeric_dialog_boxes[seed_dialog].max_number = 0xffffffff;
-  numeric_dialog_boxes[seed_dialog].min_number = 0;
-  numeric_dialog_boxes[seed_dialog].current_number = 0;
-  numeric_dialog_boxes[seed_dialog].text_offset = 0;
-  numeric_dialog_boxes[seed_dialog].dialog_lenght = 10;
-  numeric_dialog_boxes[seed_dialog].has_focus = 1;
-  numeric_dialog_boxes[seed_dialog].is_pressed = 0;
+    textbox.max_number = max;
+    textbox.min_number = min;
+    textbox.current_number = current;
+    textbox.text_offset = offset;
+    textbox.dialog_lenght = length;
+    textbox.has_focus = hasFocus;
+    textbox.is_pressed = isPressed;
 
-  numeric_dialog_boxes[tolerance].max_number = 0xff;
-  numeric_dialog_boxes[tolerance].min_number = 0;
-  numeric_dialog_boxes[tolerance].current_number = 0;
-  numeric_dialog_boxes[tolerance].text_offset = 0;
-  numeric_dialog_boxes[tolerance].dialog_lenght = 3;
-  numeric_dialog_boxes[tolerance].has_focus = 1;
-  numeric_dialog_boxes[tolerance].is_pressed = 0;
-
-  numeric_dialog_boxes[global_tolerance].max_number = 0xff;
-  numeric_dialog_boxes[global_tolerance].min_number = 0;
-  numeric_dialog_boxes[global_tolerance].current_number = 0;
-  numeric_dialog_boxes[global_tolerance].text_offset = 0;
-  numeric_dialog_boxes[global_tolerance].dialog_lenght = 3;
-  numeric_dialog_boxes[global_tolerance].has_focus = 1;
-  numeric_dialog_boxes[global_tolerance].is_pressed = 0;
+    return textbox;
 }
 
 void build_cursors() {
