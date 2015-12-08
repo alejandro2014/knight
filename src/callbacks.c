@@ -179,3 +179,11 @@ void cb_globalReplace_equal() { temp_tolerance_replace_mode = tolerance_replace_
 void cb_globalReplace_Solid() { temp_tolerance_replace_mode_2 = replace_mode_solid; }
 void cb_globalReplace_Pattern() { temp_tolerance_replace_mode_2 = replace_mode_pattern; }
 void cb_globalReplace_cancel() { show_replace_menu = 0; }
+
+void cb_object_placeOver() { object_mode = put_object; }
+void cb_object_increase() { object_mode = add_object; }
+void cb_object_decrease() { object_mode = sub_object; }
+void cb_object_cancel() { show_object_menu = 0; }
+void cb_object_ok() { show_object_menu = 0; }
+
+void cb_error_ok() { view_error_menu = 0; }

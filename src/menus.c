@@ -114,16 +114,16 @@ void check_global_replace_menu (char text_input_char) {
 
 void check_object_menu (char text_input_char) {
   if(long_pressed_button_r == 1) show_object_menu = 0;
-  else if(buttonPressed("placeOver") object_mode = put_object;
-  else if(buttonPressed("increase") object_mode = add_object; //check the leaser than mode
-  else if (buttonPressed("decrease") object_mode = sub_object;//check the leaser or greater mode
-  else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
-  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) show_object_menu = 0;
+  else if(buttonPressed("placeOver") cb_object_placeOver();
+  else if(buttonPressed("increase") cb_object_increase();
+  else if (buttonPressed("decrease") cb_object_decrease();
+  else if (buttonPressed("cancel") cb_object_cancel();
+  else if (buttonPressed("ok") cb_object_ok();
 }
 
 void check_error_menu (char text_input_char) {
   if (long_pressed_button_r == true || text_input_char==SDLK_RETURN ||
-      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) view_error_menu = 0;
+      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) cb_error_ok();
 }
 
 void draw_file_menu(SDL_Surface * this_screen) {
