@@ -144,27 +144,10 @@ void check_new_terrain_menu (char text_input_char) {
 
 void check_generate_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
-	//check the overwrite terrain button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 2, 40, 14, 14))
-    overwrite_terrain = !overwrite_terrain;
-	//check the random seed button
-  else if (buttonPressed(x_replace_menu, y_replace_menu, 140, 18, 50, 14)) {
-    int this_seed;
-    this_seed = rand ();
-    this_seed = this_seed * rand ();
-    sprintf (numeric_dialog_boxes[seed_dialog].dialog_text, "%d", this_seed);
-    numeric_dialog_boxes[seed_dialog].text_offset = 0;
-  }
-  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE)
-    show_generate_terrain_menu = 0;
-  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) {
-    seed = atoi (numeric_dialog_boxes[seed_dialog].dialog_text);
-    srand (atoi (numeric_dialog_boxes[seed_dialog].dialog_text));
-
-    /*if(overwrite_terrain)overdraw_terrain(WIDTH, HEIGHT);
-    else make_terrain (WIDTH, HEIGHT);*/
-    show_generate_terrain_menu = 0;
-  }
+  else if (buttonPressed("overwriteTerrain")) cb_overwriteTerrain();
+  else if (buttonPressed("seed")) cb_seed();
+  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_cancelButton();
+  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_okButton();
   else if (text_input_char) {
       checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
   }
