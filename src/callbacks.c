@@ -141,3 +141,14 @@ void cb_replace_ok() {
   tolerance_replace_mode_2 = temp_tolerance_replace_mode_2;
   show_replace_menu = 0;
 }
+
+void cb_view_toolbar() { tool_bar = !tool_bar; }
+void cb_view_minimap() { mini_map = !mini_map; }
+void cb_view_statusBar() { status_bar = !status_bar; }
+void cb_view_gridOff() { grid = 0; }
+void cb_view_grid16() { grid = 16; }
+void cb_view_grid32() { grid = 32; }
+void cb_view_grid64() { grid = 64; }
+void cb_view_grid128() { grid = 128; }
+void cb_view_grid256() { grid = 256; }
+void cb_view_okButton() { show_view_menu = 0; }

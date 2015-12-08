@@ -6,12 +6,131 @@
 #include "menus.h"
 #include "load_widgets.h"
 
+void check_new_terrain_menu (char text_input_char) {
+  if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
+  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) cb_newTerrain_cancel();
+  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) cb_newTerrain_ok();
+  else if (buttonPressed("xSize")) cb_newTerrain_xSize();
+  else if (buttonPressed("ySize")) cb_newTerrain_ySize();
+  else if (buttonPressed("baseHeight")) cb_newTerrain_baseHeight();
+
+    if (text_input_char == SDLK_TAB) {
+        if (numeric_dialog_boxes[base_height_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
+            numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
+        } else if (numeric_dialog_boxes[x_map_size_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
+            numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
+        } else if (numeric_dialog_boxes[y_map_size_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 1;
+            numeric_dialog_boxes[base_height_dialog].text_offset = 0;
+        }
+    }
+
+  if (text_input_char) {
+    checkNumericTextBox(numeric_dialog_boxes[base_height_dialog], text_input_char);
+    checkNumericTextBox(numeric_dialog_boxes[x_map_size_dialog], text_input_char);
+    checkNumericTextBox(numeric_dialog_boxes[y_map_size_dialog], text_input_char);
+  }
+}
+
+void check_generate_terrain_menu (char text_input_char) {
+    if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
+    else if (buttonPressed("overwriteTerrain")) cb_generateTerrain_overwriteTerrain();
+    else if (buttonPressed("seed")) cb_generateTerrain_seed();
+    else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_generateTerrain_cancelButton();
+    else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_generateTerrain_okButton();
+    else if (text_input_char) {
+        checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
+    }
+}
+
+void check_view_menu (char text_input_char) {
+  if (long_pressed_button_r == 1) show_view_menu = 0;
+  else if (buttonPressed("toolbar")) cb_view_toolbar();
+  else if (buttonPressed("minimap")) cb_view_minimap();
+  else if (buttonPressed("statusBar")) cb_view_statusBar();
+  else if (buttonPressed("gridOff")) cb_view_gridOff();
+  else if (buttonPressed("grid16")) cb_view_grid16();
+  else if (buttonPressed("grid32")) cb_view_grid32();
+  else if (buttonPressed("grid64")) cb_view_grid64();
+  else if (buttonPressed("grid128")) cb_view_grid128();
+  else if (buttonPressed("grid256")) cb_view_grid256();
+  else if (buttonPressed("okButton")) cb_view_okButton();
+}
+
+void check_rotate_menu (char text_input_char) {
+    if (long_pressed_button_r == 1) show_rotate_menu = 0;
+    else if (buttonPressed("x")) rotation_type = rotation_flip_x;
+    else if (buttonPressed("y")) rotation_type = rotation_flip_y;
+    else if (buttonPressed("z") rotation_type = rotation_flip_z;
+    else if (buttonPressed("90")) rotation_type = rotation_CW_90;
+    else if (buttonPressed("270")) rotation_type = rotation_CCW_90;
+    else if (buttonPressed("180")) rotation_type = rotation_180;
+    else if (buttonPressed("ok") cb_rotate_ok();
+}
+
+void check_replace_menu (char text_input_char) {
+    if (long_pressed_button_r == 1) show_replace_menu = 0;
+    else if (buttonPressed("+")) temp_tolerance_mode = greater;
+    else if (buttonPressed("-")) temp_tolerance_mode = leaser;
+    else if (buttonPressed("+/-")) temp_tolerance_mode = greater_or_leaser;
+    else if (buttonPressed("+")) temp_tolerance_replace_mode = tolerance_replace_plus;
+    else if (buttonPressed("-")) temp_tolerance_replace_mode = tolerance_replace_minus;
+    else if (buttonPressed("=")) temp_tolerance_replace_mode = tolerance_replace_equal;
+    else if (buttonPressed("Solid")) temp_tolerance_replace_mode_2 = replace_mode_solid;
+    else if (buttonPressed("Pattern")) temp_tolerance_replace_mode_2 = replace_mode_pattern;
+    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_replace_menu = 0;
+    else if (buttonPressed("changePattern")) cb_replace_changePattern();
+    else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_replace_ok();
+    else if (text_input_char) {
+        checkNumericTextBox(numeric_dialog_boxes[tolerance], text_input_char);
+    }
+}
+
+void check_global_replace_menu (char text_input_char) {
+    if (long_pressed_button_r == 1) show_global_replace_menu = 0;
+    else if (buttonPressed("+")) temp_global_tolerance_mode = greater;
+    else if (buttonPressed("-")) temp_global_tolerance_mode = leaser;
+    else if (buttonPressed("+/-")) temp_global_tolerance_mode = greater_or_leaser;
+    else if (buttonPressed("+")) temp_global_tolerance_replace_mode = tolerance_replace_plus;
+    else if (buttonPressed("-")) temp_global_tolerance_replace_mode = tolerance_replace_minus;
+    else if (buttonPressed("=")) temp_global_tolerance_replace_mode = tolerance_replace_equal;
+    else if (buttonPressed("Solid")) temp_global_tolerance_replace_mode_2 = replace_mode_solid;
+    else if (buttonPressed("Pattern")) temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
+    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_global_replace_menu = 0;
+    else if (buttonPressed("changePattern") cb_globalReplace_changePattern();
+    else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_globalReplace_ok();
+    else if (text_input_char) {
+        checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
+    }
+}
+
+void check_object_menu (char text_input_char) {
+  if(long_pressed_button_r == 1) show_object_menu = 0;
+  else if(buttonPressed("placeOver") object_mode = put_object;
+  else if(buttonPressed("increase") object_mode = add_object; //check the leaser than mode
+  else if (buttonPressed("decrease") object_mode = sub_object;//check the leaser or greater mode
+  else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
+  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) show_object_menu = 0;
+}
+
+void check_error_menu (char text_input_char) {
+  if (long_pressed_button_r == true || text_input_char==SDLK_RETURN ||
+      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) view_error_menu = 0;
+}
+
 void draw_file_menu(SDL_Surface * this_screen) {
-    int x, y,i,j,k,l = 0;
+    int x,y,i,j,k,l = 0;
     char cur_char;
     char str[120];
-    Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
-    int my_pitch = this_screen->pitch;
+    Uint8 *screen_buffer = (Uint8 *) this_screen->pitch;
 
     int x1 = x_file_menu;
     int y1 = y_file_menu;
@@ -66,135 +185,6 @@ void draw_file_menu(SDL_Surface * this_screen) {
     //draw the cancel button
     draw_empty_menu (screen, white, x2-64, y2-18,50, 14);
     print_string ("Cancel", black, white, x2-62, y2-16);
-}
-
-void check_new_terrain_menu (char text_input_char) {
-  if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
-  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) cb_newTerrain_cancel();
-  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) cb_newTerrain_ok();
-  else if (buttonPressed("xSize")) cb_newTerrain_xSize();
-  else if (buttonPressed("ySize")) cb_newTerrain_ySize();
-  else if (buttonPressed("baseHeight")) cb_newTerrain_baseHeight();
-
-  //check to see for the tab
-  if (text_input_char == SDLK_TAB) {
-    if (numeric_dialog_boxes[base_height_dialog].has_focus) {
-      numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
-      numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
-      numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-      numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-    }
-    else if (numeric_dialog_boxes[x_map_size_dialog].has_focus) {
-      numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-      numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
-      numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
-      numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-    }
-    else if (numeric_dialog_boxes[y_map_size_dialog].has_focus) {
-      numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-      numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-      numeric_dialog_boxes[base_height_dialog].has_focus = 1;
-      numeric_dialog_boxes[base_height_dialog].text_offset = 0;
-    }
-  }
-
-  if (text_input_char) {
-    checkNumericTextBox(numeric_dialog_boxes[base_height_dialog], text_input_char);
-    checkNumericTextBox(numeric_dialog_boxes[x_map_size_dialog], text_input_char);
-    checkNumericTextBox(numeric_dialog_boxes[y_map_size_dialog], text_input_char);
-  }
-}
-
-void check_generate_terrain_menu (char text_input_char) {
-  if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
-  else if (buttonPressed("overwriteTerrain")) cb_generateTerrain_overwriteTerrain();
-  else if (buttonPressed("seed")) cb_generateTerrain_seed();
-  else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_generateTerrain_cancelButton();
-  else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_generateTerrain_okButton();
-  else if (text_input_char) {
-      checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
-  }
-}
-
-void check_view_menu (char text_input_char) {
-  if (long_pressed_button_r == 1) show_view_menu = 0;
-
-  if (buttonPressed("toolbar")) tool_bar = !tool_bar;
-  else if (buttonPressed("minimap")) mini_map = !mini_map;
-
-  if (buttonPressed("statusBar")) status_bar = !status_bar;
-  else if (buttonPressed("gridOff")) grid = 0;
-  else if (buttonPressed("grid16")) grid = 16;
-  else if (buttonPressed("grid32")) grid = 32;
-  else if (buttonPressed("grid64")) grid = 64;
-  else if (buttonPressed("grid128")) grid = 128;
-  else if (buttonPressed("grid256")) grid = 256;
-  else if (buttonPressed("okButton")) show_view_menu = 0;
-}
-
-void check_rotate_menu (char text_input_char) {
-    if (long_pressed_button_r == 1) show_rotate_menu = 0;
-
-    if (buttonPressed("x")) rotation_type = rotation_flip_x;
-    else if (buttonPressed("y")) rotation_type = rotation_flip_y;
-    else if (buttonPressed("z") rotation_type = rotation_flip_z;
-    else if (buttonPressed("90")) rotation_type = rotation_CW_90;
-    else if (buttonPressed("270")) rotation_type = rotation_CCW_90;
-    else if (buttonPressed("180")) rotation_type = rotation_180;
-    else if (buttonPressed("ok") cb_rotate_ok();
-}
-
-void check_replace_menu (char text_input_char) {
-  if (long_pressed_button_r == 1) show_replace_menu = 0;
-  else if (buttonPressed("+")) temp_tolerance_mode = greater;
-  else if (buttonPressed("-")) temp_tolerance_mode = leaser;
-  else if (buttonPressed("+/-")) temp_tolerance_mode = greater_or_leaser;
-  else if (buttonPressed("+")) temp_tolerance_replace_mode = tolerance_replace_plus;
-  else if (buttonPressed("-")) temp_tolerance_replace_mode = tolerance_replace_minus;
-  else if (buttonPressed("=")) temp_tolerance_replace_mode = tolerance_replace_equal;
-  else if (buttonPressed("Solid")) temp_tolerance_replace_mode_2 = replace_mode_solid;
-  else if (buttonPressed("Pattern")) temp_tolerance_replace_mode_2 = replace_mode_pattern;
-  else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_replace_menu = 0;
-  else if (buttonPressed("changePattern")) cb_replace_changePattern();
-  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_replace_ok();
-  else if (text_input_char) {
-      checkNumericTextBox(numeric_dialog_boxes[tolerance], text_input_char);
-  }
-}
-
-void check_global_replace_menu (char text_input_char) {
-  //right mouse button kills the menu (cancel)
-  if (long_pressed_button_r == 1)
-    show_global_replace_menu = 0;
-else if (buttonPressed("+")) temp_global_tolerance_mode = greater;
-else if (buttonPressed("-")) temp_global_tolerance_mode = leaser;
-else if (buttonPressed("+/-")) temp_global_tolerance_mode = greater_or_leaser;
-else if (buttonPressed("+")) temp_global_tolerance_replace_mode = tolerance_replace_plus;
-else if (buttonPressed("-")) temp_global_tolerance_replace_mode = tolerance_replace_minus;
-else if (buttonPressed("=")) temp_global_tolerance_replace_mode = tolerance_replace_equal;
-else if (buttonPressed("Solid")) temp_global_tolerance_replace_mode_2 = replace_mode_solid;
-else if (buttonPressed("Pattern")) temp_global_tolerance_replace_mode_2 = replace_mode_pattern;
-else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_global_replace_menu = 0;
-else if (buttonPressed("changePattern") cb_globalReplace_changePattern();
-  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_globalReplace_ok();
-  else if (text_input_char) {
-      checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
-  }
-}
-
-void check_object_menu (char text_input_char) {
-  if(long_pressed_button_r == 1) show_object_menu = 0;
-  else if(buttonPressed("placeOver") object_mode = put_object;
-  else if(buttonPressed("increase") object_mode = add_object; //check the leaser than mode
-  else if (buttonPressed("decrease") object_mode = sub_object;//check the leaser or greater mode
-
-  if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) show_object_menu = 0;
-  else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) show_object_menu = 0;
-}
-
-void check_error_menu (char text_input_char) {
-  if (long_pressed_button_r == true || text_input_char==SDLK_RETURN ||
-      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) view_error_menu = 0;
 }
 
 void check_file_menu (unsigned char text_input_char) {
