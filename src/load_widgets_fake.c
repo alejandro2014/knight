@@ -211,6 +211,7 @@ Checkbox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
     checkBox->y = y;
     checkBox->width = width;
     checkBox->height = height;
+    checkbox->action = cb_dialog_text;
     return checkBox;
 }
 
@@ -223,6 +224,7 @@ Button *loadButtonFake(char *text, int x, int y, int width, int height) {
 	button->y = y;
 	button->width = width;
 	button->height = height;
+    button->action = cb_dialog_text;
 
     return button;
 }

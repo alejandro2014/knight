@@ -8,122 +8,66 @@
 
 void check_new_terrain_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_new_terrain_menu = 0;
-  else if (buttonPressed("cancel")) || text_input_char == SDLK_ESCAPE) cb_newTerrain_cancel();
-  else if (buttonPressed("ok")) || text_input_char == SDLK_RETURN) cb_newTerrain_ok();
-  else if (buttonPressed("xSize")) cb_newTerrain_xSize();
-  else if (buttonPressed("ySize")) cb_newTerrain_ySize();
-  else if (buttonPressed("baseHeight")) cb_newTerrain_baseHeight();
-
-    if (text_input_char == SDLK_TAB) {
-        if (numeric_dialog_boxes[base_height_dialog].has_focus) {
-            numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
-            numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
-            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-        } else if (numeric_dialog_boxes[x_map_size_dialog].has_focus) {
-            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-            numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
-            numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
-            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
-        } else if (numeric_dialog_boxes[y_map_size_dialog].has_focus) {
-            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
-            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
-            numeric_dialog_boxes[base_height_dialog].has_focus = 1;
-            numeric_dialog_boxes[base_height_dialog].text_offset = 0;
-        }
-    }
-
-  if (text_input_char) {
-    checkNumericTextBox(numeric_dialog_boxes[base_height_dialog], text_input_char);
-    checkNumericTextBox(numeric_dialog_boxes[x_map_size_dialog], text_input_char);
-    checkNumericTextBox(numeric_dialog_boxes[y_map_size_dialog], text_input_char);
-  }
+  checkButtons(); // xSize ySize baseHeight ok cancel
+  checkOkCancelKeys();
+  checkTab();
+  checkNumericTextBoxes(); // base_height_dialog x_map_size_dialog y_map_size_dialog
 }
 
 void check_generate_terrain_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_generate_terrain_menu = 0;
-    else if (buttonPressed("overwriteTerrain")) cb_generateTerrain_overwriteTerrain();
-    else if (buttonPressed("seed")) cb_generateTerrain_seed();
-    else if (buttonPressed("cancelButton") || text_input_char == SDLK_ESCAPE) cb_generateTerrain_cancelButton();
-    else if (buttonPressed("okButton") || text_input_char == SDLK_RETURN) cb_generateTerrain_okButton();
-    else if (text_input_char) {
-        checkNumericTextBox(numeric_dialog_boxes[seed_dialog], text_input_char);
-    }
+    checkButtons(); // overwriteTerrain seed ok cancel
+    checkOkCancelKeys();
+    checkTab();
+    checkNumericTextBoxes(); //seed_dialog
 }
 
 void check_view_menu (char text_input_char) {
   if (long_pressed_button_r == 1) show_view_menu = 0;
-  else if (buttonPressed("toolbar")) cb_view_toolbar();
-  else if (buttonPressed("minimap")) cb_view_minimap();
-  else if (buttonPressed("statusBar")) cb_view_statusBar();
-  else if (buttonPressed("gridOff")) cb_view_gridOff();
-  else if (buttonPressed("grid16")) cb_view_grid16();
-  else if (buttonPressed("grid32")) cb_view_grid32();
-  else if (buttonPressed("grid64")) cb_view_grid64();
-  else if (buttonPressed("grid128")) cb_view_grid128();
-  else if (buttonPressed("grid256")) cb_view_grid256();
-  else if (buttonPressed("okButton")) cb_view_okButton();
+  checkButtons(); // toolbar minimap statusBar gridOff grid16/32/64/128/256 ok
+  checkOkCancelKeys();
+  checkTab();
+  checkNumericTextBoxes(); //void
 }
 
 void check_rotate_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_rotate_menu = 0;
-    else if (buttonPressed("x")) cb_rotate_x();
-    else if (buttonPressed("y")) cb_rotate_y();
-    else if (buttonPressed("z") cb_rotate_z();
-    else if (buttonPressed("90")) cb_rotate_90();
-    else if (buttonPressed("270")) cb_rotate_270();
-    else if (buttonPressed("180")) cb_rotate_180();
-    else if (buttonPressed("ok") cb_rotate_ok();
+    checkButtons(); // x y z 90 180 270 ok
+    checkOkCancelKeys();
+    checkTab();
+    checkNumericTextBoxes(); //void
 }
 
 void check_replace_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_replace_menu = 0;
-    else if (buttonPressed("greater")) cb_replace_greater();
-    else if (buttonPressed("leaser")) cb_replace_leaser();
-    else if (buttonPressed("greaterLeaser")) cb_replace_greaterLeaser();
-    else if (buttonPressed("plus")) cb_replace_plus();
-    else if (buttonPressed("minus")) cb_replace_minus();
-    else if (buttonPressed("equal")) cb_replace_equal();
-    else if (buttonPressed("Solid")) cb_replace_Solid();
-    else if (buttonPressed("Pattern")) cb_replace_Pattern();
-    else if (buttonPressed("changePattern")) cb_replace_changePattern();
-    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) cb_replace_cancel();
-    else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_replace_ok();
-    else if (text_input_char) {
-        checkNumericTextBox(numeric_dialog_boxes[tolerance], text_input_char);
-    }
+    checkButtons(); // greater leaser greaterLeaser plus minus equal Solid Pattern changePattern cancel ok
+    checkOkCancelKeys();
+    checkTab();
+    checkNumericTextBoxes(); // tolerance
 }
 
 void check_global_replace_menu (char text_input_char) {
     if (long_pressed_button_r == 1) show_global_replace_menu = 0;
-    else if (buttonPressed("greater")) cb_globalReplace_greater();
-    else if (buttonPressed("leaser")) cb_globalReplace_leaser();
-    else if (buttonPressed("greaterLeaser")) cb_globalReplace_greaterLeaser();
-    else if (buttonPressed("plus")) cb_globalReplace_plus();
-    else if (buttonPressed("minus")) cb_globalReplace_minus();
-    else if (buttonPressed("equal")) cb_globalReplace_equal();
-    else if (buttonPressed("Solid")) cb_globalReplace_Solid();
-    else if (buttonPressed("Pattern")) cb_globalReplace_Pattern();
-    else if (buttonPressed("changePattern")) cb_globalReplace_changePattern();
-    else if (buttonPressed("cancel") || text_input_char == SDLK_ESCAPE) cb_globalReplace_cancel();
-    else if (buttonPressed("ok") || text_input_char == SDLK_RETURN) cb_globalReplace_ok();
-    else if (text_input_char) {
-        checkNumericTextBox(numeric_dialog_boxes[global_tolerance], text_input_char);
-    }
+    checkButtons(); // greater leaser greaterLeaser plus minus equal Solid Pattern changePattern cancel ok
+    checkOkCancelKeys();
+    checkTab();
+    checkNumericTextBoxes(); // global_tolerance
 }
 
 void check_object_menu (char text_input_char) {
   if(long_pressed_button_r == 1) show_object_menu = 0;
-  else if(buttonPressed("placeOver") cb_object_placeOver();
-  else if(buttonPressed("increase") cb_object_increase();
-  else if (buttonPressed("decrease") cb_object_decrease();
-  else if (buttonPressed("cancel") cb_object_cancel();
-  else if (buttonPressed("ok") cb_object_ok();
+  checkButtons(); // placeOver increase decrease cancel ok
+  checkOkCancelKeys();
+  checkTab();
+  checkNumericTextBoxes(); //void
 }
 
 void check_error_menu (char text_input_char) {
-  if (long_pressed_button_r == true || text_input_char==SDLK_RETURN ||
-      text_input_char==SDLK_ESCAPE || buttonPressed("ok")) cb_error_ok();
+    if(long_pressed_button_r == 1) show_error_menu = 0;
+    checkButtons(); // ok
+    checkOkCancelKeys();
+    checkTab();
+    checkNumericTextBoxes(); //void
 }
 
 void draw_file_menu(SDL_Surface * this_screen) {
@@ -405,6 +349,48 @@ void checkNumericTextBox(TextBox *textbox, int inputChar) {
         else if (inputChar == SDLK_BACKSPACE && textbox.text_offset > 0) {
             textbox.text_offset--;
             textbox.dialog_text[textbox.text_offset] = 0;
+        }
+    }
+}
+
+void checkButtons() {
+    menu = currentMenu;
+
+    buttons = getButtonsMenu(menu);
+
+    for(i = 0; i < buttons; i++) {
+        if (buttonPressed("greater")) cb_replace_greater(); //With all the names
+    }
+}
+
+void checkTab() {
+    //Taken from Generate menu
+    if (text_input_char == SDLK_TAB) {
+        if (numeric_dialog_boxes[base_height_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 1;
+            numeric_dialog_boxes[x_map_size_dialog].text_offset = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
+        } else if (numeric_dialog_boxes[x_map_size_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 1;
+            numeric_dialog_boxes[y_map_size_dialog].text_offset = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 0;
+        } else if (numeric_dialog_boxes[y_map_size_dialog].has_focus) {
+            numeric_dialog_boxes[x_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[y_map_size_dialog].has_focus = 0;
+            numeric_dialog_boxes[base_height_dialog].has_focus = 1;
+            numeric_dialog_boxes[base_height_dialog].text_offset = 0;
+        }
+    }
+}
+
+void checkNumericTextBoxes() {
+    textboxes = getTextBoxes(dialogName)
+
+    if(text_input_char) {
+        for(i = 0 i < textboxes.lenght; i++) {
+            checkNumericTextBox(textboxes[i], text_input_char);
         }
     }
 }
