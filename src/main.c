@@ -63,16 +63,6 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void printDialogs(Dialog **dialogs) {
-    Dialog *dialog = NULL;
-    int i;
-
-    for(i = 0; i < NUM_DIALOGS; i++) {
-        dialog = *(dialogs + i);
-        printf("===== Dialog %s =====\n", dialog->name);
-    }
-}
-
 void programLoop() {
     /*int finish = 0;
     SDL_Event event;

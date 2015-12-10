@@ -21,7 +21,7 @@ Dialog **loadDialogs() {
 }
 
 Dialog *loadDialog(char *dialogName) {
-    printf("[INFO] ===== Load dialog %s =====\n", dialogName);
+    //printf("[INFO] ===== Load dialog %s =====\n", dialogName);
     Dialog *dialog = loadDialogFake(dialogName);
     dialog->buttons = loadButtons(dialogName);
     dialog->checkBoxes = loadCheckBoxes(dialogName);
@@ -32,22 +32,22 @@ Dialog *loadDialog(char *dialogName) {
 }
 
 Button **loadButtons(char *dialogName) {
-    printf("[INFO] Load buttons %s\n", dialogName);
+    //printf("[INFO] Load buttons %s\n", dialogName);
     return loadButtonsFake(dialogName);
 }
 
 CheckBox **loadCheckBoxes(char *dialogName) {
-    printf("[INFO] Load checkBoxes %s\n", dialogName);
+    //printf("[INFO] Load checkBoxes %s\n", dialogName);
     return loadCheckBoxesFake(dialogName);
 }
 
 TextBox **loadTextBoxes(char *dialogName) {
-    printf("[INFO] Load textBoxes %s\n", dialogName);
+    //printf("[INFO] Load textBoxes %s\n", dialogName);
     return loadTextBoxesFake(dialogName);
 }
 
 Text **loadTexts(char *dialogName) {
-    printf("[INFO] Load texts %s\n", dialogName);
+    //printf("[INFO] Load texts %s\n", dialogName);
     return loadTextsFake(dialogName);
 }
 

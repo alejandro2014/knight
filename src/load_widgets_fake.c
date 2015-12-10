@@ -9,20 +9,52 @@ Dialog *loadDialogFake(char *dialogName) {
 
     if(!strcmp(dialogName, "newTerrain")) {
         dialog = loadDialogFake2("New terrain", 200, 100, 100, 150);
+        dialog->numButtons = 2;
+        dialog->numCheckBoxes = 0;
+        dialog->numTextBoxes = 3;
+        dialog->numTexts = 0;
     } else if(!strcmp(dialogName, "generateTerrain")) {
         dialog = loadDialogFake2("Generate terrain", 200, 50, 100, 220);
+        dialog->numButtons = 2;
+        dialog->numCheckBoxes = 1;
+        dialog->numTextBoxes = 2;
+        dialog->numTexts = 0;
     } else if(!strcmp(dialogName, "object")) {
         dialog = loadDialogFake2("Object", 200, 50, 120, 200);
+        dialog->numButtons = 2;
+        dialog->numCheckBoxes = 3;
+        dialog->numTextBoxes = 0;
+        dialog->numTexts = 1;
     } else if(!strcmp(dialogName, "view")) {
         dialog = loadDialogFake2("View", 200, 50, 240, 120);
+        dialog->numButtons = 1;
+        dialog->numCheckBoxes = 9;
+        dialog->numTextBoxes = 0;
+        dialog->numTexts = 0;
     } else if(!strcmp(dialogName, "replace")) {
         dialog = loadDialogFake2("Replace", 200, 50, 300, 240);
+        dialog->numButtons = 3;
+        dialog->numCheckBoxes = 8;
+        dialog->numTextBoxes = 2;
+        dialog->numTexts = 3;
     } else if(!strcmp(dialogName, "globalReplace")) {
         dialog = loadDialogFake2("Global replace", 200, 50, 300, 240);
+        dialog->numButtons = 3;
+        dialog->numCheckBoxes = 8;
+        dialog->numTextBoxes = 2;
+        dialog->numTexts = 3;
     } else if(!strcmp(dialogName, "rotation")) {
         dialog = loadDialogFake2("Rotation", 200, 50, 160, 160);
+        dialog->numButtons = 1;
+        dialog->numCheckBoxes = 6;
+        dialog->numTextBoxes = 0;
+        dialog->numTexts = 0;
     } else if(!strcmp(dialogName, "error")) {
         dialog = loadDialogFake2("Error", 200, 200, 70, 400);
+        dialog->numButtons = 1;
+        dialog->numCheckBoxes = 0;
+        dialog->numTextBoxes = 0;
+        dialog->numTexts = 0;
     }
 
     dialog->name = dialogName;
@@ -40,7 +72,7 @@ Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
   dialog->height = height;
   dialog->title = title;
 
-  printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
+  //printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
 
   return dialog;
 }
@@ -246,7 +278,7 @@ Text *loadTextFake(char *string, int x, int y) {
     text->x = x;
     text->y = y;
 
-    printf("    * Loaded text (%s, %d, %d)\n", string, x, y);
+    //printf("    * Loaded text (%s, %d, %d)\n", string, x, y);
     return text;
 }
 
@@ -261,7 +293,7 @@ TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
 	textBox->height = height;
 	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];
 
-    printf("    * Loaded textBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
+    //printf("    * Loaded textBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return textBox;
 }
 
@@ -276,7 +308,7 @@ CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
     checkBox->height = height;
     //checkbox->action = cb_dialog_text;
 
-    printf("    * Loaded checkBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
+    //printf("    * Loaded checkBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return checkBox;
 }
 
@@ -291,7 +323,7 @@ Button *loadButtonFake(char *text, int x, int y, int width, int height) {
 	button->height = height;
     //button->action = cb_dialog_text;
 
-    printf("    * Loaded button (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
+    //printf("    * Loaded button (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return button;
 }
 

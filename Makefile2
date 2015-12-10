@@ -7,8 +7,9 @@ SRCDIR=./src
 SRC13=main
 SRC01=load_widgets
 SRC02=load_widgets_fake
+SRC03=helper
 
-OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o
+OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o
 
 OBJ=${OBJ_LINUX}
 
