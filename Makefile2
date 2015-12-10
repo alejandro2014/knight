@@ -1,0 +1,22 @@
+EXE=heightmap
+
+BINDIR=./bin
+OBJDIR=./obj
+SRCDIR=./src
+
+SRC13=main
+SRC01=load_widgets
+SRC02=load_widgets_fake
+
+OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o
+
+OBJ=${OBJ_LINUX}
+
+${BINDIR}/${EXE}: ${OBJ}
+	${CC} ${OBJ} -o ${BINDIR}/${EXE} ${OPTL}
+
+${OBJDIR}/%.o: ${SRCDIR}/%.c
+	${CC} ${OPTC} -c -o $@ $<
+
+clean:
+	rm -f ${OBJDIR}/*.o ${BINDIR}/${EXE}
