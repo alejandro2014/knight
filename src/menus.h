@@ -20,14 +20,6 @@ typedef struct {
 } Button;
 
 typedef struct {
-	int x;
-	int y;
-	int width;
-	int height;
-	char *string;
-} Text;
-
-typedef struct {
 	//DialogBox *dialogBox;
 	int x;
 	int y;
@@ -36,6 +28,13 @@ typedef struct {
 	char *title;
     //SDL_Texture *titleTexture;
 } TextBox;
+
+typedef struct {
+	int x;
+	int y;
+	char *string;
+    //SDL_Texture *titleTexture;
+} Text;
 
 typedef struct {
     int x;
@@ -55,20 +54,12 @@ typedef struct {
     TextBox **textBoxes;
     Button **buttons;
     CheckBox **checkBoxes;
+    Text **texts;
     bool show;
 } Dialog;
 
-/*typedef struct {
-	int buttonsNo;
-	Button *buttons;
-} ButtonContainer;
 
-typedef struct {
-	int textBoxesNo;
-	TextBox *textBoxes;
-} TextBoxContainer;
-
-void load_tool_bar();
+/*void load_tool_bar();
 void drawWindowTitle(Menu *menu);
 void draw_file_menu (SDL_Surface * this_screen);
 

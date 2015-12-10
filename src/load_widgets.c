@@ -12,6 +12,7 @@ Dialog *loadDialog(char *dialogName) {
     dialog->buttons = loadButtons(dialogName);
     dialog->checkBoxes = loadCheckBoxes(dialogName);
     dialog->textBoxes = loadTextBoxes(dialogName);
+    dialog->texts = loadTexts(dialogName);
 
     return dialog;
 }
@@ -29,4 +30,9 @@ CheckBox **loadCheckBoxes(char *dialogName) {
 TextBox **loadTextBoxes(char *dialogName) {
     printf("[INFO] Load textBoxes %s\n", dialogName);
     return loadTextBoxesFake(dialogName);
+}
+
+Text **loadTexts(char *dialogName) {
+    printf("[INFO] Load texts %s\n", dialogName);
+    return loadTextsFake(dialogName);
 }

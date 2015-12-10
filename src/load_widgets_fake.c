@@ -43,36 +43,40 @@ Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
   return dialog;
 }
 
-Text **loadTextsFake(char *dialogName, int numTexts) {
-    /*Text **texts = (Text **) malloc(sizeof(Text *) * numTexts);
-    memset(texts, 0, sizeof(Text *) * numTexts);
+Text **loadTextsFake(char *dialogName) {
+    Text **texts = NULL;
 
     if(!strcmp(dialogName, "newTerrain")) {
-
     } else if(!strcmp(dialogName, "generateTerrain")) {
-
     } else if(!strcmp(dialogName, "object")) {
+        texts = (Text **) malloc(sizeof(Text *) * 1);
+        memset(texts, 0, sizeof(Text *) * 1);
         *(texts + 0) = loadTextFake("Put object mode:", 4, 22);
     } else if(!strcmp(dialogName, "view")) {
     } else if(!strcmp(dialogName, "replace")) {
+        texts = (Text **) malloc(sizeof(Text *) * 3);
+        memset(texts, 0, sizeof(Text *) * 3);
         *(texts + 0) = loadTextFake("Tolerance mode", 4, 42);
         *(texts + 1) = loadTextFake("Replace mode", 4, 122);
         *(texts + 2) = loadTextFake("Replace with:", 4, 202);
     } else if(!strcmp(dialogName, "globalReplace")) {
+        texts = (Text **) malloc(sizeof(Text *) * 3);
+        memset(texts, 0, sizeof(Text *) * 3);
         *(texts + 0) = loadTextFake("Tolerance mode", 4, 42);
         *(texts + 1) = loadTextFake("Replace mode", 4, 122);
         *(texts + 2) = loadTextFake("Replace with:", 4, 202);
     } else if(!strcmp(dialogName, "rotation")) {
     } else if(!strcmp(dialogName, "error")) {
-        *(texts + 0) = loadTextFake(&error_msg_1, , );
-        *(texts + 1) = loadTextFake(&error_msg_2, , );
+        //*(texts + 0) = loadTextFake(&error_msg_1, , );
+        //*(texts + 1) = loadTextFake(&error_msg_2, , );
     } else if(!strcmp(dialogName, "file")) {
+        texts = (Text **) malloc(sizeof(Text *) * 2);
+        memset(texts, 0, sizeof(Text *) * 2);
         *(texts + 0) = loadTextFake("<<", 4, -34);
         *(texts + 1) = loadTextFake(">>", 0, 334);
     }
 
-	return textBoxes;*/
-    return NULL;
+	return texts;
 }
 
 TextBox **loadTextBoxesFake(char *dialogName) {
@@ -233,15 +237,15 @@ Button **loadButtonsFake(char *dialogName) {
 }
 
 Text *loadTextFake(char *string, int x, int y) {
-    /*Text *text = (Text *) malloc(sizeof(Text));
+    Text *text = (Text *) malloc(sizeof(Text));
     memset(text, 0, sizeof(Text));
 
     text->string = string;
     text->x = x;
     text->y = y;
 
-    return text;*/
-    return NULL;
+    printf("    * Loaded text (%s, %d, %d)\n", string, x, y);
+    return text;
 }
 
 TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
