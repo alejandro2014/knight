@@ -46,15 +46,23 @@ typedef struct {
 } CheckBox;
 
 typedef struct {
+    char *name;
 	int x;
 	int y;
 	int width;
 	int height;
 	char *title;
+
     TextBox **textBoxes;
     Button **buttons;
     CheckBox **checkBoxes;
     Text **texts;
+
+    int numTextBoxes;
+    int numButtons;
+    int numCheckBoxes;
+    int numTexts;
+
     bool show;
 } Dialog;
 

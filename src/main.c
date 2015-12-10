@@ -46,16 +46,31 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "load_widgets.h"
 #include "main.h"
 
+void printDialogs(Dialog **dialogs);
+
 int main(int argc, char* argv[]) {
     //SDL_Init(SDL_INIT_VIDEO);
-    loadDialogs();
+    Dialog **dialogs = loadDialogs();
+
+    printDialogs(dialogs);
     //if(initResources(&window, &renderer, &font) != -1) {
         programLoop();
         //freeResources(window, renderer, font);
     //}
 
+    freeDialogs(dialogs);
     //SDL_Quit();
     return 0;
+}
+
+void printDialogs(Dialog **dialogs) {
+    Dialog *dialog = NULL;
+    int i;
+
+    for(i = 0; i < NUM_DIALOGS; i++) {
+        dialog = *(dialogs + i);
+        printf("===== Dialog %s =====\n", dialog->name);
+    }
 }
 
 void programLoop() {

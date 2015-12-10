@@ -25,6 +25,8 @@ Dialog *loadDialogFake(char *dialogName) {
         dialog = loadDialogFake2("Error", 200, 200, 70, 400);
     }
 
+    dialog->name = dialogName;
+
     return dialog;
 }
 

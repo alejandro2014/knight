@@ -50,3 +50,28 @@ Text **loadTexts(char *dialogName) {
     printf("[INFO] Load texts %s\n", dialogName);
     return loadTextsFake(dialogName);
 }
+
+void freeDialogs(Dialog **dialogs) {
+    Dialog *dialog = NULL;
+    int i;
+
+    for(i = 0; i < NUM_DIALOGS; i++) {
+        dialog = *(dialogs + i);
+        /*freeTextBoxes(dialog->textBoxes);
+        freeTexts(dialog->texts);
+        freeCheckBoxes(dialog->checkBoxes);
+        freeButtons(dialog->buttons);*/
+    }
+}
+
+void freeTextBoxes(TextBox **textBoxes) {
+
+}
+
+void freeTexts(Text **texts) {
+
+}
+
+void freeCheckBoxes(CheckBox **checkBoxes) {
+
+}
