@@ -10,9 +10,9 @@ CheckBox **loadCheckBoxes(char *dialogName);
 Text **loadTexts(char *dialogName);
 
 void freeDialogs(Dialog **dialogs);
-void freeButtons(Button **buttons);
-void freeTextBoxes(TextBox **textBoxes);
-void freeTexts(Text **texts);
-void freeCheckBoxes(CheckBox **checkBoxes);
+void freeButtons(Dialog *dialog);
+void freeCheckBoxes(Dialog *dialog);
+void freeTextBoxes(Dialog *dialog);
+void freeTexts(Dialog *dialog);
 
 #endif

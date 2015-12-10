@@ -21,7 +21,6 @@ Dialog **loadDialogs() {
 }
 
 Dialog *loadDialog(char *dialogName) {
-    //printf("[INFO] ===== Load dialog %s =====\n", dialogName);
     Dialog *dialog = loadDialogFake(dialogName);
     dialog->buttons = loadButtons(dialogName);
     dialog->checkBoxes = loadCheckBoxes(dialogName);
@@ -32,22 +31,18 @@ Dialog *loadDialog(char *dialogName) {
 }
 
 Button **loadButtons(char *dialogName) {
-    //printf("[INFO] Load buttons %s\n", dialogName);
     return loadButtonsFake(dialogName);
 }
 
 CheckBox **loadCheckBoxes(char *dialogName) {
-    //printf("[INFO] Load checkBoxes %s\n", dialogName);
     return loadCheckBoxesFake(dialogName);
 }
 
 TextBox **loadTextBoxes(char *dialogName) {
-    //printf("[INFO] Load textBoxes %s\n", dialogName);
     return loadTextBoxesFake(dialogName);
 }
 
 Text **loadTexts(char *dialogName) {
-    //printf("[INFO] Load texts %s\n", dialogName);
     return loadTextsFake(dialogName);
 }
 
@@ -57,21 +52,42 @@ void freeDialogs(Dialog **dialogs) {
 
     for(i = 0; i < NUM_DIALOGS; i++) {
         dialog = *(dialogs + i);
-        /*freeTextBoxes(dialog->textBoxes);
-        freeTexts(dialog->texts);
-        freeCheckBoxes(dialog->checkBoxes);
-        freeButtons(dialog->buttons);*/
+        freeButtons(dialog);
+        freeCheckBoxes(dialog);
+        freeTextBoxes(dialog);
+        freeTexts(dialog);
+        free(dialog);
     }
 }
 
-void freeTextBoxes(TextBox **textBoxes) {
+void freeButtons(Dialog *dialog) {
+    int i;
 
+    for(i = 0; i < dialog->numButtons; i++) {
+        free(*(dialog->buttons + i));
+    }
 }
 
-void freeTexts(Text **texts) {
+void freeCheckBoxes(Dialog *dialog) {
+    int i;
 
+    for(i = 0; i < dialog->numCheckBoxes; i++) {
+        free(*(dialog->checkBoxes + i));
+    }
 }
 
-void freeCheckBoxes(CheckBox **checkBoxes) {
+void freeTextBoxes(Dialog *dialog) {
+    int i;
 
+    for(i = 0; i < dialog->numTextBoxes; i++) {
+        free(*(dialog->textBoxes + i));
+    }
+}
+
+void freeTexts(Dialog *dialog) {
+    int i;
+
+    for(i = 0; i < dialog->numTexts; i++) {
+        free(*(dialog->texts + i));
+    }
 }
