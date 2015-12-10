@@ -6,6 +6,20 @@
 #include "load_widgets_fake.h"
 
 //TODO Replace the fakes for real parsing
+Dialog **loadDialogs() {
+    char *arrayDialogs[] = {"newTerrain", "generateTerrain", "object", "view",
+                            "replace", "globalReplace", "rotation", "error"};
+    int i;
+
+    Dialog **dialogs = (Dialog **) malloc(sizeof(Dialog *) * NUM_DIALOGS);
+
+    for(i = 0; i < NUM_DIALOGS; i++) {
+        *(dialogs + i) = loadDialog(arrayDialogs[i]);
+    }
+
+    return dialogs;
+}
+
 Dialog *loadDialog(char *dialogName) {
     printf("[INFO] ===== Load dialog %s =====\n", dialogName);
     Dialog *dialog = loadDialogFake(dialogName);

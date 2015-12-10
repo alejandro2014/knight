@@ -42,21 +42,13 @@ char *FONT_PATH_MAC = "/Library/Fonts/Arial.ttf";
 char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";*/
 
 #include "global.h"
-#include "main.h"
 #include "menus.h"
+#include "load_widgets.h"
+#include "main.h"
 
 int main(int argc, char* argv[]) {
-    Dialog *dialog = loadDialog("newTerrain");
-    dialog = loadDialog("generateTerrain");
-    dialog = loadDialog("object");
-    dialog = loadDialog("view");
-    dialog = loadDialog("replace");
-    dialog = loadDialog("globalReplace");
-    dialog = loadDialog("rotation");
-    dialog = loadDialog("error");
-
     //SDL_Init(SDL_INIT_VIDEO);
-
+    loadDialogs();
     //if(initResources(&window, &renderer, &font) != -1) {
         programLoop();
         //freeResources(window, renderer, font);

@@ -15,7 +15,5 @@ Text *loadTextFake(char *string, int x, int y);
 TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height);
 CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height);
 Button *loadButtonFake(char *text, int x, int y, int width, int height);
-/*ButtonContainer *loadButtonContainer(Menu *menu);
-TextBoxContainer *loadTextBoxContainer(Menu *menu);*/
 
 #endif
