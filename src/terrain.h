@@ -9,7 +9,7 @@
 typedef struct {
   int x;
   int y;
-  Uint32 z;
+  int z;
   bool isHeightSetted;
 } Point;
 
@@ -25,7 +25,5 @@ void freeTerrain(Terrain *terrain);
 
 int getHeight(Point *point);
 void setHeight(Point *point, int height);
-
-extern Terrain *terrain;
 
 #endif

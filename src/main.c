@@ -22,12 +22,8 @@
 #include "settings.h"
 #include "objects.h"
 
-#include "actions_core.h"
-#include "load_widgets.h"
-
 #include <SDL_ttf.h>
 
-void freeMemory(Terrain *terrain);
 void defineCustomColours();
 void load_cursors();
 void build_cursors();
@@ -45,76 +41,79 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "menus.h"
 #include "widgets.h"
 #include "main.h"
-
-void printDialogs(Dialog **dialogs);
+#include "helper.h"
+#include "terrain.h"
 
 int main(int argc, char* argv[]) {
+    HeightMapEditor heightMapEditor;
     //SDL_Init(SDL_INIT_VIDEO);
-    Dialog **dialogs = loadDialogs();
 
-    printDialogs(dialogs);
-    //if(initResources(&window, &renderer, &font) != -1) {
+    if(loadResources(&heightMapEditor) != -1) {
         programLoop();
-        //freeResources(window, renderer, font);
-    //}
+        freeResources(&heightMapEditor);
+    }
 
-    freeDialogs(dialogs);
     //SDL_Quit();
     return 0;
 }
 
 void programLoop() {
-    /*int finish = 0;
+    /*bool finish = false;
     SDL_Event event;
 
     while(!finish) {
         readEvents(&finish);
-        drawScreen();
-        SDL_Delay(1000);
+        //drawScreen();
+        //SDL_Delay(1000);
     }*/
 }
 
-/*void readEvents(int *finish) {
-    SDL_Event event;
+int loadResources(HeightMapEditor *heightMapEditor) {
+    int width = 100;
+    int height = 100;
 
-    while(SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            *finish = 1;
-        }
-    }
-}*/
+    heightMapEditor->dialogs = loadDialogs();
+    printDialogs(heightMapEditor->dialogs);
 
-/*int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font) {
-    *window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
+    heightMapEditor->terrain = generateTerrain(width, height);
+    /**window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());
         return -1;
-    }
+    }*/
 
-    *renderer = SDL_CreateRenderer(*window, -1, 0);
+    /**renderer = SDL_CreateRenderer(*window, -1, 0);
 
     if(*renderer == NULL) {
         printf("Could not create renderer: %s\n", SDL_GetError());
         return -1;
-    }
+    }*/
 
-    TTF_Init();
+    /*TTF_Init();
     *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
 
     if(*font == NULL) {
         printf("Could not load the font\n");
         return -1;
-    }
+    }*/
 
     return 0;
 }
 
-void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    TTF_CloseFont(font);
-}*/
+void freeResources(HeightMapEditor *heightMapEditor) {
+    /*SDL_DestroyRenderer(heightMapEditor->renderer);
+    SDL_DestroyWindow(heightMapEditor->window);
+    TTF_CloseFont(heightMapEditor->font);*/
+    freeDialogs(heightMapEditor->dialogs);
+    freeTerrain(heightMapEditor->terrain);
+
+    /*if (terrain_height)free (terrain_height);
+    if (temp_buffer)free (temp_buffer);
+    if (handle_font_mem)free(handle_font_mem);
+    if (handle_tool_bar_mem)free(handle_tool_bar_mem);
+    if (cursors_mem)free(cursors_mem);*/
+}
 
 /*int main2(int argc, char *argv[]) {
   WIDTH = 700;
@@ -164,8 +163,6 @@ void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
 
   SDL_EnableKeyRepeat (200, 100);
 
-	//make_gray_pallete();
-
   seed = time (NULL);
   srand (seed);
 
@@ -181,15 +178,4 @@ void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
   freeMemory(terrain);
 
   return 1;
-}
-
-void freeMemory(Terrain *terrain) {
-  TTF_CloseFont(font);
-  freeTerrain(terrain);
-
-  if (terrain_height)free (terrain_height);
-  if (temp_buffer)free (temp_buffer);
-  if (handle_font_mem)free(handle_font_mem);
-  if (handle_tool_bar_mem)free(handle_tool_bar_mem);
-  if (cursors_mem)free(cursors_mem);
 }*/

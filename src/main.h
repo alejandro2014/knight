@@ -4,9 +4,15 @@
 #include <stdio.h>
 
 #include "menus.h"
+#include "terrain.h"
+
+typedef struct {
+    Dialog **dialogs;
+    Terrain *terrain;
+} HeightMapEditor;
 
 void programLoop();
-/*int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font);
-void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font);*/
+int loadResources(HeightMapEditor *heightMapEditor);
+void freeResources(HeightMapEditor *heightMapEditor);
 
 #endif

@@ -1,6 +1,5 @@
-#include "actions_core.h"
-
-Terrain *terrain;
+#include <string.h>
+#include "terrain.h"
 
 Terrain *generateTerrain(int width, int height) {
   Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
@@ -12,7 +11,7 @@ Terrain *generateTerrain(int width, int height) {
   terrain->points = (Point *) malloc(map_size * sizeof(Point));
   memset(terrain->points, 0, map_size * sizeof(Point));
 
-  printf("Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
+  printf("[INFO] Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
   return terrain;
 }
 

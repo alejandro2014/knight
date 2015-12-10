@@ -47,6 +47,16 @@ void manageButtonClick(SDL_Event *event) {
     check_toolbar_release ();
 }
 
+void readEvents(int *finish) {
+    /*SDL_Event event;
+
+    while(SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            *finish = 1;
+        }
+    }*/
+}
+
 void events_loop() {
     SDL_Event event;
     SDL_Keymod mod_key_status;
