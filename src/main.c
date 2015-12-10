@@ -43,7 +43,7 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 
 #include "global.h"
 #include "menus.h"
-#include "load_widgets.h"
+#include "widgets.h"
 #include "main.h"
 
 void printDialogs(Dialog **dialogs);

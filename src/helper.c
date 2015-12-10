@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "menus.h"
 #include "helper.h"
-#include "load_widgets.h"
+#include "widgets.h"
 
 void printDialogs(Dialog **dialogs) {
     Dialog *dialog = NULL;
