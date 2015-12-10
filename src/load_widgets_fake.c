@@ -76,11 +76,12 @@ Text **loadTextsFake(char *dialogName, int numTexts) {
 }
 
 TextBox **loadTextBoxesFake(char *dialogName) {
-    int numTextBoxes = 3;
-	TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextBoxes);
-    memset(textBoxes, 0, sizeof(TextBox *) * numTextBoxes);
+    TextBox **textBoxes = NULL;
 
     if(!strcmp(dialogName, "newTerrain")) {
+    	textBoxes = (TextBox **) malloc(sizeof(TextBox *) * 3);
+        memset(textBoxes, 0, sizeof(TextBox *) * 3);
+
         *(textBoxes + 0) = loadTextBoxFake("X Size:", 2, 2, 42, 14);
     	*(textBoxes + 1) = loadTextBoxFake("Y Size:", 2, 22, 42, 14);
         *(textBoxes + 2) = loadTextBoxFake("Base Height:", 2, 42, 24, 14);
@@ -107,51 +108,60 @@ TextBox **loadTextBoxesFake(char *dialogName) {
 CheckBox **loadCheckBoxesFake(char *dialogName) {
     int numCheckBoxes = 0;
     CheckBox **checkBoxes = NULL;
-	/*CheckBox **checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * numCheckBoxes);
-	memset(checkBoxes, 0, sizeof(CheckBox) * numCheckBoxes);*/
 
     if(!strcmp(dialogName, "newTerrain")) {
-        checkBoxes = NULL;
-    } /*else if(!strcmp(dialogName, "generateTerrain")) {
+    } else if(!strcmp(dialogName, "generateTerrain")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 1);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 1);
         *(checkBoxes + 0) = loadCheckboxesFake("Overwrite existing terrain", 2, 40, 14, 14);
     } else if(!strcmp(dialogName, "object")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 3);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 3);
         *(checkBoxes + 0) = loadCheckboxesFake("Place over terrain", 40, 40, 14, 14);
       	*(checkBoxes + 1) = loadCheckboxesFake("Increase terrain", 40, 60, 14, 14);
       	*(checkBoxes + 2) = loadCheckboxesFake("Decrease terrain", 40, 80, 14, 14);
     } else if(!strcmp(dialogName, "view")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 9);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 9);
         *(checkBoxes + 0) = loadCheckboxesFake("Toolbar", 2, 20, 14, 14);
         *(checkBoxes + 1) = loadCheckboxesFake("Minimap", 2, 40, 14, 14);
     	*(checkBoxes + 2) = loadCheckboxesFake("Status bar", 2, 60, 14, 14);
     	*(checkBoxes + 3) = loadCheckboxesFake("Grid: Off", 2, 80, 14, 14);
     	//groupCheckbox "Grid"
-    	*(checkBoxes + 0) = loadCheckboxesFake("16x16", 2, 100, 14, 14);
-    	*(checkBoxes + 1) = loadCheckboxesFake("32x32", 2, 120, 14, 14);
-    	*(checkBoxes + 2) = loadCheckboxesFake("64x64", 2, 140, 14, 14);
-    	*(checkBoxes + 3) = loadCheckboxesFake("128x128", 2, 160, 14, 14);
-    	*(checkBoxes + 4) = loadCheckboxesFake("256x256", 2, 180, 14, 14);
+    	*(checkBoxes + 4) = loadCheckboxesFake("16x16", 2, 100, 14, 14);
+    	*(checkBoxes + 5) = loadCheckboxesFake("32x32", 2, 120, 14, 14);
+    	*(checkBoxes + 6) = loadCheckboxesFake("64x64", 2, 140, 14, 14);
+    	*(checkBoxes + 7) = loadCheckboxesFake("128x128", 2, 160, 14, 14);
+    	*(checkBoxes + 8) = loadCheckboxesFake("256x256", 2, 180, 14, 14);
     } else if(!strcmp(dialogName, "replace")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 8);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 8);
         *(checkBoxes + 0) = loadCheckboxesFake("+", 40, 60, 14, 14);
     	*(checkBoxes + 1) = loadCheckboxesFake("-", 40, 80, 14, 14);
     	*(checkBoxes + 2) = loadCheckboxesFake("+/-", 40, 100, 14, 14);
 
-        *(checkBoxes + 0) = loadCheckboxesFake("+", 40, 140, 14, 14);
-    	*(checkBoxes + 1) = loadCheckboxesFake("-", 40, 160, 14, 14);
-    	*(checkBoxes + 2) = loadCheckboxesFake("=", 40, 180, 14, 14);
+        *(checkBoxes + 3) = loadCheckboxesFake("+", 40, 140, 14, 14);
+    	*(checkBoxes + 4) = loadCheckboxesFake("-", 40, 160, 14, 14);
+    	*(checkBoxes + 5) = loadCheckboxesFake("=", 40, 180, 14, 14);
 
-        *(checkBoxes + 0) = loadCheckboxesFake("Solid", 40, 220, 14, 14);
-    	*(checkBoxes + 1) = loadCheckboxesFake("Pattern", 40, 240, 14, 14);
+        *(checkBoxes + 6) = loadCheckboxesFake("Solid", 40, 220, 14, 14);
+    	*(checkBoxes + 7) = loadCheckboxesFake("Pattern", 40, 240, 14, 14);
     } else if(!strcmp(dialogName, "globalReplace")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 8);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 8);
         *(checkBoxes + 0) = loadCheckboxesFake("+", 40, 60, 14, 14);
     	*(checkBoxes + 1) = loadCheckboxesFake("-", 40, 80, 14, 14);
     	*(checkBoxes + 2) = loadCheckboxesFake("+/-", 40, 100, 14, 14);
 
-    	*(checkBoxes + 0) = loadCheckboxesFake("+", 40, 140, 14, 14);
-    	*(checkBoxes + 1) = loadCheckboxesFake("-", 40, 160, 14, 14);
-    	*(checkBoxes + 2) = loadCheckboxesFake("=", 40, 180, 14, 14);
+    	*(checkBoxes + 3) = loadCheckboxesFake("+", 40, 140, 14, 14);
+    	*(checkBoxes + 4) = loadCheckboxesFake("-", 40, 160, 14, 14);
+    	*(checkBoxes + 5) = loadCheckboxesFake("=", 40, 180, 14, 14);
 
-        *(checkBoxes + 0) = loadCheckboxesFake("Solid", 40, 220, 14, 14);
-      	*(checkBoxes + 1) = loadCheckboxesFake("Pattern", 40, 240, 14, 14);
+        *(checkBoxes + 6) = loadCheckboxesFake("Solid", 40, 220, 14, 14);
+      	*(checkBoxes + 7) = loadCheckboxesFake("Pattern", 40, 240, 14, 14);
     } else if(!strcmp(dialogName, "rotation")) {
+        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 6);
+    	memset(checkBoxes, 0, sizeof(CheckBox) * 6);
         *(checkBoxes + 0) = loadCheckboxesFake("Horizontal (x) flip", 2, 20, 14, 14);
         *(checkBoxes + 1) = loadCheckboxesFake("Vertical (y) flip", 2, 40, 14, 14);
         *(checkBoxes + 2) = loadCheckboxesFake("Height (z) flip", 2, 60, 14, 14);
@@ -159,7 +169,7 @@ CheckBox **loadCheckBoxesFake(char *dialogName) {
         *(checkBoxes + 4) = loadCheckboxesFake("Rotate 90 CCW", 2, 100, 14, 14);
         *(checkBoxes + 5) = loadCheckboxesFake("Rotate 180 CCW", 2, 120, 14, 14);
     } else if(!strcmp(dialogName, "error")) {
-    }*/
+    }
 
 	return checkBoxes;
 }
