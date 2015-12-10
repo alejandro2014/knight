@@ -52,9 +52,9 @@ typedef struct {
 	int width;
 	int height;
 	char *title;
-    TextBox *textBoxes;
-    Button *buttons;
-    CheckBox * checkBoxes;
+    TextBox **textBoxes;
+    Button **buttons;
+    CheckBox **checkBoxes;
     bool show;
 } Dialog;
 

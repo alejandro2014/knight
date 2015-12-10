@@ -75,15 +75,16 @@ Text **loadTextsFake(char *dialogName, int numTexts) {
     return NULL;
 }
 
-TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
-	/*TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextboxes);
-    memset(textBoxes, 0, sizeof(TextBox *) * numTextboxes);
+TextBox **loadTextBoxesFake(char *dialogName) {
+    int numTextBoxes = 3;
+	TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextBoxes);
+    memset(textBoxes, 0, sizeof(TextBox *) * numTextBoxes);
 
     if(!strcmp(dialogName, "newTerrain")) {
         *(textBoxes + 0) = loadTextBoxFake("X Size:", 2, 2, 42, 14);
     	*(textBoxes + 1) = loadTextBoxFake("Y Size:", 2, 22, 42, 14);
         *(textBoxes + 2) = loadTextBoxFake("Base Height:", 2, 42, 24, 14);
-    } else if(!strcmp(dialogName, "generateTerrain")) {
+    } /*else if(!strcmp(dialogName, "generateTerrain")) {
         *(textBoxes + 0) = loadTextBoxFake("Seed", 52, 18, 76, 14);
     	*(textBoxes + 1) = loadTextBoxFake("Random", 140, 18, 50, 14);
     } else if(!strcmp(dialogName, "object")) {
@@ -98,18 +99,20 @@ TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
     } else if(!strcmp(dialogName, "error")) {
     } else if(!strcmp(dialogName, "file")) {
         *(texts + 0) = loadTextFake(&cur_file_name, , );
-    }
+    }*/
 
-	return textBoxes;*/
-    return NULL;
+	return textBoxes;
 }
 
-CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
+CheckBox **loadCheckBoxesFake(char *dialogName) {
+    int numCheckBoxes = 0;
+    CheckBox **checkBoxes = NULL;
 	/*CheckBox **checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * numCheckBoxes);
-	memset(checkBoxes, 0, sizeof(CheckBox) * numCheckBoxes);
+	memset(checkBoxes, 0, sizeof(CheckBox) * numCheckBoxes);*/
 
     if(!strcmp(dialogName, "newTerrain")) {
-    } else if(!strcmp(dialogName, "generateTerrain")) {
+        checkBoxes = NULL;
+    } /*else if(!strcmp(dialogName, "generateTerrain")) {
         *(checkBoxes + 0) = loadCheckboxesFake("Overwrite existing terrain", 2, 40, 14, 14);
     } else if(!strcmp(dialogName, "object")) {
         *(checkBoxes + 0) = loadCheckboxesFake("Place over terrain", 40, 40, 14, 14);
@@ -156,20 +159,20 @@ CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
         *(checkBoxes + 4) = loadCheckboxesFake("Rotate 90 CCW", 2, 100, 14, 14);
         *(checkBoxes + 5) = loadCheckboxesFake("Rotate 180 CCW", 2, 120, 14, 14);
     } else if(!strcmp(dialogName, "error")) {
-    }
+    }*/
 
-	return checkBoxes;*/
-    return NULL;
+	return checkBoxes;
 }
 
-Button **loadButtonsFake(char *dialogName, int numButtons) {
-	/*Button **buttons = (Button **) malloc(sizeof(Button *) * numButtons);
-	memset(buttons, 0, sizeof(Button) * numButtons);
+Button **loadButtonsFake(char *dialogName) {
+    int numButtons = 2;
+	Button **buttons = (Button **) malloc(sizeof(Button *) * numButtons);
+	memset(buttons, 0, sizeof(Button *) * numButtons);
 
     if(!strcmp(dialogName, "newTerrain")) {
         *(buttons + 0) = loadButtonFake("Ok", 40, 60, 20, 14);
     	*(buttons + 1) = loadButtonFake("Cancel", 70, 60, 50, 14);
-    } else if(!strcmp(dialogName, "generateTerrain")) {
+    } /*else if(!strcmp(dialogName, "generateTerrain")) {
         *(buttons + 0) = loadButtonFake("Ok", 40, 80, 20, 14);
       	*(buttons + 1) = loadButtonFake("Cancel", 70, 80, 50, 14);
     } else if(!strcmp(dialogName, "object")) {
@@ -192,10 +195,9 @@ Button **loadButtonsFake(char *dialogName, int numButtons) {
     } else if(!strcmp(dialogName, "file")) {
         *(buttons + 0) = loadButtonFake("Ok", 200, 52, 20, 14); //Ok/save
         *(buttons + 1) = loadButtonFake("Cancel", 200, 52, 20, 14);
-    }
+    }*/
 
-	return buttons;*/
-    return NULL;
+	return buttons;
 }
 
 Text *loadTextFake(char *string, int x, int y) {
@@ -211,16 +213,18 @@ Text *loadTextFake(char *string, int x, int y) {
 }
 
 TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
-    /*TextBox *textBox = (Textbox *) malloc(sizeof(TextBox));
-    memset(textBox, 0, sizeof(Textbox));
+    TextBox *textBox = (TextBox *) malloc(sizeof(TextBox));
+    memset(textBox, 0, sizeof(TextBox));
 
 	textBox->title = text;
 	textBox->x = x;
 	textBox->y = y;
 	textBox->width = width;
 	textBox->height = height;
-	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];*/
-    return NULL;
+	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];
+
+    printf("    * Loaded textBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
+    return textBox;
 }
 
 CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
@@ -238,7 +242,7 @@ CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
 }
 
 Button *loadButtonFake(char *text, int x, int y, int width, int height) {
-    /*Button *button = (Button *) malloc(sizeof(Button));
+    Button *button = (Button *) malloc(sizeof(Button));
     memset(button, 0, sizeof(Button));
 
     button->title = text;
@@ -246,10 +250,10 @@ Button *loadButtonFake(char *text, int x, int y, int width, int height) {
 	button->y = y;
 	button->width = width;
 	button->height = height;
-    button->action = cb_dialog_text;
+    //button->action = cb_dialog_text;
 
-    return button;*/
-    return NULL;
+    printf("    * Loaded button (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
+    return button;
 }
 
 /*ButtonContainer *loadButtonContainer(Menu *menu) {

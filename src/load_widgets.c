@@ -16,20 +16,17 @@ Dialog *loadDialog(char *dialogName) {
     return dialog;
 }
 
-Button *loadButtons(char *dialogName) {
+Button **loadButtons(char *dialogName) {
     printf("[INFO] Load buttons %s\n", dialogName);
-    //return loadButtonsFake(dialogName);
-    return NULL;
+    return loadButtonsFake(dialogName);
 }
 
-CheckBox *loadCheckBoxes(char *dialogName) {
+CheckBox **loadCheckBoxes(char *dialogName) {
     printf("[INFO] Load checkBoxes %s\n", dialogName);
-    //return loadCheckboxesFake(dialogName);
-    return NULL;
+    return loadCheckBoxesFake(dialogName);
 }
 
-TextBox *loadTextBoxes(char *dialogName) {
+TextBox **loadTextBoxes(char *dialogName) {
     printf("[INFO] Load textBoxes %s\n", dialogName);
-    //return loadTextBoxesFake(dialogName);
-    return NULL;
+    return loadTextBoxesFake(dialogName);
 }
