@@ -47,6 +47,14 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 
 int main(int argc, char* argv[]) {
     Dialog *dialog = loadDialog("newTerrain");
+    dialog = loadDialog("generateTerrain");
+    dialog = loadDialog("object");
+    dialog = loadDialog("view");
+    dialog = loadDialog("replace");
+    dialog = loadDialog("globalReplace");
+    dialog = loadDialog("rotation");
+    dialog = loadDialog("error");
+
     //SDL_Init(SDL_INIT_VIDEO);
 
     //if(initResources(&window, &renderer, &font) != -1) {
