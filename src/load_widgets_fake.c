@@ -1,43 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "load_widgets_fake.h"
 
-#include <stdlib.h>
 Dialog *loadDialogFake(char *dialogName) {
-    /*Dialog *dialog = NULL;
+    Dialog *dialog = NULL;
 
     if(!strcmp(dialogName, "newTerrain")) {
-        menu = loadDialogFake("New terrain", 200, 100, 100, 150);
+        dialog = loadDialogFake2("New terrain", 200, 100, 100, 150);
     } else if(!strcmp(dialogName, "generateTerrain")) {
-        menu = loadDialogFake("Generate terrain", 200, 50, 100, 220);
+        dialog = loadDialogFake2("Generate terrain", 200, 50, 100, 220);
     } else if(!strcmp(dialogName, "object")) {
-        menu = loadDialogFake("Object", 200, 50, 120, 200);
+        dialog = loadDialogFake2("Object", 200, 50, 120, 200);
     } else if(!strcmp(dialogName, "view")) {
-        menu = loadDialogFake("View", 200, 50, 240, 120);
+        dialog = loadDialogFake2("View", 200, 50, 240, 120);
     } else if(!strcmp(dialogName, "replace")) {
-        menu = loadDialogFake("Replace", 200, 50, 300, 240);
+        dialog = loadDialogFake2("Replace", 200, 50, 300, 240);
     } else if(!strcmp(dialogName, "globalReplace")) {
-        menu = loadDialogFake("Global replace", 200, 50, 300, 240);
+        dialog = loadDialogFake2("Global replace", 200, 50, 300, 240);
     } else if(!strcmp(dialogName, "rotation")) {
-        menu = loadDialogFake("Rotation", 200, 50, 160, 160);
+        dialog = loadDialogFake2("Rotation", 200, 50, 160, 160);
     } else if(!strcmp(dialogName, "error")) {
-        menu = loadDialogFake("Error", 200, 200, 70, 400);
+        dialog = loadDialogFake2("Error", 200, 200, 70, 400);
     }
 
-    return menu;*/
-    return NULL;
+    return dialog;
 }
 
 Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
-  /*Menu *menu = (Menu *) malloc(sizeof(Menu));
-  memset(menu, 0, sizeof(Menu));
+  Dialog *dialog = (Dialog *) malloc(sizeof(Dialog));
+  memset(dialog, 0, sizeof(Dialog));
 
-  menu->x = x;
-  menu->y = y;
-  menu->width = width;
-  menu->height = height;
-  menu->title = title;
+  dialog->x = x;
+  dialog->y = y;
+  dialog->width = width;
+  dialog->height = height;
+  dialog->title = title;
 
-  return menu;*/
-  return NULL;
+  printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
+
+  return dialog;
 }
 
 Text **loadTextsFake(char *dialogName, int numTexts) {

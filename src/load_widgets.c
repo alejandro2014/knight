@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "menus.h"
@@ -6,6 +7,7 @@
 
 //TODO Replace the fakes for real parsing
 Dialog *loadDialog(char *dialogName) {
+    printf("[INFO] Load dialog %s\n", dialogName);
     Dialog *dialog = loadDialogFake(dialogName);
     dialog->buttons = loadButtons(dialogName);
     dialog->checkBoxes = loadCheckBoxes(dialogName);
@@ -15,16 +17,19 @@ Dialog *loadDialog(char *dialogName) {
 }
 
 Button *loadButtons(char *dialogName) {
+    printf("[INFO] Load buttons %s\n", dialogName);
     //return loadButtonsFake(dialogName);
     return NULL;
 }
 
 CheckBox *loadCheckBoxes(char *dialogName) {
+    printf("[INFO] Load checkBoxes %s\n", dialogName);
     //return loadCheckboxesFake(dialogName);
     return NULL;
 }
 
 TextBox *loadTextBoxes(char *dialogName) {
+    printf("[INFO] Load textBoxes %s\n", dialogName);
     //return loadTextBoxesFake(dialogName);
     return NULL;
 }
