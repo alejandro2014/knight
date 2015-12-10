@@ -1,15 +1,14 @@
 #include "global.h"
 
-struct tool_bar_struct main_tool_bar[no_of_main_tool_bar_icons];
-struct tool_bar_struct small_tool_bar[no_of_small_tool_bar_icons];
-struct numeric_dialog_box_struct numeric_dialog_boxes[no_of_numeric_dialog_boxes];
-struct settings_struct settings[1];
-struct cursors_struct cursors_array[20];
+struct numeric_dialog_box_struct numeric_dialog_boxes[no_of_numeric_dialog_boxes]; //73
+struct settings_struct settings[1]; //54
+struct tool_bar_struct main_tool_bar[no_of_main_tool_bar_icons]; //46
+struct tool_bar_struct small_tool_bar[no_of_small_tool_bar_icons]; //29
+struct file_names_struct file_names[1000]; //10
+bool view_file_menu=0; //10
+struct cursors_struct cursors_array[20]; //9
+int no_of_files; //4
 
-struct file_names_struct file_names[1000];
-
-bool view_file_menu=0;
-int no_of_files;
 int start_file_offset=0;
 int x_file_menu=100;
 int y_file_menu=50;

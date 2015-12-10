@@ -1,6 +1,8 @@
+#include "load_widgets_fake.h"
 
-Dialog *loadDialogName(char *dialogName) {
-    Dialog *dialog = NULL;
+#include <stdlib.h>
+Dialog *loadDialogFake(char *dialogName) {
+    /*Dialog *dialog = NULL;
 
     if(!strcmp(dialogName, "newTerrain")) {
         menu = loadDialogFake("New terrain", 200, 100, 100, 150);
@@ -20,11 +22,12 @@ Dialog *loadDialogName(char *dialogName) {
         menu = loadDialogFake("Error", 200, 200, 70, 400);
     }
 
-    return menu;
+    return menu;*/
+    return NULL;
 }
 
-Menu *loadDialogFake(char *title, int x, int y, int width, int height) {
-  Menu *menu = (Menu *) malloc(sizeof(Menu));
+Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
+  /*Menu *menu = (Menu *) malloc(sizeof(Menu));
   memset(menu, 0, sizeof(Menu));
 
   menu->x = x;
@@ -33,11 +36,12 @@ Menu *loadDialogFake(char *title, int x, int y, int width, int height) {
   menu->height = height;
   menu->title = title;
 
-  return menu;
+  return menu;*/
+  return NULL;
 }
 
 Text **loadTextsFake(char *dialogName, int numTexts) {
-    Text **texts = (Text **) malloc(sizeof(Text *) * numTexts);
+    /*Text **texts = (Text **) malloc(sizeof(Text *) * numTexts);
     memset(texts, 0, sizeof(Text *) * numTexts);
 
     if(!strcmp(dialogName, "newTerrain")) {
@@ -59,13 +63,17 @@ Text **loadTextsFake(char *dialogName, int numTexts) {
     } else if(!strcmp(dialogName, "error")) {
         *(texts + 0) = loadTextFake(&error_msg_1, , );
         *(texts + 1) = loadTextFake(&error_msg_2, , );
+    } else if(!strcmp(dialogName, "file")) {
+        *(texts + 0) = loadTextFake("<<", 4, -34);
+        *(texts + 1) = loadTextFake(">>", 0, 334);
     }
 
-	return textBoxes;
+	return textBoxes;*/
+    return NULL;
 }
 
 TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
-	TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextboxes);
+	/*TextBox **textBoxes = (TextBox **) malloc(sizeof(TextBox *) * numTextboxes);
     memset(textBoxes, 0, sizeof(TextBox *) * numTextboxes);
 
     if(!strcmp(dialogName, "newTerrain")) {
@@ -85,13 +93,16 @@ TextBox **loadTextBoxesFake(char *dialogName, int numTextboxes) {
         *(textBoxes + 1) = loadTextBoxFake("Pattern:", 2, 262, 172, 14); //current_pattern.object_mem ? &pattern_file_name : "None";
     } else if(!strcmp(dialogName, "rotation")) {
     } else if(!strcmp(dialogName, "error")) {
+    } else if(!strcmp(dialogName, "file")) {
+        *(texts + 0) = loadTextFake(&cur_file_name, , );
     }
 
-	return textBoxes;
+	return textBoxes;*/
+    return NULL;
 }
 
 CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
-	CheckBox **checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * numCheckBoxes);
+	/*CheckBox **checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * numCheckBoxes);
 	memset(checkBoxes, 0, sizeof(CheckBox) * numCheckBoxes);
 
     if(!strcmp(dialogName, "newTerrain")) {
@@ -144,11 +155,12 @@ CheckBox **loadCheckBoxesFake(char *dialogName, int numCheckBoxes) {
     } else if(!strcmp(dialogName, "error")) {
     }
 
-	return checkBoxes;
+	return checkBoxes;*/
+    return NULL;
 }
 
 Button **loadButtonsFake(char *dialogName, int numButtons) {
-	Button **buttons = (Button **) malloc(sizeof(Button *) * numButtons);
+	/*Button **buttons = (Button **) malloc(sizeof(Button *) * numButtons);
 	memset(buttons, 0, sizeof(Button) * numButtons);
 
     if(!strcmp(dialogName, "newTerrain")) {
@@ -174,24 +186,29 @@ Button **loadButtonsFake(char *dialogName, int numButtons) {
         *(buttons + 0) = loadButtonFake("Ok", 70, 140, 20, 14);
     } else if(!strcmp(dialogName, "error")) {
         *(buttons + 0) = loadButtonFake("Ok", 200, 52, 20, 14);
+    } else if(!strcmp(dialogName, "file")) {
+        *(buttons + 0) = loadButtonFake("Ok", 200, 52, 20, 14); //Ok/save
+        *(buttons + 1) = loadButtonFake("Cancel", 200, 52, 20, 14);
     }
 
-	return buttons;
+	return buttons;*/
+    return NULL;
 }
 
 Text *loadTextFake(char *string, int x, int y) {
-    Text *text = (Text *) malloc(sizeof(Text));
+    /*Text *text = (Text *) malloc(sizeof(Text));
     memset(text, 0, sizeof(Text));
 
     text->string = string;
     text->x = x;
     text->y = y;
 
-    return text;
+    return text;*/
+    return NULL;
 }
 
-Textbox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
-    TextBox *textBox = (Textbox *) malloc(sizeof(TextBox));
+TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
+    /*TextBox *textBox = (Textbox *) malloc(sizeof(TextBox));
     memset(textBox, 0, sizeof(Textbox));
 
 	textBox->title = text;
@@ -199,11 +216,12 @@ Textbox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
 	textBox->y = y;
 	textBox->width = width;
 	textBox->height = height;
-	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];
+	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];*/
+    return NULL;
 }
 
-Checkbox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
-    TextBox *textBox = (checkBox *) malloc(sizeof(checkBox));
+CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
+    /*TextBox *textBox = (checkBox *) malloc(sizeof(checkBox));
     memset(checkBox, 0, sizeof(checkBox));
 
     checkBox->title = text;
@@ -212,11 +230,12 @@ Checkbox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
     checkBox->width = width;
     checkBox->height = height;
     checkbox->action = cb_dialog_text;
-    return checkBox;
+    return checkBox;*/
+    return NULL;
 }
 
 Button *loadButtonFake(char *text, int x, int y, int width, int height) {
-    Button *button = (Button *) malloc(sizeof(Button));
+    /*Button *button = (Button *) malloc(sizeof(Button));
     memset(button, 0, sizeof(Button));
 
     button->title = text;
@@ -226,17 +245,19 @@ Button *loadButtonFake(char *text, int x, int y, int width, int height) {
 	button->height = height;
     button->action = cb_dialog_text;
 
-    return button;
+    return button;*/
+    return NULL;
 }
 
-ButtonContainer *loadButtonContainer(Menu *menu) {
+/*ButtonContainer *loadButtonContainer(Menu *menu) {
 	ButtonContainer *buttonContainer = (ButtonContainer *) malloc(sizeof(ButtonContainer));
 	memset(buttonContainer, 0, sizeof(ButtonContainer));
 
-  buttonContainer->buttonsNo = 2;
+    buttonContainer->buttonsNo = 2;
 	buttonContainer->buttons = loadButtons(menu);
 
 	return buttonContainer;
+    return NULL;
 }
 
 TextBoxContainer *loadTextBoxContainer(Menu *menu) {
@@ -247,4 +268,5 @@ TextBoxContainer *loadTextBoxContainer(Menu *menu) {
 	textBoxContainer->textBoxes = loadTextBoxes(menu);
 
 	return textBoxContainer;
-}
+    return NULL;
+}*/

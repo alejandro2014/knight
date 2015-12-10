@@ -1,5 +1,6 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_endian.h>	/* Used for the endian-dependent 24 bpp mode */
+
+/*#include <SDL2/SDL.h>
+#include <SDL2/SDL_endian.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -31,9 +32,6 @@ void defineCustomColours();
 void load_cursors();
 void build_cursors();
 
-void programLoop();
-int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font);
-void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font);
 void readEvents(int *finish);
 
 TTF_Font *font;
@@ -41,32 +39,37 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 
 char *FONT_PATH_MAC = "/Library/Fonts/Arial.ttf";
-char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";*/
+
+#include "global.h"
+#include "main.h"
+#include "menus.h"
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
+    Dialog *dialog = loadDialog("newTerrain");
+    //SDL_Init(SDL_INIT_VIDEO);
 
-    if(initResources(&window, &renderer, &font) != -1) {
+    //if(initResources(&window, &renderer, &font) != -1) {
         programLoop();
-        freeResources(window, renderer, font);
-    }
+        //freeResources(window, renderer, font);
+    //}
 
-    SDL_Quit();
+    //SDL_Quit();
     return 0;
 }
 
 void programLoop() {
-    int finish = 0;
+    /*int finish = 0;
     SDL_Event event;
 
     while(!finish) {
         readEvents(&finish);
         drawScreen();
         SDL_Delay(1000);
-    }
+    }*/
 }
 
-void readEvents(int *finish) {
+/*void readEvents(int *finish) {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
@@ -74,9 +77,9 @@ void readEvents(int *finish) {
             *finish = 1;
         }
     }
-}
+}*/
 
-int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font) {
+/*int initResources(SDL_Window **window, SDL_Renderer **renderer, TTF_Font **font) {
     *window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
@@ -106,9 +109,9 @@ void freeResources(SDL_Window *window, SDL_Renderer *renderer, TTF_Font *font) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     TTF_CloseFont(font);
-}
+}*/
 
-int main2(int argc, char *argv[]) {
+/*int main2(int argc, char *argv[]) {
   WIDTH = 700;
   HEIGHT = 480;
   //WIDTH = 513;
@@ -134,7 +137,7 @@ int main2(int argc, char *argv[]) {
 
   //screen = SDL_SetVideoMode (window_width, window_height, 32, SDL_HWSURFACE);
   //printf("Allocated screen (%d x %d) pitch %d\n", window_width, window_height, screen->pitch);
-  /*SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
+  SDL_Surface *icon = SDL_LoadBMP("/Users/alejandro/programs/height-map-editor/res/icon.bmp");
 
   SDL_WM_SetIcon(icon, NULL);
   SDL_WM_SetCaption ("Terrain Editor", "Terrain Editor");
@@ -142,11 +145,11 @@ int main2(int argc, char *argv[]) {
   if (screen == NULL) {
     fprintf (stderr, "Could not initialize video\n");
     exit (1);
-  }*/
+  }
 
   //load_font();
   //load_tool_bar();
-  /*build_tool_bar();
+  build_tool_bar();
 
   load_cursors();
   build_numeric_dialog_boxes();
@@ -159,7 +162,7 @@ int main2(int argc, char *argv[]) {
 	//make_gray_pallete();
 
   seed = time (NULL);
-  srand (seed);*/
+  srand (seed);
 
   //generateRandomTerrain(terrain);
 
@@ -184,4 +187,4 @@ void freeMemory(Terrain *terrain) {
   if (handle_font_mem)free(handle_font_mem);
   if (handle_tool_bar_mem)free(handle_tool_bar_mem);
   if (cursors_mem)free(cursors_mem);
-}
+}*/

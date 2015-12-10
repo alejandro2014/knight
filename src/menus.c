@@ -19,52 +19,36 @@ void draw_file_menu(SDL_Surface * this_screen) {
     int x2 = x_file_menu + width;
     int y2 = y_file_menu + height;
 
-    draw_empty_menu (screen, white, width, y_file_menu,width, height);
-    print_string (&cur_dir, black, white, x_file_menu + 2,y_file_menu+2);
+    char *currentFile = NULL;
 
-    draw_empty_menu (screen, white, x_file_menu+2, y_file_menu+14,width-4, height-35);
+    draw_empty_menu (screen, white, x1, y1, width, height);
+    print_string (&cur_dir, black, white, x1+2, y1+2);
 
-    //ok, now, print the files from the current directory...
-    if(no_of_files-start_file_offset<18) start_file_offset=no_of_files-18;
-    if(start_file_offset<0)start_file_offset=0;
+    draw_empty_menu (screen, white, x1+2, y1+14, width-4, height-35);
 
-    for(i=start_file_offset;i<start_file_offset+18;i++) {
-		j=0;
-		k=0;
+    for(l = 0; l < filesToShow; l++) {
+        print_string (str, black, white, x1+2, y2+16 + (l*12));
+    }
+}
 
-		//if it is a directory, add a / before
-		if(file_names[i].is_directory==1) {
-		    *(str+k)='/';
-			k++;
-		}
+void getFilesNames() {
+    if(no_of_files - start_file_offset < 18) start_file_offset = no_of_files - 18;
+    if(start_file_offset < 0) start_file_offset = 0;
 
-		while(j<55) {
-			cur_char=file_names[i].file_name[j];
-			*(str+k)=cur_char;
-			if(cur_char==0)break;
-			j++;
-			k++;
-		}
-		*(str+k)=0;
-		print_string (str, black, white, x_file_menu + 2,y_file_menu+16+(l*12));
-		l++;
-	}
+    int LENGTH_FILE = 56;
+    int NUM_FILES = 18;
+    int fileIni = start_file_offset;
+    int fileFin = fileIni + NUM_FILES;
 
-    print_string ("<<", black, white, x_file_menu + 4,y2-34);
-    print_string (">>", black, white, x2-20, y2-34);
+    for(i = fileIni; i < fileFin; i++) {
+        currentFile = file_names[i];
 
-    //draw the "current file" dialogue box
-    draw_down_button (screen, x_file_menu + 2, y2-18, width-110, 14);
-    print_string (&cur_file_name, black, white, x_file_menu + 4, y2-16);
-
-    //draw the load/save button
-    char *text = save_file ? "Save" : "Load";
-    draw_empty_menu (screen, white, x2-104, y2-18, 35, 14);
-    print_string (text, black, white, x2-102, y2-16);
-
-    //draw the cancel button
-    draw_empty_menu (screen, white, x2-64, y2-18,50, 14);
-    print_string ("Cancel", black, white, x2-62, y2-16);
+        memset(str, 0, 56);
+        memcpy(str, &currentFile.file_name, LENGTH_FILE - 1);
+        if(currentFile.is_directory) {
+            str = strcat("/", str);
+        }
+    }
 }
 
 void check_file_menu (unsigned char text_input_char) {
@@ -140,52 +124,6 @@ int isNumeric(char *charToTest) {
 
 int maxLengthExcedeed(numeric_dialog_box_struct dialogBox) {
 	return dialogBox.text_offset >= dialogBox.dialog_lenght ? 1 : 0;
-}
-
-char *TOOLBARBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/toolbar.bmp";
-char *TOOLBARBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
-
-void load_tool_bar() {
-	SDL_Surface *tempToolbarBmp = SDL_LoadBMP(TOOLBARBMP_PATH_LINUX);
-	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
-	return;
-
-	char *temp_pointer = tool_bar_mem;
-	int f_size, i;
-	FILE *f = fopen (toolbarBmp, "rb");
-	fseek (f, 0, SEEK_END);
-	f_size = ftell (f);
-
-	//ok, allocate memory for it
-	tool_bar_mem = calloc ( f_size, sizeof(char) );
-	handle_tool_bar_mem=tool_bar_mem;
-	fseek (f, 0, SEEK_SET);
-	fread (tool_bar_mem, 1, f_size, f);
-	fclose (f);
-
-	tool_bar_mem += 18;		//x lenght is at offset+18
-	x_tool_bar_bmp = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 4;		//y lenght is at offset+22
-	y_tool_bar_bmp = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
-	tool_bar_colors_no = *((int *) tool_bar_mem);
-
-	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
-
-	//get the color pallete
-	for (i = 0; i < tool_bar_colors_no; i++) {
-		colors[i + 128].b = *(tool_bar_mem++);
-		colors[i + 128].g = *(tool_bar_mem++);
-		colors[i + 128].r = *(tool_bar_mem++);
-		tool_bar_mem++;
-	}
-
-	temp_pointer=tool_bar_mem;
-	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
-		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
-	tool_bar_mem = temp_pointer;
 }
 
 void drawWindowTitle(Menu *menu) {

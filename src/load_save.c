@@ -205,7 +205,7 @@ else
 }
 
   f = fopen (FileName, "rb");
-  
+
   if (f) {
     fread (file_header, 1, 100, f);
     WIDTH = file_header[0];
@@ -264,7 +264,7 @@ if(is_bmp && selection_x_1==-1) {
 				  start_x=selection_x_2;
 				  end_x=selection_x_1;
 				}
-                
+
 			    if(selection_y_1<selection_y_2) {
 				  start_y=selection_y_1;
 				  end_y=selection_y_2;
@@ -278,7 +278,7 @@ if(is_bmp && selection_x_1==-1) {
 				//ok, now move in the temp buffer the selection we want to save
 				i=start_y*WIDTH+start_x;
 				j=0;
-                
+
 				for(y=start_y;y<end_y;y++) {
 						for(x=start_x;x<end_x;x++) {
 								*(temp_buffer+j)=*(terrain_height+i);
@@ -316,6 +316,52 @@ if(is_bmp && selection_x_1==-1) {
     fwrite (terrain_height, MapLenght, 1, f);
 	fclose (f);
 	change_cursor(last_cursor);
+}
+
+char *TOOLBARBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/toolbar.bmp";
+char *TOOLBARBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/toolbar.bmp";
+
+void load_tool_bar() {
+	SDL_Surface *tempToolbarBmp = SDL_LoadBMP(TOOLBARBMP_PATH_LINUX);
+	tool_bar_mem = SDL_DisplayFormat(tempToolbarBmp);
+	return;
+
+	char *temp_pointer = tool_bar_mem;
+	int f_size, i;
+	FILE *f = fopen (toolbarBmp, "rb");
+	fseek (f, 0, SEEK_END);
+	f_size = ftell (f);
+
+	//ok, allocate memory for it
+	tool_bar_mem = calloc ( f_size, sizeof(char) );
+	handle_tool_bar_mem=tool_bar_mem;
+	fseek (f, 0, SEEK_SET);
+	fread (tool_bar_mem, 1, f_size, f);
+	fclose (f);
+
+	tool_bar_mem += 18;		//x lenght is at offset+18
+	x_tool_bar_bmp = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 4;		//y lenght is at offset+22
+	y_tool_bar_bmp = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 46 - 22;	//y lenght is at offset+22
+	tool_bar_colors_no = *((int *) tool_bar_mem);
+
+	tool_bar_mem += 54 - 46;	//ok, now, we are at the color pallete
+
+	//get the color pallete
+	for (i = 0; i < tool_bar_colors_no; i++) {
+		colors[i + 128].b = *(tool_bar_mem++);
+		colors[i + 128].g = *(tool_bar_mem++);
+		colors[i + 128].r = *(tool_bar_mem++);
+		tool_bar_mem++;
+	}
+
+	temp_pointer=tool_bar_mem;
+	for (i = 0; i < x_tool_bar_bmp * y_tool_bar_bmp; i++)
+		*(tool_bar_mem) = *(++tool_bar_mem) + 128;
+	tool_bar_mem = temp_pointer;
 }
 
 // Not Windows, most probably POSIX
@@ -364,11 +410,11 @@ int ReadDir() {
         sprintf(file_names[i].file_name, "%s", (char*)namelist[i]->d_name);
 
         file_names[i].is_directory = S_ISDIR(fileinfo.st_mode) ? 1 : 0;
-        
+
         free(namelist[n]);
         i++;
     }
-    
+
     if(namelist)
         free(namelist);
     return 0;
@@ -389,7 +435,7 @@ int ChangeDir(char *path) {
 
 void DoFileOpenSave (bool bSave) {
     save_file = bSave ? 1 : 0;
-	
+
 	view_file_menu=1;
 	sprintf(cur_file_name, "");
 	GetCD();

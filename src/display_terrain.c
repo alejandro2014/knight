@@ -35,7 +35,7 @@ void terrain_on_screen (SDL_Surface * this_screen) {
   if (terrain_ratio == 1) {
     for (y = 0; y < HEIGHT; y++) {
       for (x = 0; x < WIDTH; x++) {
-        *(screenPixels + this_screen->pitch * y + x) = hmeGetHeight(terrain, x, y);
+          putPixel(x, y, getHeight(terrain, x, y));
       }
     }
   }
@@ -49,11 +49,11 @@ void cls() {
   int some_module, my_pitch;
   int map_size;
   int i,j;
-  /*if (x_screen_offset == 0 && y_screen_offset == 0 && terrain_ratio == 1 && terrain_height)
-    return;*/
+  if (x_screen_offset == 0 && y_screen_offset == 0 && terrain_ratio == 1 && terrain_height)
+    return;
     /*no need to clear the screen, the terrain is all over it anyway */
 
-  /*my_pitch = this_screen->pitch;
+  my_pitch = this_screen->pitch;
 
 	if(terrain_ratio>1 && x_screen_offset == 0 && y_screen_offset == 0)
 	//we need to clear only the right 'frame' and the lower 'frame'
@@ -75,11 +75,11 @@ void cls() {
 			for(i=0;i<window_width*16/4;i++)*screen_buffer++=0xffffffff;
 
 		 	return;
-		}*/
+		}
 
-  /*map_size = window_height * this_screen->pitch;
+  map_size = window_height * this_screen->pitch;
   //my_pitch = this_screen->pitch;
-  memset(this_screen->pixels, 0xff0000ff, map_size);*/
+  memset(this_screen->pixels, 0xff0000ff, map_size);
 
   /*for(i = 0; i < 50; i++) {
     putPixel(this_screen, i, i, RED);
@@ -122,22 +122,7 @@ void draw_selection(SDL_Surface * this_screen) {
 
     if(selection_x_2==-1 && selection_y_2==-1)return;//no selection to draw
 
-    //ok now, put in s_selection_x_1,s_selection_y_1 the upper left corner of the selection
-    if(selection_x_1 < selection_x_2) {
-  		s_selection_x_1 = selection_x_1;
-  		s_selection_x_2 = selection_x_2;
-	} else {
-  		s_selection_x_1 = selection_x_2;
-  		s_selection_x_2 = selection_x_1;
-	}
-
-    if(selection_y_1 < selection_y_2) {
-  		s_selection_y_1 = selection_y_1;
-  		s_selection_y_2 = selection_y_2;
-	} else {
-  		s_selection_y_1 = selection_y_2;
-  		s_selection_y_2 = selection_y_1;
-	}
+    getScreenSelection(&s_selection_x_1, ...)
 
     //ok, now let's try to get the SCREEN coordinates of this shit.
     line_1_x=(s_selection_x_1-xoffset+x_screen_offset)*terrain_ratio;
@@ -167,19 +152,38 @@ void draw_selection(SDL_Surface * this_screen) {
 
     if(line_1_y>0 && line_1_y<=window_height)
         for (x=line_1_x; x<line_1_x+hor_line_len; x+=2)
-            *(screen_buffer + my_pitch * line_1_y + x) = black;
+            putPixel(x, line_1_y, black);
 
     if(line_2_y>0 && line_2_y<=window_height)
         for (x=line_1_x; x<line_1_x+hor_line_len; x+=2)
-            *(screen_buffer + my_pitch * line_2_y + x) = black;
+            putPixel(x, line_2_y, black);
 
     if(line_1_x>0 && line_1_x<=window_width)
         for (y=line_1_y; y<line_1_y+ver_line_len; y+=2)
-            *(screen_buffer + my_pitch * y + line_1_x) = black;
+            putPixel(line_1_x, y, black);
 
     if(line_2_x>0 && line_2_x<=window_width)
         for (y=line_1_y; y<line_1_y+ver_line_len; y+=2)
-            *(screen_buffer + my_pitch * y + line_2_x) = black;
+            putPixel(line_2_x, y, black);
+}
+
+void getScreenSelection(...) {
+    //ok now, put in s_selection_x_1,s_selection_y_1 the upper left corner of the selection
+    if(selection_x_1 < selection_x_2) {
+  		s_selection_x_1 = selection_x_1;
+  		s_selection_x_2 = selection_x_2;
+	} else {
+  		s_selection_x_1 = selection_x_2;
+  		s_selection_x_2 = selection_x_1;
+	}
+
+    if(selection_y_1 < selection_y_2) {
+  		s_selection_y_1 = selection_y_1;
+  		s_selection_y_2 = selection_y_2;
+	} else {
+  		s_selection_y_1 = selection_y_2;
+  		s_selection_y_2 = selection_y_1;
+	}
 }
 
 void debug_info() {
@@ -296,15 +300,4 @@ void drawScreen() {
   if (show_rotate_menu) drawMenu("rotation");
   if (view_error_menu) drawMenu("error");
   if (view_file_menu)draw_file_menu(screen);
-
-  /*
-  if(!strcmp(dialogName, "newTerrain")) {
-  } else if(!strcmp(dialogName, "generateTerrain")) {
-  } else if(!strcmp(dialogName, "object")) {
-  } else if(!strcmp(dialogName, "view")) {
-  } else if(!strcmp(dialogName, "replace")) {
-  } else if(!strcmp(dialogName, "globalReplace")) {
-  } else if(!strcmp(dialogName, "rotation")) {
-  } else if(!strcmp(dialogName, "error"))
-  */
 }

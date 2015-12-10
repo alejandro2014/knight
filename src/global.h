@@ -1,11 +1,11 @@
-#ifndef __GLOBAL_H__
-#define __GLOBAL_H__
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
-typedef unsigned char bool;
+typedef int bool;
 #define true 1
 #define false 0
 
-#define TERRAIN_WORK 0
+/*#define TERRAIN_WORK 0
 #define TERRAIN_UNDO 1
 #define TERRAIN_TEMP 2
 
@@ -375,6 +375,6 @@ extern SDL_Color colors[256];
 
 extern SDL_Surface *screen;
 extern SDL_Window *window;
-extern SDL_Renderer *renderer;
+extern SDL_Renderer *renderer;*/
 
 #endif
