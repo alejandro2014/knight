@@ -121,68 +121,6 @@ void flip_x() {
   change_cursor(last_cursor);
 }
 
-void rotate_90() {
-  int x,y,map_offset,old_height,old_width;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  old_height=HEIGHT;
-  old_width=WIDTH;
-  HEIGHT=WIDTH;
-  WIDTH=old_height;
-  map_offset=0;
-  for (y = 0; y<old_height; y++) {
-		map_offset=old_height-1-y;
-
-		for (x = 0; x<old_width; x++) {
-		  map_offset+=WIDTH;
-		}
-	}
-
-	undo=total_undo_swap_x_y;
-	change_cursor(last_cursor);
-}
-
-void rotate_180() {
-  int x,y,map_offset;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  for (y = 0; y<HEIGHT; y++) {
-		map_offset=(y+1)*WIDTH-1;
-
-		for (x = 0; x<WIDTH; x++) {
-			map_offset--;
-		}
-	}
-
-  change_cursor(last_cursor);
-}
-
-void rotate_270() {
-  int x,y,map_offset,old_height,old_width;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  old_height=HEIGHT;
-  old_width=WIDTH;
-  HEIGHT=WIDTH;
-  WIDTH=old_height;
-  map_offset=0;
-  for (y = 0; y<old_height; y++) {
-		map_offset=y;
-
-		for (x = 0; x<old_width; x++) {
-		  map_offset+=WIDTH;
-		}
-	}
-
-	change_cursor(last_cursor);
-}
-
 void smooth_terrain() {
   if(!terrain_height)return;
 

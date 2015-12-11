@@ -149,6 +149,8 @@ void cb_rotate_90() { rotation_type = rotation_CW_90; }
 void cb_rotate_270() { rotation_type = rotation_CCW_90; }
 void cb_rotate_180() { rotation_type = rotation_180; }
 void cb_rotate_ok() {
+    change_cursor(cursor_wait);
+
     switch(rotation_type) {
         case rotation_flip_x: flip_x(); break;
         case rotation_flip_y: flip_y(); break;
@@ -158,6 +160,8 @@ void cb_rotate_ok() {
         case rotation_180: api_rotate(180); break;
     }
 
+    change_cursor(last_cursor);
+    
     show_rotate_menu = 0;
 }
 
