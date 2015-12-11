@@ -21,11 +21,3 @@ void freeTerrain(Terrain *terrain) {
   free(terrain->points);
   free(terrain);
 }
-
-int getHeight(Point *point) {
-    return point->z;
-}
-
-void setHeight(Point *point, int height) {
-  point->z = height;
-}

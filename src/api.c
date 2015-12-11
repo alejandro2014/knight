@@ -1,10 +1,12 @@
 #include "api.h"
+#include "terrain.h"
+#include "hme_lowlevel.h"
 
 void api_rotate(Terrain *terrain, int angle) {
     switch(angle) {
         case 90: rotate_90(terrain); break;
-        case 180: rotate_180(terrain); break;
-        case 270: rotate_270(terrain); break;
+        //case 180: rotate_180(terrain); break;
+        //case 270: rotate_270(terrain); break;
     }
 }
 
@@ -14,30 +16,31 @@ void api_rotate(Terrain *terrain, int angle) {
 1 5 6 7 -> 1 6 2
            2 7 3
 */
-void rotate_90(Terrain *terrain) {
-    Point *point = NULL;
+void rotate_90(Terrain *oldTerrain) {
+    Point *oldPoint = NULL;
+    Point *newPoint = NULL;
     int x,y,map_offset;
 
-    int oldVerSize = terrain->verSize;
-    int oldHorSize = terrain->horSize;
-    int verSize = oldHorSize;
-    int horSize = oldVerSize;
+    int oldHeight = oldTerrain->height;
+    int oldWidth = oldTerrain->width;
+    int width = oldWidth;
+    int height = oldHeight;
 
-    Terrain *newTerrain = generateTerrain(horSize, verSize);
+    Terrain *newTerrain = generateTerrain(width, height);
 
-    for(x = 0; x < horSize; x++) {
-        for(y = 0; y < verSize; y++) {
+    for(x = 0; x < width; x++) {
+        for(y = 0; y < height; y++) {
             oldPoint = getPoint(oldTerrain, y, x);
             newPoint = getPoint(newTerrain, x, y);
-            newPoint->height = oldPoint->height;
+            newPoint->z = oldPoint->z;
         }
     }
 
-    free(terrain);
-    terrain = newTerrain;
+    free(oldTerrain);
+    oldTerrain = newTerrain;
 }
 
-void rotate_180(Terrain *terrain) {
+/*void rotate_180(Terrain *terrain) {
   int x,y,map_offset;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
@@ -49,9 +52,9 @@ void rotate_180(Terrain *terrain) {
 			map_offset--;
 		}
 	}
-}
+}*/
 
-void rotate_270(Terrain *terrain) {
+/*void rotate_270(Terrain *terrain) {
   int x,y,map_offset,old_height,old_width;
   int map_size=WIDTH*HEIGHT;
   if (!terrain_height)return;
@@ -68,4 +71,4 @@ void rotate_270(Terrain *terrain) {
 		  map_offset+=WIDTH;
 		}
 	}
-}
+}*/

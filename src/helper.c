@@ -2,6 +2,8 @@
 #include "menus.h"
 #include "helper.h"
 #include "widgets.h"
+#include "terrain.h"
+#include "hme_lowlevel.h"
 
 void printDialogs(Dialog **dialogs) {
     Dialog *dialog = NULL;
@@ -36,4 +38,39 @@ void printDialogs(Dialog **dialogs) {
             printf("[INFO]    * text (%s, %d, %d)\n", text->string, text->x, text->y);
         }
     }
+}
+
+void showTerrainCmd(Terrain *terrain) {
+  int i, j;
+  int columns = terrain->width;
+  int rows = terrain->height;
+  int value;
+
+  for(i = 0; i < rows; i++) {
+    printLine(columns);
+    for(j = 0; j < columns; j++) {
+      printf("| ");
+      value = getHeight(terrain, j, i);
+      if(value < 100) printf(" ");
+      if(value < 10) printf(" ");
+      printf("%d ", value);
+    }
+    printf("|\n");
+  }
+  printLine(columns);
+
+  /*Point *point;
+  int pointsNo = terrain->pointsNo;
+
+  for(i = 0; i < pointsNo; i++) {
+    point = terrain->points + i;
+    //printf("points(%u) = (%d, %d, %d)\n", i, point->x, point->y, point->z);
+}*/
+}
+
+void printLine(int width) {
+  int i;
+
+  for(i = 0; i < width; i++) printf("+-----");
+  printf("+\n");
 }

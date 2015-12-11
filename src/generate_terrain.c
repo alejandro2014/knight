@@ -110,41 +110,6 @@ void generateRandomTerrain(Terrain *terrain) {
   printf("setted the height %d times\n", countPoints);
 }
 
-void printLine(int width) {
-  int i;
-
-  for(i = 0; i < width; i++) printf("+-----");
-  printf("+\n");
-}
-
-void showTerrainCmd(Terrain *terrain) {
-  int i, j;
-  int columns = terrain->width;
-  int rows = terrain->height;
-  int value;
-
-  for(i = 0; i < rows; i++) {
-    printLine(columns);
-    for(j = 0; j < columns; j++) {
-      printf("| ");
-      value = valueCell(terrain, j, i);
-      if(value < 100) printf(" ");
-      if(value < 10) printf(" ");
-      printf("%d ", value);
-    }
-    printf("|\n");
-  }
-  printLine(columns);
-
-  Point *point;
-  int pointsNo = terrain->pointsNo;
-
-  for(i = 0; i < pointsNo; i++) {
-    point = terrain->points + i;
-    //printf("points(%u) = (%d, %d, %d)\n", i, point->x, point->y, point->z);
-  }
-}
-
 /*---------------
 Memory allocation
 ---------------*/

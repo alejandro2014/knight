@@ -27,4 +27,6 @@ int hmeDrawSeed(Terrain *terrain);
 Point *hmeGetPoint(Terrain *terrain, int x, int y);
 Uint32 hmeGetHeight(Terrain *terrain, Uint32 x, Uint32 y);
 
+void showTerrainCmd(Terrain *terrain);
+
 #endif

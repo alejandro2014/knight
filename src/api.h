@@ -1,6 +1,9 @@
 #ifndef API_H
 #define API_H
 
-void api_rotate(int angle);
+#include "terrain.h"
+
+void api_rotate(Terrain *terrain, int angle);
+void rotate_90(Terrain *oldTerrain);
 
 #endif

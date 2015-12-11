@@ -9,6 +9,8 @@
 typedef struct {
     Dialog **dialogs;
     Terrain *terrain;
+    int horSize;
+    int verSize;
 } HeightMapEditor;
 
 void programLoop();

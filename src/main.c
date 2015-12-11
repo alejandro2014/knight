@@ -46,10 +46,13 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 
 int main(int argc, char* argv[]) {
     HeightMapEditor heightMapEditor;
+    heightMapEditor.horSize = 3;
+    heightMapEditor.verSize = 2;
     //SDL_Init(SDL_INIT_VIDEO);
 
     if(loadResources(&heightMapEditor) != -1) {
-        programLoop();
+        //programLoop();
+
         freeResources(&heightMapEditor);
     }
 
@@ -75,7 +78,7 @@ int loadResources(HeightMapEditor *heightMapEditor) {
     heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);
 
-    heightMapEditor->terrain = generateTerrain(width, height);
+    heightMapEditor->terrain = generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);
     /**window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
