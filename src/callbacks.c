@@ -1,3 +1,5 @@
+#include "api.h"
+
 void cb_generateTerrain_overwriteTerrain() {
     overwrite_terrain = !overwrite_terrain;
 }
@@ -99,19 +101,6 @@ void cb_newTerrain_cancel() {
     show_new_terrain_menu = 0;
 }
 
-void cb_rotate_ok() {
-    switch(rotation_type) {
-        case rotation_flip_x: flip_x(); break;
-        case rotation_flip_y: flip_y(); break;
-        case rotation_flip_z: flip_z(); break;
-        case rotation_CW_90: rotate_90_CW(); break;
-        case rotation_CCW_90: rotate_90_CCW(); break;
-        case rotation_180: rotate_180(); break;
-    }
-
-    show_rotate_menu = 0;
-}
-
 void cb_replace_changePattern() {
       SDL_Event event;
 
@@ -159,6 +148,18 @@ void cb_rotate_z() { rotation_type = rotation_flip_z; }
 void cb_rotate_90() { rotation_type = rotation_CW_90; }
 void cb_rotate_270() { rotation_type = rotation_CCW_90; }
 void cb_rotate_180() { rotation_type = rotation_180; }
+void cb_rotate_ok() {
+    switch(rotation_type) {
+        case rotation_flip_x: flip_x(); break;
+        case rotation_flip_y: flip_y(); break;
+        case rotation_flip_z: flip_z(); break;
+        case rotation_CW_90: api_rotate(90); break;
+        case rotation_CCW_90: api_rotate(270); break;
+        case rotation_180: api_rotate(180); break;
+    }
+
+    show_rotate_menu = 0;
+}
 
 void cb_replace_greater() { temp_tolerance_mode = greater; }
 void cb_replace_leaser() { temp_tolerance_mode = leaser; }

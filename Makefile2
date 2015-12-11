@@ -9,8 +9,9 @@ SRC01=widgets
 SRC02=load_widgets_fake
 SRC03=helper
 SRC04=terrain
+SRC05=api
 
-OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o
+OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o
 
 OBJ=${OBJ_LINUX}
 
