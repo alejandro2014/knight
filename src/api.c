@@ -14,32 +14,18 @@ Terrain *api_rotate(Terrain *oldTerrain, int angle) {
     return newTerrain;
 }
 
-/*
-                1 2 3 5 6 7
-1 2 3    5 1    5 1 6 2 7 3
-5 6 7 -> 6 2
-         7 3
-*/
 Terrain *rotate_90(Terrain *oldTerrain) {
-    Point *oldPoint = NULL;
-    Point *newPoint = NULL;
-    int x,y,map_offset;
-
-    int oldHeight = oldTerrain->height;
-    int oldWidth = oldTerrain->width;
-    int width = oldHeight;
-    int height = oldWidth;
-
+    int x, y;
+    int width = oldTerrain->height;
+    int height = oldTerrain->width;
     int newHeight;
 
     Terrain *newTerrain = generateTerrain(width, height);
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
-            newHeight = getHeight(oldTerrain, y, 1-x);
-            printf("n[%d, %d] = o[%d, %d](%d) - ", x, y, y, x, newHeight);
+            newHeight = getHeight(oldTerrain, y, width - x - 1);
             setHeight(newTerrain, x, y, newHeight);
-            printf("%d\n", getHeight(newTerrain, x, y));
         }
     }
 
