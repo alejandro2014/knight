@@ -46,6 +46,7 @@ void showTerrainCmd(Terrain *terrain) {
   int rows = terrain->height;
   int value;
 
+  printf("Printing terrain %p\n", terrain);
   for(i = 0; i < rows; i++) {
     printLine(columns);
     for(j = 0; j < columns; j++) {

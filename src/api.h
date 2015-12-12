@@ -3,7 +3,7 @@
 
 #include "terrain.h"
 
-void api_rotate(Terrain *terrain, int angle);
-void rotate_90(Terrain *oldTerrain);
+Terrain *api_rotate(Terrain *oldTerrain, int angle);
+Terrain *rotate_90(Terrain *oldTerrain);
 
 #endif

@@ -1,18 +1,19 @@
 #include "hme_lowlevel.h"
 #include "terrain.h"
 
+#include <stdlib.h>
+
 Terrain *currentTerrain = NULL;
 int MAX_HEIGHT = 255;
 int MIN_HEIGHT = 0;
 
-void setHeight(int x, int y, int height) {
-    /*Terrain *terrain = currentTerrain;
+void setHeight(Terrain *terrain, int x, int y, int height) {
     Point *point = getPoint(terrain, x, y);
-    if(point->isHeightSetted) return;
+    //if(point->isHeightSetted) return;
 
-    countPoints++;
+    //countPoints++;
     point->z = height;
-    point->isHeightSetted = true;*/
+    //point->isHeightSetted = true;
 }
 
 int getHeight(Terrain *terrain, int x, int y) {
@@ -54,7 +55,7 @@ void setFillStatus(int x, int y, int fillStatus) {
 }
 
 Point *getPoint(Terrain *terrain, int x, int y) {
-  return terrain->points + (y * terrain->width + x);
+    return terrain->points + (y * terrain->width + x);
 }
 
 //====================

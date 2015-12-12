@@ -1,10 +1,7 @@
-
 /*#include <SDL2/SDL.h>
 #include <SDL2/SDL_endian.h>
 #include <stdlib.h>
 #include <time.h>
-
-#include "global.h"
 
 #include "init.h"
 #include "cursors.h"
@@ -43,6 +40,8 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "main.h"
 #include "helper.h"
 #include "terrain.h"
+#include "api.h"
+#include "hme_lowlevel.h"
 
 int main(int argc, char* argv[]) {
     HeightMapEditor heightMapEditor;
@@ -50,8 +49,21 @@ int main(int argc, char* argv[]) {
     heightMapEditor.verSize = 2;
     //SDL_Init(SDL_INIT_VIDEO);
 
+    Terrain *terrain;
+
     if(loadResources(&heightMapEditor) != -1) {
         //programLoop();
+        terrain = heightMapEditor.terrain;
+        setHeight(terrain, 0, 0, 10);
+        setHeight(terrain, 1, 0, 11);
+        setHeight(terrain, 2, 0, 12);
+        setHeight(terrain, 0, 1, 13);
+        setHeight(terrain, 1, 1, 14);
+        setHeight(terrain, 2, 1, 15);
+
+        showTerrainCmd(terrain);
+        terrain = api_rotate(terrain, 90);
+        showTerrainCmd(terrain);
 
         freeResources(&heightMapEditor);
     }
@@ -76,9 +88,10 @@ int loadResources(HeightMapEditor *heightMapEditor) {
     int height = 100;
 
     heightMapEditor->dialogs = loadDialogs();
-    printDialogs(heightMapEditor->dialogs);
+    //printDialogs(heightMapEditor->dialogs);
 
     heightMapEditor->terrain = generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);
+
     /**window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
