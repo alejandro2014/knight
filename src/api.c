@@ -30,6 +30,7 @@ Terrain *rotate_90(Terrain *oldTerrain) {
     }
 
     freeTerrain(oldTerrain);
+    oldTerrain = NULL;
 
     return newTerrain;
 }
