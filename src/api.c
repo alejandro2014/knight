@@ -132,7 +132,8 @@ Terrain *rotate270(Terrain *oldTerrain) {
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
-            newHeight = getHeight(oldTerrain, height - y - 1, x);
+            //newHeight = getHeight(oldTerrain, height - y - 1, x);
+            newHeight = getHeightForOperation(ROTATE_270, oldTerrain, x, y);
             setHeight(newTerrain, x, y, newHeight);
         }
     }
@@ -141,4 +142,16 @@ Terrain *rotate270(Terrain *oldTerrain) {
     oldTerrain = NULL;
 
     return newTerrain;
+}
+
+int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
+    int terrainWidth = terrain->height;
+    int terrainHeight = terrain->width;
+    int height = 0;
+
+    switch(operation) {
+        case ROTATE_270: height = getHeight(terrain, terrainHeight - y - 1, x); break;
+    }
+
+    return height;
 }
