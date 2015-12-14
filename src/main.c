@@ -46,7 +46,7 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 int main(int argc, char* argv[]) {
     HeightMapEditor heightMapEditor;
     heightMapEditor.horSize = 3;
-    heightMapEditor.verSize = 3;
+    heightMapEditor.verSize = 2;
     //SDL_Init(SDL_INIT_VIDEO);
 
     Terrain *terrain;
@@ -60,12 +60,12 @@ int main(int argc, char* argv[]) {
         setHeight(terrain, 0, 1, 3);
         setHeight(terrain, 1, 1, 4);
         setHeight(terrain, 2, 1, 5);
-        setHeight(terrain, 0, 2, 6);
+        /*setHeight(terrain, 0, 2, 6);
         setHeight(terrain, 1, 2, 7);
-        setHeight(terrain, 2, 2, 8);
+        setHeight(terrain, 2, 2, 8);*/
 
         showTerrainCmd(terrain);
-        heightMapEditor.terrain = api_rotate(terrain, 90);
+        heightMapEditor.terrain = api_rotate(terrain, 180);
         showTerrainCmd(heightMapEditor.terrain);
 
         freeResources(&heightMapEditor);

@@ -7,7 +7,7 @@ Terrain *api_rotate(Terrain *oldTerrain, int angle) {
 
     switch(angle) {
         case 90: newTerrain = rotate_90(oldTerrain); break;
-        //case 180: rotate_180(terrain); break;
+        case 180: newTerrain = rotate_180(oldTerrain); break;
         //case 270: rotate_270(terrain); break;
     }
 
@@ -35,19 +35,33 @@ Terrain *rotate_90(Terrain *oldTerrain) {
     return newTerrain;
 }
 
-/*void rotate_180(Terrain *terrain) {
-  int x,y,map_offset;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
+/*
+A      B
+0 1 2  5 4 3
+3 4 5  2 1 0
 
-  for (y = 0; y<HEIGHT; y++) {
-		map_offset=(y+1)*WIDTH-1;
+*/
+Terrain *rotate_180(Terrain *oldTerrain) {
+    int x, y;
+    int height = oldTerrain->height;
+    int width = oldTerrain->width;
+    int newHeight;
 
-		for (x = 0; x<WIDTH; x++) {
-			map_offset--;
-		}
-	}
-}*/
+    Terrain *newTerrain = generateTerrain(width, height);
+
+    for(x = 0; x < width; x++) {
+        for(y = 0; y < height; y++) {
+            printf("b[%d, %d] = a [%d, %d]\n", x, y, height - y - 1, width - x - 1);
+            newHeight = getHeight(oldTerrain, width - x - 1, height - y - 1);
+            setHeight(newTerrain, x, y, newHeight);
+        }
+    }
+
+    freeTerrain(oldTerrain);
+    oldTerrain = NULL;
+
+    return newTerrain;
+}
 
 /*void rotate_270(Terrain *terrain) {
   int x,y,map_offset,old_height,old_width;
