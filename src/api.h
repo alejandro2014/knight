@@ -5,6 +5,7 @@
 #include "global.h"
 
 typedef int Operation;
+#define ROTATE_90 2
 #define ROTATE_180 1
 #define ROTATE_270 0
 
