@@ -151,14 +151,15 @@ void cb_rotate_180() { rotation_type = rotation_180; }
 void cb_rotate_ok() {
     change_cursor(cursor_wait);
 
-    switch(rotation_type) {
-        case rotation_flip_x: api_flipX(); break;
+    //TODO Fix the calls
+    /*switch(rotation_type) {
+        case rotation_flip_x: api_(); break;
         case rotation_flip_y: api_flipY(); break;
         case rotation_flip_z: api_flipZ(); break;
         case rotation_CW_90: api_rotate(90); break;
         case rotation_CCW_90: api_rotate(270); break;
         case rotation_180: api_rotate(180); break;
-    }
+    }*/
 
     change_cursor(last_cursor);
 

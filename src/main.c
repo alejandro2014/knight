@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
         setHeight(terrain, 2, 2, 8);*/
         showTerrainCmd(terrain);
 
-        heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
+        api_invertHeight(terrain);
         showTerrainCmd(heightMapEditor.terrain);
 
         freeResources(&heightMapEditor);

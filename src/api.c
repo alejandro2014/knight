@@ -3,17 +3,16 @@
 #include "hme_lowlevel.h"
 #include "global.h"
 
-Terrain *api_flipZ(Terrain *oldTerrain) {
-    /*int i;
-    int map_size=WIDTH*HEIGHT;
+void api_invertHeight(Terrain *terrain) {
+    int x, y;
+    int newHeight;
 
-    for(x = 0; x < WIDTH; x++) {
-        for(y = 0; y < HEIGHT; y++) {
-            currentHeight = getHeight(x, y);
-            setHeight(x, y, -currentHeight);
+    for(x = 0; x < terrain->width; x++) {
+        for(y = 0; y < terrain->height; y++) {
+            newHeight = MAX_HEIGHT - getHeight(terrain, x, y);
+            setHeight(terrain, x, y, newHeight);
         }
-    }*/
-    return NULL;
+    }
 }
 
 //--------------------------------------------------------
