@@ -71,15 +71,36 @@ Terrain *api_rotate(Terrain *oldTerrain, int angle) {
     Terrain *newTerrain = NULL;
 
     switch(angle) {
-        case 90: newTerrain = rotate90(oldTerrain); break;
-        case 180: newTerrain = rotate180(oldTerrain); break;
-        case 270: newTerrain = rotate270(oldTerrain); break;
+        case 90: newTerrain = rotatex(ROTATE_90, oldTerrain); break;
+        case 180: newTerrain = rotatex(ROTATE_180, oldTerrain); break;
+        case 270: newTerrain = rotatex(ROTATE_270, oldTerrain); break;
     }
 
     return newTerrain;
 }
 
 //--------------------------------------------------------
+Terrain *rotatex(Operation operation, Terrain *oldTerrain) {
+    int x, y;
+    int width, height;
+    int newHeight;
+
+    setDimensionsForOperation(operation, oldTerrain, &width, &height);
+    Terrain *newTerrain = generateTerrain(width, height);
+
+    for(x = 0; x < width; x++) {
+        for(y = 0; y < height; y++) {
+            newHeight = getHeightForOperation(operation, oldTerrain, x, y);
+            setHeight(newTerrain, x, y, newHeight);
+        }
+    }
+
+    freeTerrain(oldTerrain);
+    oldTerrain = NULL;
+
+    return newTerrain;
+}
+
 Terrain *rotate90(Terrain *oldTerrain) {
     int x, y;
     int width = oldTerrain->height;
@@ -144,27 +165,24 @@ Terrain *rotate270(Terrain *oldTerrain) {
 }
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
-    int terrainWidth;// = terrain->height;
-    int terrainHeight;// = terrain->width;
-    int height = 0;
+    int width, height;
+    int returned = 0;
+
+    setDimensionsForOperation(operation, terrain, &width, &height);
 
     switch(operation) {
-        case ROTATE_90:
-            terrainWidth = terrain->height;
-            terrainHeight = terrain->width;
-            height = getHeight(terrain, y, terrainWidth - x - 1);
-            break;
-        case ROTATE_180:
-            terrainWidth = terrain->width;
-            terrainHeight = terrain->height;
-            height = getHeight(terrain, terrainWidth - x - 1, terrainHeight - y - 1);
-            break;
-        case ROTATE_270:
-            terrainWidth = terrain->height;
-            terrainHeight = terrain->width;
-            height = getHeight(terrain, terrainHeight - y - 1, x);
-            break;
+        case ROTATE_90: returned = getHeight(terrain, y, width - x - 1); break;
+        case ROTATE_180: returned = getHeight(terrain, width - x - 1, height - y - 1); break;
+        case ROTATE_270: returned = getHeight(terrain, height - y - 1, x); break;
     }
 
-    return height;
+    return returned;
+}
+
+void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height) {
+    switch(operation) {
+        case ROTATE_90:  *width = terrain->height; *height = terrain->width;  break;
+        case ROTATE_180: *width = terrain->width;  *height = terrain->height; break;
+        case ROTATE_270: *width = terrain->height; *height = terrain->width;  break;
+    }
 }
