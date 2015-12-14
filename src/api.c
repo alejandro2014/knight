@@ -101,69 +101,6 @@ Terrain *rotatex(Operation operation, Terrain *oldTerrain) {
     return newTerrain;
 }
 
-Terrain *rotate90(Terrain *oldTerrain) {
-    int x, y;
-    int width = oldTerrain->height;
-    int height = oldTerrain->width;
-    int newHeight;
-
-    Terrain *newTerrain = generateTerrain(width, height);
-
-    for(x = 0; x < width; x++) {
-        for(y = 0; y < height; y++) {
-            newHeight = getHeightForOperation(ROTATE_90, oldTerrain, x, y);
-            setHeight(newTerrain, x, y, newHeight);
-        }
-    }
-
-    freeTerrain(oldTerrain);
-    oldTerrain = NULL;
-
-    return newTerrain;
-}
-
-Terrain *rotate180(Terrain *oldTerrain) {
-    int x, y;
-    int width = oldTerrain->width;
-    int height = oldTerrain->height;
-    int newHeight;
-
-    Terrain *newTerrain = generateTerrain(width, height);
-
-    for(x = 0; x < width; x++) {
-        for(y = 0; y < height; y++) {
-            newHeight = getHeightForOperation(ROTATE_180, oldTerrain, x, y);
-            setHeight(newTerrain, x, y, newHeight);
-        }
-    }
-
-    freeTerrain(oldTerrain);
-    oldTerrain = NULL;
-
-    return newTerrain;
-}
-
-Terrain *rotate270(Terrain *oldTerrain) {
-    int x, y;
-    int width = oldTerrain->height;
-    int height = oldTerrain->width;
-    int newHeight;
-
-    Terrain *newTerrain = generateTerrain(width, height);
-
-    for(x = 0; x < width; x++) {
-        for(y = 0; y < height; y++) {
-            newHeight = getHeightForOperation(ROTATE_270, oldTerrain, x, y);
-            setHeight(newTerrain, x, y, newHeight);
-        }
-    }
-
-    freeTerrain(oldTerrain);
-    oldTerrain = NULL;
-
-    return newTerrain;
-}
-
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
     int width, height;
     int returned = 0;

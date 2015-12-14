@@ -10,9 +10,6 @@ typedef int Operation;
 #define ROTATE_270 0
 
 Terrain *api_rotate(Terrain *oldTerrain, int angle);
-Terrain *rotate90(Terrain *oldTerrain);
-Terrain *rotate180(Terrain *oldTerrain);
-Terrain *rotate270(Terrain *oldTerrain);
 Terrain *rotatex(Operation operation, Terrain *oldTerrain);
 
 Terrain *api_flip(Terrain *oldTerrain, Axis axis);
