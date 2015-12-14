@@ -3,57 +3,6 @@
 #include "hme_lowlevel.h"
 #include "global.h"
 
-Terrain *api_flip(Terrain *terrain, Axis axis) {
-    switch(axis) {
-        case XAXIS: terrain = api_flipX(terrain); break;
-        case YAXIS: terrain = api_flipY(terrain); break;
-    }
-
-    return terrain;
-}
-
-Terrain *api_flipX(Terrain *oldTerrain) {
-    int x, y;
-    int width = oldTerrain->width;
-    int height = oldTerrain->height;
-    int newHeight;
-
-    Terrain *newTerrain = generateTerrain(width, height);
-
-    for(x = 0; x < width; x++) {
-        for(y = 0; y < height; y++) {
-            newHeight = getHeight(oldTerrain, x, height - y - 1);
-            setHeight(newTerrain, x, y, newHeight);
-        }
-    }
-
-    freeTerrain(oldTerrain);
-    oldTerrain = NULL;
-
-    return newTerrain;
-}
-
-Terrain *api_flipY(Terrain *oldTerrain) {
-    int x, y;
-    int width = oldTerrain->width;
-    int height = oldTerrain->height;
-    int newHeight;
-
-    Terrain *newTerrain = generateTerrain(width, height);
-
-    for(x = 0; x < width; x++) {
-        for(y = 0; y < height; y++) {
-            newHeight = getHeight(oldTerrain, width - x - 1, y);
-            setHeight(newTerrain, x, y, newHeight);
-        }
-    }
-
-    freeTerrain(oldTerrain);
-    oldTerrain = NULL;
-
-    return newTerrain;
-}
-
 Terrain *api_flipZ(Terrain *oldTerrain) {
     /*int i;
     int map_size=WIDTH*HEIGHT;
@@ -67,20 +16,8 @@ Terrain *api_flipZ(Terrain *oldTerrain) {
     return NULL;
 }
 
-Terrain *api_rotate(Terrain *oldTerrain, int angle) {
-    Terrain *newTerrain = NULL;
-
-    switch(angle) {
-        case 90: newTerrain = rotatex(ROTATE_90, oldTerrain); break;
-        case 180: newTerrain = rotatex(ROTATE_180, oldTerrain); break;
-        case 270: newTerrain = rotatex(ROTATE_270, oldTerrain); break;
-    }
-
-    return newTerrain;
-}
-
 //--------------------------------------------------------
-Terrain *rotatex(Operation operation, Terrain *oldTerrain) {
+Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
     int x, y;
     int width, height;
     int newHeight;
@@ -111,6 +48,8 @@ int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
         case ROTATE_90: returned = getHeight(terrain, y, width - x - 1); break;
         case ROTATE_180: returned = getHeight(terrain, width - x - 1, height - y - 1); break;
         case ROTATE_270: returned = getHeight(terrain, height - y - 1, x); break;
+        case FLIP_XAXIS: returned = getHeight(terrain, x, height - y - 1); break;
+        case FLIP_YAXIS: returned = getHeight(terrain, width - x - 1, y); break;
     }
 
     return returned;
@@ -121,5 +60,7 @@ void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width
         case ROTATE_90:  *width = terrain->height; *height = terrain->width;  break;
         case ROTATE_180: *width = terrain->width;  *height = terrain->height; break;
         case ROTATE_270: *width = terrain->height; *height = terrain->width;  break;
+        case FLIP_XAXIS: *width = terrain->width; *height = terrain->height; break;
+        case FLIP_YAXIS: *width = terrain->width; *height = terrain->height; break;
     }
 }
