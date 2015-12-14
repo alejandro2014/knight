@@ -71,56 +71,6 @@ void global_replace() {
     change_cursor(last_cursor);
 }
 
-void flip_z() {
-  int i;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-
-  change_cursor(cursor_wait);
-
-  for(x = 0; x < WIDTH; x++) {
-      for(y = 0; y < HEIGHT; y++) {
-          currentHeight = getHeight(x, y);
-          setHeight(x, y, -currentHeight);
-      }
-  }
-
-  change_cursor(last_cursor);
-}
-
-void flip_y() {
-    int x,y,map_offset;
-    int map_size=WIDTH*HEIGHT;
-    if (!terrain_height)return;
-    change_cursor(cursor_wait);
-
-    for (y = 0; y<HEIGHT; y++) {
-        map_offset=y*WIDTH;
-
-	    for (x = 0; x<WIDTH; x++) {
-            map_offset++;
-	    }
-    }
-
-    change_cursor(last_cursor);
-}
-
-void flip_x() {
-  int x,y,map_offset;
-  int map_size=WIDTH*HEIGHT;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  for (y = 0; y<HEIGHT; y++) {
-		map_offset=y*WIDTH;
-
-		for (x = 0; x<WIDTH; x++) {
-			map_offset++;
-		}
-	}
-  change_cursor(last_cursor);
-}
-
 void smooth_terrain() {
   if(!terrain_height)return;
 

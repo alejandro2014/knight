@@ -2,10 +2,16 @@
 #define API_H
 
 #include "terrain.h"
+#include "global.h"
 
 Terrain *api_rotate(Terrain *oldTerrain, int angle);
-Terrain *rotate_90(Terrain *oldTerrain);
-Terrain *rotate_180(Terrain *oldTerrain);
-Terrain *rotate_270(Terrain *oldTerrain);
+Terrain *rotate90(Terrain *oldTerrain);
+Terrain *rotate180(Terrain *oldTerrain);
+Terrain *rotate270(Terrain *oldTerrain);
+
+Terrain *api_flip(Terrain *oldTerrain, Axis axis);
+Terrain *api_flipX(Terrain *oldTerrain);
+Terrain *api_flipY(Terrain *oldTerrain);
+Terrain *api_flipZ(Terrain *oldTerrain);
 
 #endif

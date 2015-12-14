@@ -1,20 +1,86 @@
 #include "api.h"
 #include "terrain.h"
 #include "hme_lowlevel.h"
+#include "global.h"
+
+Terrain *api_flip(Terrain *terrain, Axis axis) {
+    switch(axis) {
+        case XAXIS: terrain = api_flipX(terrain); break;
+        case YAXIS: terrain = api_flipY(terrain); break;
+    }
+
+    return terrain;
+}
+
+Terrain *api_flipX(Terrain *oldTerrain) {
+    int x, y;
+    int width = oldTerrain->width;
+    int height = oldTerrain->height;
+    int newHeight;
+
+    Terrain *newTerrain = generateTerrain(width, height);
+
+    for(x = 0; x < width; x++) {
+        for(y = 0; y < height; y++) {
+            newHeight = getHeight(oldTerrain, x, height - y - 1);
+            setHeight(newTerrain, x, y, newHeight);
+        }
+    }
+
+    freeTerrain(oldTerrain);
+    oldTerrain = NULL;
+
+    return newTerrain;
+}
+
+Terrain *api_flipY(Terrain *oldTerrain) {
+    int x, y;
+    int width = oldTerrain->width;
+    int height = oldTerrain->height;
+    int newHeight;
+
+    Terrain *newTerrain = generateTerrain(width, height);
+
+    for(x = 0; x < width; x++) {
+        for(y = 0; y < height; y++) {
+            newHeight = getHeight(oldTerrain, width - x - 1, y);
+            setHeight(newTerrain, x, y, newHeight);
+        }
+    }
+
+    freeTerrain(oldTerrain);
+    oldTerrain = NULL;
+
+    return newTerrain;
+}
+
+Terrain *api_flipZ(Terrain *oldTerrain) {
+    /*int i;
+    int map_size=WIDTH*HEIGHT;
+
+    for(x = 0; x < WIDTH; x++) {
+        for(y = 0; y < HEIGHT; y++) {
+            currentHeight = getHeight(x, y);
+            setHeight(x, y, -currentHeight);
+        }
+    }*/
+    return NULL;
+}
 
 Terrain *api_rotate(Terrain *oldTerrain, int angle) {
     Terrain *newTerrain = NULL;
 
     switch(angle) {
-        case 90: newTerrain = rotate_90(oldTerrain); break;
-        case 180: newTerrain = rotate_180(oldTerrain); break;
-        case 270: newTerrain = rotate_270(oldTerrain); break;
+        case 90: newTerrain = rotate90(oldTerrain); break;
+        case 180: newTerrain = rotate180(oldTerrain); break;
+        case 270: newTerrain = rotate270(oldTerrain); break;
     }
 
     return newTerrain;
 }
 
-Terrain *rotate_90(Terrain *oldTerrain) {
+//--------------------------------------------------------
+Terrain *rotate90(Terrain *oldTerrain) {
     int x, y;
     int width = oldTerrain->height;
     int height = oldTerrain->width;
@@ -35,10 +101,10 @@ Terrain *rotate_90(Terrain *oldTerrain) {
     return newTerrain;
 }
 
-Terrain *rotate_180(Terrain *oldTerrain) {
+Terrain *rotate180(Terrain *oldTerrain) {
     int x, y;
-    int height = oldTerrain->height;
     int width = oldTerrain->width;
+    int height = oldTerrain->height;
     int newHeight;
 
     Terrain *newTerrain = generateTerrain(width, height);
@@ -56,7 +122,7 @@ Terrain *rotate_180(Terrain *oldTerrain) {
     return newTerrain;
 }
 
-Terrain *rotate_270(Terrain *oldTerrain) {
+Terrain *rotate270(Terrain *oldTerrain) {
     int x, y;
     int width = oldTerrain->height;
     int height = oldTerrain->width;
@@ -66,7 +132,6 @@ Terrain *rotate_270(Terrain *oldTerrain) {
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
-            printf("b[%d, %d] = a [%d, %d]\n", x, y, y, x);
             newHeight = getHeight(oldTerrain, height - y - 1, x);
             setHeight(newTerrain, x, y, newHeight);
         }

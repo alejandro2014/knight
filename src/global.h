@@ -5,6 +5,11 @@ typedef int bool;
 #define true 1
 #define false 0
 
+typedef int Axis;
+#define XAXIS 0
+#define YAXIS 1
+#define ZAXIS 2
+
 /*#define TERRAIN_WORK 0
 #define TERRAIN_UNDO 1
 #define TERRAIN_TEMP 2

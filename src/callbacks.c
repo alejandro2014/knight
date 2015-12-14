@@ -152,16 +152,16 @@ void cb_rotate_ok() {
     change_cursor(cursor_wait);
 
     switch(rotation_type) {
-        case rotation_flip_x: flip_x(); break;
-        case rotation_flip_y: flip_y(); break;
-        case rotation_flip_z: flip_z(); break;
+        case rotation_flip_x: api_flipX(); break;
+        case rotation_flip_y: api_flipY(); break;
+        case rotation_flip_z: api_flipZ(); break;
         case rotation_CW_90: api_rotate(90); break;
         case rotation_CCW_90: api_rotate(270); break;
         case rotation_180: api_rotate(180); break;
     }
 
     change_cursor(last_cursor);
-    
+
     show_rotate_menu = 0;
 }
 
