@@ -15,6 +15,13 @@ typedef int Operation;
 
 void api_invertHeight(Terrain *terrain);
 
+void api_riseTerrain(Terrain *terrain, int delta);
+void api_sinkTerrain(Terrain *terrain, int delta);
+void api_setHeightTerrain(Terrain *terrain, int height);
+void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
+void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
+void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height);
+
 Terrain *api_rotate(Operation operation, Terrain *oldTerrain);
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
 void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height);

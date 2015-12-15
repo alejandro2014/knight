@@ -95,55 +95,25 @@ void smooth_selection() {
   change_cursor(last_cursor);
 }
 
-void rise_terrain() {
-  if(!terrain_height)return;
-
-  change_cursor(cursor_wait);
-  riseSelection(terrain_height, 0, 0, WIDTH, HEIGHT, color_1);
-  change_cursor(last_cursor);
-}
-
-void sink_terrain() {
-  if (!terrain_height)return;
-
-  change_cursor(cursor_wait);
-  sinkSelection(terrain_height, 0, 0, WIDTH, HEIGHT, color_1);
-  change_cursor(last_cursor);
-}
-
 void rise_selection () {
   int start_x, start_y, end_x, end_y;
-  if (!terrain_height)return;
-
-  change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
   riseSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-
-  change_cursor(last_cursor);
 }
 
 void sink_selection() {
   int start_x, start_y, end_x, end_y;
-  if (!terrain_height)return;
-
-  change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
   sinkSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-
-  change_cursor(last_cursor);
 }
 
 void clear_selection() {
   int start_x, start_y, end_x, end_y;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
 
   setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
   setHeightSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-
-  change_cursor(last_cursor);
 }
 
 void setStartAndEndCoords(int *startX, int *endX, int *startY, int *endY) {
@@ -182,34 +152,4 @@ void smoothSelection(Uint8 *terrain, int startX, int startY, int endX, int endY,
             setHeight(terrain, x, y, sum);
         }
     }
-}
-
-void riseSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        risePoint(terrain, x, y, height);
-    }
-  }
-}
-
-void sinkSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        sinkPoint(terrain, x, y, height);
-    }
-  }
-}
-
-void setHeightSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int height) {
-  int x, y;
-
-  for (y = startY; y < endY; y++) {
-    for (x = startX; x < endX; x++) {
-        setHeight(terrain, x, y, height);
-    }
-  }
 }

@@ -5,8 +5,8 @@
 #include "terrain.h"
 
 void setHeight(Terrain *terrain, int x, int y, int height);
-void incHeight(int x, int y, int delta);
-void decHeight(int x, int y, int delta);
+void incHeight(Terrain *terrain, int x, int y, int delta);
+void decHeight(Terrain *terrain, int x, int y, int delta);
 int getHeight(Terrain *terrain, int x, int y);
 
 int isFilled(int x, int y);

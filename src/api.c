@@ -15,7 +15,48 @@ void api_invertHeight(Terrain *terrain) {
     }
 }
 
-//--------------------------------------------------------
+void api_riseTerrain(Terrain *terrain, int delta) {
+    api_riseSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
+}
+
+void api_sinkTerrain(Terrain *terrain, int delta) {
+    api_sinkSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
+}
+
+void api_setHeightTerrain(Terrain *terrain, int height) {
+    api_setHeightSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, height);
+}
+
+void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
+    int x, y;
+
+    for (y = startY; y <= endY; y++) {
+        for (x = startX; x <= endX; x++) {
+            incHeight(terrain, x, y, delta);
+        }
+    }
+}
+
+void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
+    int x, y;
+
+    for (y = startY; y <= endY; y++) {
+        for (x = startX; x <= endX; x++) {
+            decHeight(terrain, x, y, delta);
+        }
+    }
+}
+
+void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height) {
+    int x, y;
+
+    for (y = startY; y <= endY; y++) {
+        for (x = startX; x <= endX; x++) {
+            setHeight(terrain, x, y, height);
+        }
+    }
+}
+
 Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
     int x, y;
     int width, height;

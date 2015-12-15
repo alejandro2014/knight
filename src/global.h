@@ -5,6 +5,8 @@ typedef int bool;
 #define true 1
 #define false 0
 
+#define MAX_HEIGHT 255
+#define MIN_HEIGHT 0
 /*#define TERRAIN_WORK 0
 #define TERRAIN_UNDO 1
 #define TERRAIN_TEMP 2

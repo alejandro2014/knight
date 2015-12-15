@@ -9,17 +9,9 @@ void generate_menu (int seed);
 
 void do_clear_temp_buffer ();
 
-void rise_terrain ();
-
-void sink_terrain ();
-
 void smooth_terrain ();
 
 void smooth_selection ();
-
-void rise_selection ();
-
-void sink_selection ();
 
 void clear_selection ();
 

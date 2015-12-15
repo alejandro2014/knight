@@ -1,11 +1,10 @@
 #include "hme_lowlevel.h"
 #include "terrain.h"
+#include "global.h"
 
 #include <stdlib.h>
 
 Terrain *currentTerrain = NULL;
-int MAX_HEIGHT = 255;
-int MIN_HEIGHT = 0;
 
 void setHeight(Terrain *terrain, int x, int y, int height) {
     Point *point = getPoint(terrain, x, y);
@@ -21,16 +20,14 @@ int getHeight(Terrain *terrain, int x, int y) {
     return point->z;
 }
 
-void incHeight(int x, int y, int delta) {
-    /*Terrain *terrain = currentTerrain;
+void incHeight(Terrain *terrain, int x, int y, int delta) {
     int newHeight = getHeight(terrain, x, y) + delta;
-    setHeightOld(terrain, x, y, (newHeight < MAX_HEIGHT ? newHeight : MAX_HEIGHT));*/
+    setHeight(terrain, x, y, (newHeight < MAX_HEIGHT ? newHeight : MAX_HEIGHT));
 }
 
-void decHeight(int x, int y, int delta) {
-    /*Terrain *terrain = currentTerrain;
+void decHeight(Terrain *terrain, int x, int y, int delta) {
     int newHeight = getHeight(terrain, x, y) - delta;
-    setHeight(terrain, x, y, (newHeight > MIN_HEIGHT ? newHeight : MIN_HEIGHT));*/
+    setHeight(terrain, x, y, (newHeight > MIN_HEIGHT ? newHeight : MIN_HEIGHT));
 }
 
 int isFilled(int x, int y) {
