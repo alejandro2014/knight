@@ -4,15 +4,15 @@ BINDIR=./bin
 OBJDIR=./obj
 SRCDIR=./src
 
-SRC13=main
 SRC01=widgets
 SRC02=load_widgets_fake
 SRC03=helper
-SRC04=terrain
-SRC05=api
-SRC06=hme_lowlevel
+SRC04=api
+SRC05=hme_lowlevel
+SRC06=main
+SRC07=console
 
-OBJ_LINUX=${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o ${OBJDIR}/${SRC06}.o
+OBJ_LINUX=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o ${OBJDIR}/${SRC06}.o ${OBJDIR}/${SRC07}.o
 
 OBJ=${OBJ_LINUX}
 

@@ -39,7 +39,6 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "widgets.h"
 #include "main.h"
 #include "helper.h"
-#include "terrain.h"
 #include "api.h"
 #include "hme_lowlevel.h"
 
@@ -93,7 +92,7 @@ int loadResources(HeightMapEditor *heightMapEditor) {
     heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);
 
-    heightMapEditor->terrain = generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);
+    heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);
 
     /**window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
@@ -125,7 +124,7 @@ void freeResources(HeightMapEditor *heightMapEditor) {
     SDL_DestroyWindow(heightMapEditor->window);
     TTF_CloseFont(heightMapEditor->font);*/
     freeDialogs(heightMapEditor->dialogs);
-    freeTerrain(heightMapEditor->terrain);
+    api_freeTerrain(heightMapEditor->terrain);
 
     /*if (terrain_height)free (terrain_height);
     if (temp_buffer)free (temp_buffer);
@@ -135,15 +134,6 @@ void freeResources(HeightMapEditor *heightMapEditor) {
 }
 
 /*int main2(int argc, char *argv[]) {
-  WIDTH = 700;
-  HEIGHT = 480;
-  //WIDTH = 513;
-  //HEIGHT = 513;
-  window_width = WIDTH;
-  window_height = HEIGHT;
-  //terrain = generateTerrain(700, 480);
-  //terrain = generateTerrain(WIDTH, HEIGHT);
-
   SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER);
   //TTF_Init();
   //font = TTF_OpenFont(FONT_PATH_LINUX, 12);
@@ -193,8 +183,6 @@ void freeResources(HeightMapEditor *heightMapEditor) {
   //save_settings ();		//save the settings, at exit
 
   SDL_Quit ();
-
-  freeMemory(terrain);
 
   return 1;
 }*/

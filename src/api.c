@@ -1,7 +1,29 @@
+#include <string.h>
+
 #include "api.h"
-#include "terrain.h"
 #include "hme_lowlevel.h"
 #include "global.h"
+
+Terrain *api_generateTerrain(int width, int height) {
+  Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
+  int map_size = width * height;
+
+  terrain->width = width;
+  terrain->height = height;
+  terrain->pointsNo = map_size;
+  terrain->points = (Point *) malloc(map_size * sizeof(Point));
+  memset(terrain->points, 0, map_size * sizeof(Point));
+
+  printf("[INFO] Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
+  return terrain;
+}
+
+void api_freeTerrain(Terrain *terrain) {
+  if(terrain == NULL) return;
+
+  free(terrain->points);
+  free(terrain);
+}
 
 void api_invertHeight(Terrain *terrain) {
     int x, y;
@@ -85,7 +107,7 @@ Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
     int newHeight;
 
     setDimensionsForOperation(operation, oldTerrain, &width, &height);
-    Terrain *newTerrain = generateTerrain(width, height);
+    Terrain *newTerrain = api_generateTerrain(width, height);
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
@@ -94,7 +116,7 @@ Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
         }
     }
 
-    freeTerrain(oldTerrain);
+    api_freeTerrain(oldTerrain);
     oldTerrain = NULL;
 
     return newTerrain;

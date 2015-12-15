@@ -1,7 +1,9 @@
 #ifndef API_H
 #define API_H
 
-#include "terrain.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "global.h"
 
 #define MAX_HEIGHT 255
@@ -12,6 +14,23 @@ typedef int Operation;
 #define ROTATE_270 2
 #define FLIP_XAXIS 3
 #define FLIP_YAXIS 4
+
+typedef struct {
+  int x;
+  int y;
+  int z;
+  bool isHeightSetted;
+} Point;
+
+typedef struct {
+  int width;
+  int height;
+  int pointsNo;
+  Point *points;
+} Terrain;
+
+Terrain *api_generateTerrain(int width, int height);
+void api_freeTerrain(Terrain *terrain);
 
 void api_invertHeight(Terrain *terrain);
 

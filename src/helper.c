@@ -2,7 +2,7 @@
 #include "menus.h"
 #include "helper.h"
 #include "widgets.h"
-#include "terrain.h"
+#include "api.h"
 #include "hme_lowlevel.h"
 
 void printDialogs(Dialog **dialogs) {

@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 #include "menus.h"
-#include "terrain.h"
+#include "api.h"
 
 typedef struct {
     Dialog **dialogs;

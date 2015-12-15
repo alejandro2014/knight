@@ -1,5 +1,5 @@
 #include "hme_lowlevel.h"
-#include "terrain.h"
+#include "api.h"
 #include "global.h"
 
 #include <stdlib.h>
