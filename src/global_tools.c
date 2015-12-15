@@ -71,51 +71,6 @@ void global_replace() {
     change_cursor(last_cursor);
 }
 
-void smooth_terrain() {
-  if(!terrain_height)return;
-
-  change_cursor(cursor_wait);
-  smoothSelection(terrain_height, 1, 1, WIDTH - 1, HEIGHT - 1 , -1);
-  change_cursor(last_cursor);
-}
-
-void smooth_selection() {
-  int x, y, start_x,start_y,end_x,end_y,sum;
-  if (!terrain_height)return;
-  change_cursor(cursor_wait);
-
-  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-
-  if(start_x==0) start_x = 1;
-  if(start_y==0) start_y = 1;
-  if(end_x==WIDTH) end_x = WIDTH - 1;
-  if(end_y==HEIGHT) end_y = HEIGHT - 1;
-
-  smoothSelection(terrain_height, start_x, start_y, end_x, end_y, -1);
-  change_cursor(last_cursor);
-}
-
-void rise_selection () {
-  int start_x, start_y, end_x, end_y;
-
-  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  riseSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-}
-
-void sink_selection() {
-  int start_x, start_y, end_x, end_y;
-
-  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  sinkSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-}
-
-void clear_selection() {
-  int start_x, start_y, end_x, end_y;
-
-  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
-  setHeightSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);
-}
-
 void setStartAndEndCoords(int *startX, int *endX, int *startY, int *endY) {
   setStartAndEndCoord(startX, endX, selection_x_1, selection_x_2);
   setStartAndEndCoord(startY, endY, selection_y_1, selection_y_2);
@@ -131,25 +86,52 @@ void setStartAndEndCoord(int *startValue, int *endValue, int value1, int value2)
 	}
 }
 
-void smoothSelection(Uint8 *terrain, int startX, int startY, int endX, int endY, int uselessParam) {
-    int x, y;
-    int sum;
+void rise_selection () {
+    //TODO API call
+  /*int start_x, start_y, end_x, end_y;
 
-    for (y = startY; y < endY; y++) {
-        for (x = startX; x < endX; x++) {
-            sum = *(terrain + y * WIDTH + x);
-            sum += *(terrain + ((y - 1) * WIDTH) + x - 1);
-            sum += *(terrain + ((y - 1) * WIDTH) + x);
-            sum += *(terrain + ((y - 1) * WIDTH) + x + 1);
-            sum += *(terrain + (y * WIDTH) + x - 1);
-            sum += *(terrain + (y * WIDTH) + x + 1);
-            sum += *(terrain + ((y + 1) * WIDTH) + x - 1);
-            sum += *(terrain + ((y + 1) * WIDTH) + x);
-            sum += *(terrain + ((y + 1) * WIDTH) + x + 1);
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+  riseSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);*/
+}
 
-            sum = (sum / 9) + (sum % 9 > 4) ? 1 : 0;
+void sink_selection() {
+    //TODO API call
+  /*int start_x, start_y, end_x, end_y;
 
-            setHeight(terrain, x, y, sum);
-        }
-    }
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+  sinkSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);*/
+}
+
+void clear_selection() {
+    //TODO API call
+  /*int start_x, start_y, end_x, end_y;
+
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+  setHeightSelection(terrain_height, start_x, start_y, end_x, end_y, color_1);*/
+}
+
+void smooth_terrain() {
+    /* TODO Api call
+  if(!terrain_height)return;
+
+  change_cursor(cursor_wait);
+  smoothSelection(terrain_height, 1, 1, WIDTH - 1, HEIGHT - 1 , -1);
+  change_cursor(last_cursor);*/
+}
+
+void smooth_selection() {
+  /*TODO Api call
+  int x, y, start_x,start_y,end_x,end_y,sum;
+  if (!terrain_height)return;
+  change_cursor(cursor_wait);
+
+  setStartAndEndCoords(&start_x, &start_y, &end_y, &end_x);
+
+  if(start_x==0) start_x = 1;
+  if(start_y==0) start_y = 1;
+  if(end_x==WIDTH) end_x = WIDTH - 1;
+  if(end_y==HEIGHT) end_y = HEIGHT - 1;
+
+  smoothSelection(terrain_height, start_x, start_y, end_x, end_y, -1);
+  change_cursor(last_cursor);*/
 }

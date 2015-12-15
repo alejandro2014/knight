@@ -27,6 +27,11 @@ void api_setHeightTerrain(Terrain *terrain, int height) {
     api_setHeightSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, height);
 }
 
+//TODO Not tested
+void api_smoothTerrain(Terrain *terrain) {
+    api_smoothSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
+}
+
 void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
     int x, y;
 
@@ -53,6 +58,23 @@ void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
             setHeight(terrain, x, y, height);
+        }
+    }
+}
+
+//TODO Not tested
+void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int endY) {
+    int x, y;
+    int sum;
+
+    for (y = startY; y <= endY; y++) {
+        for (x = startX; x <= endX; x++) {
+            sum += getHeight(terrain, x-1, y-1) + getHeight(terrain, x, y-1) + getHeight(terrain, x+1, y-1);
+            sum += getHeight(terrain, x-1,   y) + getHeight(terrain, x,   y) + getHeight(terrain, x+1,   y);
+            sum += getHeight(terrain, x-1, y+1) + getHeight(terrain, x, y+1) + getHeight(terrain, x+1, y+1);
+            sum = (sum / 9) + (sum % 9 > 4 ? 1 : 0);
+
+            setHeight(terrain, x, y, sum);
         }
     }
 }
