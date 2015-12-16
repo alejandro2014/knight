@@ -24,6 +24,7 @@ typedef struct {
 
 } Console;
 
+Command *loadCommands();
 Console *createConsole(int sizeKb);
 void freeConsole(Console *console);
 

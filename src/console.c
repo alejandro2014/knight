@@ -50,28 +50,21 @@ Command *parseCommand(char *strCommand) {
     }
 
     return NULL;
-
-    /*int numTokens = 0;
-    int i;
-
-    for(i = 0; i < numTokens; i++) {
-        printf(">> %s\n", *(tokens + i));
-    }
-
-    return NULL;*/
 }
 
 Command *loadCommands() {
-    /*int numCommands = 1;
+    int numCommands = 1;
     Command *commands = (Command *) malloc(numCommands * sizeof(Command));
 
-    Param *params = (Param *) malloc(1, sizeof(Param));
-    *(params + 0)->key = "-w";
-    *(params + 1)->key = "-h";
+    Param *params = (Param *) malloc(sizeof(Param) * 2);
+    (params + 0)->key = "width";
+    (params + 1)->key = "height";
 
-    *(commands + 0)->string = "gterr";
-    *(commands + 0)->params = params;
+    (commands + 0)->string = "gterr";
+    (commands + 0)->params = params;
 
-    return commands;*/
-    return NULL;
+    printf("List of commands\n");
+    printf("----------------\n");
+    printf("%s (%s, %s)\n", (commands + 0)->string, ((commands + 0)->params + 0)->key, ((commands + 0)->params + 1)->key);
+    return commands;
 }

@@ -51,11 +51,12 @@ int main(int argc, char* argv[]) {
     bool finish = false;
     Console *console = createConsole(1);
     Command *command = NULL;
+    Command *listCommands = loadCommands();
 
     while(!finish) {
         printPrompt();
         readShellLine(console);
-        parseCommand(console->currentLine);
+        command = parseCommand(console->currentLine);
 
         if(!strcmp(console->currentLine, "exit")) {
             finish = true;
