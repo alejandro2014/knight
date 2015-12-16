@@ -3,6 +3,38 @@
 #include <string.h>
 #include "console.h"
 
+Console *createConsole(int sizeKb) {
+    Console *console = (Console *) malloc(sizeof(Console));
+    memset(console, 0, sizeof(Console));
+
+    console->sizeLine = LINE_LENGTH;
+
+    int sizeBytes = sizeKb * 1024 * sizeof(char);
+    console->text = (char *) malloc(sizeBytes);
+    memset(console->text, 0, sizeBytes);
+
+    console->currentLine = (char *) malloc(LINE_LENGTH * sizeof(char));
+    memset(console->currentLine, 0, sizeof(LINE_LENGTH));
+
+    printf("[INFO] Created console (%dkb)\n", sizeKb);
+
+    return console;
+}
+
+void freeConsole(Console *console) {
+    free(console->text);
+    free(console);
+}
+
+void printPrompt() {
+    printf("> ");
+}
+
+void readShellLine(Console *console) {
+    size_t sizeLineRead = getline(&console->currentLine, &console->sizeLine, stdin);
+    *(console->currentLine + sizeLineRead - 1) = 0x00;
+}
+
 Command *parseCommand(char *strCommand) {
     printf("Analyzing command [%s]\n", strCommand);
     char stringCommand[100];

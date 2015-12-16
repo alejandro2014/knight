@@ -43,17 +43,27 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "hme_lowlevel.h"
 #include "console.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 int main(int argc, char* argv[]) {
-    char *string = "gterr -w 20 -h 30";
-    char *stringCommand = (char *) malloc(sizeof(char) * 100);
-    memset(stringCommand, 0, 100);
-    memcpy(stringCommand, string, strlen(string));
+    bool finish = false;
+    Console *console = createConsole(1);
+    Command *command = NULL;
 
-    //char stringCommand[100] = "gterr -w 20 -h 30\0";
-    Command *command = parseCommand(stringCommand);
+    while(!finish) {
+        printPrompt();
+        readShellLine(console);
+        parseCommand(console->currentLine);
+
+        if(!strcmp(console->currentLine, "exit")) {
+            finish = true;
+            printf("Bye\n");
+        }
+    }
+
+    freeConsole(console);
     return 0;
 
     HeightMapEditor heightMapEditor;
@@ -87,16 +97,16 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void programLoop() {
-    /*bool finish = false;
-    SDL_Event event;
+/*void programLoop() {
+    bool finish = false;
+    //SDL_Event event;
 
     while(!finish) {
-        readEvents(&finish);
+        //readEvents(&finish);
         //drawScreen();
         //SDL_Delay(1000);
-    }*/
-}
+    }
+}*/
 
 int loadResources(HeightMapEditor *heightMapEditor) {
     int width = 100;
