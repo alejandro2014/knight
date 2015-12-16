@@ -43,8 +43,17 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "hme_lowlevel.h"
 #include "console.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 int main(int argc, char* argv[]) {
-    Command *command = parseCommand("gterr -w 20 -h 30");
+    char *string = "gterr -w 20 -h 30";
+    char *stringCommand = (char *) malloc(sizeof(char) * 100);
+    memset(stringCommand, 0, 100);
+    memcpy(stringCommand, string, strlen(string));
+
+    //char stringCommand[100] = "gterr -w 20 -h 30\0";
+    Command *command = parseCommand(stringCommand);
     return 0;
 
     HeightMapEditor heightMapEditor;

@@ -3,13 +3,12 @@
 #include <string.h>
 #include "console.h"
 
-char *getToken();
-
 Command *parseCommand(char *strCommand) {
     printf("Analyzing command [%s]\n", strCommand);
     char stringCommand[100];
-    memcpy(stringCommand, strCommand, strlen(strCommand));
-    stringCommand[strlen(strCommand)] = 0x00;
+    int length = strlen(strCommand);
+    memcpy(stringCommand, strCommand, length);
+    stringCommand[length] = 0x00;
 
     char *str = strtok(stringCommand, " ");
 
@@ -28,18 +27,6 @@ Command *parseCommand(char *strCommand) {
     }
 
     return NULL;*/
-}
-
-char *getToken(char *string) {
-    char *str = strtok(string, " ");
-
-    while(str) {
-        printf(">> Detected [%s]\n", str);
-        str = strtok(NULL, " ");
-    }
-
-    //return str;
-    return NULL;
 }
 
 Command *loadCommands() {
