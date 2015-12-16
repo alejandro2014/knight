@@ -41,8 +41,12 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "helper.h"
 #include "api.h"
 #include "hme_lowlevel.h"
+#include "console.h"
 
 int main(int argc, char* argv[]) {
+    Command *command = parseCommand("gterr -w 20 -h 30");
+    return 0;
+
     HeightMapEditor heightMapEditor;
     heightMapEditor.horSize = 3;
     heightMapEditor.verSize = 2;
