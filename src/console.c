@@ -35,8 +35,7 @@ void readShellLine(Console *console) {
     *(console->currentLine + sizeLineRead - 1) = 0x00;
 }
 
-Command *parseCommand(char *strCommand) {
-    printf("Analyzing command [%s]\n", strCommand);
+Command *parseCommand(char *strCommand, Command *listCommands) {
     char stringCommand[100];
     int length = strlen(strCommand);
     memcpy(stringCommand, strCommand, length);
@@ -44,27 +43,52 @@ Command *parseCommand(char *strCommand) {
 
     char *str = strtok(stringCommand, " ");
 
-    while(str) {
-        printf(">> Detected [%s]\n", str);
-        str = strtok(NULL, " ");
+    if(getIndexCommand(str, listCommands) != -1) {
+        while(str) {
+            str = strtok(NULL, " ");
+        }
+    } else {
+        printf("Unknown command: '%s'\n", str);
     }
 
     return NULL;
 }
 
 Command *loadCommands() {
-    int numCommands = 1;
+    int numCommands = 4;
     Command *commands = (Command *) malloc(numCommands * sizeof(Command));
+    memset(commands, 0, numCommands * sizeof(Command));
+
+    Command *command = NULL;
 
     Param *params = (Param *) malloc(sizeof(Param) * 2);
     (params + 0)->key = "width";
     (params + 1)->key = "height";
 
-    (commands + 0)->string = "gterr";
-    (commands + 0)->params = params;
+    setCommand(commands, GENERATE_TERRAIN, "gterr", params);
+    setCommand(commands, ROTATE90, "rotate90", NULL);
+    setCommand(commands, ROTATE180, "rotate180", NULL);
+    setCommand(commands, ROTATE270, "rotate270", NULL);
 
     printf("List of commands\n");
     printf("----------------\n");
     printf("%s (%s, %s)\n", (commands + 0)->string, ((commands + 0)->params + 0)->key, ((commands + 0)->params + 1)->key);
+    printf("%s ()\n", (commands + 1)->string);
+    printf("%s ()\n", (commands + 2)->string);
+    printf("%s ()\n", (commands + 3)->string);
     return commands;
+}
+
+void setCommand(Command *commands, int numCommand, char *name, Param *params) {
+    Command *command = (commands + numCommand);
+    command->string = name;
+    command->params = params;
+}
+
+int getIndexCommand(char *param, Command *listCommands) {
+    return -1;
+}
+
+int getIndexParam(char *param, Command *command) {
+    return 0;
 }
