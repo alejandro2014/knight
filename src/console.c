@@ -55,9 +55,8 @@ Command *parseCommand(char *strCommand, Command *listCommands) {
 }
 
 Command *loadCommands() {
-    int numCommands = 4;
-    Command *commands = (Command *) malloc(numCommands * sizeof(Command));
-    memset(commands, 0, numCommands * sizeof(Command));
+    Command *commands = (Command *) malloc(NUM_COMMANDS * sizeof(Command));
+    memset(commands, 0, NUM_COMMANDS * sizeof(Command));
 
     Command *command = NULL;
 
@@ -76,6 +75,7 @@ Command *loadCommands() {
     printf("%s ()\n", (commands + 1)->string);
     printf("%s ()\n", (commands + 2)->string);
     printf("%s ()\n", (commands + 3)->string);
+
     return commands;
 }
 
@@ -85,7 +85,17 @@ void setCommand(Command *commands, int numCommand, char *name, Param *params) {
     command->params = params;
 }
 
-int getIndexCommand(char *param, Command *listCommands) {
+int getIndexCommand(char *command, Command *listCommands) {
+    Command *currentCommand = NULL;
+    int i;
+
+    for(i = 0; i < NUM_COMMANDS; i++) {
+        currentCommand = listCommands + i;
+        if(!strcmp(currentCommand->string, command)) {
+            return i;
+        }
+    }
+
     return -1;
 }
 
