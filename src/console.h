@@ -15,7 +15,7 @@ typedef struct {
 } Param;
 
 typedef struct {
-    char *string;
+    char *name;
     Param *params;
     char *target;
 } Command;
@@ -40,7 +40,7 @@ void printPrompt();
 void readShellLine(Console *console);
 Command *parseCommand(char *strCommand, Command *listCommands);
 
-int getIndexCommand(char *param, Command *listCommands);
+int getIndexCommand(char *command, Command *listCommands);
 int getIndexParam(char *param, Command *command);
 
 #endif

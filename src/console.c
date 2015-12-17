@@ -71,17 +71,17 @@ Command *loadCommands() {
 
     printf("List of commands\n");
     printf("----------------\n");
-    printf("%s (%s, %s)\n", (commands + 0)->string, ((commands + 0)->params + 0)->key, ((commands + 0)->params + 1)->key);
-    printf("%s ()\n", (commands + 1)->string);
-    printf("%s ()\n", (commands + 2)->string);
-    printf("%s ()\n", (commands + 3)->string);
+    printf("%s (%s, %s)\n", (commands + 0)->name, ((commands + 0)->params + 0)->key, ((commands + 0)->params + 1)->key);
+    printf("%s ()\n", (commands + 1)->name);
+    printf("%s ()\n", (commands + 2)->name);
+    printf("%s ()\n", (commands + 3)->name);
 
     return commands;
 }
 
 void setCommand(Command *commands, int numCommand, char *name, Param *params) {
     Command *command = (commands + numCommand);
-    command->string = name;
+    command->name = name;
     command->params = params;
 }
 
@@ -91,7 +91,7 @@ int getIndexCommand(char *command, Command *listCommands) {
 
     for(i = 0; i < NUM_COMMANDS; i++) {
         currentCommand = listCommands + i;
-        if(!strcmp(currentCommand->string, command)) {
+        if(!strcmp(currentCommand->name, command)) {
             return i;
         }
     }
