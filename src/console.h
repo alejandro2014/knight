@@ -45,4 +45,7 @@ Command *getCommand(char *command, Command *listCommands);
 Param *getCommandParams(Command *command, char *paramName);
 Param *getParam(char *paramName, Command *command);
 
+Param *parseParam(char *paramString);
+Param *createParam(char *key, char *value);
+
 #endif

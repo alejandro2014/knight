@@ -51,7 +51,7 @@ Command *parseCommand(char *strCommand, Command *listCommands) {
         return NULL;
     }
 
-    //getCommandParams(command, str);
+    getCommandParams(command, str);
     return command;
 }
 
@@ -72,6 +72,41 @@ Param *getCommandParams(Command *command, char *str) {
     }
 
     return NULL;
+}
+
+Param *parseParam(char *paramString) {
+    char *key;
+    char *value;
+    int length = strlen(paramString);
+    int i;
+
+    for(i = 0; i < length; i++) {
+        printf("> %c\n", *(paramString + i));
+
+        if(*(paramString + i) == ':') {
+            printf("Detected colon in position %i\n", i);
+
+            key = (char *) malloc((i + 1) * sizeof(char));
+            memcpy(key, paramString, i);
+            *(key + i) = 0x00;
+
+            printf("Detected param name [%s]\n", key);
+
+            break;
+            //value = (char *) malloc((length - i + 1) * sizeof(char));
+        }
+    }
+
+    return NULL;
+}
+
+Param *createParam(char *key, char *value) {
+    Param *param = (Param *) malloc(sizeof(Param));
+    memset(param, 0, sizeof(Param));
+    param->key = key;
+    param->value = value;
+
+    return param;
 }
 
 void executeCommand(Command *command) {
