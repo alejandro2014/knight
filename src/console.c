@@ -81,19 +81,17 @@ Param *parseParam(char *paramString) {
     int i;
 
     for(i = 0; i < length; i++) {
-        printf("> %c\n", *(paramString + i));
-
         if(*(paramString + i) == ':') {
-            printf("Detected colon in position %i\n", i);
-
             key = (char *) malloc((i + 1) * sizeof(char));
             memcpy(key, paramString, i);
             *(key + i) = 0x00;
-
             printf("Detected param name [%s]\n", key);
 
+            value = (char *) malloc((length - i + 1) * sizeof(char));
+            memcpy(value, paramString + i + 1, length - i + 1);
+            *(value + length + 1) = 0x00;
+            printf("Detected param value [%s]\n", value);
             break;
-            //value = (char *) malloc((length - i + 1) * sizeof(char));
         }
     }
 
