@@ -17,6 +17,7 @@ typedef struct {
 typedef struct {
     char *name;
     Param *params;
+    int numParams;
     char *target;
 } Command;
 
@@ -27,20 +28,21 @@ typedef struct {
     char *text;
     char *currentLine;
     size_t sizeLine;
-
 } Console;
 
 Command *loadCommands();
-void setCommand(Command *commands, int numCommand, char *name, Param *params);
+void setCommand(Command *commands, int numCommand, char *name, Param *params, int numParams);
+void executeCommand(Command *command);
 
 Console *createConsole(int sizeKb);
 void freeConsole(Console *console);
 
 void printPrompt();
+
 void readShellLine(Console *console);
 Command *parseCommand(char *strCommand, Command *listCommands);
-
-int getIndexCommand(char *command, Command *listCommands);
-int getIndexParam(char *param, Command *command);
+Command *getCommand(char *command, Command *listCommands);
+Param *getCommandParams(Command *command, char *paramName);
+Param *getParam(char *paramName, Command *command);
 
 #endif

@@ -56,9 +56,14 @@ int main(int argc, char* argv[]) {
     while(!finish) {
         printPrompt();
         readShellLine(console);
-        command = parseCommand(console->currentLine, listCommands);
 
-        if(!strcmp(console->currentLine, "exit")) {
+        if(strcmp(console->currentLine, "exit")) {
+            command = parseCommand(console->currentLine, listCommands);
+
+            if(command) {
+                executeCommand(command);
+            }
+        } else {
             finish = true;
             printf("Bye\n");
         }

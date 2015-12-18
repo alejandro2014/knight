@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "console.h"
+#include "api.h"
 
 Console *createConsole(int sizeKb) {
     Console *console = (Console *) malloc(sizeof(Console));
@@ -43,15 +44,40 @@ Command *parseCommand(char *strCommand, Command *listCommands) {
 
     char *str = strtok(stringCommand, " ");
 
-    if(getIndexCommand(str, listCommands) != -1) {
-        while(str) {
-            str = strtok(NULL, " ");
-        }
-    } else {
+    Command *command = getCommand(str, listCommands);
+
+    if(!command) {
         printf("Unknown command: '%s'\n", str);
+        return NULL;
+    }
+
+    //getCommandParams(command, str);
+    return command;
+}
+
+Param *getCommandParams(Command *command, char *str) {
+    Param *param = NULL;
+    str = strtok(NULL, " ");
+
+    while(str) {
+        param = getParam(str, command);
+
+        if(param) {
+            printf("Detected param [%s]\n", str);
+        } else {
+            printf("Param not found [%s]\n", str);
+        }
+
+        str = strtok(NULL, " ");
     }
 
     return NULL;
+}
+
+void executeCommand(Command *command) {
+    if(!strcmp("gterr", command->name)) {
+        api_generateTerrain(2, 3);
+    }
 }
 
 Command *loadCommands() {
@@ -64,10 +90,10 @@ Command *loadCommands() {
     (params + 0)->key = "width";
     (params + 1)->key = "height";
 
-    setCommand(commands, GENERATE_TERRAIN, "gterr", params);
-    setCommand(commands, ROTATE90, "rotate90", NULL);
-    setCommand(commands, ROTATE180, "rotate180", NULL);
-    setCommand(commands, ROTATE270, "rotate270", NULL);
+    setCommand(commands, GENERATE_TERRAIN, "gterr", params, 2);
+    setCommand(commands, ROTATE90, "rotate90", NULL, 0);
+    setCommand(commands, ROTATE180, "rotate180", NULL, 0);
+    setCommand(commands, ROTATE270, "rotate270", NULL, 0);
 
     printf("List of commands\n");
     printf("----------------\n");
@@ -79,26 +105,38 @@ Command *loadCommands() {
     return commands;
 }
 
-void setCommand(Command *commands, int numCommand, char *name, Param *params) {
+void setCommand(Command *commands, int numCommand, char *name, Param *params, int numParams) {
     Command *command = (commands + numCommand);
     command->name = name;
     command->params = params;
+    command->numParams = numParams;
 }
 
-int getIndexCommand(char *command, Command *listCommands) {
+Command *getCommand(char *command, Command *listCommands) {
     Command *currentCommand = NULL;
     int i;
 
     for(i = 0; i < NUM_COMMANDS; i++) {
         currentCommand = listCommands + i;
         if(!strcmp(currentCommand->name, command)) {
-            return i;
+            return currentCommand;
         }
     }
 
-    return -1;
+    return NULL;
 }
 
-int getIndexParam(char *param, Command *command) {
-    return 0;
+Param *getParam(char *paramName, Command *command) {
+    Param *currentParam = NULL;
+    int i;
+
+    for(i = 0; i < command->numParams; i++) {
+        currentParam = command->params + i;
+
+        if(!strcmp(paramName, currentParam->key)) {
+            return currentParam;
+        }
+    }
+
+    return NULL;
 }
