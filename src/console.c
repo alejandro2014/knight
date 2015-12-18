@@ -5,9 +5,7 @@
 #include "api.h"
 
 Console *createConsole(int sizeKb) {
-    Console *console = (Console *) malloc(sizeof(Console));
-    memset(console, 0, sizeof(Console));
-
+    alloc(console, Console, 1);
     console->sizeLine = LINE_LENGTH;
 
     int sizeBytes = sizeKb * 1024 * sizeof(char);
@@ -43,7 +41,6 @@ Command *parseCommand(char *strCommand, Command *listCommands) {
     stringCommand[length] = 0x00;
 
     char *str = strtok(stringCommand, " ");
-
     Command *command = getCommand(str, listCommands);
 
     if(!command) {
@@ -74,7 +71,9 @@ Param *getCommandParams(Command *command, char *str) {
     return NULL;
 }
 
+//TODO Refactor
 Param *parseParam(char *paramString) {
+    Param *param = (Param *) malloc(sizeof(Param));
     char *key;
     char *value;
     int length = strlen(paramString);
@@ -85,22 +84,22 @@ Param *parseParam(char *paramString) {
             key = (char *) malloc((i + 1) * sizeof(char));
             memcpy(key, paramString, i);
             *(key + i) = 0x00;
-            printf("Detected param name [%s]\n", key);
 
             value = (char *) malloc((length - i + 1) * sizeof(char));
             memcpy(value, paramString + i + 1, length - i + 1);
             *(value + length + 1) = 0x00;
-            printf("Detected param value [%s]\n", value);
             break;
         }
     }
 
-    return NULL;
+    param->key = key;
+    param->value = value;
+
+    return param;
 }
 
 Param *createParam(char *key, char *value) {
-    Param *param = (Param *) malloc(sizeof(Param));
-    memset(param, 0, sizeof(Param));
+    alloc(param, Param, 1);
     param->key = key;
     param->value = value;
 
@@ -114,19 +113,23 @@ void executeCommand(Command *command) {
 }
 
 Command *loadCommands() {
-    Command *commands = (Command *) malloc(NUM_COMMANDS * sizeof(Command));
-    memset(commands, 0, NUM_COMMANDS * sizeof(Command));
+    int i;
+    alloc(commands, Command, NUM_COMMANDS);
+
+    for(i = 0; i < NUM_COMMANDS; i++) {
+        allocExist((commands + i)->params, Param, MAX_PARAMS);
+
+    }
 
     Command *command = NULL;
 
-    Param *params = (Param *) malloc(sizeof(Param) * 2);
-    (params + 0)->key = "width";
-    (params + 1)->key = "height";
+    setCommand(commands, ROTATE90, "rotate90");
+    setCommand(commands, ROTATE180, "rotate180");
+    setCommand(commands, ROTATE270, "rotate270");
 
-    setCommand(commands, GENERATE_TERRAIN, "gterr", params, 2);
-    setCommand(commands, ROTATE90, "rotate90", NULL, 0);
-    setCommand(commands, ROTATE180, "rotate180", NULL, 0);
-    setCommand(commands, ROTATE270, "rotate270", NULL, 0);
+    setCommand(commands, GENERATE_TERRAIN, "gterr");
+    setParam(commands, GENERATE_TERRAIN, 0, "width");
+    setParam(commands, GENERATE_TERRAIN, 1, "height");
 
     printf("List of commands\n");
     printf("----------------\n");
@@ -138,11 +141,14 @@ Command *loadCommands() {
     return commands;
 }
 
-void setCommand(Command *commands, int numCommand, char *name, Param *params, int numParams) {
+void setCommand(Command *commands, int numCommand, char *name) {
     Command *command = (commands + numCommand);
     command->name = name;
-    command->params = params;
-    command->numParams = numParams;
+}
+
+void setParam(Command *commands, int numCommand, int positionParam, char *name) {
+    Param *params = (commands + numCommand)->params;
+    (params + positionParam)->key = name;
 }
 
 Command *getCommand(char *command, Command *listCommands) {

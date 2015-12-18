@@ -48,8 +48,11 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include <string.h>
 
 int main(int argc, char* argv[]) {
-    parseParam("width:20");
-    return 0;
+    /*Param *param = parseParam("width:20");
+
+    printf("Detected param name [%s]\n", param->key);
+    printf("Detected param value [%s]\n", param->value);
+    return 0;*/
 
     bool finish = false;
     Console *console = createConsole(1);

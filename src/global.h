@@ -7,6 +7,12 @@ typedef int bool;
 
 #define MAX_HEIGHT 255
 #define MIN_HEIGHT 0
+
+#define alloc(Name, Type, NumElems) Type *Name = (Type *) malloc(sizeof(Type) * NumElems); \
+        memset(Name, 0, sizeof(Type) * NumElems)
+
+#define allocExist(Name, Type, NumElems) Name = (Type *) malloc(sizeof(Type) * NumElems); \
+        memset(Name, 0, sizeof(Type) * NumElems)
 /*#define TERRAIN_WORK 0
 #define TERRAIN_UNDO 1
 #define TERRAIN_TEMP 2
