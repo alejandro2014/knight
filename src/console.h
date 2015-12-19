@@ -1,6 +1,8 @@
 #ifndef CONSOLE_H
 #define CONSOLE_H
 
+#include "global.h"
+
 #define LINE_LENGTH 100
 
 #define NUM_COMMANDS 4
@@ -32,16 +34,18 @@ typedef struct {
     size_t sizeLine;
     int numCommands;
     Command *commands;
+    Command *currentCommand;
 } Console;
 
 Command *loadCommands(Console *console);
 void addCommand(char *commandName, Console *console);
 void addParam(char *paramName, char *commandName, Console *console);
-Command *lookupCommand(char *commandName, Console *console);
 
-void setCommand(Command *commands, int numCommand, char *name);
-void setParam(Command *commands, int numCommand, int positionParam, char *name);
+Command *lookupCommand(char *commandName, Console *console);
+Param *lookupParam(char *paramName, Command *command);
+
 void printCommands(Console *console);
+void printCommand(Command *command);
 void executeCommand(Command *command);
 
 Console *createConsole(int sizeKb);
@@ -50,9 +54,9 @@ void freeConsole(Console *console);
 void printPrompt();
 
 void readShellLine(Console *console);
-Command *parseCommand(char *strCommand, Console *console);
+bool parseCommand(char *strCommand, Console *console);
 Command *getCommand(char *command, Command *listCommands);
-Param *getCommandParams(Command *command);
+bool getCommandParams(Command *command);
 Param *getParam(char *paramName, Command *command);
 
 void parseParam(char *paramString, char **key, char **value);

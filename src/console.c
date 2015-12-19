@@ -3,6 +3,7 @@
 #include <string.h>
 #include "console.h"
 #include "api.h"
+#include "global.h"
 
 Console *createConsole(int sizeKb) {
     alloc(console, Console, 1);
@@ -41,7 +42,7 @@ void readShellLine(Console *console) {
     *(console->currentLine + sizeLineRead - 1) = 0x00;
 }
 
-Command *parseCommand(char *strCommand, Console *console) {
+bool parseCommand(char *strCommand, Console *console) {
     char stringCommand[100];
     int length = strlen(strCommand);
     memcpy(stringCommand, strCommand, length);
@@ -52,36 +53,44 @@ Command *parseCommand(char *strCommand, Console *console) {
 
     if(!command) {
         printf("Unknown command: '%s'\n", commandName);
-        return NULL;
+        return false;
     }
 
     printf("Executing command [%s]\n", commandName);
-    //getCommandParams(command);
-    return command;
+    if(getCommandParams(command)) {
+        console->currentCommand = command;
+        return true;
+    }
+
+    return false;
 }
 
-Param *getCommandParams(Command *command) {
+bool getCommandParams(Command *command) {
     char *key = NULL;
     char *value = NULL;
     Param *param = NULL;
     char *paramName = strtok(NULL, " ");
+    bool execute = true;
 
     while(paramName) {
-        printf("Param name: [%s] -> ", paramName);
-        //param = getParam(str, command);
+        printf("[%s] -> ", paramName);
         parseParam(paramName, &key, &value);
         printf(" %s, %s\n", key, value);
 
-        if(getParam(key, command)) {
-            printf("Detected param [%s]\n", paramName);
+        param = lookupParam(key, command);
+        if(param) {
+            printf("Found param: %s\n", param->key);
+            param->value = value;
         } else {
             printf("Param not found [%s]\n", paramName);
+            execute = false;
+            break;
         }
 
         paramName = strtok(NULL, " ");
     }
 
-    return NULL;
+    return execute;
 }
 
 //TODO Refactor
@@ -113,6 +122,8 @@ Param *createParam(char *key, char *value) {
 }
 
 void executeCommand(Command *command) {
+    printf("Executing ");
+    printCommand(command);
     return;
     if(!strcmp("gterr", command->name)) {
         api_generateTerrain(2, 3);
@@ -163,35 +174,46 @@ Command *lookupCommand(char *commandName, Console *console) {
     return NULL;
 }
 
+Param *lookupParam(char *paramName, Command *command) {
+    Param *currentParam = NULL;
+    int i;
+
+    for(i = 0; i < command->numParams; i++) {
+        currentParam = command->params + i;
+
+        if(!strcmp(paramName, currentParam->key)) {
+            return currentParam;
+        }
+    }
+
+    return NULL;
+}
+
 void printCommands(Console *console) {
     Command *command = NULL;
-    Param *params = NULL;
-    int i, j;
+    int i;
 
     printf("List of commands\n");
     printf("----------------\n");
 
     for(i = 0; i < console->numCommands; i++) {
         command = console->commands + i;
-        printf("%s( ", command->name);
-
-        params = command->params;
-        for(j = 0; j < command->numParams; j++) {
-            printf("%s ", (params + j)->key);
-        }
-
-        printf(")\n");
+        printCommand(command);
     }
 }
 
-void setCommand(Command *commands, int numCommand, char *name) {
-    Command *command = (commands + numCommand);
-    command->name = name;
-}
+void printCommand(Command *command) {
+    Param *params = NULL;
+    int j;
 
-void setParam(Command *commands, int numCommand, int positionParam, char *name) {
-    Param *params = (commands + numCommand)->params;
-    (params + positionParam)->key = name;
+    printf("%s( ", command->name);
+
+    params = command->params;
+    for(j = 0; j < command->numParams; j++) {
+        printf("%s ", (params + j)->key);
+    }
+
+    printf(")\n");
 }
 
 Command *getCommand(char *command, Command *listCommands) {

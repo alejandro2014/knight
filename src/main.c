@@ -48,34 +48,29 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include <string.h>
 
 int main(int argc, char* argv[]) {
-    /*Param *param = parseParam("width:20");
-
-    printf("Detected param name [%s]\n", param->key);
-    printf("Detected param value [%s]\n", param->value);
-    return 0;*/
-
     bool finish = false;
+    bool execute = false;
     Console *console = createConsole(1);
-    Command *command = NULL;
     Command *listCommands = loadCommands(console);
 
     printCommands(console);
-    parseCommand("gter", console);
-    /*while(!finish) {
+
+    while(!finish) {
         printPrompt();
         readShellLine(console);
 
         if(strcmp(console->currentLine, "exit")) {
-            command = parseCommand(console->currentLine, listCommands);
+            execute = parseCommand(console->currentLine, console);
 
-            if(command) {
-                executeCommand(command);
+            if(execute) {
+                executeCommand(console->currentCommand);
+                execute = false;
             }
         } else {
             finish = true;
             printf("Bye\n");
         }
-    }*/
+    }
 
     freeConsole(console);
     return 0;
