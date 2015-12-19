@@ -30,11 +30,18 @@ typedef struct {
     char *text;
     char *currentLine;
     size_t sizeLine;
+    int numCommands;
+    Command *commands;
 } Console;
 
-Command *loadCommands();
+Command *loadCommands(Console *console);
+void addCommand(char *commandName, Console *console);
+void addParam(char *paramName, char *commandName, Console *console);
+Command *lookupCommand(char *commandName, Console *console);
+
 void setCommand(Command *commands, int numCommand, char *name);
 void setParam(Command *commands, int numCommand, int positionParam, char *name);
+void printCommands(Console *console);
 void executeCommand(Command *command);
 
 Console *createConsole(int sizeKb);
@@ -43,12 +50,12 @@ void freeConsole(Console *console);
 void printPrompt();
 
 void readShellLine(Console *console);
-Command *parseCommand(char *strCommand, Command *listCommands);
+Command *parseCommand(char *strCommand, Console *console);
 Command *getCommand(char *command, Command *listCommands);
-Param *getCommandParams(Command *command, char *paramName);
+Param *getCommandParams(Command *command);
 Param *getParam(char *paramName, Command *command);
 
-Param *parseParam(char *paramString);
+void parseParam(char *paramString, char **key, char **value);
 Param *createParam(char *key, char *value);
 
 #endif

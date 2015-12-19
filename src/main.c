@@ -57,9 +57,11 @@ int main(int argc, char* argv[]) {
     bool finish = false;
     Console *console = createConsole(1);
     Command *command = NULL;
-    Command *listCommands = loadCommands();
+    Command *listCommands = loadCommands(console);
 
-    while(!finish) {
+    printCommands(console);
+    parseCommand("gter", console);
+    /*while(!finish) {
         printPrompt();
         readShellLine(console);
 
@@ -73,7 +75,7 @@ int main(int argc, char* argv[]) {
             finish = true;
             printf("Bye\n");
         }
-    }
+    }*/
 
     freeConsole(console);
     return 0;
