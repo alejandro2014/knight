@@ -61,5 +61,6 @@ Param *getParam(char *paramName, Command *command);
 
 void parseParam(char *paramString, char **key, char **value);
 Param *createParam(char *key, char *value);
+int getParamValueInt(char *paramName, Command *command);
 
 #endif

@@ -122,12 +122,15 @@ Param *createParam(char *key, char *value) {
 }
 
 void executeCommand(Command *command) {
-    printf("Executing ");
-    printCommand(command);
-    return;
     if(!strcmp("gterr", command->name)) {
-        api_generateTerrain(2, 3);
+        api_generateTerrain(getParamValueInt("width", command),
+                            getParamValueInt("height", command));
     }
+}
+
+int getParamValueInt(char *paramName, Command *command) {
+    Param *param = lookupParam(paramName, command);
+    return atoi(param->value);
 }
 
 Command *loadCommands(Console *console) {
