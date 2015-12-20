@@ -11,7 +11,6 @@
 #include "actions.h"
 
 #include "draw_stuff.h"
-#include "menus.h"
 #include "font.h"
 #include "generate_terrain.h"
 #include "display_terrain.h"
@@ -52,22 +51,20 @@ int main(int argc, char* argv[]) {
     fakeConsole();
     return 0;
 
-    heightMapEditor.horSize = 3;
-    heightMapEditor.verSize = 2;
+    //heightMapEditor.horSize = 3;
+    //heightMapEditor.verSize = 2;
     //SDL_Init(SDL_INIT_VIDEO);
 
-    Terrain *terrain;
+    //Terrain *terrain;
 
-    if(loadResources(&heightMapEditor) != -1) {
+    //if(loadResources(&heightMapEditor) != -1) {
         //programLoop();
-        terrain = heightMapEditor.terrain;
+        //terrain = heightMapEditor.terrain;
 
-        showTerrainCmd(terrain);
+        //api_sinkTerrain(terrain, 4);
 
-        api_sinkTerrain(terrain, 4);
-
-        freeResources(&heightMapEditor);
-    }
+        //freeResources(&heightMapEditor);
+    //}
 
     //SDL_Quit();
     return 0;
@@ -88,7 +85,7 @@ void fakeConsole() {
     processCommand("setp x:0 y:1 height:13", console);
     processCommand("setp x:1 y:1 height:14", console);
     processCommand("setp x:2 y:1 height:15", console);
-    
+
     while(!finish) {
         printPrompt();
         readShellLine(console);

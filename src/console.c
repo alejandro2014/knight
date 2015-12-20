@@ -34,9 +34,9 @@ void freeConsole(Console *console) {
 Command *loadCommands(Console *console) {
     Command *command = NULL;
 
-    /*addCommand("rotate90", console);
+    addCommand("rotate90", console);
     addCommand("rotate180", console);
-    addCommand("rotate270", console);*/
+    addCommand("rotate270", console);
 
     addCommand("gterr", console);
     addParam("width", "gterr", console);
@@ -212,6 +212,12 @@ void executeCommand(Command *command) {
         }
     } else if(!strcmp("prterr", command->name)) {
         showTerrainCmd(heightMapEditor.terrain);
+    } else if(!strcmp("rotate90", command->name)) {
+        heightMapEditor.terrain = api_rotate(ROTATE_90, heightMapEditor.terrain);
+    } else if(!strcmp("rotate180", command->name)) {
+        heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
+    } else if(!strcmp("rotate270", command->name)) {
+        heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
     } else if(!strcmp("setp", command->name)) {
         p1 = getParamValueInt("x", command, &error);
         p2 = getParamValueInt("y", command, &error);
@@ -220,13 +226,6 @@ void executeCommand(Command *command) {
             api_setHeight(heightMapEditor.terrain, p1, p2, p3);
         }
     }
-    /*else if(!strcmp("rotate90", command->name)) {
-        api_rotate(ROTATE_90, terrain);
-    } else if(!strcmp("rotate180", command->name)) {
-        api_rotate(ROTATE_90, terrain);
-    } else if(!strcmp("rotate270", command->name)) {
-        api_rotate(ROTATE_90, terrain);
-    }*/
 
     deleteParamsValue(command);
 }

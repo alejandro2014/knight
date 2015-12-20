@@ -7,7 +7,7 @@
 #include "global.h"
 
 #define LINE_LENGTH 100
-#define NUM_COMMANDS 4
+#define NUM_COMMANDS 6
 #define MAX_PARAMS 10
 
 typedef struct {
