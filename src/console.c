@@ -3,19 +3,14 @@
 #include "global.h"
 
 Console *createConsole(int sizeKb) {
+    int i;
+
     alloc(console, Console, 1);
+    allocExist(console->text, char, sizeKb * 1024);
+    allocExist(console->currentLine, char, LINE_LENGTH);
+    allocExist(console->commands, Command, NUM_COMMANDS);
     console->sizeLine = LINE_LENGTH;
 
-    int sizeBytes = sizeKb * 1024 * sizeof(char);
-    console->text = (char *) malloc(sizeBytes);
-    memset(console->text, 0, sizeBytes);
-
-    console->currentLine = (char *) malloc(LINE_LENGTH * sizeof(char));
-    memset(console->currentLine, 0, sizeof(LINE_LENGTH));
-
-    allocExist(console->commands, Command, NUM_COMMANDS);
-
-    int i;
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
@@ -64,26 +59,21 @@ void printPrompt() {
 }
 
 void printCommands(Console *console) {
-    Command *command = NULL;
-    int i;
-
     printf("List of commands\n");
     printf("----------------\n");
 
-    for(i = 0; i < console->numCommands; i++) {
-        command = console->commands + i;
-        printCommand(command);
-    }
+    int i;
+    for(i = 0; i < console->numCommands; i++)
+        printCommand(console->commands + i);
 }
 
 void printCommand(Command *command) {
-    Param *params = NULL;
+    Param *params = command->params;
     Param *currentParam = NULL;
     int j;
 
     printf("%s( ", command->name);
 
-    params = command->params;
     for(j = 0; j < command->numParams; j++) {
         currentParam = params + j;
         printf("%s ", currentParam->key);
@@ -97,14 +87,14 @@ void printCommand(Command *command) {
 
 void readShellLine(Console *console) {
     size_t sizeLineRead = getline(&console->currentLine, &console->sizeLine, stdin);
-    *(console->currentLine + sizeLineRead - 1) = 0x00;
+    *(console->currentLine + sizeLineRead - 1) = '\0';
 }
 
 bool parseCommand(char *strCommand, Console *console) {
     char stringCommand[100];
     int length = strlen(strCommand);
     memcpy(stringCommand, strCommand, length);
-    stringCommand[length] = 0x00;
+    stringCommand[length] = '\0';
 
     char *commandName = strtok(stringCommand, " ");
     Command *command = lookupCommand(commandName, console);
@@ -114,7 +104,6 @@ bool parseCommand(char *strCommand, Console *console) {
         return false;
     }
 
-    printf("Executing command [%s]\n", commandName);
     if(getCommandParams(command)) {
         console->currentCommand = command;
         return true;
@@ -127,46 +116,45 @@ bool getCommandParams(Command *command) {
     char *key = NULL;
     char *value = NULL;
     Param *param = NULL;
-    char *paramName = strtok(NULL, " ");
+    char *typedParam = strtok(NULL, " ");
     bool execute = true;
 
-    while(paramName) {
-        printf("[%s] -> ", paramName);
-        parseParam(paramName, &key, &value);
-        printf(" %s, %s\n", key, value);
-
+    while(typedParam) {
+        parseParam(typedParam, &key, &value);
         param = lookupParam(key, command);
+
         if(param) {
-            printf("Found param: %s\n", param->key);
             param->value = value;
         } else {
-            printf("Param not found [%s]\n", paramName);
+            printf("Param not found [%s]\n", typedParam);
             execute = false;
             break;
         }
 
-        paramName = strtok(NULL, " ");
+        typedParam = strtok(NULL, " ");
     }
 
     return execute;
 }
 
 void parseParam(char *paramString, char **key, char **value) {
-    Param *param = (Param *) malloc(sizeof(Param));
     int length = strlen(paramString);
     int i;
+    int colonPos = -1;
 
     for(i = 0; i < length; i++) {
         if(*(paramString + i) == ':') {
-            *key = (char *) malloc((i + 1) * sizeof(char));
-            memcpy(*key, paramString, i);
-            *(*key + i) = 0x00;
-
-            *value = (char *) malloc((length - i + 1) * sizeof(char));
-            memcpy(*value, paramString + i + 1, length - i + 1);
-            *(*value + length + 1) = 0x00;
+            colonPos = i;
             break;
         }
+    }
+
+    if(colonPos > 0) {
+        allocExist(*key, char, colonPos + 1);
+        memcpy(*key, paramString, colonPos);
+
+        allocExist(*value, char, length - i + 1);
+        memcpy(*value, paramString + i + 1, length - colonPos + 1);
     }
 }
 
