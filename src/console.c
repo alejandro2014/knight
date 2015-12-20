@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "console.h"
 #include "api.h"
 #include "global.h"
@@ -33,8 +30,69 @@ void freeConsole(Console *console) {
     free(console);
 }
 
+Command *loadCommands(Console *console) {
+    Command *command = NULL;
+
+    addCommand("rotate90", console);
+    addCommand("rotate180", console);
+    addCommand("rotate270", console);
+
+    addCommand("gterr", console);
+    addParam("width", "gterr", console);
+    addParam("height", "gterr", console);
+
+    return console->commands;
+}
+
+void addCommand(char *commandName, Console *console) {
+    int positionCommand = console->numCommands;
+    Command *command = console->commands + positionCommand;
+    command->name = commandName;
+    console->numCommands++;
+}
+
+void addParam(char *paramName, char *commandName, Console *console) {
+    Command *command = lookupCommand(commandName, console);
+    int positionParam = command->numParams;
+    Param *param = command->params + positionParam;
+    param->key = paramName;
+    command->numParams++;
+}
+
 void printPrompt() {
     printf("> ");
+}
+
+void printCommands(Console *console) {
+    Command *command = NULL;
+    int i;
+
+    printf("List of commands\n");
+    printf("----------------\n");
+
+    for(i = 0; i < console->numCommands; i++) {
+        command = console->commands + i;
+        printCommand(command);
+    }
+}
+
+void printCommand(Command *command) {
+    Param *params = NULL;
+    Param *currentParam = NULL;
+    int j;
+
+    printf("%s( ", command->name);
+
+    params = command->params;
+    for(j = 0; j < command->numParams; j++) {
+        currentParam = params + j;
+        printf("%s ", currentParam->key);
+
+        if(currentParam->value)
+            printf("-> %s ", currentParam->value);
+    }
+
+    printf(")\n");
 }
 
 void readShellLine(Console *console) {
@@ -93,7 +151,6 @@ bool getCommandParams(Command *command) {
     return execute;
 }
 
-//TODO Refactor
 void parseParam(char *paramString, char **key, char **value) {
     Param *param = (Param *) malloc(sizeof(Param));
     int length = strlen(paramString);
@@ -111,55 +168,6 @@ void parseParam(char *paramString, char **key, char **value) {
             break;
         }
     }
-}
-
-Param *createParam(char *key, char *value) {
-    alloc(param, Param, 1);
-    param->key = key;
-    param->value = value;
-
-    return param;
-}
-
-void executeCommand(Command *command) {
-    if(!strcmp("gterr", command->name)) {
-        api_generateTerrain(getParamValueInt("width", command),
-                            getParamValueInt("height", command));
-    }
-}
-
-int getParamValueInt(char *paramName, Command *command) {
-    Param *param = lookupParam(paramName, command);
-    return atoi(param->value);
-}
-
-Command *loadCommands(Console *console) {
-    Command *command = NULL;
-
-    addCommand("rotate90", console);
-    addCommand("rotate180", console);
-    addCommand("rotate270", console);
-
-    addCommand("gterr", console);
-    addParam("width", "gterr", console);
-    addParam("height", "gterr", console);
-
-    return console->commands;
-}
-
-void addCommand(char *commandName, Console *console) {
-    int positionCommand = console->numCommands;
-    Command *command = console->commands + positionCommand;
-    command->name = commandName;
-    console->numCommands++;
-}
-
-void addParam(char *paramName, char *commandName, Console *console) {
-    Command *command = lookupCommand(commandName, console);
-    int positionParam = command->numParams;
-    Param *param = command->params + positionParam;
-    param->key = paramName;
-    command->numParams++;
 }
 
 Command *lookupCommand(char *commandName, Console *console) {
@@ -192,64 +200,14 @@ Param *lookupParam(char *paramName, Command *command) {
     return NULL;
 }
 
-void printCommands(Console *console) {
-    Command *command = NULL;
-    int i;
-
-    printf("List of commands\n");
-    printf("----------------\n");
-
-    for(i = 0; i < console->numCommands; i++) {
-        command = console->commands + i;
-        printCommand(command);
+void executeCommand(Command *command) {
+    if(!strcmp("gterr", command->name)) {
+        api_generateTerrain(getParamValueInt("width", command),
+                            getParamValueInt("height", command));
     }
 }
 
-void printCommand(Command *command) {
-    Param *params = NULL;
-    Param *currentParam = NULL;
-    int j;
-
-    printf("%s( ", command->name);
-
-    params = command->params;
-    for(j = 0; j < command->numParams; j++) {
-        currentParam = params + j;
-        printf("%s ", currentParam->key);
-
-        if(currentParam->value)
-            printf("-> %s ", currentParam->value);
-    }
-
-    printf(")\n");
-}
-
-Command *getCommand(char *command, Command *listCommands) {
-    printf("Looking for command [%s]\n", command);
-    Command *currentCommand = NULL;
-    int i;
-
-    for(i = 0; i < NUM_COMMANDS; i++) {
-        currentCommand = listCommands + i;
-        if(!strcmp(currentCommand->name, command)) {
-            return currentCommand;
-        }
-    }
-
-    return NULL;
-}
-
-Param *getParam(char *paramName, Command *command) {
-    Param *currentParam = NULL;
-    int i;
-
-    for(i = 0; i < MAX_PARAMS; i++) {
-        currentParam = command->params + i;
-
-        if(!strcmp(paramName, currentParam->key)) {
-            return currentParam;
-        }
-    }
-
-    return NULL;
+int getParamValueInt(char *paramName, Command *command) {
+    Param *param = lookupParam(paramName, command);
+    return atoi(param->value);
 }
