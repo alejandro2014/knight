@@ -61,15 +61,7 @@ int main(int argc, char* argv[]) {
     if(loadResources(&heightMapEditor) != -1) {
         //programLoop();
         terrain = heightMapEditor.terrain;
-        api_setHeight(terrain, 0, 0, 10);
-        api_setHeight(terrain, 1, 0, 11);
-        api_setHeight(terrain, 2, 0, 12);
-        api_setHeight(terrain, 0, 1, 13);
-        api_setHeight(terrain, 1, 1, 14);
-        api_setHeight(terrain, 2, 1, 15);
-        /*setHeight(terrain, 0, 2, 6);
-        setHeight(terrain, 1, 2, 7);
-        setHeight(terrain, 2, 2, 8);*/
+
         showTerrainCmd(terrain);
 
         api_sinkTerrain(terrain, 4);
@@ -88,6 +80,15 @@ void fakeConsole() {
 
     printCommands(console);
 
+    processCommand("gterr width:3 height:2", console);
+
+    processCommand("setp x:0 y:0 height:10", console);
+    processCommand("setp x:1 y:0 height:11", console);
+    processCommand("setp x:2 y:0 height:12", console);
+    processCommand("setp x:0 y:1 height:13", console);
+    processCommand("setp x:1 y:1 height:14", console);
+    processCommand("setp x:2 y:1 height:15", console);
+    
     while(!finish) {
         printPrompt();
         readShellLine(console);
