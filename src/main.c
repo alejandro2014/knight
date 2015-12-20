@@ -73,7 +73,6 @@ int main(int argc, char* argv[]) {
         showTerrainCmd(terrain);
 
         api_sinkTerrain(terrain, 4);
-        showTerrainCmd(heightMapEditor.terrain);
 
         freeResources(&heightMapEditor);
     }

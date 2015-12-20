@@ -42,6 +42,8 @@ Command *loadCommands(Console *console) {
     addParam("width", "gterr", console);
     addParam("height", "gterr", console);
 
+    addCommand("prterr", console);
+
     addCommand("setp", console);
     addParam("x", "setp", console);
     addParam("y", "setp", console);
@@ -207,15 +209,15 @@ void executeCommand(Command *command) {
         p2 = getParamValueInt("height", command, &error);
         if(!error) {
             heightMapEditor.terrain = api_generateTerrain(p1, p2);
-            showTerrainCmd(heightMapEditor.terrain);
         }
+    } else if(!strcmp("prterr", command->name)) {
+        showTerrainCmd(heightMapEditor.terrain);
     } else if(!strcmp("setp", command->name)) {
         p1 = getParamValueInt("x", command, &error);
         p2 = getParamValueInt("y", command, &error);
         p3 = getParamValueInt("height", command, &error);
         if(!error) {
             api_setHeight(heightMapEditor.terrain, p1, p2, p3);
-            showTerrainCmd(heightMapEditor.terrain);
         }
     }
     /*else if(!strcmp("rotate90", command->name)) {
