@@ -153,7 +153,7 @@ void parseParam(char *paramString, char **key, char **value) {
         allocExist(*key, char, colonPos + 1);
         memcpy(*key, paramString, colonPos);
 
-        allocExist(*value, char, length - i + 1);
+        allocExist(*value, char, length - colonPos + 1);
         memcpy(*value, paramString + i + 1, length - colonPos + 1);
     }
 }
@@ -189,13 +189,39 @@ Param *lookupParam(char *paramName, Command *command) {
 }
 
 void executeCommand(Command *command) {
+    bool error = false;
+    int p1, p2;
+
     if(!strcmp("gterr", command->name)) {
-        api_generateTerrain(getParamValueInt("width", command),
-                            getParamValueInt("height", command));
+        p1 = getParamValueInt("width", command);
+        if(p1 == -1) {
+            printf("[ERROR] The 'width' parameter is not present\n");
+            error = true;
+        }
+
+        p2 = getParamValueInt("height", command);
+        if(p2 == -1) {
+            printf("[ERROR] The 'height' parameter is not present\n");
+            error = true;
+        }
+
+        if(!error) {
+            api_generateTerrain(p1, p2);
+        }
+
+        deleteParamsValue(command);
     }
 }
 
 int getParamValueInt(char *paramName, Command *command) {
     Param *param = lookupParam(paramName, command);
-    return atoi(param->value);
+    return param->value ? atoi(param->value) : -1;
+}
+
+void deleteParamsValue(Command *command) {
+    int i;
+
+    for(i = 0; i < MAX_PARAMS; i++) {
+        (command->params + i)->value = NULL;
+    }
 }
