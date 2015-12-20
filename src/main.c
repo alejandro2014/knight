@@ -44,6 +44,7 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "console.h"
 
 void fakeConsole();
+bool processCommand(char *textCommand, Console *console);
 
 HeightMapEditor heightMapEditor;
 
@@ -83,7 +84,6 @@ int main(int argc, char* argv[]) {
 
 void fakeConsole() {
     bool finish = false;
-    bool execute = false;
     Console *console = createConsole(1);
     Command *listCommands = loadCommands(console);
 
@@ -92,21 +92,29 @@ void fakeConsole() {
     while(!finish) {
         printPrompt();
         readShellLine(console);
-
-        if(strcmp(console->currentLine, "exit")) {
-            execute = parseCommand(console->currentLine, console);
-
-            if(execute) {
-                executeCommand(console->currentCommand);
-                execute = false;
-            }
-        } else {
-            finish = true;
-            printf("Bye\n");
-        }
+        finish = processCommand(console->currentLine, console);
     }
 
     freeConsole(console);
+}
+
+bool processCommand(char *textCommand, Console *console) {
+    Command *command = NULL;
+    bool finish = false;
+
+    if(strcmp(textCommand, "exit")) {
+        command = parseCommand(textCommand, console);
+
+        if(command) {
+            executeCommand(command);
+            command = NULL;
+        }
+    } else {
+        finish = true;
+        printf("Bye\n");
+    }
+
+    return finish;
 }
 /*void programLoop() {
     bool finish = false;

@@ -46,7 +46,7 @@ void printCommands(Console *console);
 void printCommand(Command *command);
 
 void readShellLine(Console *console);
-bool parseCommand(char *strCommand, Console *console);
+Command *parseCommand(char *strCommand, Console *console);
 bool getCommandParams(Command *command);
 void parseParam(char *paramString, char **key, char **value);
 

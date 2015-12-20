@@ -101,7 +101,7 @@ void readShellLine(Console *console) {
     *(console->currentLine + sizeLineRead - 1) = '\0';
 }
 
-bool parseCommand(char *strCommand, Console *console) {
+Command *parseCommand(char *strCommand, Console *console) {
     char stringCommand[100];
     int length = strlen(strCommand);
     memcpy(stringCommand, strCommand, length);
@@ -112,15 +112,14 @@ bool parseCommand(char *strCommand, Console *console) {
 
     if(!command) {
         printf("Unknown command: '%s'\n", commandName);
-        return false;
+        return NULL;
     }
 
     if(getCommandParams(command)) {
-        console->currentCommand = command;
-        return true;
+        return command;
     }
 
-    return false;
+    return NULL;
 }
 
 bool getCommandParams(Command *command) {

@@ -5,6 +5,8 @@
 #include "hme_lowlevel.h"
 #include "api.h"
 
+//Out of bounds
+//Non existent terrain
 void api_setHeight(Terrain *terrain, int x, int y, int height);
 void incHeight(Terrain *terrain, int x, int y, int delta);
 void decHeight(Terrain *terrain, int x, int y, int delta);
