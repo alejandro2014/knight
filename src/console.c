@@ -37,6 +37,8 @@ Command *loadCommands(Console *console) {
     addCommand("rotate90", console);
     addCommand("rotate180", console);
     addCommand("rotate270", console);
+    addCommand("flipx", console);
+    addCommand("flipy", console);
 
     addCommand("gterr", console);
     addParam("width", "gterr", console);
@@ -218,6 +220,10 @@ void executeCommand(Command *command) {
         heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
     } else if(!strcmp("rotate270", command->name)) {
         heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
+    } else if(!strcmp("flipx", command->name)) {
+        heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
+    } else if(!strcmp("flipy", command->name)) {
+        heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
     } else if(!strcmp("setp", command->name)) {
         p1 = getParamValueInt("x", command, &error);
         p2 = getParamValueInt("y", command, &error);
