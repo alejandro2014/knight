@@ -1,6 +1,12 @@
 #include "console.h"
 #include "api.h"
+#include "hme_lowlevel.h"
 #include "global.h"
+
+#include "main.h" //TODO Isn't this an error?
+#include "helper.h"
+
+extern HeightMapEditor heightMapEditor;
 
 Console *createConsole(int sizeKb) {
     int i;
@@ -28,13 +34,18 @@ void freeConsole(Console *console) {
 Command *loadCommands(Console *console) {
     Command *command = NULL;
 
-    addCommand("rotate90", console);
+    /*addCommand("rotate90", console);
     addCommand("rotate180", console);
-    addCommand("rotate270", console);
+    addCommand("rotate270", console);*/
 
     addCommand("gterr", console);
     addParam("width", "gterr", console);
     addParam("height", "gterr", console);
+
+    addCommand("setp", console);
+    addParam("x", "setp", console);
+    addParam("y", "setp", console);
+    addParam("height", "setp", console);
 
     return console->commands;
 }
@@ -190,32 +201,45 @@ Param *lookupParam(char *paramName, Command *command) {
 
 void executeCommand(Command *command) {
     bool error = false;
-    int p1, p2;
+    int p1, p2, p3;
 
     if(!strcmp("gterr", command->name)) {
-        p1 = getParamValueInt("width", command);
-        if(p1 == -1) {
-            printf("[ERROR] The 'width' parameter is not present\n");
-            error = true;
-        }
-
-        p2 = getParamValueInt("height", command);
-        if(p2 == -1) {
-            printf("[ERROR] The 'height' parameter is not present\n");
-            error = true;
-        }
-
+        p1 = getParamValueInt("width", command, &error);
+        p2 = getParamValueInt("height", command, &error);
         if(!error) {
-            api_generateTerrain(p1, p2);
+            heightMapEditor.terrain = api_generateTerrain(p1, p2);
+            showTerrainCmd(heightMapEditor.terrain);
         }
-
-        deleteParamsValue(command);
+    } else if(!strcmp("setp", command->name)) {
+        p1 = getParamValueInt("x", command, &error);
+        p2 = getParamValueInt("y", command, &error);
+        p3 = getParamValueInt("height", command, &error);
+        if(!error) {
+            api_setHeight(heightMapEditor.terrain, p1, p2, p3);
+            showTerrainCmd(heightMapEditor.terrain);
+        }
     }
+    /*else if(!strcmp("rotate90", command->name)) {
+        api_rotate(ROTATE_90, terrain);
+    } else if(!strcmp("rotate180", command->name)) {
+        api_rotate(ROTATE_90, terrain);
+    } else if(!strcmp("rotate270", command->name)) {
+        api_rotate(ROTATE_90, terrain);
+    }*/
+
+    deleteParamsValue(command);
 }
 
-int getParamValueInt(char *paramName, Command *command) {
+int getParamValueInt(char *paramName, Command *command, bool *error) {
     Param *param = lookupParam(paramName, command);
-    return param->value ? atoi(param->value) : -1;
+
+    if(!param->value) {
+        printf("[ERROR] The '%s' parameter is not present\n", paramName);
+        *error = true;
+        return -1;
+    }
+
+    return atoi(param->value);
 }
 
 void deleteParamsValue(Command *command) {

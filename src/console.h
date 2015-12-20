@@ -54,7 +54,7 @@ Command *lookupCommand(char *commandName, Console *console);
 Param *lookupParam(char *paramName, Command *command);
 
 void executeCommand(Command *command);
-int getParamValueInt(char *paramName, Command *command);
+int getParamValueInt(char *paramName, Command *command, bool *error);
 void deleteParamsValue(Command *command);
 
 #endif

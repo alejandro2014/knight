@@ -2,6 +2,8 @@
 #define MAIN_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "menus.h"
 #include "api.h"

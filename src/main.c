@@ -43,11 +43,45 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "hme_lowlevel.h"
 #include "console.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+void fakeConsole();
+
+HeightMapEditor heightMapEditor;
 
 int main(int argc, char* argv[]) {
+    fakeConsole();
+    return 0;
+
+    heightMapEditor.horSize = 3;
+    heightMapEditor.verSize = 2;
+    //SDL_Init(SDL_INIT_VIDEO);
+
+    Terrain *terrain;
+
+    if(loadResources(&heightMapEditor) != -1) {
+        //programLoop();
+        terrain = heightMapEditor.terrain;
+        api_setHeight(terrain, 0, 0, 10);
+        api_setHeight(terrain, 1, 0, 11);
+        api_setHeight(terrain, 2, 0, 12);
+        api_setHeight(terrain, 0, 1, 13);
+        api_setHeight(terrain, 1, 1, 14);
+        api_setHeight(terrain, 2, 1, 15);
+        /*setHeight(terrain, 0, 2, 6);
+        setHeight(terrain, 1, 2, 7);
+        setHeight(terrain, 2, 2, 8);*/
+        showTerrainCmd(terrain);
+
+        api_sinkTerrain(terrain, 4);
+        showTerrainCmd(heightMapEditor.terrain);
+
+        freeResources(&heightMapEditor);
+    }
+
+    //SDL_Quit();
+    return 0;
+}
+
+void fakeConsole() {
     bool finish = false;
     bool execute = false;
     Console *console = createConsole(1);
@@ -73,39 +107,7 @@ int main(int argc, char* argv[]) {
     }
 
     freeConsole(console);
-    return 0;
-
-    HeightMapEditor heightMapEditor;
-    heightMapEditor.horSize = 3;
-    heightMapEditor.verSize = 2;
-    //SDL_Init(SDL_INIT_VIDEO);
-
-    Terrain *terrain;
-
-    if(loadResources(&heightMapEditor) != -1) {
-        //programLoop();
-        terrain = heightMapEditor.terrain;
-        setHeight(terrain, 0, 0, 10);
-        setHeight(terrain, 1, 0, 11);
-        setHeight(terrain, 2, 0, 12);
-        setHeight(terrain, 0, 1, 13);
-        setHeight(terrain, 1, 1, 14);
-        setHeight(terrain, 2, 1, 15);
-        /*setHeight(terrain, 0, 2, 6);
-        setHeight(terrain, 1, 2, 7);
-        setHeight(terrain, 2, 2, 8);*/
-        showTerrainCmd(terrain);
-
-        api_sinkTerrain(terrain, 4);
-        showTerrainCmd(heightMapEditor.terrain);
-
-        freeResources(&heightMapEditor);
-    }
-
-    //SDL_Quit();
-    return 0;
 }
-
 /*void programLoop() {
     bool finish = false;
     //SDL_Event event;

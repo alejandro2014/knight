@@ -41,37 +41,27 @@ void printDialogs(Dialog **dialogs) {
 }
 
 void showTerrainCmd(Terrain *terrain) {
-  int i, j;
-  int columns = terrain->width;
-  int rows = terrain->height;
-  int value;
+    int i, j;
+    int columns = terrain->width;
+    int rows = terrain->height;
+    int value;
 
-  printf("Printing terrain %p\n", terrain);
-  for(i = 0; i < rows; i++) {
-    printLine(columns);
-    for(j = 0; j < columns; j++) {
-      printf("| ");
-      value = getHeight(terrain, j, i);
-      if(value < 100) printf(" ");
-      if(value < 10) printf(" ");
-      printf("%d ", value);
+    for(i = 0; i < rows; i++) {
+        printLine(columns);
+        for(j = 0; j < columns; j++) {
+            printf("| ");
+            value = getHeight(terrain, j, i);
+            if(value < 100) printf(" ");
+            if(value < 10) printf(" ");
+            printf("%d ", value);
+        }
+        printf("|\n");
     }
-    printf("|\n");
-  }
-  printLine(columns);
-
-  /*Point *point;
-  int pointsNo = terrain->pointsNo;
-
-  for(i = 0; i < pointsNo; i++) {
-    point = terrain->points + i;
-    //printf("points(%u) = (%d, %d, %d)\n", i, point->x, point->y, point->z);
-}*/
+    printLine(columns);
 }
 
 void printLine(int width) {
   int i;
-
   for(i = 0; i < width; i++) printf("+-----");
   printf("+\n");
 }

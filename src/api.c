@@ -32,7 +32,7 @@ void api_invertHeight(Terrain *terrain) {
     for(x = 0; x < terrain->width; x++) {
         for(y = 0; y < terrain->height; y++) {
             newHeight = MAX_HEIGHT - getHeight(terrain, x, y);
-            setHeight(terrain, x, y, newHeight);
+            api_setHeight(terrain, x, y, newHeight);
         }
     }
 }
@@ -79,7 +79,7 @@ void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, 
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            setHeight(terrain, x, y, height);
+            api_setHeight(terrain, x, y, height);
         }
     }
 }
@@ -96,7 +96,7 @@ void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int
             sum += getHeight(terrain, x-1, y+1) + getHeight(terrain, x, y+1) + getHeight(terrain, x+1, y+1);
             sum = (sum / 9) + (sum % 9 > 4 ? 1 : 0);
 
-            setHeight(terrain, x, y, sum);
+            api_setHeight(terrain, x, y, sum);
         }
     }
 }
@@ -112,7 +112,7 @@ Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
             newHeight = getHeightForOperation(operation, oldTerrain, x, y);
-            setHeight(newTerrain, x, y, newHeight);
+            api_setHeight(newTerrain, x, y, newHeight);
         }
     }
 

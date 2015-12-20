@@ -1,10 +1,11 @@
 #ifndef HME_LOWLEVEL_H
 #define HME_LOWLEVEL_H
 
+#include <stdlib.h>
 #include "hme_lowlevel.h"
 #include "api.h"
 
-void setHeight(Terrain *terrain, int x, int y, int height);
+void api_setHeight(Terrain *terrain, int x, int y, int height);
 void incHeight(Terrain *terrain, int x, int y, int delta);
 void decHeight(Terrain *terrain, int x, int y, int delta);
 int getHeight(Terrain *terrain, int x, int y);
