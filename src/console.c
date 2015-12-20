@@ -204,13 +204,18 @@ void printCommands(Console *console) {
 
 void printCommand(Command *command) {
     Param *params = NULL;
+    Param *currentParam = NULL;
     int j;
 
     printf("%s( ", command->name);
 
     params = command->params;
     for(j = 0; j < command->numParams; j++) {
-        printf("%s ", (params + j)->key);
+        currentParam = params + j;
+        printf("%s ", currentParam->key);
+
+        if(currentParam->value)
+            printf("-> %s ", currentParam->value);
     }
 
     printf(")\n");
