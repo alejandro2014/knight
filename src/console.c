@@ -52,6 +52,15 @@ Command *loadCommands(Console *console) {
     addParam("y", "setp", console);
     addParam("height", "setp", console);
 
+    addCommand("riseterr", console);
+    addParam("delta", "riseterr", console);
+
+    addCommand("sinkterr", console);
+    addParam("delta", "sinkterr", console);
+
+    addCommand("sethterr", console);
+    addParam("height", "sethterr", console);
+
     return console->commands;
 }
 
@@ -233,6 +242,21 @@ void executeCommand(Command *command) {
         p3 = getParamValueInt("height", command, &error);
         if(!error) {
             api_setHeight(heightMapEditor.terrain, p1, p2, p3);
+        }
+    } else if(!strcmp("riseterr", command->name)) {
+        p1 = getParamValueInt("delta", command, &error);
+        if(!error) {
+            api_riseTerrain(heightMapEditor.terrain, p1);
+        }
+    } else if(!strcmp("sinkterr", command->name)) {
+        p1 = getParamValueInt("delta", command, &error);
+        if(!error) {
+            api_sinkTerrain(heightMapEditor.terrain, p1);
+        }
+    } else if(!strcmp("sethterr", command->name)) {
+        p1 = getParamValueInt("height", command, &error);
+        if(!error) {
+            api_setHeightTerrain(heightMapEditor.terrain, p1);
         }
     }
 
