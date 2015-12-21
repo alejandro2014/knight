@@ -76,6 +76,7 @@ void fakeConsole() {
     heightMapEditor.console = console;
     Command *listCommands = loadCommands(console);
 
+    printConsoleBanner(console);
     processCommand("gterr width:3 height:2", console);
 
     processCommand("sethp x:0 y:0 height:100", console);

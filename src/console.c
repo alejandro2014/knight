@@ -21,8 +21,6 @@ Console *createConsole(int sizeKb) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
 
-    printf("[INFO] Created console. size: %dkb maxCommands: %d maxParams: %d\n", sizeKb, NUM_COMMANDS, MAX_PARAMS);
-
     return console;
 }
 
@@ -109,6 +107,11 @@ void printCommand(Command *command) {
     }
 
     printf(")\n");
+}
+
+void printConsoleBanner(Console *console) {
+    printf("Welcome to knight, the height terrain editor! - version %s\n", VERSION_NUMBER);
+    printf("Alejandro Ruperez 2015. Enter 'help' to see available commands\n");
 }
 
 void readShellLine(Console *console) {

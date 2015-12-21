@@ -54,6 +54,7 @@ void addParam(char *paramName, char *commandName, Console *console);
 void printPrompt();
 void printCommands(Console *console);
 void printCommand(Command *command);
+void printConsoleBanner(Console *console);
 
 void readShellLine(Console *console);
 Command *parseCommand(char *strCommand, Console *console);
