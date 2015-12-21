@@ -54,6 +54,7 @@ void parseParam(char *paramString, char **key, char **value);
 Command *lookupCommand(char *commandName, Console *console);
 Param *lookupParam(char *paramName, Command *command);
 
+bool areParamsValid(Command *command, int *params);
 void executeCommand(Command *command);
 int getParamValueInt(char *paramName, Command *command, bool *error);
 void deleteParamsValue(Command *command);

@@ -219,6 +219,8 @@ Param *lookupParam(char *paramName, Command *command) {
 void executeCommand(Command *command) {
     bool error = false;
     int p1, p2, p3, p4, p5;
+    alloc(params, int, 5);
+    bool validParams = false;
 
     if(!strcmp("flipx", command->name)) {
         heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
@@ -227,11 +229,14 @@ void executeCommand(Command *command) {
     } else if(!strcmp("invheight", command->name)) {
         api_invertHeight(heightMapEditor.terrain);
     } else if(!strcmp("gterr", command->name)) {
-        p1 = getParamValueInt("width", command, &error);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_generateTerrain(*(params + 0), *(params + 1));
+        }
+        /*p1 = getParamValueInt("width", command, &error);
         p2 = getParamValueInt("height", command, &error);
         if(!error) {
             heightMapEditor.terrain = api_generateTerrain(p1, p2);
-        }
+        }*/
     } else if(!strcmp("prterr", command->name)) {
         showTerrainCmd(heightMapEditor.terrain);
     } else if(!strcmp("rotate90", command->name)) {
@@ -296,15 +301,28 @@ void executeCommand(Command *command) {
     deleteParamsValue(command);
 }
 
-int getParamValueInt(char *paramName, Command *command, bool *error) {
+bool areParamsValid(Command *command, int *params) {
+    bool validParams = false;
+    int i;
+    for(i = 0; i < command->numParams; i++) {
+        printf("Checking param> %s\n", (command->params + i)->key);
+        *(params + i) = getParamValueInt((command->params + i)->key, command, &validParams);
+        if(!validParams) break;
+    }
+
+    return validParams;
+}
+
+int getParamValueInt(char *paramName, Command *command, bool *validParam) {
     Param *param = lookupParam(paramName, command);
 
     if(!param->value) {
         printf("[ERROR] The '%s' parameter is not present\n", paramName);
-        *error = true;
+        *validParam = false;
         return -1;
     }
 
+    *validParam = true;
     return atoi(param->value);
 }
 

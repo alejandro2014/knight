@@ -79,7 +79,7 @@ void fakeConsole() {
 
     processCommand("gterr width:3 height:2", console);
 
-    processCommand("setp x:0 y:0 height:10", console);
+    /*processCommand("setp x:0 y:0 height:10", console);
     processCommand("setp x:1 y:0 height:11", console);
     processCommand("setp x:2 y:0 height:12", console);
     processCommand("setp x:0 y:1 height:13", console);
@@ -88,7 +88,7 @@ void fakeConsole() {
 
     processCommand("prterr", console);
     processCommand("risesel x1:0 y1:0 x2:1 y2:1 delta:10", console);
-    processCommand("prterr", console);
+    processCommand("prterr", console);*/
 
     while(!finish) {
         printPrompt();
