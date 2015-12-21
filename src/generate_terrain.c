@@ -1,8 +1,3 @@
-/*******************************************************
- * Parts of this code are stolen and modified from sdlplasma,
- * by Stefan Hellkvist, stefan@hellkvist.org
- * Copyright: see GPL
- *******************************************************/
 #include "generate_terrain.h"
 
 #include "cursors.h"

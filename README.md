@@ -1,17 +1,29 @@
-# Height map editor
+# Knight 0.3.2
 
-This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
-
-The roadmap of the project is as follows:
-
-* Refactoring of all the code
-* Creation of a console able to perform the same operations that are done manually in the bitmap
-* Creation of a 3d view that will show the result of the operations in real time
-* Enhancement of the menus and widgets, giving the application a more professional look
-
-In order to create the 3 three views (2d, 3d, and console) a deep refactoring is needed. The goal is to separate
-the points of the map from their representation, so it's relative easy to include a new view
+Knight is an editor of heightmaps. Still it doesn't do much, but little by little is taking shape. It will be an editor with different inputs:
+A 2d view, a 3d view and a console. This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
 
 Updates
 -------
-* 15/12/2015 - The refactoring phase is taking place and it's quite advanced by now. The idea is to create an API for the editor, and from this API it'll be possible to connect a 2d editor (what we have so far), a 3d editor and a console. The idea is to make all of them inter-changeable. The focus is now in extracting all the functionality to the API. The rotation operations (rotate / flip), the inversion of height, and the smooth operations are now part of the API. The menu.c is becoming thiner and thiner, and will be eventually a very thin layer for the API calls
+* 0.3.2 - Changed the name of the progra, from "Height Map Editor" to "Knight". Changed the versioning. The versions of the former hme where 1.x,
+whereas here it has been downgraded to 0.x. This is in order to reflect that still is work in progress and we don't have a usable version yet. The shell 
+is interactive now. Validation of parameters. Able to get commands in text form, this opens the door to scripting. Migrated functionality to api calls.
+* 15/12/2015 - The refactoring phase is taking place and it's quite advanced by now. The idea is to create an API for the editor, and from this API
+it'll be possible to connect a 2d editor (what we have so far), a 3d editor and a console. The idea is to make all of them inter-changeable. The
+focus is now in extracting all the functionality to the API. The rotation operations (rotate / flip), the inversion of height, and the smooth
+operations are now part of the API. The menu.c is becoming thiner and thiner, and will be eventually a very thin layer for the API calls
+
+Roadmap
+-------
+* 0.4 - Fully operative shell. All the functionality of the program is migrated to api calls
+* 0.5 - Restored 2d functionality of the old program. Widget engine completed. Console and 2d views are equivalent
+* 0.7 - 3d view with openGl, not very interactive
+* 0.8 - Interactive 3d view
+* 0.9 - Bug-fixing, documentation, design
+* 1.0 - Finished! (so far)
+
+Credits
+-------
+* Alejandro Ruperez. Refactoring, API design and continuity of the project from height map editor v1.3.1
+* Radu Privantu. Original program Height Map Editor
+* Stefan Hellkvist. Origina generation of terrains (sdlplasma)
