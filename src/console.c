@@ -37,6 +37,8 @@ Command *loadCommands(Console *console) {
     addCommandParams("gterr", (char *[]){"width", "height"}, 2, console);
     addCommand("help", console);
     addCommand("invheight", console);
+    addCommand("loadscr", console);
+    //addCommandParams("loadscr", (char *[]){"path"}, 1, console);
     addCommand("prterr", console);
     addCommandParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
     addCommandParams("riseterr", (char *[]){"delta"}, 1, console);
@@ -114,8 +116,8 @@ void printConsoleBanner(Console *console) {
     printf("Alejandro Ruperez 2015. Enter 'help' to see available commands\n");
 }
 
-void readShellLine(Console *console) {
-    size_t sizeLineRead = getline(&console->currentLine, &console->sizeLine, stdin);
+void readShellLine(Console *console, FILE *inputStream) {
+    size_t sizeLineRead = getline(&console->currentLine, &console->sizeLine, inputStream);
     *(console->currentLine + sizeLineRead - 1) = '\0';
 }
 
@@ -221,15 +223,18 @@ This method uses the macros P0, P1, P... to access the parameters array (params)
 */
 void executeCommand(Command *command) {
     alloc(params, int, 5);
+
     Terrain *terrain = heightMapEditor.terrain;
+    Console *console = heightMapEditor.console;
 
     if(!areParamsValid(command, params)) return;
 
     if(!strcmp("flipx", command->name))           heightMapEditor.terrain = api_rotate(FLIP_XAXIS, terrain);
     else if(!strcmp("flipy", command->name))      heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
     else if(!strcmp("gterr", command->name))      heightMapEditor.terrain = api_generateTerrain(P0, P1);
-    else if(!strcmp("help", command->name))       printCommands(heightMapEditor.console);
+    else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
+    else if(!strcmp("loadscr", command->name))    loadScript(console);
     else if(!strcmp("prterr", command->name))     showTerrainCmd(terrain);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
@@ -280,4 +285,12 @@ void deleteParamsValue(Command *command) {
     for(i = 0; i < MAX_PARAMS; i++) {
         (command->params + i)->value = NULL;
     }
+}
+
+void loadScript(Console *console) {
+    char *path = "/Users/alejandro/programs/height-map-editor/res/terrain.knight";
+    FILE *script = fopen(path, "r");
+    readShellLine(console, script);
+    printf(">> %s\n", console->currentLine);
+    fclose(script);
 }

@@ -67,7 +67,6 @@ int main(int argc, char* argv[]) {
     //}
 
     //SDL_Quit();
-    return 0;
 }
 
 void fakeConsole() {
@@ -91,7 +90,7 @@ void fakeConsole() {
 
     while(!finish) {
         printPrompt();
-        readShellLine(console);
+        readShellLine(console, stdin);
         finish = processCommand(console->currentLine, console);
     }
 

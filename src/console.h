@@ -7,7 +7,7 @@
 #include "global.h"
 
 #define LINE_LENGTH 100
-#define NUM_COMMANDS 17
+#define NUM_COMMANDS 19
 #define MAX_PARAMS 10
 
 #define P0 *(params+0)
@@ -56,7 +56,7 @@ void printCommands(Console *console);
 void printCommand(Command *command);
 void printConsoleBanner(Console *console);
 
-void readShellLine(Console *console);
+void readShellLine(Console *console, FILE *inputStream);
 Command *parseCommand(char *strCommand, Console *console);
 bool getCommandParams(Command *command);
 void parseParam(char *paramString, char **key, char **value);
@@ -68,5 +68,7 @@ bool areParamsValid(Command *command, int *params);
 void executeCommand(Command *command);
 int getParamValueInt(char *paramName, Command *command, bool *error);
 void deleteParamsValue(Command *command);
+
+void loadScript();
 
 #endif
