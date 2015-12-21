@@ -52,6 +52,7 @@ Command *loadCommands(Console *console) {
     addParam("y", "setp", console);
     addParam("height", "setp", console);
 
+    //-----------------------
     addCommand("riseterr", console);
     addParam("delta", "riseterr", console);
 
@@ -62,6 +63,33 @@ Command *loadCommands(Console *console) {
     addParam("height", "sethterr", console);
 
     addCommand("smoothterr", console);
+    //-----------------------
+    addCommand("risesel", console);
+    addParam("x1", "risesel", console);
+    addParam("x2", "risesel", console);
+    addParam("y1", "risesel", console);
+    addParam("y2", "risesel", console);
+    addParam("delta", "risesel", console);
+
+    addCommand("sinksel", console);
+    addParam("x1", "sinksel", console);
+    addParam("x2", "sinksel", console);
+    addParam("y1", "sinksel", console);
+    addParam("y2", "sinksel", console);
+    addParam("delta", "sinksel", console);
+
+    addCommand("sethsel", console);
+    addParam("x1", "sethsel", console);
+    addParam("x2", "sethsel", console);
+    addParam("y1", "sethsel", console);
+    addParam("y2", "sethsel", console);
+    addParam("height", "sethsel", console);
+
+    addCommand("smoothsel", console);
+    addParam("x1", "smoothsel", console);
+    addParam("x2", "smoothsel", console);
+    addParam("y1", "smoothsel", console);
+    addParam("y2", "smoothsel", console);
 
     return console->commands;
 }
@@ -216,7 +244,7 @@ Param *lookupParam(char *paramName, Command *command) {
 
 void executeCommand(Command *command) {
     bool error = false;
-    int p1, p2, p3;
+    int p1, p2, p3, p4, p5;
 
     if(!strcmp("flipx", command->name)) {
         heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
@@ -262,6 +290,33 @@ void executeCommand(Command *command) {
         }
     } else if(!strcmp("smoothterr", command->name)) {
         api_smoothTerrain(heightMapEditor.terrain);
+    } else if(!strcmp("risesel", command->name)) {
+        p1 = getParamValueInt("x1", command, &error);
+        p2 = getParamValueInt("x2", command, &error);
+        p3 = getParamValueInt("x3", command, &error);
+        p4 = getParamValueInt("x4", command, &error);
+        p5 = getParamValueInt("delta", command, &error);
+        api_riseSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+    } else if(!strcmp("sinksel", command->name)) {
+        p1 = getParamValueInt("x1", command, &error);
+        p2 = getParamValueInt("x2", command, &error);
+        p3 = getParamValueInt("x3", command, &error);
+        p4 = getParamValueInt("x4", command, &error);
+        p5 = getParamValueInt("delta", command, &error);
+        api_sinkSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+    } else if(!strcmp("sethsel", command->name)) {
+        p1 = getParamValueInt("x1", command, &error);
+        p2 = getParamValueInt("x2", command, &error);
+        p3 = getParamValueInt("x3", command, &error);
+        p4 = getParamValueInt("x4", command, &error);
+        p5 = getParamValueInt("height", command, &error);
+        api_setHeightSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+    } else if(!strcmp("smoothsel", command->name)) {
+        p1 = getParamValueInt("x1", command, &error);
+        p2 = getParamValueInt("x2", command, &error);
+        p3 = getParamValueInt("x3", command, &error);
+        p4 = getParamValueInt("x4", command, &error);
+        api_smoothSelection(heightMapEditor.terrain, p1, p2, p3, p4);
     }
 
     deleteParamsValue(command);
