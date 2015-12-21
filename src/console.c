@@ -40,6 +40,7 @@ Command *loadCommands(Console *console) {
     addCommand("flipx", console);
     addCommand("flipy", console);
 
+    addCommand("invheight", console);
     addCommand("gterr", console);
     addParam("width", "gterr", console);
     addParam("height", "gterr", console);
@@ -206,7 +207,13 @@ void executeCommand(Command *command) {
     bool error = false;
     int p1, p2, p3;
 
-    if(!strcmp("gterr", command->name)) {
+    if(!strcmp("flipx", command->name)) {
+        heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
+    } else if(!strcmp("flipy", command->name)) {
+        heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
+    } else if(!strcmp("invheight", command->name)) {
+        api_invertHeight(heightMapEditor.terrain);
+    } else if(!strcmp("gterr", command->name)) {
         p1 = getParamValueInt("width", command, &error);
         p2 = getParamValueInt("height", command, &error);
         if(!error) {
@@ -220,10 +227,6 @@ void executeCommand(Command *command) {
         heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
     } else if(!strcmp("rotate270", command->name)) {
         heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
-    } else if(!strcmp("flipx", command->name)) {
-        heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
-    } else if(!strcmp("flipy", command->name)) {
-        heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
     } else if(!strcmp("setp", command->name)) {
         p1 = getParamValueInt("x", command, &error);
         p2 = getParamValueInt("y", command, &error);
