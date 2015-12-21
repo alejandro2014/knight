@@ -86,6 +86,9 @@ void fakeConsole() {
     processCommand("setp x:1 y:1 height:14", console);
     processCommand("setp x:2 y:1 height:15", console);
 
+    processCommand("smoothterr", console);
+    processCommand("prterr", console);
+
     while(!finish) {
         printPrompt();
         readShellLine(console);

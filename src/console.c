@@ -61,6 +61,8 @@ Command *loadCommands(Console *console) {
     addCommand("sethterr", console);
     addParam("height", "sethterr", console);
 
+    addCommand("smoothterr", console);
+
     return console->commands;
 }
 
@@ -258,6 +260,8 @@ void executeCommand(Command *command) {
         if(!error) {
             api_setHeightTerrain(heightMapEditor.terrain, p1);
         }
+    } else if(!strcmp("smoothterr", command->name)) {
+        api_smoothTerrain(heightMapEditor.terrain);
     }
 
     deleteParamsValue(command);
