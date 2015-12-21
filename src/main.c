@@ -79,7 +79,11 @@ void fakeConsole() {
 
     processCommand("gterr width:3 height:2", console);
 
-    /*processCommand("setp x:0 y:0 height:10", console);
+    processCommand("setp x:0 y:0 height:100", console);
+    processCommand("riseterr delta:10", console);
+    processCommand("prterr", console);
+    /*
+    processCommand("setp x:0 y:0 height:10", console);
     processCommand("setp x:1 y:0 height:11", console);
     processCommand("setp x:2 y:0 height:12", console);
     processCommand("setp x:0 y:1 height:13", console);

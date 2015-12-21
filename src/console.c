@@ -223,89 +223,86 @@ void executeCommand(Command *command) {
     bool validParams = false;
 
     if(!strcmp("flipx", command->name)) {
-        heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
+        }
     } else if(!strcmp("flipy", command->name)) {
-        heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
+        }
     } else if(!strcmp("invheight", command->name)) {
-        api_invertHeight(heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            api_invertHeight(heightMapEditor.terrain);
+        }
     } else if(!strcmp("gterr", command->name)) {
         if(areParamsValid(command, params)) {
             heightMapEditor.terrain = api_generateTerrain(*(params + 0), *(params + 1));
         }
-        /*p1 = getParamValueInt("width", command, &error);
-        p2 = getParamValueInt("height", command, &error);
-        if(!error) {
-            heightMapEditor.terrain = api_generateTerrain(p1, p2);
-        }*/
     } else if(!strcmp("prterr", command->name)) {
-        showTerrainCmd(heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            showTerrainCmd(heightMapEditor.terrain);
+        }
     } else if(!strcmp("rotate90", command->name)) {
-        heightMapEditor.terrain = api_rotate(ROTATE_90, heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_rotate(ROTATE_90, heightMapEditor.terrain);
+        }
     } else if(!strcmp("rotate180", command->name)) {
-        heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
+        }
     } else if(!strcmp("rotate270", command->name)) {
-        heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
+        }
     } else if(!strcmp("setp", command->name)) {
-        p1 = getParamValueInt("x", command, &error);
-        p2 = getParamValueInt("y", command, &error);
-        p3 = getParamValueInt("height", command, &error);
-        if(!error) {
-            api_setHeight(heightMapEditor.terrain, p1, p2, p3);
+        if(areParamsValid(command, params)) {
+            api_setHeight(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2));
         }
     } else if(!strcmp("riseterr", command->name)) {
-        p1 = getParamValueInt("delta", command, &error);
-        if(!error) {
-            api_riseTerrain(heightMapEditor.terrain, p1);
+        if(areParamsValid(command, params)) {
+            api_riseTerrain(heightMapEditor.terrain, *(params + 0));
         }
     } else if(!strcmp("sinkterr", command->name)) {
-        p1 = getParamValueInt("delta", command, &error);
-        if(!error) {
-            api_sinkTerrain(heightMapEditor.terrain, p1);
+        if(areParamsValid(command, params)) {
+            api_sinkTerrain(heightMapEditor.terrain, *(params + 0));
         }
     } else if(!strcmp("sethterr", command->name)) {
-        p1 = getParamValueInt("height", command, &error);
-        if(!error) {
-            api_setHeightTerrain(heightMapEditor.terrain, p1);
+        if(areParamsValid(command, params)) {
+            api_setHeightTerrain(heightMapEditor.terrain, *(params + 0));
         }
     } else if(!strcmp("smoothterr", command->name)) {
-        api_smoothTerrain(heightMapEditor.terrain);
+        if(areParamsValid(command, params)) {
+            api_smoothTerrain(heightMapEditor.terrain);
+        }
     } else if(!strcmp("risesel", command->name)) {
-        p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("y1", command, &error);
-        p3 = getParamValueInt("x2", command, &error);
-        p4 = getParamValueInt("y2", command, &error);
-        p5 = getParamValueInt("delta", command, &error);
-        api_riseSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+        if(areParamsValid(command, params)) {
+            api_riseSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
+        }
     } else if(!strcmp("sinksel", command->name)) {
-        p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("y1", command, &error);
-        p3 = getParamValueInt("x2", command, &error);
-        p4 = getParamValueInt("y2", command, &error);
-        p5 = getParamValueInt("delta", command, &error);
-        api_sinkSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+        if(areParamsValid(command, params)) {
+            api_sinkSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
+        }
     } else if(!strcmp("sethsel", command->name)) {
-        p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("y1", command, &error);
-        p3 = getParamValueInt("x2", command, &error);
-        p4 = getParamValueInt("y2", command, &error);
-        p5 = getParamValueInt("height", command, &error);
-        api_setHeightSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
+        if(areParamsValid(command, params)) {
+            api_setHeightSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
+        }
     } else if(!strcmp("smoothsel", command->name)) {
-        p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("y1", command, &error);
-        p3 = getParamValueInt("x2", command, &error);
-        p4 = getParamValueInt("y2", command, &error);
-        api_smoothSelection(heightMapEditor.terrain, p1, p2, p3, p4);
+        if(areParamsValid(command, params)) {
+            api_smoothSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3));
+        }
     }
 
     deleteParamsValue(command);
 }
 
 bool areParamsValid(Command *command, int *params) {
+    if(command->numParams == 0)
+        return true;
+
     bool validParams = false;
     int i;
     for(i = 0; i < command->numParams; i++) {
-        printf("Checking param> %s\n", (command->params + i)->key);
+        printf("Checking param [%s] = %s\n", (command->params + i)->key, (command->params + i)->value);
         *(params + i) = getParamValueInt((command->params + i)->key, command, &validParams);
         if(!validParams) break;
     }
