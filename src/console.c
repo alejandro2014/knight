@@ -292,30 +292,30 @@ void executeCommand(Command *command) {
         api_smoothTerrain(heightMapEditor.terrain);
     } else if(!strcmp("risesel", command->name)) {
         p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("x2", command, &error);
-        p3 = getParamValueInt("x3", command, &error);
-        p4 = getParamValueInt("x4", command, &error);
+        p2 = getParamValueInt("y1", command, &error);
+        p3 = getParamValueInt("x2", command, &error);
+        p4 = getParamValueInt("y2", command, &error);
         p5 = getParamValueInt("delta", command, &error);
         api_riseSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
     } else if(!strcmp("sinksel", command->name)) {
         p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("x2", command, &error);
-        p3 = getParamValueInt("x3", command, &error);
-        p4 = getParamValueInt("x4", command, &error);
+        p2 = getParamValueInt("y1", command, &error);
+        p3 = getParamValueInt("x2", command, &error);
+        p4 = getParamValueInt("y2", command, &error);
         p5 = getParamValueInt("delta", command, &error);
         api_sinkSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
     } else if(!strcmp("sethsel", command->name)) {
         p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("x2", command, &error);
-        p3 = getParamValueInt("x3", command, &error);
-        p4 = getParamValueInt("x4", command, &error);
+        p2 = getParamValueInt("y1", command, &error);
+        p3 = getParamValueInt("x2", command, &error);
+        p4 = getParamValueInt("y2", command, &error);
         p5 = getParamValueInt("height", command, &error);
         api_setHeightSelection(heightMapEditor.terrain, p1, p2, p3, p4, p5);
     } else if(!strcmp("smoothsel", command->name)) {
         p1 = getParamValueInt("x1", command, &error);
-        p2 = getParamValueInt("x2", command, &error);
-        p3 = getParamValueInt("x3", command, &error);
-        p4 = getParamValueInt("x4", command, &error);
+        p2 = getParamValueInt("y1", command, &error);
+        p3 = getParamValueInt("x2", command, &error);
+        p4 = getParamValueInt("y2", command, &error);
         api_smoothSelection(heightMapEditor.terrain, p1, p2, p3, p4);
     }
 
