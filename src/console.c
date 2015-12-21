@@ -110,7 +110,7 @@ void printCommand(Command *command) {
 }
 
 void printConsoleBanner(Console *console) {
-    printf("Welcome to knight, the height terrain editor! - version %s\n", VERSION_NUMBER);
+    printf("Welcome to KNIGHT, the height terrain editor! - version %s\n", VERSION_NUMBER);
     printf("Alejandro Ruperez 2015. Enter 'help' to see available commands\n");
 }
 
