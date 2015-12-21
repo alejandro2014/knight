@@ -7,8 +7,10 @@
 
 #include "menus.h"
 #include "api.h"
+#include "console.h"
 
 typedef struct {
+    Console *console;
     Dialog **dialogs;
     Terrain *terrain;
     int horSize;
