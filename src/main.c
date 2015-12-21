@@ -78,21 +78,16 @@ void fakeConsole() {
 
     printConsoleBanner(console);
     processCommand("gterr width:3 height:2", console);
-
-    processCommand("sethp x:0 y:0 height:100", console);
-    processCommand("riseterr delta:10", console);
-    processCommand("prterr", console);
-    /*
     processCommand("sethp x:0 y:0 height:10", console);
     processCommand("sethp x:1 y:0 height:11", console);
     processCommand("sethp x:2 y:0 height:12", console);
     processCommand("sethp x:0 y:1 height:13", console);
     processCommand("sethp x:1 y:1 height:14", console);
     processCommand("sethp x:2 y:1 height:15", console);
+    processCommand("riseterr delta:10", console);
+    processCommand("rotate90", console);
 
     processCommand("prterr", console);
-    processCommand("risesel x1:0 y1:0 x2:1 y2:1 delta:10", console);
-    processCommand("prterr", console);*/
 
     while(!finish) {
         printPrompt();
