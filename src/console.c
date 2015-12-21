@@ -216,28 +216,32 @@ Param *lookupParam(char *paramName, Command *command) {
     return NULL;
 }
 
+/**
+This method uses the macros P0, P1, P... to access the parameters array (params)
+*/
 void executeCommand(Command *command) {
     alloc(params, int, 5);
+    Terrain *terrain = heightMapEditor.terrain;
 
     if(!areParamsValid(command, params)) return;
 
-    if(!strcmp("flipx", command->name)) heightMapEditor.terrain = api_rotate(FLIP_XAXIS, heightMapEditor.terrain);
-    else if(!strcmp("flipy", command->name)) heightMapEditor.terrain = api_rotate(FLIP_YAXIS, heightMapEditor.terrain);
-    else if(!strcmp("gterr", command->name)) heightMapEditor.terrain = api_generateTerrain(*(params + 0), *(params + 1));
-    else if(!strcmp("invheight", command->name)) api_invertHeight(heightMapEditor.terrain);
-    else if(!strcmp("prterr", command->name)) showTerrainCmd(heightMapEditor.terrain);
-    else if(!strcmp("risesel", command->name)) api_riseSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
-    else if(!strcmp("riseterr", command->name)) api_riseTerrain(heightMapEditor.terrain, *(params + 0));
-    else if(!strcmp("rotate90", command->name)) heightMapEditor.terrain = api_rotate(ROTATE_90, heightMapEditor.terrain);
-    else if(!strcmp("rotate180", command->name)) heightMapEditor.terrain = api_rotate(ROTATE_180, heightMapEditor.terrain);
-    else if(!strcmp("rotate270", command->name)) heightMapEditor.terrain = api_rotate(ROTATE_270, heightMapEditor.terrain);
-    else if(!strcmp("sethp", command->name)) api_setHeight(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2));
-    else if(!strcmp("sethsel", command->name)) api_setHeightSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
-    else if(!strcmp("sethterr", command->name)) api_setHeightTerrain(heightMapEditor.terrain, *(params + 0));
-    else if(!strcmp("sinksel", command->name)) api_sinkSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3), *(params + 4));
-    else if(!strcmp("sinkterr", command->name)) api_sinkTerrain(heightMapEditor.terrain, *(params + 0));
-    else if(!strcmp("smoothsel", command->name)) api_smoothSelection(heightMapEditor.terrain, *(params + 0), *(params + 1), *(params + 2), *(params + 3));
-    else if(!strcmp("smoothterr", command->name)) api_smoothTerrain(heightMapEditor.terrain);
+    if(!strcmp("flipx", command->name))           heightMapEditor.terrain = api_rotate(FLIP_XAXIS, terrain);
+    else if(!strcmp("flipy", command->name))      heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
+    else if(!strcmp("gterr", command->name))      heightMapEditor.terrain = api_generateTerrain(P0, P1);
+    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
+    else if(!strcmp("prterr", command->name))     showTerrainCmd(terrain);
+    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
+    else if(!strcmp("rotate90", command->name))   heightMapEditor.terrain = api_rotate(ROTATE_90, terrain);
+    else if(!strcmp("rotate180", command->name))  heightMapEditor.terrain = api_rotate(ROTATE_180, terrain);
+    else if(!strcmp("rotate270", command->name))  heightMapEditor.terrain = api_rotate(ROTATE_270, terrain);
+    else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
+    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);
+    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain, P0);
+    else if(!strcmp("smoothsel", command->name))  api_smoothSelection(terrain, P0, P1, P2, P3);
+    else if(!strcmp("smoothterr", command->name)) api_smoothTerrain(terrain);
 
     deleteParamsValue(command);
 }

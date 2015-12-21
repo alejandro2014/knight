@@ -10,6 +10,15 @@
 #define NUM_COMMANDS 17
 #define MAX_PARAMS 10
 
+#define P0 *(params+0)
+#define P1 *(params+1)
+#define P2 *(params+2)
+#define P3 *(params+3)
+#define P4 *(params+4)
+#define P5 *(params+5)
+#define P6 *(params+6)
+#define P7 *(params+7)
+
 typedef struct {
     char *key;
     char *value;
