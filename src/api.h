@@ -32,8 +32,6 @@ typedef struct {
 Terrain *api_generateTerrain(int width, int height);
 void api_freeTerrain(Terrain *terrain);
 
-void api_invertHeight(Terrain *terrain);
-
 void api_riseTerrain(Terrain *terrain, int delta);
 void api_sinkTerrain(Terrain *terrain, int delta);
 void api_setHeightTerrain(Terrain *terrain, int height);
@@ -45,6 +43,8 @@ void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, 
 void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int endY);
 
 Terrain *api_rotate(Operation operation, Terrain *oldTerrain);
+void api_invertHeight(Terrain *terrain);
+
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
 void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height);
 

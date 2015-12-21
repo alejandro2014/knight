@@ -41,57 +41,31 @@ Command *loadCommands(Console *console) {
     addCommand("flipy", console);
 
     addCommand("invheight", console);
-    addCommand("gterr", console);
-    addParam("width", "gterr", console);
-    addParam("height", "gterr", console);
+    addCommandParams("gterr", (char *[]){"width", "height"}, 2, console);
 
     addCommand("prterr", console);
+    addCommandParams("setp", (char *[]){"x", "y", "height"}, 3, console);
 
-    addCommand("setp", console);
-    addParam("x", "setp", console);
-    addParam("y", "setp", console);
-    addParam("height", "setp", console);
-
-    //-----------------------
-    addCommand("riseterr", console);
-    addParam("delta", "riseterr", console);
-
-    addCommand("sinkterr", console);
-    addParam("delta", "sinkterr", console);
-
-    addCommand("sethterr", console);
-    addParam("height", "sethterr", console);
-
+    addCommandParams("riseterr", (char *[]){"delta"}, 1, console);
+    addCommandParams("sinkterr", (char *[]){"delta"}, 1, console);
+    addCommandParams("sethterr", (char *[]){"height"}, 1, console);
     addCommand("smoothterr", console);
-    //-----------------------
-    addCommand("risesel", console);
-    addParam("x1", "risesel", console);
-    addParam("x2", "risesel", console);
-    addParam("y1", "risesel", console);
-    addParam("y2", "risesel", console);
-    addParam("delta", "risesel", console);
 
-    addCommand("sinksel", console);
-    addParam("x1", "sinksel", console);
-    addParam("x2", "sinksel", console);
-    addParam("y1", "sinksel", console);
-    addParam("y2", "sinksel", console);
-    addParam("delta", "sinksel", console);
-
-    addCommand("sethsel", console);
-    addParam("x1", "sethsel", console);
-    addParam("x2", "sethsel", console);
-    addParam("y1", "sethsel", console);
-    addParam("y2", "sethsel", console);
-    addParam("height", "sethsel", console);
-
-    addCommand("smoothsel", console);
-    addParam("x1", "smoothsel", console);
-    addParam("x2", "smoothsel", console);
-    addParam("y1", "smoothsel", console);
-    addParam("y2", "smoothsel", console);
+    addCommandParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("sethsel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
 
     return console->commands;
+}
+
+void addCommandParams(char *commandName, char *params[], int numParams, Console *console) {
+    addCommand(commandName, console);
+
+    int i;
+    for(i = 0; i < numParams; i++) {
+        addParam(params[i], commandName, console);
+    }
 }
 
 void addCommand(char *commandName, Console *console) {

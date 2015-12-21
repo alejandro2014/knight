@@ -87,7 +87,7 @@ void fakeConsole() {
     processCommand("setp x:2 y:1 height:15", console);
 
     processCommand("prterr", console);
-    processCommand("smoothsel x1:0 y1:0 x2:1 y2:1", console);
+    processCommand("risesel x1:0 y1:0 x2:1 y2:1 delta:10", console);
     processCommand("prterr", console);
 
     while(!finish) {
