@@ -34,27 +34,23 @@ void freeConsole(Console *console) {
 Command *loadCommands(Console *console) {
     Command *command = NULL;
 
+    addCommand("flipx", console);
+    addCommand("flipy", console);
+    addCommandParams("gterr", (char *[]){"width", "height"}, 2, console);
+    addCommand("invheight", console);
+    addCommand("prterr", console);
+    addCommandParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("riseterr", (char *[]){"delta"}, 1, console);
     addCommand("rotate90", console);
     addCommand("rotate180", console);
     addCommand("rotate270", console);
-    addCommand("flipx", console);
-    addCommand("flipy", console);
-
-    addCommand("invheight", console);
-    addCommandParams("gterr", (char *[]){"width", "height"}, 2, console);
-
-    addCommand("prterr", console);
     addCommandParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
-
-    addCommandParams("riseterr", (char *[]){"delta"}, 1, console);
-    addCommandParams("sinkterr", (char *[]){"delta"}, 1, console);
-    addCommandParams("sethterr", (char *[]){"height"}, 1, console);
-    addCommand("smoothterr", console);
-
-    addCommandParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
-    addCommandParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
     addCommandParams("sethsel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("sethterr", (char *[]){"height"}, 1, console);
+    addCommandParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandParams("sinkterr", (char *[]){"delta"}, 1, console);
     addCommandParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
+    addCommand("smoothterr", console);
 
     return console->commands;
 }
