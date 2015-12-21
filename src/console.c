@@ -290,7 +290,33 @@ void deleteParamsValue(Command *command) {
 void loadScript(Console *console) {
     char *path = "/Users/alejandro/programs/height-map-editor/res/terrain.knight";
     FILE *script = fopen(path, "r");
-    readShellLine(console, script);
-    printf(">> %s\n", console->currentLine);
+
+    while(!feof(script)) {
+        readShellLine(console, script);
+        if(*(console->currentLine + 0) != '#' && strlen(console->currentLine) > 0) {
+            printf(">> %s\n", console->currentLine);
+            processCommand(console->currentLine, console);
+        }
+    }
+
     fclose(script);
+}
+
+bool processCommand(char *textCommand, Console *console) {
+    Command *command = NULL;
+    bool finish = false;
+
+    if(strcmp(textCommand, "exit")) {
+        command = parseCommand(textCommand, console);
+
+        if(command) {
+            executeCommand(command);
+            command = NULL;
+        }
+    } else {
+        finish = true;
+        printf("Bye\n");
+    }
+
+    return finish;
 }

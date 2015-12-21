@@ -70,5 +70,6 @@ int getParamValueInt(char *paramName, Command *command, bool *error);
 void deleteParamsValue(Command *command);
 
 void loadScript();
+bool processCommand(char *textCommand, Console *console);
 
 #endif

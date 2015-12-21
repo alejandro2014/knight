@@ -43,7 +43,6 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 #include "console.h"
 
 void fakeConsole();
-bool processCommand(char *textCommand, Console *console);
 
 HeightMapEditor heightMapEditor;
 
@@ -76,7 +75,7 @@ void fakeConsole() {
     Command *listCommands = loadCommands(console);
 
     printConsoleBanner(console);
-    processCommand("gterr width:3 height:2", console);
+    /*processCommand("gterr width:3 height:2", console);
     processCommand("sethp x:0 y:0 height:10", console);
     processCommand("sethp x:1 y:0 height:11", console);
     processCommand("sethp x:2 y:0 height:12", console);
@@ -86,7 +85,7 @@ void fakeConsole() {
     processCommand("riseterr delta:10", console);
     processCommand("rotate90", console);
 
-    processCommand("prterr", console);
+    processCommand("prterr", console);*/
 
     while(!finish) {
         printPrompt();
@@ -97,24 +96,6 @@ void fakeConsole() {
     freeConsole(console);
 }
 
-bool processCommand(char *textCommand, Console *console) {
-    Command *command = NULL;
-    bool finish = false;
-
-    if(strcmp(textCommand, "exit")) {
-        command = parseCommand(textCommand, console);
-
-        if(command) {
-            executeCommand(command);
-            command = NULL;
-        }
-    } else {
-        finish = true;
-        printf("Bye\n");
-    }
-
-    return finish;
-}
 /*void programLoop() {
     bool finish = false;
     //SDL_Event event;
