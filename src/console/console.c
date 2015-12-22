@@ -1,7 +1,10 @@
 #include "console.h"
 #include "print.h"
+
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
+#include "../api/generate_terrain.h"
+
 #include "../global.h"
 #include "../helper.h"
 #include "../main.h" //TODO Isn't this an error?
@@ -39,6 +42,7 @@ Command *loadCommands(Console *console) {
     addCommand("invheight", console);
     addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
     addCommand("prterr", console);
+    addCommandIntParams("randgterr", (char *[]){"width", "height"}, 2, console);
     addCommandIntParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
     addCommandIntParams("riseterr", (char *[]){"delta"}, 1, console);
     addCommand("rotate90", console);
@@ -235,6 +239,7 @@ void executeCommand(Command *command) {
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("prterr", command->name))     printTerrain(terrain);
+    else if(!strcmp("randgterr", command->name))  heightMapEditor.terrain = api_generateRandomTerrain(P0, P1);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
     else if(!strcmp("rotate90", command->name))   heightMapEditor.terrain = api_rotate(ROTATE_90, terrain);

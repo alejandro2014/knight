@@ -83,10 +83,13 @@ int drawSeed(Terrain *terrain) {
   return 0;
 }
 
-void api_generateRandomTerrain(Terrain *terrain) {
-    int seedG = drawSeed(terrain);
+Terrain *api_generateRandomTerrain(int width, int height) {
+    Terrain *terrain = api_generateTerrain(width, height);
+    /*int seedG = drawSeed(terrain);
 
     if(seedG == 0) {
         drawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
-    }
+    }*/
+
+    return terrain;
 }
