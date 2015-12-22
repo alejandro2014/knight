@@ -34,34 +34,42 @@ Command *loadCommands(Console *console) {
 
     addCommand("flipx", console);
     addCommand("flipy", console);
-    addCommandParams("gterr", (char *[]){"width", "height"}, 2, console);
+    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
     addCommand("help", console);
     addCommand("invheight", console);
-    addCommand("loadscr", console);
-    //addCommandParams("loadscr", (char *[]){"path"}, 1, console);
+    addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
     addCommand("prterr", console);
-    addCommandParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
-    addCommandParams("riseterr", (char *[]){"delta"}, 1, console);
+    addCommandIntParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("riseterr", (char *[]){"delta"}, 1, console);
     addCommand("rotate90", console);
     addCommand("rotate180", console);
     addCommand("rotate270", console);
-    addCommandParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
-    addCommandParams("sethsel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
-    addCommandParams("sethterr", (char *[]){"height"}, 1, console);
-    addCommandParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
-    addCommandParams("sinkterr", (char *[]){"delta"}, 1, console);
-    addCommandParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
+    addCommandIntParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
+    addCommandIntParams("sethsel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("sethterr", (char *[]){"height"}, 1, console);
+    addCommandIntParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("sinkterr", (char *[]){"delta"}, 1, console);
+    addCommandIntParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
     addCommand("smoothterr", console);
 
     return console->commands;
 }
 
-void addCommandParams(char *commandName, char *params[], int numParams, Console *console) {
+void addCommandIntParams(char *commandName, char *params[], int numParams, Console *console) {
     addCommand(commandName, console);
 
     int i;
     for(i = 0; i < numParams; i++) {
-        addParam(params[i], commandName, console);
+        addParam(params[i], commandName, INT, console);
+    }
+}
+
+void addCommandStrParams(char *commandName, char *params[], int numParams, Console *console) {
+    addCommand(commandName, console);
+
+    int i;
+    for(i = 0; i < numParams; i++) {
+        addParam(params[i], commandName, STRING, console);
     }
 }
 
@@ -72,11 +80,12 @@ void addCommand(char *commandName, Console *console) {
     console->numCommands++;
 }
 
-void addParam(char *paramName, char *commandName, Console *console) {
+void addParam(char *paramName, char *commandName, ParamType type, Console *console) {
     Command *command = lookupCommand(commandName, console);
     int positionParam = command->numParams;
     Param *param = command->params + positionParam;
     param->key = paramName;
+    param->type = type;
     command->numParams++;
 }
 
@@ -119,6 +128,25 @@ void printConsoleBanner(Console *console) {
 void readShellLine(Console *console, FILE *inputStream) {
     size_t sizeLineRead = getline(&console->currentLine, &console->sizeLine, inputStream);
     *(console->currentLine + sizeLineRead - 1) = '\0';
+}
+
+bool processCommand(char *textCommand, Console *console) {
+    Command *command = NULL;
+    bool finish = false;
+
+    if(strcmp(textCommand, "exit")) {
+        command = parseCommand(textCommand, console);
+
+        if(command) {
+            executeCommand(command);
+            command = NULL;
+        }
+    } else {
+        finish = true;
+        printf("Bye\n");
+    }
+
+    return finish;
 }
 
 Command *parseCommand(char *strCommand, Console *console) {
@@ -222,19 +250,26 @@ Param *lookupParam(char *paramName, Command *command) {
 This method uses the macros P0, P1, P... to access the parameters array (params)
 */
 void executeCommand(Command *command) {
-    alloc(params, int, 5);
+    int numStrings = 5;
+    alloc(intParams, int, 5);
+    alloc(strParams, char *, numStrings);
+
+    int i;
+    for(i = 0; i < numStrings; i++) {
+        allocExist(strParams[i], char, 100);
+    }
 
     Terrain *terrain = heightMapEditor.terrain;
     Console *console = heightMapEditor.console;
 
-    if(!areParamsValid(command, params)) return;
+    if(!areParamsValid(command, intParams, strParams)) return;
 
     if(!strcmp("flipx", command->name))           heightMapEditor.terrain = api_rotate(FLIP_XAXIS, terrain);
     else if(!strcmp("flipy", command->name))      heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
     else if(!strcmp("gterr", command->name))      heightMapEditor.terrain = api_generateTerrain(P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
-    else if(!strcmp("loadscr", command->name))    loadScript(console);
+    else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("prterr", command->name))     showTerrainCmd(terrain);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
@@ -252,14 +287,30 @@ void executeCommand(Command *command) {
     deleteParamsValue(command);
 }
 
-bool areParamsValid(Command *command, int *params) {
-    if(command->numParams == 0)
-        return true;
+bool areParamsValid(Command *command, int *intParams, char **strParams) {
+    if(command->numParams == 0) return true;
 
+    int currentIntParam = 0;
+    int currentStrParam = 0;
     bool validParams = false;
+    Param *currentParam = NULL;
+
     int i;
     for(i = 0; i < command->numParams; i++) {
-        *(params + i) = getParamValueInt((command->params + i)->key, command, &validParams);
+        currentParam = command->params + i;
+
+        switch(currentParam->type) {
+            case INT:
+                *(intParams + currentIntParam) = getParamValueInt(currentParam->key, command, &validParams);
+                currentIntParam++;
+                break;
+            case STRING:
+                *(strParams + currentStrParam) = getParamValueStr(currentParam->key, command, &validParams);
+                currentStrParam++;
+                break;
+        }
+
+
         if(!validParams) break;
     }
 
@@ -279,6 +330,19 @@ int getParamValueInt(char *paramName, Command *command, bool *validParam) {
     return atoi(param->value);
 }
 
+char *getParamValueStr(char *paramName, Command *command, bool *validParam) {
+    Param *param = lookupParam(paramName, command);
+
+    if(!param->value) {
+        printf("[ERROR] The '%s' parameter is not present\n", paramName);
+        *validParam = false;
+        return NULL;
+    }
+
+    *validParam = true;
+    return param->value;
+}
+
 void deleteParamsValue(Command *command) {
     int i;
 
@@ -287,9 +351,14 @@ void deleteParamsValue(Command *command) {
     }
 }
 
-void loadScript(Console *console) {
-    char *path = "/Users/alejandro/programs/height-map-editor/res/terrain.knight";
+void loadScript(Console *console, char *path) {
+    //char *path = "/Users/alejandro/programs/height-map-editor/res/terrain.knight";
     FILE *script = fopen(path, "r");
+
+    if(script == NULL) {
+        printf("The script with path %s couldn't be loaded: file doesn't exist\n", path);
+        return;
+    }
 
     while(!feof(script)) {
         readShellLine(console, script);
@@ -300,23 +369,4 @@ void loadScript(Console *console) {
     }
 
     fclose(script);
-}
-
-bool processCommand(char *textCommand, Console *console) {
-    Command *command = NULL;
-    bool finish = false;
-
-    if(strcmp(textCommand, "exit")) {
-        command = parseCommand(textCommand, console);
-
-        if(command) {
-            executeCommand(command);
-            command = NULL;
-        }
-    } else {
-        finish = true;
-        printf("Bye\n");
-    }
-
-    return finish;
 }
