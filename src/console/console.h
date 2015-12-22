@@ -58,11 +58,6 @@ void addCommandIntParams(char *commandName, char *params[], int numParams, Conso
 void addCommandStrParams(char *commandName, char *params[], int numParams, Console *console);
 void addParam(char *paramName, char *commandName, ParamType type, Console *console);
 
-void printPrompt();
-void printCommands(Console *console);
-void printCommand(Command *command);
-void printConsoleBanner(Console *console);
-
 void readShellLine(Console *console, FILE *inputStream);
 bool processCommand(char *textCommand, Console *console);
 Command *parseCommand(char *strCommand, Console *console);
@@ -79,8 +74,5 @@ char *getParamValueStr(char *paramName, Command *command, bool *validParam);
 void deleteParamsValue(Command *command);
 
 void loadScript(Console *console, char *pathScript);
-
-void showTerrainCmd(Terrain *terrain);
-void printLine(int width);
 
 #endif

@@ -4,6 +4,7 @@
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
 #include "console/console.h"
+#include "console/print.h"
 
 HeightMapEditor heightMapEditor;
 

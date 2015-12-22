@@ -14,8 +14,9 @@ OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}
 
 OPTC_CON=
 CON01=console
+CON02=print
 OBJDIR_CON=${OBJDIR}/console
-OBJ_CON=${OBJDIR_CON}/${CON01}.o
+OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o
 
 OPTC_REST=
 OPTL_REST=
@@ -49,6 +50,6 @@ libs: ${LIBS}
 api: ${LIB_API}
 
 console: ${LIB_CON}
-		
+
 clean:
 	rm -f ${BINDIR}/${EXE} ${LIBDIR}/*.a ${OBJDIR_API}/*.o ${OBJDIR_CON}/*.o ${OBJDIR}/*.o
