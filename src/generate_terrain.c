@@ -1,11 +1,6 @@
 #include "generate_terrain.h"
-#include "cursors.h"
 #include "api.h"
 #include "hme_lowlevel.h"
-
-int maxIterations = 10;
-int iterator = 0;
-int countPoints = 0;
 
 void setRandomHeight(Terrain *terrain, int x, int y) {
     int randomValue = rand() % 255;
@@ -45,7 +40,7 @@ int getNewHeight4(int height1, int height2, int height3, int height4) {
   return calculation;
 }
 
-void hmeDrawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom) {
+void drawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom) {
   int midx = (xtop + xbottom) / 2;
   int midy = (ytop + ybottom) / 2;
   int difx = xbottom - xtop;
@@ -65,13 +60,13 @@ void hmeDrawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom) 
   api_setHeight(terrain, midx, ytop, getNewHeight2(hTopLeft, hTopRight));
   api_setHeight(terrain, midx, ybottom, getNewHeight2(hBottomLeft, hBottomRight));
 
-  hmeDrawMap(terrain, xtop, ytop, midx, midy);
-  hmeDrawMap(terrain, midx, ytop, xbottom, midy);
-  hmeDrawMap(terrain, midx, midy, xbottom, ybottom);
-  hmeDrawMap(terrain, xtop, midy, midx, ybottom);
+  drawMap(terrain, xtop, ytop, midx, midy);
+  drawMap(terrain, midx, ytop, xbottom, midy);
+  drawMap(terrain, midx, midy, xbottom, ybottom);
+  drawMap(terrain, xtop, midy, midx, ybottom);
 }
 
-int hmeDrawSeed(Terrain *terrain) {
+int drawSeed(Terrain *terrain) {
   if(terrain->height < 2 || terrain->width < 2) {
       printf("[ERROR] The dimensions of the terrain are too small (%u x %u)\n", terrain->width, terrain->height);
       return 1;
@@ -80,8 +75,8 @@ int hmeDrawSeed(Terrain *terrain) {
   int width = terrain->width - 1;
   int height = terrain->height - 1;
 
-  setRandomHeight(terrain, 0u, 0u);
-  setRandomHeight(terrain, 0u, height);
+  setRandomHeight(terrain, 0, 0);
+  setRandomHeight(terrain, 0, height);
   setRandomHeight(terrain, width, 0);
   setRandomHeight(terrain, width, height);
 
@@ -89,11 +84,9 @@ int hmeDrawSeed(Terrain *terrain) {
 }
 
 void api_generateRandomTerrain(Terrain *terrain) {
-  int seedG = hmeDrawSeed(terrain);
+    int seedG = drawSeed(terrain);
 
-  if(seedG == 0) {
-    hmeDrawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
-  }
-
-  printf("setted the height %d times\n", countPoints);
+    if(seedG == 0) {
+        drawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
+    }
 }
