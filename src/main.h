@@ -6,8 +6,8 @@
 #include <string.h>
 
 #include "menus.h"
-#include "api.h"
-#include "console.h"
+#include "api/api.h"
+#include "console/console.h"
 
 typedef struct {
     Console *console;
@@ -16,9 +16,5 @@ typedef struct {
     int horSize;
     int verSize;
 } HeightMapEditor;
-
-void programLoop();
-int loadResources(HeightMapEditor *heightMapEditor);
-void freeResources(HeightMapEditor *heightMapEditor);
 
 #endif

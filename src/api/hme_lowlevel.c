@@ -1,6 +1,6 @@
 #include "hme_lowlevel.h"
 #include "api.h"
-#include "global.h"
+#include "../global.h"
 
 void api_setHeight(Terrain *terrain, int x, int y, int height) {
     Point *point = getPoint(terrain, x, y);

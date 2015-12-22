@@ -5,33 +5,50 @@ LIBDIR=./lib
 OBJDIR=./obj
 SRCDIR=./src
 
-OPTC_API=-I${SRCDIR}
+OPTC_API=
 API01=api
 API02=hme_lowlevel
 API03=generate_terrain
 OBJDIR_API=${OBJDIR}/api
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o
 
-#SRC01=widgets
-#SRC02=load_widgets_fake
-#SRC03=helper
-#SRC04=main
-#SRC05=console
+OPTC_CON=
+CON01=console
+OBJDIR_CON=${OBJDIR}/console
+OBJ_CON=${OBJDIR_CON}/${CON01}.o
 
-#OBJ_LINUX=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o
-#OBJ=${OBJ_LINUX}
+OPTC_REST=
+OPTL_REST=
+SRC01=main
+OBJ_REST=${OBJDIR}/${SRC01}.o
 
-#${BINDIR}/${EXE}: ${OBJ}
-#	${CC} ${OBJ} -o ${BINDIR}/${EXE} ${OPTL}
+LIB_API=${LIBDIR}/libapi.a
+LIB_CON=${LIBDIR}/libconsole.a
+LIBS=${LIB_API} ${LIB_CON}
 
-#${OBJDIR}/%.o: ${SRCDIR}/%.c
-#	${CC} ${OPTC} -c -o $@ $<
+${BINDIR}/${EXE}: ${LIBS} ${OBJ_REST}
+	${CC} -L${LIBDIR} -lapi -lconsole ${OBJ_REST} -o ${BINDIR}/${EXE} ${OPTL_REST}
 
-api: ${OBJ_API}
-	ar rcs ${LIBDIR}/api.a ${OBJ_API}
+${LIB_API}: ${OBJ_API}
+	ar rcs ${LIB_API} ${OBJ_API}
+
+${LIB_CON}: ${OBJ_CON}
+	ar rcs ${LIB_CON} ${OBJ_CON}
 
 ${OBJDIR_API}/%.o: ${SRCDIR}/api/%.c
 	${CC} ${OPTC_API} -c -o $@ $<
 
+${OBJDIR_CON}/%.o: ${SRCDIR}/console/%.c
+	${CC} ${OPTC_CON} -c -o $@ $<
+
+${OBJDIR}/%.o: ${SRCDIR}/%.c
+	${CC} ${OPTC_REST} -c -o $@ $<
+
+libs: ${LIBS}
+
+api: ${LIB_API}
+
+console: ${LIB_CON}
+		
 clean:
-	rm -f ${BINDIR}/${EXE} ${LIBDIR}/*.a ${OBJDIR_API}/*.o
+	rm -f ${BINDIR}/${EXE} ${LIBDIR}/*.a ${OBJDIR_API}/*.o ${OBJDIR_CON}/*.o ${OBJDIR}/*.o

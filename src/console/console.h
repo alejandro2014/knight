@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "global.h"
+#include "../global.h"
+#include "../api/api.h"
 
 #define LINE_LENGTH 100
 #define NUM_COMMANDS 19
@@ -78,5 +79,8 @@ char *getParamValueStr(char *paramName, Command *command, bool *validParam);
 void deleteParamsValue(Command *command);
 
 void loadScript(Console *console, char *pathScript);
+
+void showTerrainCmd(Terrain *terrain);
+void printLine(int width);
 
 #endif

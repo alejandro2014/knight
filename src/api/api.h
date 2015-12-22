@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "global.h"
+#include "../global.h"
 
 #define MAX_HEIGHT 255
 

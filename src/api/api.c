@@ -2,7 +2,7 @@
 
 #include "api.h"
 #include "hme_lowlevel.h"
-#include "global.h"
+#include "../global.h"
 
 Terrain *api_generateTerrain(int width, int height) {
   Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));

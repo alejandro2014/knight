@@ -1,7 +1,7 @@
 #ifndef GENERATE_TERRAIN_H
 #define GENERATE_TERRAIN_H
 
-#include "global.h"
+#include "../global.h"
 #include "api.h"
 
 void api_generateRandomTerrain(Terrain * terrain);
