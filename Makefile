@@ -1,54 +1,37 @@
-EXE=heightmap
+EXE=knight
 
 BINDIR=./bin
+LIBDIR=./lib
 OBJDIR=./obj
 SRCDIR=./src
 
-#CC=gcc
-ifeq ($(CC),cc)
-	OPTC=-I/usr/include/SDL2 -D_REENTRANT
-	OPTL=-L/usr/lib/x86_64-linux-gnu -L/usr/local/lib -lSDL2 -lSDL2_ttf -lm
-else
-	OPTC=-g -I/Library/Frameworks/SDL.framework/Headers -I/Library/Frameworks/SDL_ttf.framework/Headers -ferror-limit=200 #-Werror
-	OPTL=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa -framework SDL_ttf
-endif
+OPTC_API=-I${SRCDIR}
+API01=api
+API02=hme_lowlevel
+API03=generate_terrain
+OBJDIR_API=${OBJDIR}/api
+OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o
 
-SRC01=actions
-SRC02=cursors
-SRC03=display_terrain
-SRC04=draw_stuff
-SRC05=events
-SRC06=font
-SRC07=generate_terrain
-SRC08=global
-SRC09=global_tools
-SRC10=init
-SRC11=actions_core
-SRC12=load_save
-SRC13=main
-SRC14=menus
-SRC15=objects
-SRC16=settings
-SRC17=tools
-SRC18=load_widgets
+#SRC01=widgets
+#SRC02=load_widgets_fake
+#SRC03=helper
+#SRC04=main
+#SRC05=console
 
-OBJ_LINUX=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o ${OBJDIR}/${SRC06}.o ${OBJDIR}/${SRC07}.o ${OBJDIR}/${SRC08}.o ${OBJDIR}/${SRC09}.o ${OBJDIR}/${SRC10}.o ${OBJDIR}/${SRC11}.o ${OBJDIR}/${SRC12}.o ${OBJDIR}/${SRC13}.o ${OBJDIR}/${SRC14}.o ${OBJDIR}/${SRC15}.o ${OBJDIR}/${SRC16}.o ${OBJDIR}/${SRC17}.o ${OBJDIR}/${SRC18}.o
-OBJ_MAC=${OBJ_LINUX} ${OBJDIR}/SDLMain.o
+#OBJ_LINUX=${OBJDIR}/${SRC01}.o ${OBJDIR}/${SRC02}.o ${OBJDIR}/${SRC03}.o ${OBJDIR}/${SRC04}.o ${OBJDIR}/${SRC05}.o
+#OBJ=${OBJ_LINUX}
 
-ifeq ($(CC), cc)
-	OBJ=${OBJ_LINUX}
-else
-	OBJ=${OBJ_MAC}
-endif
+#${BINDIR}/${EXE}: ${OBJ}
+#	${CC} ${OBJ} -o ${BINDIR}/${EXE} ${OPTL}
 
-${BINDIR}/${EXE}: ${OBJ}
-	${CC} ${OBJ} -o ${BINDIR}/${EXE} ${OPTL}
+#${OBJDIR}/%.o: ${SRCDIR}/%.c
+#	${CC} ${OPTC} -c -o $@ $<
 
-${OBJDIR}/%.o: ${SRCDIR}/%.c
-	${CC} ${OPTC} -c -o $@ $<
+api: ${OBJ_API}
+	ar rcs ${LIBDIR}/api.a ${OBJ_API}
 
-${OBJDIR}/SDLMain.o: ${SRCDIR}/SDLMain.m
-	${CC} ${OPTC} -c ${SRCDIR}/SDLMain.m -o ${OBJDIR}/SDLMain.o
+${OBJDIR_API}/%.o: ${SRCDIR}/api/%.c
+	${CC} ${OPTC_API} -c -o $@ $<
 
 clean:
-	rm -f ${OBJDIR}/*.o ${BINDIR}/${EXE}
+	rm -f ${BINDIR}/${EXE} ${LIBDIR}/*.a ${OBJDIR_API}/*.o
