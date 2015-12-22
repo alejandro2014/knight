@@ -1,32 +1,17 @@
-/*******************************************************
- * sdlplasma
- * Author: Stefan Hellkvist, stefan@hellkvist.org
- * Copyright: see GPL
- *******************************************************/
+#ifndef GENERATE_TERRAIN_H
+#define GENERATE_TERRAIN_H
 
-#ifndef __GENERATE_TERRAIN_H__
-#define __GENERATE_TERRAIN_H__
-
-#include <stdlib.h>
-#include "actions_core.h"
 #include "global.h"
+#include "api.h"
 
-unsigned int mrandom (unsigned int max);
-
-//Memory allocation
-void allocate_mem(Terrain **terrains, int width, int height);
-void clear_mem();
-int allocateMemTerrain(Uint8 **buffer, int map_size);
-int allocateMemTerrain2(Uint8 **buffer, int map_size);
-void freeMemTerrain(Uint8 *buffer);
-
-void generateRandomTerrain(Terrain * terrain);
-
+void api_generateRandomTerrain(Terrain * terrain);
 int hmeDrawSeed(Terrain *terrain);
 
-Point *hmeGetPoint(Terrain *terrain, int x, int y);
-Uint32 hmeGetHeight(Terrain *terrain, Uint32 x, Uint32 y);
-
-void showTerrainCmd(Terrain *terrain);
+void setRandomHeight(Terrain *terrain, int x, int y);
+int getRandomHeightOffset(int diffHeight);
+int getNewHeight2(int height1, int height2);
+int getNewHeight4(int height1, int height2, int height3, int height4);
+int heightDifference(int h1, int h2, int h3, int h4);
+void hmeDrawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom);
 
 #endif
