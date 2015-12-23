@@ -120,6 +120,9 @@ bool processCommand(char *textCommand, Console *console) {
 Command *parseCommand(char *strCommand, Console *console) {
     char stringCommand[100];
     int length = strlen(strCommand);
+
+    if(length == 0) return NULL;
+
     memcpy(stringCommand, strCommand, length);
     stringCommand[length] = '\0';
 

@@ -5,7 +5,5 @@
 #include "menus.h"
 
 void printDialogs(Dialog **dialogs);
-void printLine(int width);
-void showTerrainCmd(Terrain *terrain);
 
 #endif
