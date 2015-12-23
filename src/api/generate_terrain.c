@@ -1,9 +1,10 @@
 #include "generate_terrain.h"
 #include "api.h"
 #include "hme_lowlevel.h"
+#include "../global.h"
 
 void setRandomHeight(Terrain *terrain, int x, int y) {
-    int randomValue = rand() % 255;
+    int randomValue = rand() % MAX_HEIGHT;
     api_setHeight(terrain, x, y, randomValue);
 }
 
@@ -21,7 +22,7 @@ int getNewHeight2(int height1, int height2) {
 }
 
 int heightDifference(int h1, int h2, int h3, int h4) {
-    int min = 256;
+    int min = MAX_HEIGHT + 1;
     int max = -1;
 
     if(h1 > max) max = h1; if(h2 > max) max = h2;
@@ -41,37 +42,37 @@ int getNewHeight4(int height1, int height2, int height3, int height4) {
 }
 
 void drawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom) {
-  int midx = (xtop + xbottom) / 2;
-  int midy = (ytop + ybottom) / 2;
-  int difx = xbottom - xtop;
-  int dify = ybottom - ytop;
+    int width = xbottom - xtop + 1;
+    int height = ybottom - ytop + 1;
+    int midx, midy;
 
-  if (difx == 1 || dify == 1) return;
+    midx = (xtop + xbottom) / 2;
+    midy = (ytop + ybottom) / 2;
+    width = midx - xtop + 1;
+    height = midy - ytop + 1;
 
-  int hTopLeft = getHeight(terrain, xtop, ytop);
-  int hTopRight = getHeight(terrain, xbottom, ytop);
-  int hBottomLeft = getHeight(terrain, xtop, ybottom);
-  int hBottomRight = getHeight(terrain, xbottom, ybottom);
+    if (width == 1 || height == 1) return;
 
-  api_setHeight(terrain, midx, midy, getNewHeight4(hTopLeft, hTopRight, hBottomLeft, hBottomRight));
+    int hTopLeft = getHeight(terrain, xtop, ytop);
+    int hTopRight = getHeight(terrain, xbottom, ytop);
+    int hBottomLeft = getHeight(terrain, xtop, ybottom);
+    int hBottomRight = getHeight(terrain, xbottom, ybottom);
 
-  api_setHeight(terrain, xtop, midy, getNewHeight2(hTopLeft, hBottomLeft));
-  api_setHeight(terrain, xbottom, midy, getNewHeight2(hTopRight, hBottomRight));
-  api_setHeight(terrain, midx, ytop, getNewHeight2(hTopLeft, hTopRight));
-  api_setHeight(terrain, midx, ybottom, getNewHeight2(hBottomLeft, hBottomRight));
 
-  drawMap(terrain, xtop, ytop, midx, midy);
-  drawMap(terrain, midx, ytop, xbottom, midy);
-  drawMap(terrain, midx, midy, xbottom, ybottom);
-  drawMap(terrain, xtop, midy, midx, ybottom);
+    api_setHeight(terrain, midx, midy, getNewHeight4(hTopLeft, hTopRight, hBottomLeft, hBottomRight));
+
+    api_setHeight(terrain, xtop, midy, getNewHeight2(hTopLeft, hBottomLeft));
+    api_setHeight(terrain, xbottom, midy, getNewHeight2(hTopRight, hBottomRight));
+    api_setHeight(terrain, midx, ytop, getNewHeight2(hTopLeft, hTopRight));
+    api_setHeight(terrain, midx, ybottom, getNewHeight2(hBottomLeft, hBottomRight));
+
+    drawMap(terrain, xtop, ytop, midx, midy);
+    drawMap(terrain, midx, ytop, xbottom, midy);
+    drawMap(terrain, midx, midy, xbottom, ybottom);
+    drawMap(terrain, xtop, midy, midx, ybottom);
 }
 
-int drawSeed(Terrain *terrain) {
-  if(terrain->height < 2 || terrain->width < 2) {
-      printf("[ERROR] The dimensions of the terrain are too small (%u x %u)\n", terrain->width, terrain->height);
-      return 1;
-  }
-
+void setRandomHeightCorners(Terrain *terrain) {
   int width = terrain->width - 1;
   int height = terrain->height - 1;
 
@@ -79,26 +80,15 @@ int drawSeed(Terrain *terrain) {
   setRandomHeight(terrain, 0, height);
   setRandomHeight(terrain, width, 0);
   setRandomHeight(terrain, width, height);
-
-  return 0;
 }
 
 Terrain *api_generateRandomTerrain(int width, int height) {
     Terrain *terrain = api_generateTerrain(width, height);
     srand(terrain->seedRandom);
 
-    int i, j;
+    setRandomHeightCorners(terrain);
 
-    for(i =0; i < 9; i++) {
-        for(j = 0; j < 9; j++) {
-            setRandomHeight(terrain, i, j);
-        }
-    }
-    /*int seedG = drawSeed(terrain);
-
-    if(seedG == 0) {
-        drawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
-    }*/
+    drawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
 
     return terrain;
 }

@@ -5,7 +5,7 @@
 #include "api.h"
 
 Terrain *api_generateRandomTerrain(int width, int height);
-int drawSeed(Terrain *terrain);
+void setRandomHeightCorners(Terrain *terrain);
 
 void setRandomHeight(Terrain *terrain, int x, int y);
 int getRandomHeightOffset(int diffHeight);
