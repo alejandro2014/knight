@@ -27,6 +27,7 @@ typedef struct {
   int height;
   int pointsNo;
   Point *points;
+  int seedRandom;
 } Terrain;
 
 Terrain *api_generateTerrain(int width, int height);

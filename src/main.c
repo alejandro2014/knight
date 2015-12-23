@@ -16,6 +16,9 @@ int main(int argc, char* argv[]) {
 
     printConsoleBanner(console);
 
+    processCommand("randgterr width:9 height:9", console);
+    processCommand("prterr", console);
+
     while(!finish) {
         printPrompt();
         readShellLine(console, stdin);

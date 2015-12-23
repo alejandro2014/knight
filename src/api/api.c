@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 
 #include "api.h"
 #include "hme_lowlevel.h"
@@ -11,8 +12,9 @@ Terrain *api_generateTerrain(int width, int height) {
   terrain->width = width;
   terrain->height = height;
   terrain->pointsNo = map_size;
-  terrain->points = (Point *) malloc(map_size * sizeof(Point));
-  memset(terrain->points, 0, map_size * sizeof(Point));
+  terrain->seedRandom = time(NULL);
+  
+  allocExist(terrain->points, Point, map_size);
 
   printf("[INFO] Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
   return terrain;

@@ -85,6 +85,15 @@ int drawSeed(Terrain *terrain) {
 
 Terrain *api_generateRandomTerrain(int width, int height) {
     Terrain *terrain = api_generateTerrain(width, height);
+    srand(terrain->seedRandom);
+
+    int i, j;
+
+    for(i =0; i < 9; i++) {
+        for(j = 0; j < 9; j++) {
+            setRandomHeight(terrain, i, j);
+        }
+    }
     /*int seedG = drawSeed(terrain);
 
     if(seedG == 0) {
