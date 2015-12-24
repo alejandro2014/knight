@@ -20,7 +20,7 @@ void setFillStatusTerrain(Terrain *terrain, FillStatus fillStatus);
 
 void flood_line(Terrain *terrain, int x, int y, int height);
 void floodLineHor(Terrain *terrain, int x, int y, int height, Direction direction);
-void flood_ver_line(Terrain *terrain, int x, int y, int height, Direction direction);
+void flood_ver_line(Terrain *terrain, int x, int y, int height);
 void floodLineVer(Terrain *terrain, int x, int yIni, int yFin, int height);
 
 #endif

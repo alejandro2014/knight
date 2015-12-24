@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 
     processCommand("sethp x:1 y:2 height:3", console);
     processCommand("sethp x:2 y:2 height:1", console);
-    processCommand("sethp x:3 y:2 height:3", console);
+    //processCommand("sethp x:3 y:2 height:3", console);
 
     processCommand("sethp x:1 y:3 height:3", console);
     processCommand("sethp x:2 y:3 height:3", console);
