@@ -307,38 +307,6 @@ void updateMinMaxDrawnCoords(int x, int y) {
   min_drawn_x = min_drawn_x | 3;
 }
 
-void stamp_object() {
-    int object_x_start=0;
-    int object_y_start=0;
-    int object_x_terrain_start,object_y_terrain_start;
-    int object_x_terrain_end,object_y_terrain_end;
-
-    int x,y,j,k;
-    int cur_height;
-
-    getTerrainCoords()
-    //ok, now just display the object
-    j=object_y_start;
-
-    for(y=object_y_terrain_start;y<object_y_terrain_end;y++) {
-        k=object_x_start;
-
-        for(x=object_x_terrain_start;x<object_x_terrain_end;x++) {
-            cur_height=*(current_object.object_mem+j*current_object.object_x_len+k);
-
-            if(cur_height) {
-                switch(object_mode) {
-                    case put_object: setHeight(x, y, cur_height); break;
-                    case add_object: risePoint(x, y, cur_height); break;
-                    case sub_object: sinkPoint(x, y, cur_height); break;
-                }
-            }
-            k++;
-        }
-        j++;
-    }
-}
-
 void getTerrainCoords() {
     object_x_terrain_start = ((x_mouse_pos-x_screen_offset)-(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
     object_y_terrain_start = ((y_mouse_pos-y_screen_offset)-(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;

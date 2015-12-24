@@ -14,6 +14,9 @@ typedef int Operation;
 #define ROTATE_270 2
 #define FLIP_XAXIS 3
 #define FLIP_YAXIS 4
+#define REPLACE_HEIGHT 5
+#define ADD_HEIGHT 6
+#define SUBS_HEIGHT 7
 
 typedef int FillStatus;
 #define NOT_FILLED 0

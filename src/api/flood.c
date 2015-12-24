@@ -2,6 +2,7 @@
 #include "api.h"
 #include "hme_lowlevel.h"
 
+//TODO This algorithm needs to be changed for another that is able to fill non-convexe areas
 /**
 Floods an area of terrain. It fills with a flat surface the area to be flood, simulating the
 effect of the water. It parts from a single point. From there it will flood the horizontal
@@ -62,6 +63,36 @@ void setFillStatusTerrain(Terrain *terrain, FillStatus fillStatus) {
     for(x = 0; x < terrain->width; x++) {
         for(y = 0; y < terrain->height; y++) {
             setFillStatus(terrain, x, y, fillStatus);
+        }
+    }
+}
+
+/*
+TODO To make this work we need:
+- A way to create a terrain using a name, and address it later on
+- A mixed parsing of parameters, string and integer
+*/
+void api_MergeTerrains(Terrain *srcTerrain, Terrain *destTerrain, int startX, int startY, Operation operation) {
+    int xOffsetSrcTerrain = startX + srcTerrain->width;
+    int yOffsetSrcTerrain = startY + srcTerrain->height;
+
+    if(xOffsetSrcTerrain > srcTerrain->width || yOffsetSrcTerrain > srcTerrain->height) {
+        printf("[ERROR] The source terrain doesn't fit the destination terrain\n");
+        return;
+    }
+
+    int x, y;
+    int height;
+
+    for(x = startX; x < xOffsetSrcTerrain; x++) {
+        for(y = startY; y < yOffsetSrcTerrain; y++) {
+            height = getHeight(srcTerrain, x, y);
+
+            switch(operation) {
+                case REPLACE_HEIGHT: api_setHeight(destTerrain, x, y, height); break;
+                case ADD_HEIGHT: incHeight(destTerrain, x, y, height); break;
+                case SUBS_HEIGHT: decHeight(destTerrain, x, y, height); break;
+            }
         }
     }
 }

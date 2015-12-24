@@ -23,4 +23,6 @@ void floodLineHor(Terrain *terrain, int x, int y, int height, Direction directio
 void flood_ver_line(Terrain *terrain, int x, int y, int height);
 void floodLineVer(Terrain *terrain, int x, int yIni, int yFin, int height);
 
+void api_MergeTerrains(Terrain *srcTerrain, Terrain *destTerrain, int startX, int startY, Operation operation);
+
 #endif
