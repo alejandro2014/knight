@@ -4,7 +4,7 @@
 #include "flood.h"
 #include "api.h"
 
-void pre_flood_area(Terrain *terrain, int cur_x, int cur_y);
+void api_floodArea(Terrain *terrain, int cur_x, int cur_y);
 void setFillStatusTerrain(Terrain *terrain, FillStatus fillStatus);
 
 void flood_line(Terrain *terrain, int x, int y, int height);

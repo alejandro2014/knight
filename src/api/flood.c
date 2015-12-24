@@ -10,8 +10,14 @@
 5 5 5 5 5    5 5 5 5 5    5 5 5 5 5
 */
 
-//the fill tool
-void pre_flood_area(Terrain *terrain, int currentX, int currentY) {
+/**
+Floods an area of terrain. It fills with a flat surface the area to be flood, simulating the
+effect of the water. It parts from a single point. From there it will flood the horizontal
+lines at its left and right. For each point of these lines it will calculate the flood of
+the vertical lines. The flood will stop when it finds a higher point. So basically, the way
+to create a lake is to excavate the terrain first, and then to set the height of the water
+*/
+void api_floodArea(Terrain *terrain, int currentX, int currentY) {
     int x, y;
     bool pendingFound = true;
     int height = getHeight(terrain, currentX, currentY);
