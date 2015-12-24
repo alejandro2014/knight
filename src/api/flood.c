@@ -55,7 +55,7 @@ void floodLine(Terrain *terrain, int xIni, int xFin, int y, int height) {
     for(x = xIni; x <= xFin; x++) {
 		if(getHeight(terrain, x, y) < height) {
             api_setHeight(terrain, x, y, height);
-            setFilled(terrain, x, y);
+            setFillStatus(terrain, x, y, FILLED);
 
 			//now, scan for the up and down neighbours
 			if(y > 0 && getHeight(terrain, x - terrain->width, y) < height)
@@ -80,7 +80,7 @@ void floodVerticalLine(Terrain *terrain, int x, int yIni, int yFin, int height) 
     for (y = yIni; y <= yFin; y++) {
 		if(getHeight(terrain, x, y) != height) {
 			api_setHeight(terrain, x, y, height);
-            setFilled(terrain, x, y);
+            setFillStatus(terrain, x, y, FILLED);
 
             //now, scan for the up and down neighbours
 			if(x > 0 && getHeight(terrain, x-1, y) < height)
