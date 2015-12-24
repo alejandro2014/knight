@@ -183,7 +183,7 @@ void mouse_click (bool left_b, bool right_b, int mouse_x, int mouse_y) {
         case t_place: draw_brush_line (); break;
         case t_elevate: draw_brush_line (); break;
         case t_escavate: draw_brush_line (); break;
-        case t_flood: pre_flood_area (); break;
+        case t_flood: change_cursor(cursor_wait);pre_flood_area (); change_cursor(last_cursor);break;
         case t_replace: pre_change_area (); break;
         case t_global_replace: global_replace(); break;
         case t_zoom_in: zoom_in (); break;

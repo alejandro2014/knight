@@ -26,25 +26,14 @@ void decHeight(Terrain *terrain, int x, int y, int delta) {
     api_setHeight(terrain, x, y, (newHeight > MIN_HEIGHT ? newHeight : MIN_HEIGHT));
 }
 
-int isFilled(int x, int y) {
-    /*Terrain *terrain = currentTerrain;
+bool isFilled(Terrain *terrain, int x, int y) {
     Point *point = getPoint(terrain, x, y);
-    return point->fillStatus == already_filled ? 1 : 0;*/
-    return 1;
+    return point->fillStatus == FILLED ? true : false;
 }
 
-void setFilled(int x, int y) {
-    //setFillStatus(x, y, already_filled);
-}
-
-void setPendingFill(int x, int y) {
-    //setFillStatus(x, y, pending_filled);
-}
-
-void setFillStatus(int x, int y, int fillStatus) {
-    /*Terrain *terrain = currentTerrain;
+void setFillStatus(Terrain *terrain, int x, int y, FillStatus fillStatus) {
     Point *point = getPoint(terrain, x, y);
-    point->fillStatus = fillStatus;*/
+    point->fillStatus = fillStatus;
 }
 
 Point *getPoint(Terrain *terrain, int x, int y) {

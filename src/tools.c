@@ -220,105 +220,6 @@ void pre_change_area() {
 	change_cursor(last_cursor);
 }
 
-void floodVerticalLine(int x, int yIni, int yFin, int height) {
-    for (y = xIni; y <= xFin; y++) {
-		if(getHeight(x, y) != height) {
-			setHeight(x, y, height);
-            setFilled(x, y);
-
-            //now, scan for the up and down neighbours
-			if(x > 0 && getHeight(x-1, y) != height) setPendingFill(x-1, y);
-			if(x < WIDTH-1 && getHeight(x+1, y) != height) setPendingFill(x+1, y);
-		}
-		else break;
-	}
-}
-
-void floodLine(int xIni, int xFin, int y, int height) {
-    int x;
-
-    for(x = xIni; x <= xFin; x++) {
-
-		if(getHeight(x, y) != color_1) {
-            setHeight(x, y, color_1);
-            setFilled(x, y);
-
-			//now, scan for the up and down neighbours
-			if(y > 0 && getHeight(x - WIDTH, y) != color_1) flood_ver_line(x, y-1);
-			if(y < HEIGHT-1 && getHeight(x + WIDTH, y) != color_1) flood_ver_line(x, y+1);
-		}
-		 else break;
-	}
-}
-
-//Fills upwards and downwards
-void flood_ver_line(int orig_x, int orig_y) {
-    floodVerticalLine(orig_x, 0, orig_y, color_1);
-    floodVerticalLine(orig_x, orig_y + 1, HEIGHT - 1, color_1);
-}
-
-//Scans left an right
-void flood_line(short orig_x,short orig_y) {
-    floodLine(0, orig_x, orig_y, color_1);
-    floodLine(orig_x + 1, WIDTH, orig_y, color_1);
-}
-
-//the fill tool
-void pre_flood_area () {
-  int i,x,y;
-  int map_size=WIDTH*HEIGHT;
-  char * some_temp_buffer;
-  bool no_pending_found=0;
-  if (!get_cur_x_y ())return;
-  change_cursor(cursor_wait);
-
-  some_temp_buffer=temp_buffer;
-  for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
-  flood_line((short)cur_x,(short)cur_y);
-  while(1) {
-		no_pending_found=0;
-		some_temp_buffer=temp_buffer;
-		for(i=0;i<map_size;i++)
-		if(*(some_temp_buffer++)==pending_fill) {
-				no_pending_found=1;
-				y=i/WIDTH;
-				x=i-y*WIDTH;
-				flood_line((short)x,(short)y);
-		}
-		if(!no_pending_found)break;
-	}
-	some_temp_buffer=temp_buffer;
-	for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
-	change_cursor(last_cursor);
-}
-
-void draw_brush_line () {
-  int start_x, start_y, x_len, y_len;
-  int i = 0;
-  int line_lenght;
-  float xstep, ystep, x, y;
-
-  if (!get_cur_x_y ()) {
-    last_drawn_x = -1;
-    last_drawn_y = -1;
-    return;			//nope, not on the map
-  }
-
-  line_lenght = getLineLength(&xstep, &ystep);
-
-  //ok, now update the last drawn x and y
-  last_drawn_x = cur_x;
-  last_drawn_y = cur_y;
-  x = cur_x;
-  y = cur_y;
-
-  for (i = 0; i <= line_lenght; i++) {
-    draw_brush (x, y);
-    x += xstep;
-    y += ystep;
-  }
-}
-
 /*
    Ok, now, if the user moves the mouse very fast, what s/he draws will be fragmented.
    So, we need to do some sort of interpolations, and draw lines.
@@ -451,4 +352,31 @@ void getTerrainCoords() {
     if(object_y_terrain_start<0) object_y_terrain_start = 0;
     if(object_x_terrain_end>WIDTH) object_x_terrain_end = WIDTH;
     if(object_y_terrain_end>HEIGHT) object_y_terrain_end = HEIGHT;
+}
+
+void draw_brush_line () {
+  int start_x, start_y, x_len, y_len;
+  int i = 0;
+  int line_lenght;
+  float xstep, ystep, x, y;
+
+  if (!get_cur_x_y ()) {
+    last_drawn_x = -1;
+    last_drawn_y = -1;
+    return;			//nope, not on the map
+  }
+
+  line_lenght = getLineLength(&xstep, &ystep);
+
+  //ok, now update the last drawn x and y
+  last_drawn_x = cur_x;
+  last_drawn_y = cur_y;
+  x = cur_x;
+  y = cur_y;
+
+  for (i = 0; i <= line_lenght; i++) {
+    draw_brush (x, y);
+    x += xstep;
+    y += ystep;
+  }
 }

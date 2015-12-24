@@ -6,7 +6,6 @@
 #include "../api/generate_terrain.h"
 
 #include "../global.h"
-#include "../helper.h"
 #include "../main.h" //TODO Isn't this an error?
 
 extern HeightMapEditor heightMapEditor;

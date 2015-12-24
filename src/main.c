@@ -1,6 +1,5 @@
 #include "global.h"
 #include "main.h"
-#include "helper.h"
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
 #include "console/console.h"

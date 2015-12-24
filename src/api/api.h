@@ -15,11 +15,17 @@ typedef int Operation;
 #define FLIP_XAXIS 3
 #define FLIP_YAXIS 4
 
+typedef int FillStatus;
+#define NOT_FILLED 0
+#define FILLED 1
+#define PENDING_FILL 2
+
 typedef struct {
   int x;
   int y;
   int z;
   bool isHeightSetted;
+  FillStatus fillStatus;
 } Point;
 
 typedef struct {
