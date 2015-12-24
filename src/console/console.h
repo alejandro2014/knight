@@ -8,7 +8,7 @@
 #include "../api/api.h"
 
 #define LINE_LENGTH 100
-#define NUM_COMMANDS 19
+#define NUM_COMMANDS 30
 #define MAX_PARAMS 10
 
 #define P0 *(intParams+0)

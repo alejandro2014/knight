@@ -23,9 +23,9 @@ void api_floodArea(Terrain *terrain, int currentX, int currentY) {
     int height = getHeight(terrain, currentX, currentY);
 
     setFillStatusTerrain(terrain, NOT_FILLED);
-    flood_line(terrain, x, y, height);
+    flood_line(terrain, currentX, currentY, height);
 
-    while(1) {
+    /*while(1) {
         pendingFound = true;
 
         for(x = 0; x < terrain->width; x++) {
@@ -38,43 +38,42 @@ void api_floodArea(Terrain *terrain, int currentX, int currentY) {
         }
 
         if(pendingFound) break;
-    }
+    }*/
 
     setFillStatusTerrain(terrain, NOT_FILLED);
 }
 
 //Scans left an right
 void flood_line(Terrain *terrain, int x, int y, int height) {
-    floodLine(terrain, 0, x, y, height);
-    floodLine(terrain, x+1, terrain->width, y, height);
+    floodLineHor(terrain, x, y, height, LEFT);
+    floodLineHor(terrain, x, terrain->width, y, height);
 }
 
-void floodLine(Terrain *terrain, int xIni, int xFin, int y, int height) {
-    int x;
+void floodLineHor(Terrain *terrain, int x, int y, int height, Direction direction) {
+    int delta = (direction == LEFT) ? STEP_LEFT: STEP_RIGHT;
+    x += delta;
 
-    for(x = xIni; x <= xFin; x++) {
-		if(getHeight(terrain, x, y) < height) {
-            api_setHeight(terrain, x, y, height);
-            setFillStatus(terrain, x, y, FILLED);
+    while(getHeight(terrain, x, y) <= height) {
+        api_setHeight(terrain, x, y, height);
+        setFillStatus(terrain, x, y, FILLED);
 
-			//now, scan for the up and down neighbours
-			if(y > 0 && getHeight(terrain, x - terrain->width, y) < height)
-                flood_ver_line(terrain, x, y-1, height);
+		//now, scan for the up and down neighbours
+		/*if(y > 0 && getHeight(terrain, x - terrain->width, y) < height)
+            flood_ver_line(terrain, x, y-1, height);
 
-			if(y < terrain->height - 1 && getHeight(terrain, x + terrain->width, y) != height)
-                flood_ver_line(terrain, x, y+1, height);
-		}
-		 else break;
+		if(y < terrain->height - 1 && getHeight(terrain, x + terrain->width, y) != height)
+            flood_ver_line(terrain, x, y+1, height);*/
+        x += delta;
 	}
 }
 
 //Fills upwards and downwards
 void flood_ver_line(Terrain *terrain, int x, int y, int height) {
-    floodVerticalLine(terrain, x, 0, y, height);
-    floodVerticalLine(terrain, x, y + 1, terrain->height - 1, height);
+    floodLineVer(terrain, x, 0, y, height);
+    floodLineVer(terrain, x, y + 1, terrain->height - 1, height);
 }
 
-void floodVerticalLine(Terrain *terrain, int x, int yIni, int yFin, int height) {
+void floodLineVer(Terrain *terrain, int x, int yIni, int yFin, int height) {
     int y;
 
     for (y = yIni; y <= yFin; y++) {
