@@ -28,43 +28,30 @@ void do_clear_temp_buffer () {
   }
 }
 
-void global_replace() {
-    int x,y;
+void global_replace(Terrain *terrain) {
+    int x, y;
     int cur_height;
-    int map_size=WIDTH*HEIGHT;
 
-    if(!terrain_height || !get_cur_x_y())return;
-
-    if(global_tolerance_replace_mode_2==replace_mode_pattern) {
-        if(!current_pattern.object_mem) {
-            sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
-            sprintf(error_msg_2,"Please select a pattern!");
-            view_error_menu=1;
-            return;
-        }
+    if(global_tolerance_replace_mode_2 == replace_mode_pattern && !current_pattern.object_mem) {
+        printf("Pattern filling mode, but there is no pattern!");
+        printf("Please select a pattern!");
+        view_error_menu=1;
+        return;
     }
 
     change_cursor(cursor_wait);
-    color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
+    color_2 = getHeight(terrain_height, cur_x, cur_y);
 
-    for(x = 0; x < WIDTH; x++) {
-        for(y = 0; y < HEIGHT; y++) {
-            cur_height = *(terrain_height + y * WIDTH + x);
+    for(x = 0; x < terrain->width; x++) {
+        for(y = 0; y < terrain->height; y++) {
+            cur_height = getHeight(terrain_height, x, y);
 
             //check to see if we got a match
             if ((global_tolerance_mode == greater && cur_height>=color_2 && cur_height<=color_2+global_tolerance_value) ||
                 (global_tolerance_mode == leaser && cur_height<=color_2 && cur_height>=color_2-global_tolerance_value) ||
                 (global_tolerance_mode == greater_or_leaser && cur_height>=color_2 - global_tolerance_value && cur_height<=color_2 + global_tolerance_value)) {
 
-                if(global_tolerance_replace_mode_2 == replace_mode_pattern) {
-                    put_pattern(terrain_height, x, y);
-                } else {
-                    switch(global_tolerance_mode) {
-                        case tolerance_replace_equal: setHeight(terrain_height, x, y, color_1); break;
-                        case tolerance_replace_plus: risePoint(terrain_height, x, y, color_1); break;
-                        case tolerance_replace_minus: sinkPoint(terrain_height, x, y, color_1); break;
-                    }
-                }
+                replacePoint(terrain, x, y, global_tolerance_replace_mode_2);
             }
         }
     }

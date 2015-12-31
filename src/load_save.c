@@ -12,18 +12,14 @@ while(1) {
 	i++;
 }
 i-=3;
-if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p'))
-	{
-      load_bmp(FileName);
-	  return;
-	}
-else
-if((*(FileName+i)=='H' || *(FileName+i)=='h') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p'))
-    i=0;
-else
-{
+bool hasBmpExt = (*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p');
+
+if(hasBmpExt) {
+    load_bmp(FileName);
+    return;
+} else {
     sprintf(error_msg_1,"Invalid file format!");
-    sprintf(error_msg_2,"Please use only bmp or hmp extensions!");
+    sprintf(error_msg_2,"Please use only bmp extension!");
     view_error_menu=1;
     return;
 }
@@ -60,28 +56,26 @@ while(1) {
 	i++;
 }
 i-=3;
-if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p'))
-    is_bmp=1;
-else
-if((*(FileName+i)=='H' || *(FileName+i)=='h') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p'))
-    is_bmp=0;
-else {
+
+bool hasBmpExt = (*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p');
+
+if(!hasBmpExt)
     sprintf(error_msg_1,"Invalid file format!");
-    sprintf(error_msg_2,"Please use only bmp or hmp extensions!");
+    sprintf(error_msg_2,"Please use only bmp extension!");
     view_error_menu=1;
     change_cursor(last_cursor);
     return;
 }
 
-if(is_bmp && selection_x_1==-1) {
-	  //save the entire map
-	  save_bmp(FileName,terrain_height,WIDTH,HEIGHT);
-	  change_cursor(last_cursor);
-	  return;
-	}
+if(selection_x_1==-1) {
+    //save the entire map
+    save_bmp(FileName,terrain_height,WIDTH,HEIGHT);
+    change_cursor(last_cursor);
+    return;
+}
 
-	  if(selection_x_1!=-1) {
-			    if(selection_x_1<selection_x_2) {
+if(selection_x_1!=-1) {
+    if(selection_x_1<selection_x_2) {
 				  start_x=selection_x_1;
 				  end_x=selection_x_2;
 				} else {
@@ -112,21 +106,7 @@ if(is_bmp && selection_x_1==-1) {
 						i+=WIDTH-(end_x-start_x);
 					}
 
-	  		if(is_bmp)
                 save_bmp(FileName,temp_buffer,end_x-start_x,end_y-start_y);
-			else {
-				f = fopen (FileName, "wb");
-				if(!f) {
-					sprintf(error_msg_1,"Unable to create file!");
-					sprintf(error_msg_2,"File already in use, or bad permission!");
-					view_error_menu=1;
-					change_cursor(last_cursor);
-					return;
-				}
-				fwrite (file_header, 100, 1, f);
-    			fwrite (temp_buffer, MapLenght, 1, f);
-    			fclose (f);
-			}
 
             for(i=0;i<WIDTH*HEIGHT;i++)*temp_buffer=0;
             return;

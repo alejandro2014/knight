@@ -1,8 +1,6 @@
 #include <math.h>
 #include "tools.h"
 
-void draw_brush (int cur_x, int cur_y);
-
 /*
 This function gets the x and y of the height that is pointed by the mouse.
 It returns 0, in case the mouse points to no pixel, otherwise return 1
@@ -68,30 +66,26 @@ void select_area() {
 }
 
 void put_pattern(Uint8 * terrain, int x, int y) {
-	int x_pattern,y_pattern,pattern_height;
+	int x_pattern = x % current_pattern.object_x_len;
+	int y_pattern = y % current_pattern.object_y_len;
+	int pattern_height = *(current_pattern.object_mem + y_pattern * current_pattern.object_x_len + x_pattern);
 
-	x_pattern = x % current_pattern.object_x_len;
-	y_pattern = y % current_pattern.object_y_len;
-	pattern_height = *(current_pattern.object_mem+y_pattern*current_pattern.object_x_len+x_pattern);
-
-    if(pattern_height) {
-        switch(tolerance_replace_mode) {
-            case tolerance_replace_equal: setHeight(terrain, x, y, pattern_height); break;
-            case tolerance_replace_plus: risePoint(terrain, x, y, pattern_height); break;
-            case tolerance_replace_minus: sinkPoint(terrain, x, y, pattern_height); break;
-        }
-    }
+    if(pattern_height)
+        modifyHeight(terrain, x, y, pattern_height, tolerance_replace_mode);
 }
 
-void replacePoint(Uint8 *terrain, int x, int y) {
-    if(tolerance_replace_mode_2 == replace_mode_pattern)
+void replacePoint(Terrain *terrain, int x, int y, int tolerance_mode) {
+    if(tolerance_mode == replace_mode_pattern)
         put_pattern(terrain, x, y);
-    else {
-        switch(tolerance_replace_mode) {
-            case tolerance_replace_equal: setHeight(terrain, x, y, color_1); break;
-            case tolerance_replace_plus: risePoint(terrain, x, y, color_1); break;
-            case tolerance_replace_minus: sinkPoint(terrain, x, y, color_1); break;
-        }
+    else
+        modifyHeight(terrain, x, y, color_1, tolerance_replace_mode);
+}
+
+void modifyHeight(Terrain *terrain, int x, int y, int delta, int tolerance_mode) {
+    switch(tolerance_mode) {
+        case tolerance_replace_equal: api_setHeight(terrain, x, y, delta); break;
+        case tolerance_replace_plus:  incHeight(terrain, x, y, delta); break;
+        case tolerance_replace_minus: decHeight(terrain, x, y, delta); break;
     }
 }
 

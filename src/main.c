@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 
     printConsoleBanner(console);
 
-    processCommand("gterr width:5 height:5", console);
+    /*processCommand("gterr width:5 height:5", console);
 
     processCommand("sethterr height:5", console);
     processCommand("sethp x:1 y:1 height:3", console);
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     processCommand("prterr", console);
 
     processCommand("flood x:2 y:2", console);
-    processCommand("prterr", console);
+    processCommand("prterr", console);*/
 
     while(!finish) {
         printPrompt();
