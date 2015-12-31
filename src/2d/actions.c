@@ -1,10 +1,9 @@
-#include <SDL2/SDL_events.h>
 #include "actions.h"
 
 void move_on_minimap() {
     int x_on_minimap, y_on_minimap, min_map_x_pos_lenght, min_map_y_pos_lenght;
     float x_ratio, y_ratio;
-    
+
     x_on_minimap = x_mouse_pos - min_map_x;
     y_on_minimap = y_mouse_pos - min_map_y;
     x_ratio = (float) WIDTH / 256;
@@ -42,7 +41,7 @@ bool status_bar_press () {
         last_click_on = click_status_bar;
       }
     }
-    
+
     if (long_pressed_button_r == 1)
         drag_statusbar = 1;
     return true;
@@ -86,7 +85,7 @@ void check_toolbar_mouse_over() {
             tip_x=x_mouse_pos+16;
             tip_y=y_mouse_pos+16;
             main_tool_bar[i].mouse_over_timer++;
-            
+
             if(main_tool_bar[i].mouse_over_timer>10 && main_tool_bar[i].mouse_over_timer <100) {
                 show_tip=1;
                 any_tip=1;
@@ -97,7 +96,7 @@ void check_toolbar_mouse_over() {
             if(!any_tip)show_tip=0;
         }
     }
-    
+
     //now, check the small icons, for any tool tips
     if(!any_tip) { //don't check, if we already have a tip.
         for (i = 0; i < no_of_small_tool_bar_icons; i++) {
@@ -106,7 +105,7 @@ void check_toolbar_mouse_over() {
                 tip_x=x_mouse_pos+16;
                 tip_y=y_mouse_pos+16;
                 small_tool_bar[i].mouse_over_timer++;
-                
+
                 if(small_tool_bar[i].mouse_over_timer>10 && small_tool_bar[i].mouse_over_timer <100) {
                     show_tip=1;
                     any_tip=1;
@@ -143,18 +142,18 @@ bool check_toolbar_press() {
                     return true;
                 }
             }
-                
+
             if (long_pressed_button_r == 0)
                 main_tool_bar[i].icon_pressed = 1;
         }
 	}
-    
+
 	//small icons now
 	for (i = 0; i < no_of_small_tool_bar_icons; i++) {
         if (x_mouse_pos >= (tool_bar_x + (i * 20) + 3) && x_mouse_pos <= (tool_bar_x + (i * 20) + 3 + 20) && y_mouse_pos >= (tool_bar_y + 3 + 38) && y_mouse_pos <= (tool_bar_y + 3 + 38 + 16) && long_pressed_button_l == 1)
             small_tool_bar[i].icon_pressed = 1;
 	}
-    
+
 	//check the height bar
 	if (x_mouse_pos >= (tool_bar_x + no_of_small_tool_bar_icons * 20 + 4) && x_mouse_pos < (tool_bar_x + no_of_small_tool_bar_icons * 20 + 4 + 256) && y_mouse_pos >= (tool_bar_y + 2 + 40) && y_mouse_pos <= (tool_bar_y + 2 + 40 + 14) && long_pressed_button_l != 0)
 	color_1 = x_mouse_pos - (tool_bar_x + no_of_small_tool_bar_icons * 20 + 4);
@@ -169,16 +168,16 @@ bool check_toolbar_press() {
  bool check_toolbar_release() {
     int i;
 	int activated_icon = -1;
-    
+
 	for (i = 0; i < no_of_main_tool_bar_icons; i++) {
         if (x_mouse_pos >= (tool_bar_x + (i * 36) + 3) && x_mouse_pos <= (tool_bar_x + (i * 36) + 3 + 32) && y_mouse_pos >= (tool_bar_y + 3) && y_mouse_pos <= (tool_bar_y + 3 + 32) && !button_l) {
-      
+
             if (main_tool_bar[i].icon_pressed == 1) {
                 activated_icon = i;
                 process_menu_commands (main_tool_bar[i].associated_window_message);
             }
         }
-        
+
         main_tool_bar[i].icon_pressed = 0;	//clear the pressed icon flag[s]
 	}
 
@@ -198,7 +197,7 @@ bool check_toolbar_press() {
                 process_menu_commands (small_tool_bar[i].associated_window_message);
             }
         }
-        
+
         small_tool_bar[i].icon_pressed = 0;	//clear the pressed icon flag[s]
 	}
 
@@ -304,10 +303,10 @@ void process_menu_commands (int custom_message) {
             break;
 
         case do_decrease_zoom:
-            if (terrain_ratio > 1) {                
+            if (terrain_ratio > 1) {
                 int some_x_lenght = (window_width / terrain_ratio - 1) / 2;
                 int some_y_lenght = (window_height / terrain_ratio - 1) / 2;
-                
+
                 xoffset -= some_x_lenght;
                 yoffset -= some_y_lenght;
                 terrain_ratio--;

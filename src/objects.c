@@ -1,5 +1,4 @@
 #include "objects.h"
-#include <SDL2/SDL_events.h>
 
 void pre_load_object() {
 	SDL_Event event;
@@ -10,138 +9,153 @@ void pre_load_object() {
 	}
 }
 
+void function_object(int object_mode) {
+    switch(object_mode) {
+        case put_object:
+            *(start_display_pointer+j)=cur_height/4;
+            break;
+
+        case add_object:
+            cur_height+=*(terrain_height+k*WIDTH+l);
+            if(cur_height>255)cur_height=255;
+            *(start_display_pointer+j)=cur_height/4;
+            break;
+
+        case sub_object:
+            cur_height=*(terrain_height+k*WIDTH+l)-cur_height;
+            if(cur_height<0)*(start_display_pointer+j)=black;
+            else *(start_display_pointer+j)=cur_height/4;
+            break;
+    }
+}
 
 void draw_object_on_screen(SDL_Surface * this_screen) {
-	  int my_pitch;
-	  int object_x_start,object_y_start;
-	  int object_x_end,object_y_end;
-	  int object_x_screen_start,object_y_screen_start;
-	  int object_x_screen_end,object_y_screen_end;
-	  int object_x_terrain_start,object_y_terrain_start;
-	  int object_x_terrain_end,object_y_terrain_end;
+    int my_pitch;
+    int object_x_start,object_y_start;
+    int object_x_end,object_y_end;
+    int object_x_screen_start,object_y_screen_start;
+    int object_x_screen_end,object_y_screen_end;
+    int object_x_terrain_start,object_y_terrain_start;
+    int object_x_terrain_end,object_y_terrain_end;
 
-	  int x,y,i,j,k,l;
+    int x,y,i,j,k,l;
 
-	  int cur_height;
-	  Uint8 * start_display_pointer;
-	  Uint8 * start_object_pointer;
+    int cur_height;
+    Uint8 * start_display_pointer;
+    Uint8 * start_object_pointer;
 
-	  Uint8 *screen_buffer;
-	  screen_buffer = (Uint8 *) this_screen->pixels;
-  	  my_pitch = this_screen->pitch;
+    Uint8 *screen_buffer;
+    screen_buffer = (Uint8 *) this_screen->pixels;
+    my_pitch = this_screen->pitch;
 
-    	  //first, check to see if we really have the object
-    	  //if we don't have it, it means that the user tried to load an invalid file
-    	  //or he pressed the cancel button.
-  	  if(!current_object.object_mem) {
-  		  int i;
-  		  current_object.object_mem=0;
-  		  //change the tool to the draw tool
-  		  current_tool=t_place;
-  		  for(i=0;i<no_of_main_tool_bar_icons;i++)main_tool_bar[i].icon_active = 0;
-  		  main_tool_bar[0].icon_active = 1;
-  		  change_cursor_show(cursor_put);
-  		  return;
-  	  }
+    //first, check to see if we really have the object
+    //if we don't have it, it means that the user tried to load an invalid file
+    //or he pressed the cancel button.
+    if(!current_object.object_mem) {
+        int i;
+    	current_object.object_mem=0;
+    	//change the tool to the draw tool
+    	current_tool=t_place;
+    	for(i=0;i<no_of_main_tool_bar_icons;i++)
+            main_tool_bar[i].icon_active = 0;
 
-	  //ok, first, get the object screen x/y, according to the zoom level (if any)
-	  object_x_screen_start=x_mouse_pos-(current_object.object_x_len/2*terrain_ratio);
-	  object_y_screen_start=y_mouse_pos-(current_object.object_y_len/2*terrain_ratio);
-	  object_x_screen_end=x_mouse_pos+(current_object.object_x_len/2*terrain_ratio);
-	  object_y_screen_end=y_mouse_pos+(current_object.object_y_len/2*terrain_ratio);
-	  //now, find out which part of the object we display (if it is outside of the screen)
-	  //the start part
-	  if(object_x_screen_start>0)object_x_start=0;
-	  else object_x_start=(object_x_screen_start*-1)/terrain_ratio;
-	  if(object_y_screen_start>0)object_y_start=0;
-	  else object_y_start=(object_y_screen_start*-1)/terrain_ratio;
-	  //end part
-	  if(object_x_screen_end<window_width)object_x_end=current_object.object_x_len;
-	  else object_x_end=current_object.object_x_len-((object_x_screen_end-window_width)/terrain_ratio);
-	  if(object_y_screen_end<window_height)object_y_end=current_object.object_y_len;
-	  else object_y_end=current_object.object_y_len-((object_y_screen_end-window_height)/terrain_ratio);
-	  //do some final adjustments
-	  if(object_x_screen_start<0)object_x_screen_start=0;
-	  if(object_y_screen_start<0)object_y_screen_start=0;
+    	main_tool_bar[0].icon_active = 1;
+    	change_cursor_show(cursor_put);
+    	return;
+    }
 
-	  //now, do get the terrain coordinates.
-	  object_x_terrain_start=((x_mouse_pos-x_screen_offset)-(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
-	  object_y_terrain_start=((y_mouse_pos-y_screen_offset)-(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
-	  object_x_terrain_end=((x_mouse_pos-x_screen_offset)+(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
-	  object_y_terrain_end=((y_mouse_pos-y_screen_offset)+(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
-  if(terrain_ratio==1) {
-	  //ok, now just display the object
-	  if(object_mode==put_object) {
-	  	i=0;
-	  	k=object_y_terrain_start+object_y_start;
-	  	for(y=object_y_start;y<object_y_end;y++) {
+    //ok, first, get the object screen x/y, according to the zoom level (if any)
+    object_x_screen_start=x_mouse_pos-(current_object.object_x_len/2*terrain_ratio);
+    object_y_screen_start=y_mouse_pos-(current_object.object_y_len/2*terrain_ratio);
+    object_x_screen_end=x_mouse_pos+(current_object.object_x_len/2*terrain_ratio);
+    object_y_screen_end=y_mouse_pos+(current_object.object_y_len/2*terrain_ratio);
+    //now, find out which part of the object we display (if it is outside of the screen)
+    //the start part
+    if(object_x_screen_start>0)object_x_start=0;
+    else object_x_start=(object_x_screen_start*-1)/terrain_ratio;
+    if(object_y_screen_start>0)object_y_start=0;
+    else object_y_start=(object_y_screen_start*-1)/terrain_ratio;
+    //end part
+    if(object_x_screen_end<window_width)object_x_end=current_object.object_x_len;
+    else object_x_end=current_object.object_x_len-((object_x_screen_end-window_width)/terrain_ratio);
+    if(object_y_screen_end<window_height)object_y_end=current_object.object_y_len;
+    else object_y_end=current_object.object_y_len-((object_y_screen_end-window_height)/terrain_ratio);
+    //do some final adjustments
+    if(object_x_screen_start<0)object_x_screen_start=0;
+    if(object_y_screen_start<0)object_y_screen_start=0;
+
+    //now, do get the terrain coordinates.
+    object_x_terrain_start=((x_mouse_pos-x_screen_offset)-(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
+    object_y_terrain_start=((y_mouse_pos-y_screen_offset)-(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
+    object_x_terrain_end=((x_mouse_pos-x_screen_offset)+(current_object.object_x_len/2*terrain_ratio))/ terrain_ratio + xoffset;
+    object_y_terrain_end=((y_mouse_pos-y_screen_offset)+(current_object.object_y_len/2*terrain_ratio))/ terrain_ratio + yoffset;
+
+    if(terrain_ratio==1) {
+        //ok, now just display the object
+        if(object_mode==put_object) {
+            i=0;
+	  	    k=object_y_terrain_start+object_y_start;
+	  	    for(y=object_y_start;y<object_y_end;y++) {
 	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
 	  			start_display_pointer=screen_buffer+(object_y_screen_start+i)*my_pitch;
 	  			j=object_x_screen_start;
 	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT)
-							{
-	  							*(start_display_pointer+j)=cur_height/4;
-							}
-					    j++;
-					    l++;
 
+	  			for(x=object_x_start;x<object_x_end;x++) {
+					cur_height=*(start_object_pointer+x);
+					if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
+                        function_object(put_object);
 					}
+
+					j++;
+					l++;
+				}
 	  			i++;
 	  			k++;
 			}
-	  return;
-	  }//ok, end of place_mode
-	  else
-	  if(object_mode==add_object) {
+	        return;
+	  } else if(object_mode==add_object) { //ok, end of place_mode
+          i=0;
+          k=object_y_terrain_start+object_y_start;
+	  	  for(y=object_y_start;y<object_y_end;y++) {
+              start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
+	  		  start_display_pointer=screen_buffer+(object_y_screen_start+i)*my_pitch;
+	  		  j=object_x_screen_start;
+	  		  l=object_x_terrain_start+object_x_start;
+	  		  for(x=object_x_start;x<object_x_end;x++) {
+                  cur_height=*(start_object_pointer+x);
+
+                  if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
+                      function_object(add_object);
+                  }
+
+				  j++;
+				  l++;
+              }
+	  		  i++;
+	  		  k++;
+          }
+	      return;
+	  } else if(object_mode==sub_object) { //ok, end of add_mode
 	  	i=0;
 	  	k=object_y_terrain_start+object_y_start;
 	  	for(y=object_y_start;y<object_y_end;y++) {
-	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
-	  			start_display_pointer=screen_buffer+(object_y_screen_start+i)*my_pitch;
-	  			j=object_x_screen_start;
-	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
-	  							cur_height+=*(terrain_height+k*WIDTH+l);
-	  							if(cur_height>255)cur_height=255;
-	  							*(start_display_pointer+j)=cur_height/4;
-							}
-					    j++;
-					    l++;
+            start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
+	  		start_display_pointer=screen_buffer+(object_y_screen_start+i)*my_pitch;
+	  		j=object_x_screen_start;
+	  		l=object_x_terrain_start+object_x_start;
+	  		for(x=object_x_start;x<object_x_end;x++) {
+                cur_height=*(start_object_pointer+x);
+				if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
+                    function_object(sub_object);
+				}
 
-					}
-	  			i++;
-	  			k++;
+				j++;
+				l++;
 			}
-	  return;
-	  }//ok, end of add_mode
-	  else
-	  if(object_mode==sub_object) {
-	  	i=0;
-	  	k=object_y_terrain_start+object_y_start;
-	  	for(y=object_y_start;y<object_y_end;y++) {
-	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
-	  			start_display_pointer=screen_buffer+(object_y_screen_start+i)*my_pitch;
-	  			j=object_x_screen_start;
-	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
-	  							cur_height=*(terrain_height+k*WIDTH+l)-cur_height;
-	  							if(cur_height<0)*(start_display_pointer+j)=black;
-	  							else *(start_display_pointer+j)=cur_height/4;
-							}
-					    j++;
-					    l++;
-
-					}
-	  			i++;
-	  			k++;
-			}
+	  		i++;
+	  		k++;
+		}
 	  }//ok, end of sub_mode
   }
   else {//the terain is zoomed in, use other routines, for better optimization

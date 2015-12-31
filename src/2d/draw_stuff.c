@@ -268,3 +268,17 @@ void draw_minimap (SDL_Surface * this_screen) {
   //now, draw the minimap frame
   draw_frame (screen, min_map_x, min_map_y, 255, 255);
 }
+
+int isPointInWindow(int x, int y) {
+  //return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
+  return 0;
+}
+
+void setPixel(int x, int y, int colour) {
+    /*currentScreen = NULL;
+    *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;*/
+}
+
+int getPixel(int x, int y) {
+    return 0;
+}

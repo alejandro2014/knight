@@ -39,18 +39,3 @@ void setFillStatus(Terrain *terrain, int x, int y, FillStatus fillStatus) {
 Point *getPoint(Terrain *terrain, int x, int y) {
     return terrain->points + (y * terrain->width + x);
 }
-
-//TODO Graphic functions. Don't belong to here
-int isPointInWindow(int x, int y) {
-  //return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
-  return 0;
-}
-
-void setPixel(int x, int y, int colour) {
-    /*currentScreen = NULL;
-    *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;*/
-}
-
-int getPixel(int x, int y) {
-    return 0;
-}

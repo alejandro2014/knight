@@ -1,6 +1,7 @@
-#ifndef __EVENTS_H__
-#define __EVENTS_H__
+#ifndef EVENTS_H
+#define EVENTS_H
 
+#include <SDL2/SDL_events.h>
 #include "global.h"
 
 void resizeScreen(SDL_Event *event);

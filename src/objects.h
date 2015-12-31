@@ -1,6 +1,7 @@
 #ifndef OBJECTS_H
 #define OBJECTS_H
 
+#include <SDL2/SDL_events.h>
 #include "global.h"
 
 void do_load_object(char * FileName, terrain_object *this_current_object);

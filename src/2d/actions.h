@@ -1,6 +1,7 @@
-#ifndef __ACTIONS_H__
-#define __ACTIONS_H__
+#ifndef ACTIONS_H
+#define ACTIONS_H
 
+#include <SDL2/SDL_events.h>
 #include "global.h"
 
 void move_on_minimap();
@@ -15,20 +16,17 @@ void check_toolbar_mouse_over(); //check the tool bar buttons for being pointed 
 bool check_toolbar_press(); //check the tool bar buttons for being pressed (left down button)
 bool check_toolbar_release(); //check the tool bar buttons for being released (left button)
 
-//process menu commands
-void process_menu_commands (int custom_message);
+void process_menu_commands(int custom_message);
 
+void rise_terrain();
+void sink_terrain();
 void smooth_terrain();
+
+void rise_selection();
+void sink_selection();
 void smooth_selection();
 
 void clear_selection();
-
 void new_terrain_menu();
-
-void rise_terrain ();
-void rise_selection();
-
-void sink_terrain();
-void sink_selection();
 
 #endif
