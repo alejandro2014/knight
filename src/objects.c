@@ -29,6 +29,30 @@ void function_object(int object_mode) {
     }
 }
 
+void function_object_zoom(int object_mode, int *height) {
+    int cur_height = *height;
+
+    switch(object_mode) {
+        case put_object:
+            cur_height /= 4;
+            break;
+
+        case add_object:
+            cur_height += getHeight(terrain_height, l, k);
+            if(cur_height>255) cur_height = 255;
+            cur_height/=4;
+            break;
+
+        case sub_object:
+            cur_height = getHeight(terrain_height, l, k) - cur_height;
+            if(cur_height<0) cur_height = 0;
+            else cur_height/=4;
+            break;
+    }
+
+    *height = cur_height;
+}
+
 void draw_object_on_screen(SDL_Surface * this_screen) {
     int my_pitch;
     int object_x_start,object_y_start;
@@ -113,103 +137,42 @@ void draw_object_on_screen(SDL_Surface * this_screen) {
 			k++;
         }
     } else {//the terain is zoomed in, use other routines, for better optimization
-	  int screen_size=window_height*my_pitch;
-	  int screen_offset_int_pointer;
-	  //ok, now just display the object
-	  if(object_mode==put_object) {
-	  	i=0;
-	  	k=object_y_terrain_start+object_y_start;
-	  	for(y=object_y_start;y<object_y_end;y++) {
-	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
-	  			start_display_pointer=screen_buffer+(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			screen_offset_int_pointer=(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			j=object_x_screen_start;
-	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
-								int m,n,another_displacement;
-								cur_height/=4;
-								for(m=0;m<terrain_ratio;m++)
-								for(n=0;n<terrain_ratio;n++) {
-										another_displacement=m*my_pitch+n;
-	  									if(screen_offset_int_pointer+j+another_displacement<screen_size)*(start_display_pointer+j+another_displacement)=cur_height;
-									}
-							}
-					    j+=terrain_ratio;
-					    l++;
+        int screen_size=window_height*my_pitch;
+	    int screen_offset_int_pointer;
 
-					}
-	  			i++;
-	  			k++;
-			}
-	  return;
-	  }//ok, end of place_mode
-	  else
-	  if(object_mode==add_object) {
-	  	i=0;
-	  	k=object_y_terrain_start+object_y_start;
-	  	for(y=object_y_start;y<object_y_end;y++) {
-	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
-	  			start_display_pointer=screen_buffer+(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			screen_offset_int_pointer=(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			j=object_x_screen_start;
-	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
-								int m,n,another_displacement;
-	  							cur_height+=*(terrain_height+k*WIDTH+l);
-	  							if(cur_height>255)cur_height=255;
+        i=0;
+        k=object_y_terrain_start+object_y_start;
 
-								cur_height/=4;
-								for(m=0;m<terrain_ratio;m++)
-								for(n=0;n<terrain_ratio;n++)
-									{
-										another_displacement=m*my_pitch+n;
-	  									if(screen_offset_int_pointer+j+another_displacement<screen_size)*(start_display_pointer+j+another_displacement)=cur_height;
-									}
-							}
-					    j+=terrain_ratio;
-					    l++;
+        for(y=object_y_start;y<object_y_end;y++) {
+            start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
+            start_display_pointer=screen_buffer+(object_y_screen_start+i*terrain_ratio)*my_pitch;
+            screen_offset_int_pointer=(object_y_screen_start+i*terrain_ratio)*my_pitch;
+            j=object_x_screen_start;
+            l=object_x_terrain_start+object_x_start;
 
-					}
-	  			i++;
-	  			k++;
-			}
-	  return;
-	  }//ok, end of add_mode
-	  else
-	  if(object_mode==sub_object) {
-			  i=0;
-			  k=object_y_terrain_start+object_y_start;
-			  for(y=object_y_start;y<object_y_end;y++) {
-	  			start_object_pointer=current_object.object_mem+y*current_object.object_x_len;
-	  			start_display_pointer=screen_buffer+(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			screen_offset_int_pointer=(object_y_screen_start+i*terrain_ratio)*my_pitch;
-	  			j=object_x_screen_start;
-	  			l=object_x_terrain_start+object_x_start;
-	  			for(x=object_x_start;x<object_x_end;x++) {
-						cur_height=*(start_object_pointer+x);
-						if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
-								int m,n,another_displacement;
-	  							cur_height=*(terrain_height+k*WIDTH+l)-cur_height;
-	  							if(cur_height<0)cur_height=black;
-	  							else cur_height/=4;
-								for(m=0;m<terrain_ratio;m++)
-								for(n=0;n<terrain_ratio;n++) {
-										another_displacement=m*my_pitch+n;
-	  									if(screen_offset_int_pointer+j+another_displacement<screen_size)*(start_display_pointer+j+another_displacement)=cur_height;
-									}
-							}
-					    j+=terrain_ratio;
-					    l++;
-					}
-	  			i++;
-	  			k++;
-			}
-	  }//ok, end of sub_mode
-  }//end of the zoomed in terrain display
+            for(x=object_x_start;x<object_x_end;x++) {
+                cur_height=*(start_object_pointer+x);
+
+                if(cur_height && l>=0 && l<WIDTH && k>=0 && k<HEIGHT) {
+                    int m,n,another_displacement;
+
+                    function_object_zoom(object_mode, &cur_height);
+
+                    for(m=0;m<terrain_ratio;m++)
+                        for(n=0;n<terrain_ratio;n++) {
+                            another_displacement=m*my_pitch+n;
+                            if(screen_offset_int_pointer+j+another_displacement < screen_size)
+                                *(start_display_pointer+j+another_displacement) = cur_height;
+                        }
+                    }
+
+                    j+=terrain_ratio;
+                    l++;
+              }
+              i++;
+              k++;
+          }
+    }
 }
 
 void do_load_object(char * FileName, terrain_object *this_current_object) {
