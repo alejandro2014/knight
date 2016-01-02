@@ -19,4 +19,12 @@ void updateMinMaxDrawnCoords(int x, int y);
 void getTerrainCoords();
 void clearTempBuffer();
 
+void new_terrain_menu ();
+void generate_menu (int seed);
+void do_clear_temp_buffer ();
+void smooth_terrain ();
+void smooth_selection ();
+void clear_selection ();
+void global_replace();
+
 #endif
