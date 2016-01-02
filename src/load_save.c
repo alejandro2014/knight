@@ -162,3 +162,33 @@ void DoFileOpenSave (bool bSave) {
 	GetCD();
 	ReadDir();
 }
+
+void pre_load_object() {
+	SDL_Event event;
+	if(!current_object.object_mem) {
+		load_object=1;//tell the file open save function to load an object, not a terrain
+		DoFileOpenSave (0);
+    	while (SDL_PollEvent (&event));	//clears all the events
+	}
+}
+
+void do_load_object(char * FileName, terrain_object *this_current_object) {
+    //get the file name, if it is a pattern
+	if(load_object==2) {
+        sprintf(pattern_file_name, FileName);
+	}
+
+    if(getFileExtension(FileName) == "bmp") {
+        load_bmp_object(FileName,this_current_object);
+    } else {
+	    sprintf(error_msg_1,"Invalid file format!");
+	    sprintf(error_msg_2,"Please use only bmp or hmp extensions!");
+	    view_error_menu=1;
+    }
+}
+
+void getFileExtension(char *FileName) {
+    if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p')) {
+        return "bmp";
+    }
+}
