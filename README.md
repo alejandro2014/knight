@@ -5,7 +5,8 @@ A 2d view, a 3d view and a console. This project is a fork of the project "heigh
 
 Updates
 -------
-* 0.3.2 - Changed the name of the progra, from "Height Map Editor" to "Knight". Changed the versioning. The versions of the former hme where 1.x,
+* 0.3.3 - Refactored all the structure of the programs in order to compile separate projects: api, 2d, console and main
+* 0.3.2 - Changed the name of the program, from "Height Map Editor" to "Knight". Changed the versioning. The versions of the former hme where 1.x,
 whereas here it has been downgraded to 0.x. This is in order to reflect that still is work in progress and we don't have a usable version yet. The shell 
 is interactive now. Validation of parameters. Able to get commands in text form, this opens the door to scripting. Migrated functionality to api calls.
 * 15/12/2015 - The refactoring phase is taking place and it's quite advanced by now. The idea is to create an API for the editor, and from this API
