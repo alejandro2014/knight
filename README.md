@@ -1,4 +1,4 @@
-# Knight 0.3.2
+# Knight 0.3.3
 
 Knight is an editor of heightmaps. Still it doesn't do much, but little by little is taking shape. It will be an editor with different inputs:
 A 2d view, a 3d view and a console. This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
