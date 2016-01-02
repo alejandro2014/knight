@@ -176,168 +176,26 @@ void draw_object_on_screen(SDL_Surface * this_screen) {
 }
 
 void do_load_object(char * FileName, terrain_object *this_current_object) {
-  int i;
-  int file_header[25];
-  FILE *f = NULL;
-i=0;
-//get the file name, if it is a pattern
+    int i = 0;
+    int file_header[25];
+    FILE *f = NULL;
+
+    //get the file name, if it is a pattern
 	if(load_object==2) {
-		sprintf(pattern_file_name, FileName);
+        sprintf(pattern_file_name, FileName);
 	}
 
-//get the file extension
-while(1) {
-	if(*(FileName+i)==0)break;
-	i++;
-}
-i-=3;
-if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p')) {
-      load_bmp_object(FileName,this_current_object);
-	  return;
-	}
-else
-if((*(FileName+i)=='H' || *(FileName+i)=='h') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p'))
-    i=0;
-else {
-			sprintf(error_msg_1,"Invalid file format!");
-			sprintf(error_msg_2,"Please use only bmp or hmp extensions!");
-			view_error_menu=1;
-			return;
-		}
-
-  f = fopen (FileName, "rb");
-  if (f) {
-    fread (file_header, 1, 100, f);
-    this_current_object->object_x_len = file_header[0];
-    this_current_object->object_y_len = file_header[1];
-
-	this_current_object->object_mem=(Uint8 *)calloc ( this_current_object->object_x_len*this_current_object->object_y_len, sizeof(Uint8));
-	if(!this_current_object->object_mem)return;
-
-	fread (this_current_object->object_mem, 1, this_current_object->object_x_len * this_current_object->object_y_len, f);
-	fclose (f);
-  }
+    if(getFileExtension(FileName) == "bmp") {
+        load_bmp_object(FileName,this_current_object);
+    } else {
+	    sprintf(error_msg_1,"Invalid file format!");
+	    sprintf(error_msg_2,"Please use only bmp or hmp extensions!");
+	    view_error_menu=1;
+    }
 }
 
-bool load_bmp_object(char * FileName, terrain_object *this_current_object) {
-	int i,x,y,x_padding,x_size,y_size,colors_no,current_color,current_pallete_entry;
-	Uint8 * file_mem;
-	Uint8 * file_mem_start;
-	Uint8 * color_pallete;
-	bool is_24b=0;
-	FILE *f = NULL;
-	int file_lenght;
-
-  	f = fopen (FileName, "rb");
-  	if (!f) {
-			sprintf(error_msg_1,"Unable to open file!");
-			sprintf(error_msg_2,"File doesn't exist, or bad permission!");
-			view_error_menu=1;
-  			return false;//something went wrong
-		}
-  	file_mem = (Uint8 *) calloc ( 20000, sizeof(Uint8));
-  	fread (file_mem, 1, 50, f);//header only
-  	//now, check to see if our bmp file is indeed a bmp file, and if it is 8 bits, uncompressed
-  	if(*((short *) file_mem)!=19778) { //BM (the identifier)
-		free(file_mem);
-		fclose (f);
-			sprintf(error_msg_1,"Unsuported BMP format!");
-			sprintf(error_msg_2,"BMP files have to be 8 or 24b, uncompressed!");
-			view_error_menu=1;
-		return false;
-	}
-	file_mem+=18;
-	this_current_object->object_x_len=*((int *) file_mem);
-	file_mem+=4;
-	this_current_object->object_y_len=*((int *) file_mem);
-	file_mem+=6;
-	if(*((short *)file_mem)!=8)//8 bit/pixel?
-	if(*((short *)file_mem)!=24) {
-		free(file_mem);
-		fclose (f);
-			sprintf(error_msg_1,"Unsuported BMP format!");
-			sprintf(error_msg_2,"BMP files have to be 8 or 24b, uncompressed!");
-			view_error_menu=1;
-		return false;
-	  }
-	  else is_24b=true;
-	file_mem+=2;
-	if(*((int *)file_mem)!=0) { //any compression?
-		free(file_mem);
-		fclose (f);
-			sprintf(error_msg_1,"Unsuported BMP format!");
-			sprintf(error_msg_2,"BMP files have to be 8 or 24b, uncompressed!");
-			view_error_menu=1;
-		return false;
-	  }
-	  file_mem+=16;
-
-	  colors_no=*((int *)file_mem);
-	  if(!colors_no)colors_no=256;
-	  file_mem+=8;//here comes the pallete
-	  //if we have a 24 bit bmp, then we don't need the pallete stuff
-
-	  if(is_24b) {
-				this_current_object->object_mem=(Uint8 *)calloc ( this_current_object->object_x_len*this_current_object->object_y_len, sizeof(Uint8));
-				if(!this_current_object->object_mem) {
-								free(file_mem);
-								fclose (f);
-								sprintf(error_msg_1,"Not enough memory!");
-								sprintf(error_msg_2,"Choose a smaller object!");
-								view_error_menu=1;
-								return false;
-						  }
-
-				x_padding=this_current_object->object_x_len*3%4;
-				if(x_padding)x_padding=4-x_padding;
-
-				for(y=this_current_object->object_y_len-1;y>=0;y--) {
-						fread (file_mem, 1, this_current_object->object_x_len*3+x_padding, f);
-						//now, get the luminosity of each pixel
-						for(x=0;x<this_current_object->object_x_len;x++) {
-							current_color=*(file_mem+x*3);
-							current_color+=*(file_mem+x*3+1);
-							current_color+=*(file_mem+x*3+2);
-							*(this_current_object->object_mem+y*this_current_object->object_x_len+x)=current_color/3;
-						}
-					}
-
-				free(file_mem);
-				fclose (f);
-				return true;
-	  		}
-
-	  color_pallete=file_mem+4;
-	  fread (file_mem, 1, colors_no*4+4, f);//header only
-	  file_mem+=colors_no*4;
-
-	x_padding=this_current_object->object_x_len%4;
-	if(x_padding)x_padding=4-x_padding;
-
-	//now, allocate the memory for the new terrain
-	this_current_object->object_mem=(Uint8 *)calloc ( this_current_object->object_x_len*this_current_object->object_y_len, sizeof(Uint8));
-	if(!this_current_object->object_mem) {
-				free(file_mem);
-				fclose (f);
-				sprintf(error_msg_1,"Not enough memory!");
-				sprintf(error_msg_2,"Choose a smaller object!");
-				view_error_menu=1;
-				return false;
-		  }
-
-	for(y=this_current_object->object_y_len-1;y>=0;y--) {
-			fread (this_current_object->object_mem+y*this_current_object->object_x_len, 1, this_current_object->object_x_len-x_padding, f);
-			//now, get the luminosity of each pixel
-			for(x=0;x<this_current_object->object_x_len;x++) {
-				current_pallete_entry=*(this_current_object->object_mem+y*this_current_object->object_x_len+x);
-				current_color=*(color_pallete+current_pallete_entry*4);
-				current_color+=*(color_pallete+current_pallete_entry*4+1);
-				current_color+=*(color_pallete+current_pallete_entry*4+2);
-				*(this_current_object->object_mem+y*this_current_object->object_x_len+x)=current_color/3;
-			}
-		}
-
-	free(file_mem);
-	fclose (f);
-	return true;
+void getFileExtension() {
+    if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p')) {
+        return "bmp";
+    }
 }
