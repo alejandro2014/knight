@@ -1,7 +1,5 @@
 #include "init.h"
 
-typedef tool_bar_struct Button;
-
 void build_tool_bar() {
   main_tool_bar[0] = buildToolBarButton(icon_place, change_tool_place, 1, 0, 0, do_nothing, "Place", 0);
   main_tool_bar[1] = buildToolBarButton(icon_escavate, change_tool_escavate, 0, 0, 0, do_nothing, "Escavate", 0);
