@@ -10,7 +10,7 @@ API01=api
 API02=hme_lowlevel
 API03=generate_terrain
 API04=flood
-API05=bmp
+API05=replace
 OBJDIR_API=${OBJDIR}/api
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
 

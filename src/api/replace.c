@@ -1,119 +1,38 @@
 #include "replace.h"
-
-void setPendingFillIfNeeded(int x, int y, int tolerance, int deltaMax) {
-    int currentHeight = getHeight(terrain_height, x, y);
-
-    if(isHeightInsideLimits(tolerance, currentHeight, deltaMax) && !isFilled(x, y)) {
-        setPendingFill(x, y);
-    }
-}
-
-void replaceVerticalLine(int x, int yIni, int yFin) {
-    int y;
-
-    for(y = yIni; y <= yFin; y++) {
-		curent_height = getHeight(terrain_height, x, y);
-
-		if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x, y)) {
-            replacePoint(terrain_height, x, y);
-            setFilled(x, y);
-
-			//now, scan for the up and down neighbours
-			if(x > 0) setPendingFillIfNeeded(x-1, y, tolerance_mode, color_2);
-            if(x < WIDTH-1) setPendingFillIfNeeded(x+1, y, tolerance_mode, color_2);
-        }
-		else break;
-	}
-}
-
-void replaceVerticalLineIfNeeded(int x, int y, int tolerance_mode, int deltaMax) {
-    int curent_height = getHeight(terrain_height, x - WIDTH, y);
-
-    if(isHeightInsideLimits(tolerance_mode, curent_height, deltaMax) && !isFilled(x - WIDTH, y)) {
-        replace_ver_line(x, y);
-    }
-}
-
-void replaceHorizontalLine(int xIni, int xFin, int y) {
-    int x;
-
-    for(x = xIni; x < xFin; x++) {
-        curent_height = getHeight(terrain_height, x, y);
-
-        if(isHeightInsideLimits(tolerance_mode, curent_height, color_2) && !isFilled(x y)) {
-            replacePoint(terrain_height, x, y);
-            setFilled(x, y);
-
-            //now, scan for the up and down neighbours
-            if(y>0) replaceVerticalLineIfNeeded(x - WIDTH, y, tolerance_mode, color_2);
-            if(y < HEIGHT-1) replaceVerticalLineIfNeeded(x + WIDTH, y, tolerance_mode, color_2);
-        }
-        else break;
-    }
-}
-
-//Replaces two lines, upwards and downwards
-void replace_ver_line(int orig_x, int orig_y) {
-    replaceVerticalLine(orig_x, 0, orig_y);
-    replaceVerticalLine(orig_x, orig_y + 1, HEIGHT - 1);
-}
-
-//Scans left and right
-void replace_line(short orig_x, short orig_y) {
-    replaceLine(0, orig_x, orig_y);
-    replaceLine(orig_x + 1, WIDTH - 1, orig_y);
-}
-
-int isHeightInsideLimits(int condition, int height, int deltaMax) {
-    int maximum = currentHeight;
-    int minimum = currentHeight;
-
-    switch(condition) {
-        case greater_or_leaser:
-            maximum += deltaMax;
-            minimum -= deltaMax;
-            break;
-        case greater: maximum += deltaMax; break;
-        case leaser: minimum -= deltaMax; break;
-    }
-
-    return (currentHeight >= minimum && currentHeight <= maximum) ? 1 : 0;
-}
+#include "api.h"
+#include "hme_lowlevel.h"
 
 //the fill tool
 void pre_change_area() {
-    int i,x,y;
+    /*int i,x,y;
     int map_size=WIDTH*HEIGHT;
-    char * some_temp_buffer;
+    char *some_temp_buffer;
     bool no_pending_found=0;
 
-    if (!get_cur_x_y())return;
-
     //try to see if the desired filling mode is pattern fill, and if we have a current pattern.
-    if(tolerance_replace_mode_2==replace_mode_pattern && !current_pattern.object_mem) {
-        sprintf(error_msg_1,"Pattern filling mode, but there is no pattern!");
-        sprintf(error_msg_2,"Righ click on the Magic Wand tool, and select a pattern!");
+    if(tolerance_replace_mode_2 == replace_mode_pattern && !current_pattern.object_mem) {
+        printf("Pattern filling mode, but there is no pattern!");
+        printf("Righ click on the Magic Wand tool, and select a pattern!");
 		view_error_menu=1;
 		return;
 	}
 
-    change_cursor(cursor_wait);
-
-    color_2 = *(terrain_height + cur_y * WIDTH + cur_x);	//get the deepth
+    color_2 = getHeight(terrain_height, cur_x, cur_y);
     some_temp_buffer=temp_buffer;
     for (i = 0; i <map_size; i++)
         *(some_temp_buffer++)=not_filled;//clear the temp buffer
 
-    replace_line((short)cur_x,(short)cur_y);
+    replace_line(cur_x, cur_y);
 	while(1) {
 		no_pending_found=0;
 		some_temp_buffer=temp_buffer;
+
 		for(i=0;i<map_size;i++) {
-		    if(*(some_temp_buffer++)==pending_fill) {
+		    if(*(some_temp_buffer++) == pending_fill) {
 				no_pending_found=1;
 				y=i/WIDTH;
 				x=i-y*WIDTH;
-				replace_line((short)x,(short)y);
+				replace_line(x, y);
 			}
         }
 
@@ -121,6 +40,85 @@ void pre_change_area() {
 	}
 
 	some_temp_buffer=temp_buffer;
-	for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer
-	change_cursor(last_cursor);
+	for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer*/
+}
+
+//Scans left and right
+void replace_line(Terrain *terrain, int x, int y, int height, int mode) {
+    replaceLineHor(terrain, 0, x, y, height, mode);
+    replaceLineHor(terrain, x+1, terrain->width - 1, y, height, mode);
+}
+
+void replaceLineHor(Terrain *terrain, int xIni, int xFin, int y, int height, int mode) {
+    int currentHeight;
+    int x;
+
+    for(x = xIni; x < xFin; x++) {
+        currentHeight = getHeight(terrain, x, y);
+
+        if(!isHeightInsideLimits(mode, currentHeight, height) || !isFilled(terrain, x, y)) break;
+
+        ///replacePoint(terrain, x, y);
+        setFilled(terrain, x, y);
+
+        //now, scan for the up and down neighbours
+        if(y>0) replaceVerticalLineIfNeeded(terrain, x - terrain->width, y, mode, height);
+        if(y < terrain->height - 1) replaceVerticalLineIfNeeded(terrain, x + terrain->width, y, mode, height);
+    }
+}
+
+void replaceVerticalLineIfNeeded(Terrain *terrain, int x, int y, int mode, int height) {
+    int currentHeight = getHeight(terrain, x - terrain->width, y);
+
+    if(isHeightInsideLimits(mode, currentHeight, height) && !isFilled(terrain, x - terrain->width, y)) {
+        replace_ver_line(terrain, x, y, mode, height);
+    }
+}
+
+//Replaces two lines, upwards and downwards
+void replace_ver_line(Terrain *terrain, int x, int y, int toleranceMode, int height) {
+    replaceLineVer(terrain, x, 0, y, toleranceMode, height);
+    replaceLineVer(terrain, x, y + 1, terrain->height - 1, toleranceMode, height);
+}
+
+void replaceLineVer(Terrain *terrain, int x, int yIni, int yFin, int toleranceMode, int height) {
+    int currentHeight;
+    int y;
+
+    for(y = yIni; y <= yFin; y++) {
+		currentHeight = getHeight(terrain, x, y);
+
+		if(!isHeightInsideLimits(toleranceMode, currentHeight, height) || isFilled(terrain, x, y)) break;
+
+        ///replacePoint(terrain, x, y);
+        setFilled(terrain, x, y);
+
+		//now, scan for the up and down neighbours
+		if(x > 0) setPendingFillIfNeeded(terrain, x-1, y, toleranceMode, height);
+        if(x < terrain->width - 1) setPendingFillIfNeeded(terrain, x+1, y, toleranceMode, height);
+	}
+}
+
+void setPendingFillIfNeeded(Terrain *terrain, int x, int y, int tolerance, int deltaMax) {
+    int currentHeight = getHeight(terrain, x, y);
+
+    if(isHeightInsideLimits(tolerance, currentHeight, deltaMax) && !isFilled(terrain, x, y)) {
+        setPendingFill(terrain, x, y);
+    }
+}
+
+bool isHeightInsideLimits(int mode, int height, int deltaMax) {
+    int maximum = height;
+    int minimum = height;
+
+    switch(mode) {
+        case GREATER_OR_LEASER:
+            maximum += deltaMax;
+            minimum -= deltaMax;
+            break;
+        case GREATER: maximum += deltaMax; break;
+        case LEASER: minimum -= deltaMax; break;
+    }
+
+    return (height >= minimum && height <= maximum) ? true : false;
 }
