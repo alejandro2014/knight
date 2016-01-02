@@ -194,7 +194,7 @@ void do_load_object(char * FileName, terrain_object *this_current_object) {
     }
 }
 
-void getFileExtension() {
+void getFileExtension(char *FileName) {
     if((*(FileName+i)=='B' || *(FileName+i)=='b') && (*(FileName+i+1)=='M' || *(FileName+i+1)=='m') && (*(FileName+i+2)=='P' || *(FileName+i+2)=='p')) {
         return "bmp";
     }

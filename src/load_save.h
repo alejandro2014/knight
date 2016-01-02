@@ -1,12 +1,20 @@
-#ifndef __LOAD_SAVE_H__
-#define __LOAD_SAVE_H__
+#ifndef LOAD_SAVE_H
+#define LOAD_SAVE_H
+
+#include <stdio.h>
+#include <dirent.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "global.h"
 
 void SaveFile (char * FileName);
 void LoadFile (char * FileName);
-bool load_bmp(char * FileName);
-void save_bmp(char * FileName, char * raw_mem, int x_size, int y_size);
 void DoFileOpenSave (bool bSave);
+int ReadDir();
+void GetCD();
+int ChangeDir(char *path);
 
 #endif
