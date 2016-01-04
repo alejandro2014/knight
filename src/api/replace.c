@@ -49,7 +49,7 @@ void replaceLineHor(Terrain *terrain, int xIni, int xFin, int y, int height, int
 
         if(!isHeightInsideLimits(mode, currentHeight, height) || !isFilled(terrain, x, y)) break;
 
-        ///replacePoint(terrain, x, y);
+        replacePoint(terrain, x, y, 0);
         setFilled(terrain, x, y);
 
         //now, scan for the up and down neighbours
@@ -81,7 +81,7 @@ void replaceLineVer(Terrain *terrain, int x, int yIni, int yFin, int toleranceMo
 
 		if(!isHeightInsideLimits(toleranceMode, currentHeight, height) || isFilled(terrain, x, y)) break;
 
-        ///replacePoint(terrain, x, y);
+        replacePoint(terrain, x, y, 0);
         setFilled(terrain, x, y);
 
 		//now, scan for the up and down neighbours
@@ -112,4 +112,31 @@ bool isHeightInsideLimits(int mode, int height, int deltaMax) {
     }
 
     return (height >= minimum && height <= maximum) ? true : false;
+}
+
+void replacePoint(Terrain *terrain, int x, int y, int mode) {
+    int height = 0; //TODO
+    Terrain *pattern = NULL; //TODO
+
+    if(mode == PATTERN)
+        put_pattern(terrain, pattern, x, y, PATTERN);
+    else
+        modifyHeight(terrain, x, y, height, mode);
+}
+
+void put_pattern(Terrain *terrain, Terrain *pattern, int x, int y, int mode) {
+	int x_pattern = x % pattern->width;
+	int y_pattern = y % pattern->height;
+	int height = getHeight(pattern, x_pattern, y_pattern);
+
+    if(height)
+        modifyHeight(terrain, x, y, height, mode);
+}
+
+void modifyHeight(Terrain *terrain, int x, int y, int delta, int mode) {
+    switch(mode) {
+        case EQUAL: api_setHeight(terrain, x, y, delta); break;
+        case PLUS:  incHeight(terrain, x, y, delta); break;
+        case MINUS: decHeight(terrain, x, y, delta); break;
+    }
 }

@@ -60,30 +60,6 @@ void select_area() {
 	}
 }
 
-void put_pattern(Terrain * terrain, int x, int y) {
-	int x_pattern = x % current_pattern.object_x_len;
-	int y_pattern = y % current_pattern.object_y_len;
-	int pattern_height = *(current_pattern.object_mem + y_pattern * current_pattern.object_x_len + x_pattern);
-
-    if(pattern_height)
-        modifyHeight(terrain, x, y, pattern_height, tolerance_replace_mode);
-}
-
-void replacePoint(Terrain *terrain, int x, int y, int tolerance_mode) {
-    if(tolerance_mode == replace_mode_pattern)
-        put_pattern(terrain, x, y);
-    else
-        modifyHeight(terrain, x, y, color_1, tolerance_replace_mode);
-}
-
-void modifyHeight(Terrain *terrain, int x, int y, int delta, int tolerance_mode) {
-    switch(tolerance_mode) {
-        case tolerance_replace_equal: api_setHeight(terrain, x, y, delta); break;
-        case tolerance_replace_plus:  incHeight(terrain, x, y, delta); break;
-        case tolerance_replace_minus: decHeight(terrain, x, y, delta); break;
-    }
-}
-
 void updateMinMaxDrawnCoords(int x, int y) {
   //now, update the min and max drawn
   if (x < min_drawn_x) min_drawn_x = x;
