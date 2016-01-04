@@ -3,44 +3,35 @@
 #include "hme_lowlevel.h"
 
 //the fill tool
-void pre_change_area() {
-    /*int i,x,y;
-    int map_size=WIDTH*HEIGHT;
-    char *some_temp_buffer;
+void pre_change_area(Terrain *terrain, int currentX, int currentY, int mode) {
+    int x,y;
+    char *temp_buffer, *some_temp_buffer;
     bool no_pending_found=0;
+    int height = getHeight(terrain, currentX, currentY); //TODO What for?
+    int pending_fill = 0; //TODO Fake variable
 
-    //try to see if the desired filling mode is pattern fill, and if we have a current pattern.
-    if(tolerance_replace_mode_2 == replace_mode_pattern && !current_pattern.object_mem) {
-        printf("Pattern filling mode, but there is no pattern!");
-        printf("Righ click on the Magic Wand tool, and select a pattern!");
-		view_error_menu=1;
-		return;
-	}
+    some_temp_buffer = temp_buffer;
+    //TODO api_setHeightTerrain(some_temp_buffer, not_filled); //clear the temp buffer
 
-    color_2 = getHeight(terrain_height, cur_x, cur_y);
-    some_temp_buffer=temp_buffer;
-    for (i = 0; i <map_size; i++)
-        *(some_temp_buffer++)=not_filled;//clear the temp buffer
-
-    replace_line(cur_x, cur_y);
+    replace_line(terrain, currentX, currentY, height, mode);
 	while(1) {
 		no_pending_found=0;
 		some_temp_buffer=temp_buffer;
 
-		for(i=0;i<map_size;i++) {
-		    if(*(some_temp_buffer++) == pending_fill) {
-				no_pending_found=1;
-				y=i/WIDTH;
-				x=i-y*WIDTH;
-				replace_line(x, y);
-			}
+        for(x = 0; x < terrain->width; x++) {
+            for(y = 0; y < terrain->height; y++) {
+                if(*(some_temp_buffer++) == pending_fill) {
+    				no_pending_found=1;
+    				replace_line(terrain, x, y, height, mode); //TODO height is possibly wrong
+    			}
+            }
         }
 
 		if(!no_pending_found) break;
 	}
 
-	some_temp_buffer=temp_buffer;
-	for (i = 0; i <map_size; i++)*(some_temp_buffer++)=not_filled;//clear the temp buffer*/
+	some_temp_buffer = temp_buffer;
+    //TODO api_setHeightTerrain(some_temp_buffer, not_filled); //clear the temp buffer
 }
 
 //Scans left and right

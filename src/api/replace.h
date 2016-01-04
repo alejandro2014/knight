@@ -8,7 +8,7 @@
 #define GREATER 1
 #define LEASER 2
 
-void pre_change_area();
+void pre_change_area(Terrain *terrain, int currentX, int currentY, int mode);
 
 void setPendingFillIfNeeded(Terrain *terrain, int x, int y, int tolerance, int deltaMax);
 void replaceLineVer(Terrain *terrain, int x, int yIni, int yFin, int toleranceMode, int height);
