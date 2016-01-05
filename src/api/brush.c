@@ -1,12 +1,12 @@
 #include "brush.h"
 
-void draw_brush_line () {
+void draw_brush_line() {
   int start_x, start_y, x_len, y_len;
   int i = 0;
   int line_lenght;
   float xstep, ystep, x, y;
 
-  if (!get_cur_x_y ()) {
+  if (!get_cur_x_y()) {
     last_drawn_x = -1;
     last_drawn_y = -1;
     return;			//nope, not on the map

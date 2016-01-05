@@ -3,17 +3,19 @@
 #include "hme_lowlevel.h"
 
 //the fill tool
-void api_replace(Terrain *terrain, int currentX, int currentY, int mode) {
-    int x,y;
+void api_replace(Terrain *terrain, int mode, int currentX, int currentY, int delta) {
+    printf("[INFO] Not implemented yet\n");
+    return;
+}
+    /*int x,y;
     char *temp_buffer, *some_temp_buffer;
     bool no_pending_found=0;
-    int height = getHeight(terrain, currentX, currentY); //TODO What for?
     int pending_fill = 0; //TODO Fake variable
 
     some_temp_buffer = temp_buffer;
     //TODO api_setHeightTerrain(some_temp_buffer, not_filled); //clear the temp buffer
 
-    replace_line(terrain, currentX, currentY, height, mode);
+    replace_line(terrain, currentX, currentY, delta, mode);
 	while(1) {
 		no_pending_found=0;
 		some_temp_buffer=temp_buffer;
@@ -22,9 +24,7 @@ void api_replace(Terrain *terrain, int currentX, int currentY, int mode) {
             for(y = 0; y < terrain->height; y++) {
                 if(*(some_temp_buffer++) == pending_fill) {
     				no_pending_found=1;
-                    replaceLineHor(terrain, 0, x, y, height, mode);
-                    replaceLineHor(terrain, x+1, terrain->width - 1, y, height, mode);
-    				replace_line(terrain, x, y, height, mode); //TODO height is possibly wrong
+    				replace_line(terrain, x, y, delta, mode); //TODO height is possibly wrong
     			}
             }
         }
@@ -114,4 +114,4 @@ bool isHeightInsideLimits(int mode, int height, int deltaMax) {
     }
 
     return (height >= minimum && height <= maximum) ? true : false;
-}
+}*/

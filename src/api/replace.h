@@ -13,7 +13,7 @@
 #define MINUS 2
 #define PATTERN 3
 
-void api_replace(Terrain *terrain, int currentX, int currentY, int mode);
+void api_replace(Terrain *terrain, int mode, int currentX, int currentY, int delta);
 
 void setPendingFillIfNeeded(Terrain *terrain, int x, int y, int tolerance, int deltaMax);
 void replaceLineVer(Terrain *terrain, int x, int yIni, int yFin, int toleranceMode, int height);

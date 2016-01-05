@@ -11,6 +11,9 @@ the vertical lines. The flood will stop when it finds a higher point. So basical
 to create a lake is to excavate the terrain first, and then to set the height of the water
 */
 void api_floodArea(Terrain *terrain, int currentX, int currentY, int height) {
+    printf("[INFO] Not implemented yet\n");
+    return;
+
     int x = currentX;
     int y = currentY;
     bool pendingFound = true;
@@ -66,6 +69,9 @@ TODO To make this work we need:
 - A mixed parsing of parameters, string and integer
 */
 void api_MergeTerrains(Terrain *srcTerrain, Terrain *destTerrain, int startX, int startY, Operation operation) {
+    printf("[INFO] Not implemented yet\n");
+    return;
+
     int xOffsetSrcTerrain = startX + srcTerrain->width;
     int yOffsetSrcTerrain = startY + srcTerrain->height;
 
