@@ -10,11 +10,10 @@ lines at its left and right. For each point of these lines it will calculate the
 the vertical lines. The flood will stop when it finds a higher point. So basically, the way
 to create a lake is to excavate the terrain first, and then to set the height of the water
 */
-void api_floodArea(Terrain *terrain, int currentX, int currentY) {
+void api_floodArea(Terrain *terrain, int currentX, int currentY, int height) {
     int x = currentX;
     int y = currentY;
     bool pendingFound = true;
-    int height = getHeight(terrain, x, y);
 
     setFillStatusTerrain(terrain, NOT_FILLED);
 

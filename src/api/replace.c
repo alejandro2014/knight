@@ -22,6 +22,8 @@ void api_replace(Terrain *terrain, int currentX, int currentY, int mode) {
             for(y = 0; y < terrain->height; y++) {
                 if(*(some_temp_buffer++) == pending_fill) {
     				no_pending_found=1;
+                    replaceLineHor(terrain, 0, x, y, height, mode);
+                    replaceLineHor(terrain, x+1, terrain->width - 1, y, height, mode);
     				replace_line(terrain, x, y, height, mode); //TODO height is possibly wrong
     			}
             }

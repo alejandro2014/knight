@@ -37,7 +37,7 @@ Command *loadCommands(Console *console) {
 
     addCommand("flipx", console);
     addCommand("flipy", console);
-    addCommandIntParams("flood", (char *[]){"x", "y"}, 2, console);
+    addCommandIntParams("flood", (char *[]){"x", "y", "height"}, 3, console);
     addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
     addCommand("help", console);
     addCommand("invheight", console);
@@ -238,7 +238,7 @@ void executeCommand(Command *command) {
 
     if(!strcmp("flipx", command->name))           heightMapEditor.terrain = api_rotate(FLIP_XAXIS, terrain);
     else if(!strcmp("flipy", command->name))      heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
-    else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1);
+    else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("gterr", command->name))      heightMapEditor.terrain = api_generateTerrain(P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);

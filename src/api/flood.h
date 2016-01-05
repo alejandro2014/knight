@@ -15,7 +15,7 @@ typedef int Direction;
 #define UP 2
 #define DOWN 3
 
-void api_floodArea(Terrain *terrain, int cur_x, int cur_y);
+void api_floodArea(Terrain *terrain, int x, int y, int height);
 void setFillStatusTerrain(Terrain *terrain, FillStatus fillStatus);
 
 void floodLineHor(Terrain *terrain, int x, int y, int height, Direction direction);
