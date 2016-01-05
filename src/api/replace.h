@@ -24,7 +24,6 @@ void replace_ver_line(Terrain *terrain, int x, int y, int toleranceMode, int hei
 void replace_line(Terrain *terrain, int x, int y, int height, int mode);
 bool isHeightInsideLimits(int mode, int height, int deltaMax);
 
-void replacePoint(Terrain *terrain, int x, int y, int delta, int mode);
 void put_pattern(Terrain * terrain, Terrain *pattern, int x, int y, int mode);
 void modifyHeight(Terrain *terrain, int x, int y, int delta, int mode);
 

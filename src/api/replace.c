@@ -113,11 +113,3 @@ bool isHeightInsideLimits(int mode, int height, int deltaMax) {
 
     return (height >= minimum && height <= maximum) ? true : false;
 }
-
-void replacePoint(Terrain *terrain, int x, int y, int delta, int mode) {
-    switch(mode) {
-        case EQUAL: api_setHeight(terrain, x, y, delta); break;
-        case PLUS:  incHeight(terrain, x, y, delta); break;
-        case MINUS: decHeight(terrain, x, y, delta); break;
-    }
-}

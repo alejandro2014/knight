@@ -87,12 +87,7 @@ void api_MergeTerrains(Terrain *srcTerrain, Terrain *destTerrain, int startX, in
     for(x = startX; x < xOffsetSrcTerrain; x++) {
         for(y = startY; y < yOffsetSrcTerrain; y++) {
             height = getHeight(srcTerrain, x, y);
-
-            switch(operation) {
-                case REPLACE_HEIGHT: api_setHeight(destTerrain, x, y, height); break;
-                case ADD_HEIGHT: incHeight(destTerrain, x, y, height); break;
-                case SUBS_HEIGHT: decHeight(destTerrain, x, y, height); break;
-            }
+            replacePoint(destTerrain, x, y, height, operation);
         }
     }
 }

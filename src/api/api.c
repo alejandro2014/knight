@@ -13,7 +13,7 @@ Terrain *api_generateTerrain(int width, int height) {
   terrain->height = height;
   terrain->pointsNo = map_size;
   terrain->seedRandom = time(NULL);
-  
+
   allocExist(terrain->points, Point, map_size);
 
   printf("[INFO] Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
@@ -148,5 +148,13 @@ void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width
         case ROTATE_270: *width = terrain->height; *height = terrain->width;  break;
         case FLIP_XAXIS: *width = terrain->width; *height = terrain->height; break;
         case FLIP_YAXIS: *width = terrain->width; *height = terrain->height; break;
+    }
+}
+
+void replacePoint(Terrain *terrain, int x, int y, int delta, int mode) {
+    switch(mode) {
+        case REPLACE_HEIGHT: api_setHeight(terrain, x, y, delta); break;
+        case ADD_HEIGHT:  incHeight(terrain, x, y, delta); break;
+        case SUBS_HEIGHT: decHeight(terrain, x, y, delta); break;
     }
 }

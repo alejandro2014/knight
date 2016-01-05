@@ -58,4 +58,6 @@ void api_invertHeight(Terrain *terrain);
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
 void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height);
 
+void replacePoint(Terrain *terrain, int x, int y, int delta, int mode);
+
 #endif
