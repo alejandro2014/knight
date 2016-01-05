@@ -18,9 +18,7 @@ typedef int Direction;
 void api_floodArea(Terrain *terrain, int cur_x, int cur_y);
 void setFillStatusTerrain(Terrain *terrain, FillStatus fillStatus);
 
-void flood_line(Terrain *terrain, int x, int y, int height);
 void floodLineHor(Terrain *terrain, int x, int y, int height, Direction direction);
-void flood_ver_line(Terrain *terrain, int x, int y, int height);
 void floodLineVer(Terrain *terrain, int x, int yIni, int yFin, int height);
 
 void api_MergeTerrains(Terrain *srcTerrain, Terrain *destTerrain, int startX, int startY, Operation operation);
