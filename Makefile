@@ -11,8 +11,12 @@ API02=hme_lowlevel
 API03=generate_terrain
 API04=flood
 API05=replace
+#API06=brush
+#API07=bmp
+#API08=load_save
 OBJDIR_API=${OBJDIR}/api
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
+#${OBJDIR_API}/${API06}.o ${OBJDIR_API}/${API07}.o ${OBJDIR_API}/${API08}.o
 
 OPTC_CON=
 CON01=console
