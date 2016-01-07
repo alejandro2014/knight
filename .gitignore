@@ -3,3 +3,4 @@ bin/
 lib/
 man/
 src/old/
+*.swp

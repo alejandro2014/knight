@@ -5,8 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "global.h"
 #include "api/api.h"
+#include "api/hme_lowlevel.h"
 #include "console/console.h"
+#include "console/print.h"
+
+#include "2d/window.h"
 
 typedef struct {
     Console *console;
@@ -14,5 +19,7 @@ typedef struct {
     int horSize;
     int verSize;
 } HeightMapEditor;
+
+HeightMapEditor *loadHeightMapEditor();
 
 #endif

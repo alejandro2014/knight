@@ -10,7 +10,7 @@
 #include "../global.h"
 #include "../main.h" //TODO Isn't this an error?
 
-extern HeightMapEditor heightMapEditor;
+extern HeightMapEditor *hme;
 
 Console *createConsole(int sizeKb) {
     int i;
@@ -234,27 +234,27 @@ void executeCommand(Command *command) {
         allocExist(strParams[i], char, 100);
     }
 
-    Terrain *terrain = heightMapEditor.terrain;
-    Console *console = heightMapEditor.console;
+    Console *console = hme->console;
+    Terrain *terrain = hme->terrain;
 
     if(!areParamsValid(command, intParams, strParams)) return;
 
-    if(!strcmp("flipx", command->name))           heightMapEditor.terrain = api_rotate(FLIP_XAXIS, terrain);
-    else if(!strcmp("flipy", command->name))      heightMapEditor.terrain = api_rotate(FLIP_YAXIS, terrain);
+    if(!strcmp("flipx", command->name))           hme->terrain = api_rotate(FLIP_XAXIS, terrain);
+    else if(!strcmp("flipy", command->name))      hme->terrain = api_rotate(FLIP_YAXIS, terrain);
     else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1, P2);
-    else if(!strcmp("gterr", command->name))      heightMapEditor.terrain = api_generateTerrain(P0, P1);
+    else if(!strcmp("gterr", command->name))      hme->terrain = api_generateTerrain(P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
     else if(!strcmp("prterr", command->name))     printTerrain(terrain);
-    else if(!strcmp("randgterr", command->name))  heightMapEditor.terrain = api_generateRandomTerrain(P0, P1);
+    else if(!strcmp("randgterr", command->name))  hme->terrain = api_generateRandomTerrain(P0, P1);
     else if(!strcmp("replace", command->name))    api_replace(terrain, P0, P1, P2, P3);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
-    else if(!strcmp("rotate90", command->name))   heightMapEditor.terrain = api_rotate(ROTATE_90, terrain);
-    else if(!strcmp("rotate180", command->name))  heightMapEditor.terrain = api_rotate(ROTATE_180, terrain);
-    else if(!strcmp("rotate270", command->name))  heightMapEditor.terrain = api_rotate(ROTATE_270, terrain);
+    else if(!strcmp("rotate90", command->name))   hme->terrain = api_rotate(ROTATE_90, terrain);
+    else if(!strcmp("rotate180", command->name))  hme->terrain = api_rotate(ROTATE_180, terrain);
+    else if(!strcmp("rotate270", command->name))  hme->terrain = api_rotate(ROTATE_270, terrain);
     else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
     else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);
