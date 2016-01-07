@@ -1,3 +1,4 @@
+#include <SDL.h>
 #include "window.h"
 
 /*void programLoop() {
@@ -15,7 +16,7 @@
 }*/
 
 void testVideo() {
-/*    SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_Quit();*/
+    SDL_Init(SDL_INIT_VIDEO);
+    printf("Testing video\n");
+    SDL_Quit();
 }

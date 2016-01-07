@@ -25,13 +25,13 @@ OBJDIR_CON=${OBJDIR}/console
 OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o
 
 OPTC_MAP=-I/Library/Frameworks/SDL.framework/Headers -I/Library/Frameworks/SDL_ttf.framework/Headers -ferror-limit=200 #-Werror
-OPTL_MAP=-L/Library/Frameworks -L/System/Library/Frameworks -framework SDL -framework Cocoa -framework SDL_ttf
+OPTL_MAP=-F/Library/Frameworks -framework SDL -L/System/Library/Frameworks -framework Cocoa -framework SDL_ttf
 MAP01=window
 OBJDIR_MAP=${OBJDIR}/2d
 OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/SDLMain.o
 
 OPTC_REST=${OPTC_MAP}
-OPTL_REST=
+OPTL_REST=${OPTL_MAP}
 SRC01=main
 OBJ_REST=${OBJDIR}/${SRC01}.o
 

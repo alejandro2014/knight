@@ -1,10 +1,13 @@
+#include <SDL.h>
 #include "main.h"
 
 HeightMapEditor *hme;
+SDL_Window *window;
+SDL_Renderer *renderer;
 
 int main(int argc, char* argv[]) {
-    HeightMapEditor *hme = loadHeightMapEditor();
-    //testVideo();
+    hme = loadHeightMapEditor();
+    testVideo();
 
     bool finish = false;
     Console *console = hme->console;
@@ -56,9 +59,9 @@ HeightMapEditor *loadHeightMapEditor() {
     heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);
 
-    heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);
+    heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);*/
 
-    *window = SDL_CreateWindow("HME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
+    *window = SDL_CreateWindow("Knight", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
 
     if (*window == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());
@@ -72,7 +75,7 @@ HeightMapEditor *loadHeightMapEditor() {
         return -1;
     }
 
-    TTF_Init();
+    /*TTF_Init();
     *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
 
     if(*font == NULL) {
@@ -85,9 +88,9 @@ HeightMapEditor *loadHeightMapEditor() {
 
 void freeResources(HeightMapEditor *hme) {
     freeConsole(hme->console);
-    /*SDL_DestroyRenderer(heightMapEditor->renderer);
-    SDL_DestroyWindow(heightMapEditor->window);
-    TTF_CloseFont(heightMapEditor->font);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    /*TTF_CloseFont(heightMapEditor->font);
     freeDialogs(heightMapEditor->dialogs);
     api_freeTerrain(heightMapEditor->terrain);*/
 
