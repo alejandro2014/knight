@@ -21,5 +21,6 @@ typedef struct {
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor();
+void freeResources(HeightMapEditor *hme);
 
 #endif
