@@ -11,7 +11,7 @@
 #include "console/console.h"
 #include "console/print.h"
 
-#include "2d/window.h"
+#include "map/window.h"
 
 typedef struct {
     Console *console;
