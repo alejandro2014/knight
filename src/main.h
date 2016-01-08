@@ -20,7 +20,10 @@ typedef struct {
     int verSize;
 } HeightMapEditor;
 
-HeightMapEditor *loadHeightMapEditor();
+HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
+SDL_Window *createWindow(char *title, int width, int height);
+SDL_Renderer *createRenderer(SDL_Window *window);
+
 void freeResources(HeightMapEditor *hme);
 
 #endif

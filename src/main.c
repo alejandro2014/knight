@@ -8,7 +8,7 @@ SDL_Renderer *renderer;
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
-    hme = loadHeightMapEditor();
+    hme = loadHeightMapEditor(640, 480);
 
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 
@@ -45,32 +45,19 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-HeightMapEditor *loadHeightMapEditor() {
+HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
     hme->console = createConsole(1);
 
-    /*int width = 100;
-    int height = 100;
-
-    heightMapEditor->dialogs = loadDialogs();
+    /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);
 
     heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);*/
 
-    window = SDL_CreateWindow("Knight", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_RESIZABLE);
+    window = createWindow("Knight", 640, 480);
 
-    if (window == NULL) {
-        printf("Could not create window: %s\n", SDL_GetError());
-        return NULL;
-    }
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    if(renderer == NULL) {
-        printf("Could not create renderer: %s\n", SDL_GetError());
-        return NULL;
-    }
+    renderer = createRenderer(window);
 
     /*TTF_Init();
     *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
@@ -81,6 +68,26 @@ HeightMapEditor *loadHeightMapEditor() {
     }*/
 
     return hme;
+}
+
+SDL_Window *createWindow(char *title, int width, int height) {
+    SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
+
+    if (window == NULL) {
+        printf("Could not create window: %s\n", SDL_GetError());
+    }
+
+    return window;
+}
+
+SDL_Renderer *createRenderer(SDL_Window *window) {
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    if(renderer == NULL) {
+        printf("Could not create renderer: %s\n", SDL_GetError());
+    }
+
+    return renderer;
 }
 
 void freeResources(HeightMapEditor *hme) {
