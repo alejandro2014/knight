@@ -9,7 +9,7 @@ FWDIR=/Library/Frameworks
 OPTC_API=
 OPTC_CON=
 OPTC_MAP=-I${FWDIR}/SDL2.framework/Headers -I${FWDIR}/SDL_ttf.framework/Headers
-OPTL_MAP=-F${FWDIR} -framework SDL -L/System/Library/Frameworks -framework Cocoa -framework SDL_ttf
+OPTL_MAP=-F${FWDIR} -framework SDL2 -L/System/Library/Frameworks -framework Cocoa -framework SDL_ttf
 OPTC_REST=${OPTC_MAP}
 OPTL_REST=${OPTL_MAP}
 
