@@ -1,5 +1,25 @@
-#include "draw_stuff.h"
-#include "font.h"
+#include "draw.h"
+
+void drawScreen(SDL_Renderer *renderer, TTF_Font *font) {
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+    SDL_RenderClear(renderer);
+
+    SDL_Rect r;
+    r.x = 2;
+    r.y = 2;
+    r.w = 10;
+    r.h = 15;
+
+    SDL_SetRenderDrawColor( renderer, 180, 180, 180, 255 );
+
+    SDL_RenderFillRect(renderer, &r);
+
+    printString(font, renderer, "Helo world", 30, 30);
+
+    SDL_RenderPresent(renderer);
+}
+
+/*#include "font.h"
 #include "tools.h"
 
 void draw_frame(int xmenu, int ymenu, int xlen, int ylen) {
@@ -145,9 +165,9 @@ void drawColorPointer() {
     setPixel(x+1, y, red);
     setPixel(x, y+1, red);
     setPixel(x+1, y+1, red);
-}
+}*/
 
-void draw_tool_bar(Toolbar *toolbar) {
+/*void draw_tool_bar(Toolbar *toolbar) {
   char str[20];
   int x, y, i;
 
@@ -162,12 +182,12 @@ void draw_tool_bar(Toolbar *toolbar) {
     else if ((toolbar.y + toolbar.height + 1) > window_height)
       toolbar.y = window_height - toolbar.height - 1;
 
-  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);
+  draw_empty_menu (screen, steel_blue, tool_bar_x, tool_bar_y, tool_bar_x_lenght, tool_bar_y_lenght);*/
   /*int button = main_tool_bar[i];
   int buttonX = tool_bar_x + (i * 36,20) + 2;
   int buttonY = tool_bar_y + 2,40;
   int buttonSize = 33,17; */
-  drawIcons(main_tool_bar);
+  /*drawIcons(main_tool_bar);
   drawIcons(small_tool_bar);
   drawHeightsBar(heightsBar);
   drawColorPointer();
@@ -272,14 +292,14 @@ void draw_minimap (SDL_Surface * this_screen) {
 int isPointInWindow(int x, int y) {
   //return (x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT) ? 1 : 0;
   return 0;
-}
+}*/
 
-void setPixel(int x, int y, int colour) {
+//void setPixel(int x, int y, int colour) {
     /*currentScreen = NULL;
     *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;*/
-}
+//}
 
-int getPixel(int x, int y) {
+/*int getPixel(int x, int y) {
     return 0;
 }
 
@@ -447,4 +467,4 @@ void draw_object_on_screen(SDL_Surface * this_screen) {
               k++;
           }
     }
-}
+}*/

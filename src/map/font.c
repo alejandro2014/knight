@@ -1,35 +1,30 @@
 #include "font.h"
-#include <stdlib.h>
-#include <SDL_ttf.h>
 
-extern TTF_Font *font;
+SDL_Texture *printString(TTF_Font *font, SDL_Renderer *renderer, char *string, int x, int y) {
+    SDL_Color fgColor = {255, 255, 255};
+    SDL_Color bgColor = {0, 170, 0};
 
-char *FONTBMP_PATH_LINUX = "/home/alejandro/programs/height-map-editor/res/font.bmp";
-char *FONTBMP_PATH_MAC = "/Users/alejandro/programs/height-map-editor/res/font.bmp";
+    SDL_Texture *texture = getStringTexture(font, renderer, string, fgColor, bgColor);
 
-void load_font() {
-  int f_size;
-  FILE *f = NULL;
-  f = fopen (FONTBMP_PATH_LINUX, "rb");
-  fseek (f, 0, SEEK_END);
-  f_size = ftell (f);
-//ok, allocate memory for it
-  font_mem = calloc ( f_size, sizeof(char) );
-  handle_font_mem=font_mem;
-  fseek (f, 0, SEEK_SET);
-  fread (font_mem, 1, f_size, f);
-  fclose (f);
+    SDL_Rect textLocation;
+    textLocation.x = x;
+    textLocation.y = y;
+    SDL_QueryTexture(texture, NULL, NULL, &textLocation.w, &textLocation.h);
 
-  font_mem += 18;		//x lenght is at offset+18
-  x_font_bmp = *((int *) font_mem);
-  font_mem += 4;		//y lenght is at offset+22
-  y_font_bmp = *((int *) font_mem);
-  font_mem += 46 - 22;		//y lenght is at offset+22
-  font_colors_no = *((int *) font_mem);
-  font_mem += 54 - 46 + font_colors_no * 4;
+    SDL_RenderCopy(renderer, texture, NULL, &textLocation);
+
+    return texture;
 }
 
-void draw_char (SDL_Surface * this_screen, Uint8 my_char, char font_color, char background_color, int char_xscreen, int char_yscreen) {
+SDL_Texture *getStringTexture(TTF_Font *font, SDL_Renderer *renderer, char *string, SDL_Color fgColor, SDL_Color bgColor) {
+    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, fgColor, bgColor);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+    SDL_FreeSurface(textSurface);
+
+    return texture;
+}
+
+/*void draw_char (SDL_Surface * this_screen, Uint8 my_char, char font_color, char background_color, int char_xscreen, int char_yscreen) {
   int x, y, my_pitch;
   char cur_pixel;
   Uint8 *screen_buffer;
@@ -60,29 +55,4 @@ void print_string (char *str, char char_color, char background_color, int char_x
     str++;
     char_xscreen += char_lenght;
   }
-}
-
-SDL_Texture *printString(char *string, Uint32 x, Uint32 y) {
-    SDL_Color fgColor = {255, 255, 255};
-    SDL_Color bgColor = {0, 170, 0};
-
-    SDL_Texture *texture = getStringTexture(font, string, fgColor, bgColor);
-    
-    SDL_Rect textLocation;
-    textLocation.x = x;
-    textLocation.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &textLocation.w, &textLocation.h);
-    
-    SDL_RenderCopy(renderer, texture, NULL, &textLocation);
-    SDL_RenderPresent(renderer);
-    
-    return texture;
-}
-
-SDL_Texture *getStringTexture(TTF_Font *font, char *string, SDL_Color fgColor, SDL_Color bgColor) {
-    SDL_Surface *textSurface = TTF_RenderText_Shaded(font, string, fgColor, bgColor);
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, textSurface);
-    SDL_FreeSurface(textSurface);
-    
-    return texture;
-}
+}*/

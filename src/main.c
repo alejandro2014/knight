@@ -13,10 +13,6 @@ int main(int argc, char* argv[]) {
 
     hme = loadHeightMapEditor(640, 480);
 
-    SDL_SetRenderDrawColor(renderer, 180, 0, 0, 255);
-    SDL_RenderClear(renderer);
-
-    SDL_RenderPresent(renderer);
     /*bool finish = false;
     Console *console = hme->console;
     Command *listCommands = loadCommands(console);
@@ -31,7 +27,7 @@ int main(int argc, char* argv[]) {
 
     freeConsole(console);*/
 
-    programLoop();
+    programLoop(renderer);
 
     freeResources(hme);
 
@@ -39,15 +35,14 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-void programLoop() {
+void programLoop(SDL_Renderer *renderer) {
     bool finish = false;
     //SDL_Event event;
 
     while(!finish) {
         readEvents(&finish);
-        //drawScreen();
+        drawScreen(renderer, font);
         SDL_Delay(1000);
-        printf("Hello\n");
     }
 }
 

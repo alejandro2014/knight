@@ -4,16 +4,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-
 #include "global.h"
+
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
+
 #include "console/console.h"
 #include "console/print.h"
 
+#include "map/draw.h"
 #include "map/events.h"
 #include "map/window.h"
 
@@ -31,6 +32,6 @@ TTF_Font *initFont(char *path);
 
 void freeResources(HeightMapEditor *hme);
 
-void programLoop();
+void programLoop(SDL_Renderer *renderer);
 
 #endif

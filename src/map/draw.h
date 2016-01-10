@@ -1,9 +1,16 @@
-#ifndef DRAW_STUFF_H
-#define DRAW_STUFF_H
+#ifndef DRAW_H
+#define DRAW_H
 
-#include "global.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
-void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
+#include "../global.h"
+
+#include "font.h"
+
+void drawScreen();
+
+/*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_empty_menu (SDL_Surface * this_screen, char color, int xmenu, int ymenu, int xlen, int ylen);
@@ -22,6 +29,6 @@ void draw_tool_tip();
 
 int isPointInWindow(int x, int y);
 void setPixel(int x, int y, int colour);
-int getPixel(int x, int y);
+int getPixel(int x, int y);*/
 
 #endif
