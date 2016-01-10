@@ -1,22 +1,27 @@
 #include "draw.h"
 
-void drawScreen(SDL_Renderer *renderer, Font *font) {
+void drawScreen(SDL_Renderer *renderer, Font *font, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect r;
-    r.x = 2;
-    r.y = 2;
-    r.w = 10;
-    r.h = 15;
-
-    SDL_SetRenderDrawColor( renderer, 180, 180, 180, 255 );
-
-    SDL_RenderFillRect(renderer, &r);
+    if(showCursor) {
+        printCursor(renderer, 2, 2, &(font->fgColor));
+    }
 
     printString(font, renderer, "Hello world", 30, 30);
 
     SDL_RenderPresent(renderer);
+}
+
+void printCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {
+    SDL_Rect r;
+    r.x = x;
+    r.y = y;
+    r.w = 10;
+    r.h = 15;
+
+    SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
+    SDL_RenderFillRect(renderer, &r);
 }
 
 /*#include "font.h"
