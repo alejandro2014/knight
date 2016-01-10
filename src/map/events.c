@@ -7,10 +7,15 @@
 
 void readEvents(int *finish) {
     SDL_Event event;
+    char currentChar;
 
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             *finish = true;
+        }
+
+        if (event.type == SDL_KEYDOWN) {
+            currentChar = (char)event.key.keysym.sym;
         }
     }
 }

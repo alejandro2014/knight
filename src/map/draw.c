@@ -1,5 +1,21 @@
 #include "draw.h"
 
+/*
+> gterr width:5 height:5
+[INFO] Created terrain 5x5
+> sethterr height:5
+> sethp x:1 y:1 height:3
+> sethp x:2 y:1 height:3
+> sethp x:3 y:1 height:3
+> sethp x:1 y:2 height:3
+> sethp x:2 y:2 height:1
+[ERROR] One random error
+> sethp x:3 y:2 height:3
+> sethp x:1 y:3 height:3
+> sethp x:2 y:3 height:3
+> sethp x:3 y:3 height:3
+> prterr
+*/
 void drawScreen(SDL_Renderer *renderer, Font *font, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
@@ -8,7 +24,20 @@ void drawScreen(SDL_Renderer *renderer, Font *font, bool showCursor) {
         printCursor(renderer, 2, 2, &(font->fgColor));
     }
 
-    printString(font, renderer, "Hello world", 30, 30);
+    printString(font, renderer, "> gterr width:5 height:5", 2, 30);
+    printString(font, renderer, "[INFO] Created terrain 5x5", 2, 50);
+    printString(font, renderer, "> sethterr height:5", 2, 70);
+    printString(font, renderer, "> sethp x:1 y:1 height:3", 2, 90);
+    printString(font, renderer, "> sethp x:2 y:1 height:3", 2, 110);
+    printString(font, renderer, "> sethp x:3 y:1 height:3", 2, 130);
+    printString(font, renderer, "> sethp x:1 y:2 height:3", 2, 150);
+    printString(font, renderer, "> sethp x:2 y:2 height:1", 2, 170);
+    printString(font, renderer, "[ERROR] One random error", 2, 190);
+    printString(font, renderer, "> sethp x:3 y:2 height:3", 2, 210);
+    printString(font, renderer, "> sethp x:1 y:3 height:3", 2, 230);
+    printString(font, renderer, "> sethp x:2 y:3 height:3", 2, 250);
+    printString(font, renderer, "> sethp x:3 y:3 height:3", 2, 270);
+    printString(font, renderer, "> prterr", 2, 290);
 
     SDL_RenderPresent(renderer);
 }
