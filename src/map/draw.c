@@ -1,6 +1,6 @@
 #include "draw.h"
 
-void drawScreen(SDL_Renderer *renderer, TTF_Font *font) {
+void drawScreen(SDL_Renderer *renderer, Font *font) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
@@ -14,7 +14,7 @@ void drawScreen(SDL_Renderer *renderer, TTF_Font *font) {
 
     SDL_RenderFillRect(renderer, &r);
 
-    printString(font, renderer, "Helo world", 30, 30);
+    printString(font, renderer, "Hello world", 30, 30);
 
     SDL_RenderPresent(renderer);
 }

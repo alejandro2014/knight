@@ -16,6 +16,7 @@
 
 #include "map/draw.h"
 #include "map/events.h"
+#include "map/font.h"
 #include "map/window.h"
 
 typedef struct {
@@ -28,7 +29,6 @@ typedef struct {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
 SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);
-TTF_Font *initFont(char *path);
 
 void freeResources(HeightMapEditor *hme);
 

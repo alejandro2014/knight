@@ -1,10 +1,28 @@
 #include "font.h"
 
-SDL_Texture *printString(TTF_Font *font, SDL_Renderer *renderer, char *string, int x, int y) {
-    SDL_Color fgColor = {255, 255, 255};
-    SDL_Color bgColor = {0, 170, 0};
+Font *initFont(char *path) {
+    TTF_Init();
 
-    SDL_Texture *texture = getStringTexture(font, renderer, string, fgColor, bgColor);
+    alloc(font, Font, 1);
+
+    font->type = TTF_OpenFont(path, 16);
+
+    if(font->type == NULL) {
+        printf("Could not load the font\n");
+        return NULL;
+    }
+
+    SDL_Color fgColor = {180, 180, 180};
+    SDL_Color bgColor = {50, 50, 50};
+
+    font->fgColor = fgColor;
+    font->bgColor = bgColor;
+
+    return font;
+}
+
+SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y) {
+    SDL_Texture *texture = getStringTexture(font->type, renderer, string, font->fgColor, font->bgColor);
 
     SDL_Rect textLocation;
     textLocation.x = x;
