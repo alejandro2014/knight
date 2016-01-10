@@ -36,13 +36,14 @@ API05=replace
 CON01=console
 CON02=print
 
-MAP01=window
+MAP01=events
+MAP02=window
 
 SRC01=main
 
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
 OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o
-OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o
+OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/${MAP02}.o
 OBJ_REST=${OBJDIR}/${SRC01}.o
 
 LIBA_API=${LIBDIR}/lib${LIBAPI}.a
@@ -75,8 +76,6 @@ ${OBJDIR_MAP}/%.o: ${SRCDIR_MAP}/%.c
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.c
 	${CC} ${OPTC_REST} -c -o $@ $<
-
-#libs: ${LIBA_API}
 
 api: ${LIBA_API}
 

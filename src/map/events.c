@@ -1,11 +1,21 @@
 #include "events.h"
 
-#include "actions.h"
+/*#include "actions.h"
 #include "global_tools.h"
 #include "menus.h"
-#include "tools.h"
+#include "tools.h"*/
 
-void resizeScreen(SDL_Event *event) {
+void readEvents(int *finish) {
+    SDL_Event event;
+
+    while(SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            *finish = true;
+        }
+    }
+}
+
+/*void resizeScreen(SDL_Event *event) {
     no_update_now=1;
     window_width = event->window.data1;
     window_height = event->window.data2;
@@ -44,16 +54,6 @@ void manageButtonClick(SDL_Event *event) {
 
     //now, check to see if there is any button up on the toolbar
     check_toolbar_release ();
-}
-
-void readEvents(int *finish) {
-    /*SDL_Event event;
-
-    while(SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            *finish = 1;
-        }
-    }*/
 }
 
 void events_loop() {
@@ -271,4 +271,4 @@ void checkNumericTextBoxes() {
             checkNumericTextBox(textboxes[i], text_input_char);
         }
     }
-}
+}*/

@@ -13,17 +13,8 @@ int main(int argc, char* argv[]) {
 
     hme = loadHeightMapEditor(640, 480);
 
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-
+    SDL_SetRenderDrawColor(renderer, 180, 0, 0, 255);
     SDL_RenderClear(renderer);
-
-    SDL_Rect r;
-    r.x = 50;
-    r.y = 50;
-    r.w = 50;
-    r.h = 50;
-
-    SDL_RenderFillRect(renderer, &r);
 
     SDL_RenderPresent(renderer);
     /*bool finish = false;
@@ -40,12 +31,24 @@ int main(int argc, char* argv[]) {
 
     freeConsole(console);*/
 
-    SDL_Delay(5000);
+    programLoop();
 
     freeResources(hme);
 
     SDL_Quit();
     return 0;
+}
+
+void programLoop() {
+    bool finish = false;
+    //SDL_Event event;
+
+    while(!finish) {
+        readEvents(&finish);
+        //drawScreen();
+        SDL_Delay(1000);
+        printf("Hello\n");
+    }
 }
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
@@ -60,13 +63,14 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
 
     window = createWindow("Knight", 640, 480);
     renderer = createRenderer(window);
-    font = initFont(FONT_PATH_LINUX);
+    font = initFont(FONT_PATH_MAC);
 
     return hme;
 }
 
 SDL_Window *createWindow(char *title, int width, int height) {
-    SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
+    SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
+                    SDL_WINDOW_RESIZABLE);
 
     if (window == NULL) {
         printf("Could not create window: %s\n", SDL_GetError());
@@ -87,7 +91,7 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
 
 TTF_Font *initFont(char *path) {
     TTF_Init();
-    TTF_Font *font = TTF_OpenFont(FONT_PATH_MAC, 12);
+    TTF_Font *font = TTF_OpenFont(path, 12);
 
     if(font == NULL) {
         printf("Could not load the font\n");

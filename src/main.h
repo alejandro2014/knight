@@ -14,6 +14,7 @@
 #include "console/console.h"
 #include "console/print.h"
 
+#include "map/events.h"
 #include "map/window.h"
 
 typedef struct {
@@ -29,5 +30,7 @@ SDL_Renderer *createRenderer(SDL_Window *window);
 TTF_Font *initFont(char *path);
 
 void freeResources(HeightMapEditor *hme);
+
+void programLoop();
 
 #endif
