@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
 #include "global.h"
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
@@ -23,6 +26,7 @@ typedef struct {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
 SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);
+TTF_Font *initFont(char *path);
 
 void freeResources(HeightMapEditor *hme);
 

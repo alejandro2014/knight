@@ -47,6 +47,7 @@ typedef struct {
     int numCommands;
     Command *commands;
     Command *currentCommand;
+    Terrain *terrain;
 } Console;
 
 Console *createConsole(int sizeKb);
@@ -68,7 +69,7 @@ Command *lookupCommand(char *commandName, Console *console);
 Param *lookupParam(char *paramName, Command *command);
 
 bool areParamsValid(Command *command, int *params, char **strParams);
-void executeCommand(Command *command);
+void executeCommand(Console *console);
 int getParamValueInt(char *paramName, Command *command, bool *error);
 char *getParamValueStr(char *paramName, Command *command, bool *validParam);
 void deleteParamsValue(Command *command);

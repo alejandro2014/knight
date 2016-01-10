@@ -1,9 +1,12 @@
-#include <SDL.h>
 #include "main.h"
 
 HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
+TTF_Font *font;
+
+char *FONT_PATH_MAC = "/Library/Fonts/Arial.ttf";
+char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -56,16 +59,8 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);*/
 
     window = createWindow("Knight", 640, 480);
-
     renderer = createRenderer(window);
-
-    /*TTF_Init();
-    *font = TTF_OpenFont(FONT_PATH_LINUX, 12);
-
-    if(*font == NULL) {
-        printf("Could not load the font\n");
-        return -1;
-    }*/
+    font = initFont(FONT_PATH_LINUX);
 
     return hme;
 }
@@ -90,13 +85,25 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
     return renderer;
 }
 
+TTF_Font *initFont(char *path) {
+    TTF_Init();
+    TTF_Font *font = TTF_OpenFont(FONT_PATH_MAC, 12);
+
+    if(font == NULL) {
+        printf("Could not load the font\n");
+        return NULL;
+    }
+
+    return font;
+}
+
 void freeResources(HeightMapEditor *hme) {
     freeConsole(hme->console);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    /*TTF_CloseFont(heightMapEditor->font);
-    freeDialogs(heightMapEditor->dialogs);
+    TTF_CloseFont(font);
+    /*freeDialogs(heightMapEditor->dialogs);
     api_freeTerrain(heightMapEditor->terrain);*/
 
 }
