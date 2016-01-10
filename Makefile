@@ -3,13 +3,12 @@ EXE=knight
 LIBAPI=api
 LIBCON=console
 LIBMAP=map
-FWDIR=/Library/Frameworks
 
 ### Options ###
 OPTC_API=
 OPTC_CON=
 OPTC_MAP=-I/usr/local/include
-OPTL_MAP=-L/usr/local/lib -lSDL2 -lSDL2_ttf -F/System/Library/Frameworks -framework Cocoa
+OPTL_MAP=-L/usr/local/lib -lSDL2 -lSDL2_ttf
 OPTC_REST=${OPTC_MAP}
 OPTL_REST=${OPTL_MAP}
 
@@ -43,7 +42,7 @@ SRC01=main
 
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
 OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o
-OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/SDLMain.o
+OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o
 OBJ_REST=${OBJDIR}/${SRC01}.o
 
 LIBA_API=${LIBDIR}/lib${LIBAPI}.a
@@ -70,9 +69,6 @@ ${OBJDIR_API}/%.o: ${SRCDIR_API}/%.c
 
 ${OBJDIR_CON}/%.o: ${SRCDIR_CON}/%.c
 	${CC} ${OPTC_CON} -c -o $@ $<
-
-${OBJDIR_MAP}/SDLMain.o: ${SRCDIR_MAP}/SDLMain.m
-	${CC} ${OPTC_MAP} -c -o ${OBJDIR_MAP}/SDLMain.o ${SRCDIR_MAP}/SDLMain.m
 
 ${OBJDIR_MAP}/%.o: ${SRCDIR_MAP}/%.c
 	${CC} ${OPTC_MAP} -c -o $@ $<
