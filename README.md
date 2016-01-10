@@ -1,10 +1,11 @@
-# Knight 0.3.3
+# Knight 0.3.4
 
 Knight is an editor of heightmaps. Still it doesn't do much, but little by little is taking shape. It will be an editor with different inputs:
 A 2d view, a 3d view and a console. This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
 
 Updates
 -------
+* 0.3.4 - Upgraded to SDL2 and not dependant on SDLMain files anymore. The project has its definitive structure
 * 0.3.3 - Refactored all the structure of the programs in order to compile separate projects: api, 2d, console and main
 * 0.3.2 - Changed the name of the program, from "Height Map Editor" to "Knight". Changed the versioning. The versions of the former hme where 1.x,
 whereas here it has been downgraded to 0.x. This is in order to reflect that still is work in progress and we don't have a usable version yet. The shell 
