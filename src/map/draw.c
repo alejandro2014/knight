@@ -16,30 +16,43 @@
 > sethp x:3 y:3 height:3
 > prterr
 */
-void drawScreen(SDL_Renderer *renderer, Font *font, bool showCursor) {
+void drawScreen(SDL_Renderer *renderer, Font *font, char *buffer, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
+
+    buffer = "> gterr width:5 height:5\n[INFO] Created terrain 5x5\n> sethterr height:5\n> sethp x:1 y:1 height:3\n";
+    printConsole(renderer, font, buffer);
 
     if(showCursor) {
         printCursor(renderer, 2, 2, &(font->fgColor));
     }
 
-    printString(font, renderer, "> gterr width:5 height:5", 2, 30);
+    SDL_RenderPresent(renderer);
+}
+
+void printConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer) {
+    int numChars = strlen(consoleBuffer);
+    int startPos = 0;
+    int endPos;
+    int i;
+    char line[80];
+    int currentLine = 0;
+    int linePos;
+
+    for(i = 0; i < numChars; i++) {
+        line[linePos] = *(consoleBuffer + i);
+        linePos++;
+
+        if(*(consoleBuffer + i) == '\n') {
+            line[linePos] = '\0';
+            printString(font, renderer, &line[0], 2, (currentLine++) * 20 + 30);
+            linePos = 0;
+        }
+    }
+    /*printString(font, renderer, "> gterr width:5 height:5", 2, 30);
     printString(font, renderer, "[INFO] Created terrain 5x5", 2, 50);
     printString(font, renderer, "> sethterr height:5", 2, 70);
-    printString(font, renderer, "> sethp x:1 y:1 height:3", 2, 90);
-    printString(font, renderer, "> sethp x:2 y:1 height:3", 2, 110);
-    printString(font, renderer, "> sethp x:3 y:1 height:3", 2, 130);
-    printString(font, renderer, "> sethp x:1 y:2 height:3", 2, 150);
-    printString(font, renderer, "> sethp x:2 y:2 height:1", 2, 170);
-    printString(font, renderer, "[ERROR] One random error", 2, 190);
-    printString(font, renderer, "> sethp x:3 y:2 height:3", 2, 210);
-    printString(font, renderer, "> sethp x:1 y:3 height:3", 2, 230);
-    printString(font, renderer, "> sethp x:2 y:3 height:3", 2, 250);
-    printString(font, renderer, "> sethp x:3 y:3 height:3", 2, 270);
-    printString(font, renderer, "> prterr", 2, 290);
-
-    SDL_RenderPresent(renderer);
+    printString(font, renderer, "> sethp x:1 y:1 height:3", 2, 90);*/
 }
 
 void printCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {

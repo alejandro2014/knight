@@ -38,10 +38,11 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     bool finish = false;
     bool showCursor = true;
+    char *consoleBuffer = NULL;
 
     while(!finish) {
         readEvents(&finish);
-        drawScreen(renderer, font, showCursor);
+        drawScreen(renderer, font, consoleBuffer, showCursor);
         SDL_Delay(1000);
 
         showCursor = (showCursor ? false : true);
