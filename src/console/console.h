@@ -40,17 +40,21 @@ typedef struct {
 typedef struct {
     int offset;
     int cursorPosition;
-    int size;
-    char *text;
     char *currentLine;
     size_t sizeLine;
     int numCommands;
     Command *commands;
     Command *currentCommand;
     Terrain *terrain;
+
+    int size;
+    char *buffer;
+    char *window;
+    int numRows;
+    int numColumns;
 } Console;
 
-Console *createConsole(int sizeKb);
+Console *createConsole(int sizeKb, int numRows, int numCols);
 void freeConsole(Console *console);
 
 Command *loadCommands(Console *console);
@@ -75,5 +79,13 @@ char *getParamValueStr(char *paramName, Command *command, bool *validParam);
 void deleteParamsValue(Command *command);
 
 void loadScript(Console *console, char *pathScript);
+
+void consoleAddChar(Console *console, char currentChar);
+void consoleDeleteChar(Console *console);
+void consoleNewLine(Console *console);
+void consoleAddString(Console *console, char *string);
+
+void consolePrint(Console *console);
+void consoleResize(Console *console, int newRowsNum, int newColsNum);
 
 #endif

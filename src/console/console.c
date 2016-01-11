@@ -9,14 +9,18 @@
 
 #include "../global.h"
 
-Console *createConsole(int sizeKb) {
+Console *createConsole(int sizeKb, int rows, int columns) {
     int i;
 
     alloc(console, Console, 1);
-    allocExist(console->text, char, sizeKb * 1024);
+    allocExist(console->buffer, char, sizeKb * 1024);
     allocExist(console->currentLine, char, LINE_LENGTH);
     allocExist(console->commands, Command, NUM_COMMANDS);
+
     console->sizeLine = LINE_LENGTH;
+    console->numRows = rows;
+    console->numColumns = columns;
+    allocExist(console->window, char, rows * columns);
 
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
@@ -26,7 +30,7 @@ Console *createConsole(int sizeKb) {
 }
 
 void freeConsole(Console *console) {
-    free(console->text);
+    free(console->buffer);
     free(console);
 }
 
@@ -344,4 +348,28 @@ void loadScript(Console *console, char *path) {
     }
 
     fclose(script);
+}
+
+void consoleAddChar(Console *console, char currentChar) {
+
+}
+
+void consoleDeleteChar(Console *console) {
+
+}
+
+void consoleNewLine(Console *console) {
+
+}
+
+void consoleAddString(Console *console, char *string) {
+
+}
+
+void consolePrint(Console *console) {
+    
+}
+
+void consoleResize(Console *console, int newRowsNum, int newColsNum) {
+
 }

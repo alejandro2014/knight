@@ -9,6 +9,11 @@ char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
 char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
+    Console *console = createConsole(1, 10, 6);
+    consolePrint(console);
+    freeConsole(console);
+
+    return 0;
     SDL_Init(SDL_INIT_VIDEO);
 
     hme = loadHeightMapEditor(640, 480);
@@ -38,7 +43,7 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     bool finish = false;
     bool showCursor = true;
-    char *consoleBuffer = NULL;
+    char *consoleBuffer = hme->console->buffer;
 
     while(!finish) {
         readEvents(&finish);
@@ -52,7 +57,7 @@ void programLoop(SDL_Renderer *renderer) {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
-    hme->console = createConsole(1);
+    hme->console = createConsole(1, 80, 20);
 
     /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);

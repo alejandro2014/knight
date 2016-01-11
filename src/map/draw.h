@@ -9,8 +9,8 @@
 #include "font.h"
 
 void drawScreen(SDL_Renderer *renderer, Font *font, char *buffer, bool showCursor);
-void printCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color);
-void printConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer);
+void drawCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color);
+void drawConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer);
 
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

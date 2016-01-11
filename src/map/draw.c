@@ -21,41 +21,37 @@ void drawScreen(SDL_Renderer *renderer, Font *font, char *buffer, bool showCurso
     SDL_RenderClear(renderer);
 
     buffer = "> gterr width:5 height:5\n[INFO] Created terrain 5x5\n> sethterr height:5\n> sethp x:1 y:1 height:3\n";
-    printConsole(renderer, font, buffer);
+    drawConsole(renderer, font, buffer);
 
     if(showCursor) {
-        printCursor(renderer, 2, 2, &(font->fgColor));
+        drawCursor(renderer, 2, 2, &(font->fgColor));
     }
 
     SDL_RenderPresent(renderer);
 }
 
-void printConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer) {
+void drawConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer) {
     int numChars = strlen(consoleBuffer);
-    int startPos = 0;
-    int endPos;
     int i;
     char line[80];
     int currentLine = 0;
     int linePos;
+    char currentChar;
 
     for(i = 0; i < numChars; i++) {
-        line[linePos] = *(consoleBuffer + i);
+        currentChar = *(consoleBuffer + i);
+        line[linePos] = currentChar;
         linePos++;
 
-        if(*(consoleBuffer + i) == '\n') {
-            line[linePos] = '\0';
+        if(currentChar == '\n') {
+            line[linePos - 1] = '\0';
             printString(font, renderer, &line[0], 2, (currentLine++) * 20 + 30);
             linePos = 0;
         }
     }
-    /*printString(font, renderer, "> gterr width:5 height:5", 2, 30);
-    printString(font, renderer, "[INFO] Created terrain 5x5", 2, 50);
-    printString(font, renderer, "> sethterr height:5", 2, 70);
-    printString(font, renderer, "> sethp x:1 y:1 height:3", 2, 90);*/
 }
 
-void printCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {
+void drawCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {
     SDL_Rect r;
     r.x = x;
     r.y = y;
