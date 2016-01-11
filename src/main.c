@@ -9,7 +9,7 @@ char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
 char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
-    Console *console = createConsole(1, 10, 6);
+    Console *console = createConsole(1, 6, 10);
     consolePrint(console);
     freeConsole(console);
 

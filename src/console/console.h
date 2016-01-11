@@ -51,7 +51,7 @@ typedef struct {
     char *buffer;
     char *window;
     int numRows;
-    int numColumns;
+    int numCols;
 } Console;
 
 Console *createConsole(int sizeKb, int numRows, int numCols);
@@ -85,7 +85,8 @@ void consoleDeleteChar(Console *console);
 void consoleNewLine(Console *console);
 void consoleAddString(Console *console, char *string);
 
-void consolePrint(Console *console);
 void consoleResize(Console *console, int newRowsNum, int newColsNum);
+void consolePrint(Console *console);
+void consolePrintLine(Console *console);
 
 #endif

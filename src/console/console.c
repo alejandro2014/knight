@@ -19,7 +19,7 @@ Console *createConsole(int sizeKb, int rows, int columns) {
 
     console->sizeLine = LINE_LENGTH;
     console->numRows = rows;
-    console->numColumns = columns;
+    console->numCols = columns;
     allocExist(console->window, char, rows * columns);
 
     for(i = 0; i < NUM_COMMANDS; i++) {
@@ -367,7 +367,32 @@ void consoleAddString(Console *console, char *string) {
 }
 
 void consolePrint(Console *console) {
-    
+    int width = console->numCols;
+    int height = console->numRows;
+    int i, j;
+
+    consolePrintLine(console);
+
+    for(j = 0; j < height; j++) {
+        printf("|");
+        for(i = 0; i < width; i++) {
+            printf(" ");
+        }
+        printf("|\n");
+    }
+
+    consolePrintLine(console);
+}
+
+void consolePrintLine(Console *console) {
+    int width = console->numCols;
+    int i;
+
+    printf("+");
+    for(i = 0; i < width; i++) {
+        printf("-");
+    }
+    printf("+\n");
 }
 
 void consoleResize(Console *console, int newRowsNum, int newColsNum) {
