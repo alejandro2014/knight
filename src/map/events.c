@@ -5,7 +5,7 @@
 #include "menus.h"
 #include "tools.h"*/
 
-void readEvents(int *finish) {
+void readEvents(Console *console, int *finish) {
     SDL_Event event;
     char currentChar;
 
@@ -16,6 +16,7 @@ void readEvents(int *finish) {
 
         if (event.type == SDL_KEYDOWN) {
             currentChar = (char)event.key.keysym.sym;
+            consoleAddChar(console, currentChar);
         }
     }
 }

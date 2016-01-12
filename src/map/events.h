@@ -2,9 +2,11 @@
 #define EVENTS_H
 
 #include <SDL2/SDL_events.h>
-#include "../global.h"
 
-void readEvents(int *finish);
+#include "../global.h"
+#include "../console/console.h"
+
+void readEvents(Console *console, int *finish);
 
 //void resizeScreen(SDL_Event *event);
 

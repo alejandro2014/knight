@@ -9,7 +9,7 @@ char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
 char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
-    Console *console = createConsole(1, 3, 5);
+    /*Console *console = createConsole(1, 3, 5);
 
     consoleAddChar(console, 'a');
     consoleAddChar(console, 'b');
@@ -18,11 +18,11 @@ int main(int argc, char* argv[]) {
     consoleAddChar(console, 'e');
     consoleAddChar(console, 'f');
     consoleAddChar(console, 'g');
-    consolePrint(console); //'a'
+    //consolePrint(console); //'a'
 
     freeConsole(console);
 
-    return 0;
+    return 0;*/
     SDL_Init(SDL_INIT_VIDEO);
 
     hme = loadHeightMapEditor(640, 480);
@@ -55,8 +55,8 @@ void programLoop(SDL_Renderer *renderer) {
     char *consoleBuffer = hme->console->buffer;
 
     while(!finish) {
-        readEvents(&finish);
-        drawScreen(renderer, font, consoleBuffer, showCursor);
+        readEvents(hme->console, &finish);
+        drawScreen(renderer, font, hme->console, showCursor);
         SDL_Delay(1000);
 
         showCursor = (showCursor ? false : true);

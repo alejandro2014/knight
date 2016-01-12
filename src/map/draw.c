@@ -16,21 +16,22 @@
 > sethp x:3 y:3 height:3
 > prterr
 */
-void drawScreen(SDL_Renderer *renderer, Font *font, char *buffer, bool showCursor) {
+void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
-    buffer = "> gterr width:5 height:5\n[INFO] Created terrain 5x5\n> sethterr height:5\n> sethp x:1 y:1 height:3\n";
-    drawConsole(renderer, font, buffer);
+    //buffer = "> gterr width:5 height:5\n[INFO] Created terrain 5x5\n> sethterr height:5\n> sethp x:1 y:1 height:3\n";
+    drawConsole(renderer, font, console);
 
     if(showCursor) {
-        drawCursor(renderer, 2, 2, &(font->fgColor));
+        //drawCursor(renderer, 2, 2, &(font->fgColor));
     }
 
     SDL_RenderPresent(renderer);
 }
 
-void drawConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer) {
+void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
+    char *consoleBuffer = console->buffer;
     int numChars = strlen(consoleBuffer);
     int i;
     char line[80];
@@ -38,8 +39,12 @@ void drawConsole(SDL_Renderer *renderer, Font *font, char *consoleBuffer) {
     int linePos;
     char currentChar;
 
+    printString(font, renderer, consoleBuffer, 20, 20);
+    return;
+    //printf("Drawing console: [%s]\n", consoleBuffer);
     for(i = 0; i < numChars; i++) {
         currentChar = *(consoleBuffer + i);
+
         line[linePos] = currentChar;
         linePos++;
 

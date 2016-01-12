@@ -351,23 +351,30 @@ void loadScript(Console *console, char *path) {
 }
 
 void consoleAddChar(Console *console, char currentChar) {
-    char *window = console->window;
+    char *buffer = console->buffer;
 
-    *(window + console->cursorPosition) = currentChar;
+    *(buffer + console->cursorPosition) = currentChar;
     console->cursorPosition++;
 }
 
 void consoleDeleteChar(Console *console) {
-    char *window = console->window;
+    char *buffer = console->buffer;
 
     if(console->cursorPosition > 0) {
         console->cursorPosition--;
-        *(window + console->cursorPosition) = '\0';
+        *(buffer + console->cursorPosition) = '\0';
     }
 }
 
 void consoleNewLine(Console *console) {
+    char *buffer = console->buffer;
 
+    *(buffer + console->cursorPosition) = '\n';
+    //console->currentRow++;
+
+    /*console->cursorPosition = console->current;
+    *(window + console->cursorPosition) = currentChar;
+    console->cursorPosition++;*/
 }
 
 void consoleAddString(Console *console, char *string) {
