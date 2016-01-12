@@ -385,7 +385,7 @@ void consolePrint(Console *console) {
     for(j = 0; j < height; j++) {
         printf("|");
         for(i = 0; i < width; i++) {
-            currentChar = *(console->window + j * height + i);
+            currentChar = *(console->window + j * width + i);
 
             if(currentChar != '\0') {
                 printf("%c", currentChar);
