@@ -351,7 +351,10 @@ void loadScript(Console *console, char *path) {
 }
 
 void consoleAddChar(Console *console, char currentChar) {
+    char *window = console->window;
 
+    *(window + console->cursorPosition) = currentChar;
+    console->cursorPosition++;
 }
 
 void consoleDeleteChar(Console *console) {
@@ -370,13 +373,20 @@ void consolePrint(Console *console) {
     int width = console->numCols;
     int height = console->numRows;
     int i, j;
+    char currentChar;
 
     consolePrintLine(console);
 
     for(j = 0; j < height; j++) {
         printf("|");
         for(i = 0; i < width; i++) {
-            printf(" ");
+            currentChar = *(console->window + j * height + i);
+
+            if(currentChar != '\0') {
+                printf("%c", currentChar);
+            } else {
+                printf(" ");
+            }
         }
         printf("|\n");
     }
