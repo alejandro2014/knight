@@ -358,7 +358,12 @@ void consoleAddChar(Console *console, char currentChar) {
 }
 
 void consoleDeleteChar(Console *console) {
+    char *window = console->window;
 
+    if(console->cursorPosition > 0) {
+        console->cursorPosition--;
+        *(window + console->cursorPosition) = '\0';
+    }
 }
 
 void consoleNewLine(Console *console) {

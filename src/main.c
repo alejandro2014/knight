@@ -10,9 +10,14 @@ char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Reg
 
 int main(int argc, char* argv[]) {
     Console *console = createConsole(1, 6, 10);
-    consolePrint(console);
+    consolePrint(console); //''
+
     consoleAddChar(console, 'a');
-    consolePrint(console);
+    consolePrint(console); //'a'
+
+    consoleDeleteChar(console);
+    consolePrint(console); //''
+
     freeConsole(console);
 
     return 0;
