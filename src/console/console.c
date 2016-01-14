@@ -370,11 +370,7 @@ void consoleNewLine(Console *console) {
     char *buffer = console->buffer;
 
     *(buffer + console->cursorPosition) = '\n';
-    //console->currentRow++;
-
-    /*console->cursorPosition = console->current;
-    *(window + console->cursorPosition) = currentChar;
-    console->cursorPosition++;*/
+    console->cursorPosition++;
 }
 
 void consoleAddString(Console *console, char *string) {

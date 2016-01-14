@@ -30,9 +30,10 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 }
 
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
-    //char *consoleBuffer = console->buffer;
-    char *consoleBuffer = "> this line is too long to fit in the buffer\ngterr width:5 height:5 [INFO] Created terrain";
+    char *consoleBuffer = console->buffer;
+    //char *consoleBuffer = "> this line is too long to fit in the buffer\ngterr width:5 height:5 [INFO] Created terrain";
     int numChars = strlen(consoleBuffer);
+    int lengthLine = console->lengthLine;
     int i;
     char line[lengthLine + 1];
     int currentLine = 0;
