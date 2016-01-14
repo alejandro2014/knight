@@ -34,7 +34,7 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     //char *consoleBuffer = console->buffer;
     //char *consoleBuffer = "> gterr width:5 height:5";
     //char *consoleBuffer = "> gterr width:5 height:5\n[INFO] Created terrain";
-    char *consoleBuffer = "> this line is too long to fit in the buffer gterr width:5 height:5 [INFO] Created terrain";
+    char *consoleBuffer = "> this line is too long to fit in the buffer\ngterr width:5 height:5 [INFO] Created terrain";
     //char *buffer2 = "> gterr width:5 height:5\n";
 
     int numChars = strlen(consoleBuffer);
@@ -54,11 +54,12 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
             printString(font, renderer, &line[0], 4, (currentLine++) * 20 + 4);
             linePos = 0;
         }
-        /*if(currentChar == '\n' || linePos == lengthLine) {
+
+        if(currentChar == '\n') {
             line[linePos - 1] = '\0';
             printString(font, renderer, &line[0], 4, (currentLine++) * 20 + 4);
             linePos = 0;
-        }*/
+        }
     }
 
     line[linePos] = '\0';
