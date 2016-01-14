@@ -63,11 +63,16 @@ void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
     int row = console->cursorPosition / console->numCols;
     int col = console->cursorPosition % console->numCols;
 
+    int padding = 4;
+    int pixelsFill = 5;
+    int widthCursor = 10;
+    int heightCursor = 15;
+
     SDL_Rect r;
-    r.w = 10;
-    r.h = 15;
-    r.x = col * r.w + 4;
-    r.y = row * (r.h + 5) + 4;
+    r.w = widthCursor;
+    r.h = heightCursor;
+    r.x = col * r.w + padding;
+    r.y = row * (r.h + pixelsFill) + padding;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
