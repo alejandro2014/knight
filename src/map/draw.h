@@ -11,7 +11,7 @@
 #include "font.h"
 
 void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor);
-void drawCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color);
+void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color);
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console);
 
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

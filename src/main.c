@@ -57,7 +57,7 @@ void programLoop(SDL_Renderer *renderer) {
     while(!finish) {
         readEvents(hme->console, &finish);
         drawScreen(renderer, font, hme->console, showCursor);
-        SDL_Delay(1000);
+        SDL_Delay(500);
 
         showCursor = (showCursor ? false : true);
     }

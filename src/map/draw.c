@@ -23,7 +23,7 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
     drawConsole(renderer, font, console);
 
     if(showCursor) {
-        //drawCursor(renderer, 2, 2, &(font->fgColor));
+        drawCursor(console, renderer, &(font->fgColor));
     }
 
     SDL_RenderPresent(renderer);
@@ -31,10 +31,10 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     char *consoleBuffer = console->buffer;
-    //char *consoleBuffer = "> this line is too long to fit in the buffer\ngterr width:5 height:5 [INFO] Created terrain";
     int numChars = strlen(consoleBuffer);
     int lengthLine = console->lengthLine;
     int i;
+
     char line[lengthLine + 1];
     int currentLine = 0;
     int linePos = 0;
@@ -59,12 +59,15 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     printString(font, renderer, &line[0], 4, (currentLine++) * lengthLine + 4);
 }
 
-void drawCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {
+void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
+    int row = console->cursorPosition / console->numCols;
+    int col = console->cursorPosition % console->numCols;
+
     SDL_Rect r;
-    r.x = x;
-    r.y = y;
     r.w = 10;
     r.h = 15;
+    r.x = col * r.w + 4;
+    r.y = row * (r.h + 5) + 4;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
