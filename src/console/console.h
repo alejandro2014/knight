@@ -7,7 +7,7 @@
 #include "../global.h"
 #include "../api/api.h"
 
-#define LINE_LENGTH 100
+#define LINE_LENGTH 20
 #define NUM_COMMANDS 30
 #define MAX_PARAMS 10
 
@@ -41,7 +41,7 @@ typedef struct {
     int offset;
     int cursorPosition;
     char *currentLine;
-    size_t sizeLine;
+    size_t lengthLine;
     int numCommands;
     Command *commands;
     Command *currentCommand;

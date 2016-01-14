@@ -29,17 +29,11 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
     SDL_RenderPresent(renderer);
 }
 
-//char *consoleBuffer = "> gterr width:5 height:5\n[INFO] Created terrain 5x5\n> sethterr height:5\n> sethp x:1 y:1 height:3\n";
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     //char *consoleBuffer = console->buffer;
-    //char *consoleBuffer = "> gterr width:5 height:5";
-    //char *consoleBuffer = "> gterr width:5 height:5\n[INFO] Created terrain";
     char *consoleBuffer = "> this line is too long to fit in the buffer\ngterr width:5 height:5 [INFO] Created terrain";
-    //char *buffer2 = "> gterr width:5 height:5\n";
-
     int numChars = strlen(consoleBuffer);
     int i;
-    int lengthLine = 20;
     char line[lengthLine + 1];
     int currentLine = 0;
     int linePos = 0;
@@ -49,21 +43,19 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
         currentChar = *(consoleBuffer + i);
         line[linePos++] = currentChar;
 
-        if(linePos == lengthLine) {
-            line[linePos] = '\0';
-            printString(font, renderer, &line[0], 4, (currentLine++) * 20 + 4);
-            linePos = 0;
+        if(currentChar == '\n') {
+            linePos--;
         }
 
-        if(currentChar == '\n') {
-            line[linePos - 1] = '\0';
-            printString(font, renderer, &line[0], 4, (currentLine++) * 20 + 4);
+        if(linePos == lengthLine || currentChar == '\n') {
+            line[linePos] = '\0';
+            printString(font, renderer, &line[0], 4, (currentLine++) * lengthLine + 4);
             linePos = 0;
         }
     }
 
     line[linePos] = '\0';
-    printString(font, renderer, &line[0], 4, (currentLine++) * 20 + 4);
+    printString(font, renderer, &line[0], 4, (currentLine++) * lengthLine + 4);
 }
 
 void drawCursor(SDL_Renderer *renderer, int x, int y, SDL_Color *color) {
