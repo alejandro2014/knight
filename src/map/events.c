@@ -7,6 +7,7 @@
 
 void readEvents(Console *console, int *finish) {
     SDL_Event event;
+    Uint8 *keystate;
     char currentChar;
 
     while(SDL_PollEvent(&event)) {
@@ -15,8 +16,14 @@ void readEvents(Console *console, int *finish) {
         }
 
         if (event.type == SDL_KEYDOWN) {
-            currentChar = (char)event.key.keysym.sym;
-            consoleAddChar(console, currentChar);
+
+                currentChar = (char)event.key.keysym.sym;
+
+                if(currentChar == SDLK_RETURN) {
+                    consoleNewLine(console);
+                } else {
+                    consoleAddChar(console, currentChar);
+                }
         }
     }
 }
