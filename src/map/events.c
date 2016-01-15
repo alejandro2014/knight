@@ -20,7 +20,8 @@ void readEvents(Console *console, int *finish) {
                 currentChar = (char)event.key.keysym.sym;
 
                 if(currentChar == SDLK_RETURN) {
-                    consoleNewLine(console);
+                    //consoleNewLine(console);
+                    consoleDeleteChar(console);
                 } else {
                     consoleAddChar(console, currentChar);
                 }

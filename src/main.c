@@ -66,7 +66,7 @@ void programLoop(SDL_Renderer *renderer) {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
-    hme->console = createConsole(1, LINE_LENGTH, 20);
+    hme->console = createConsole(1, 10, 10);
 
     /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);

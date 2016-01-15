@@ -60,8 +60,10 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
-    int row = console->cursorPosition / console->width;
-    int col = console->cursorPosition % console->width;
+    //int row = console->cursorPosition / console->width;
+    //int col = console->cursorPosition % console->width;
+    int row = console->cursorRow;
+    int col = console->cursorCol;
 
     int padding = 4;
     int pixelsFill = 5;

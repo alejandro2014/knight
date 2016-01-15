@@ -352,17 +352,29 @@ void loadScript(Console *console, char *path) {
 
 void consoleAddChar(Console *console, char currentChar) {
     char *buffer = console->buffer;
+    int cursorRow = console->cursorRow;
+    int cursorCol = console->cursorCol;
 
-    *(buffer + console->cursorPosition) = currentChar;
-    console->cursorPosition++;
+    *(buffer + console->offset) = currentChar;
+
+    console->offset++;
+    console->cursorCol++;
+
+    if(console->cursorCol == console->width) {
+        console->cursorCol = 0;
+        console->cursorRow++;
+    }
 }
 
 void consoleDeleteChar(Console *console) {
     char *buffer = console->buffer;
+    int cursorRow = console->cursorRow;
+    int cursorCol = console->cursorCol;
 
-    if(console->cursorPosition > 0) {
-        console->cursorPosition--;
-        *(buffer + console->cursorPosition) = '\0';
+    if(cursorCol > 0) {
+        console->offset--;
+        console->cursorCol--;
+        *(buffer + console->offset) = '\0';
     }
 }
 

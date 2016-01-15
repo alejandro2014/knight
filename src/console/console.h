@@ -38,7 +38,6 @@ typedef struct {
 } Command;
 
 typedef struct {
-    int offset;
     int cursorPosition;
     size_t interLineSpace;
     int numCommands;
@@ -48,11 +47,14 @@ typedef struct {
 
     int size;
     char *buffer;
+    int offset;
 
     int width;
     int height;
     char *window;
     char *currentLine;
+    int cursorRow;
+    int cursorCol;
 } Console;
 
 Console *createConsole(int sizeKb, int width, int height);
