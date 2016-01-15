@@ -9,19 +9,19 @@
 
 #include "../global.h"
 
-Console *createConsole(int sizeKb, int rows, int columns) {
+Console *createConsole(int sizeKb, int width, int height) {
     int i;
 
     alloc(console, Console, 1);
     allocExist(console->buffer, char, sizeKb * 1024);
-    allocExist(console->currentLine, char, LINE_LENGTH);
-    allocExist(console->commands, Command, NUM_COMMANDS);
 
+    console->height = height;
+    console->width = width;
+    allocExist(console->window, char, console->width * console->height);
+    allocExist(console->currentLine, char, console->width);
     console->interLineSpace = 20;
-    console->numRows = rows;
-    console->numCols = columns;
-    allocExist(console->window, char, rows * columns);
 
+    allocExist(console->commands, Command, NUM_COMMANDS);
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
@@ -367,10 +367,7 @@ void consoleDeleteChar(Console *console) {
 }
 
 void consoleNewLine(Console *console) {
-    char *buffer = console->buffer;
-
-    *(buffer + console->cursorPosition) = '\n';
-    console->cursorPosition++;
+    consoleAddChar(console, '\n');
 }
 
 void consoleAddString(Console *console, char *string) {
@@ -381,42 +378,6 @@ void consoleAddString(Console *console, char *string) {
     console->cursorPosition += length;
 
     consoleNewLine(console);
-}
-
-void consolePrint(Console *console) {
-    int width = console->numCols;
-    int height = console->numRows;
-    int i, j;
-    char currentChar;
-
-    consolePrintLine(console);
-
-    for(j = 0; j < height; j++) {
-        printf("|");
-        for(i = 0; i < width; i++) {
-            currentChar = *(console->window + j * width + i);
-
-            if(currentChar != '\0') {
-                printf("%c", currentChar);
-            } else {
-                printf(" ");
-            }
-        }
-        printf("|\n");
-    }
-
-    consolePrintLine(console);
-}
-
-void consolePrintLine(Console *console) {
-    int width = console->numCols;
-    int i;
-
-    printf("+");
-    for(i = 0; i < width; i++) {
-        printf("-");
-    }
-    printf("+\n");
 }
 
 void consoleResize(Console *console, int newRowsNum, int newColsNum) {

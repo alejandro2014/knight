@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     Console *console = hme->console;
     //Command *listCommands = loadCommands(console);
 
-    printConsoleBanner(console);
+    //printConsoleBanner(console);
 
     /*while(!finish) {
         printPrompt();
