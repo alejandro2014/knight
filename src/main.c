@@ -27,13 +27,13 @@ int main(int argc, char* argv[]) {
 
     hme = loadHeightMapEditor(640, 480);
 
-    /*bool finish = false;
+    //bool finish = false;
     Console *console = hme->console;
-    Command *listCommands = loadCommands(console);
+    //Command *listCommands = loadCommands(console);
 
     printConsoleBanner(console);
 
-    while(!finish) {
+    /*while(!finish) {
         printPrompt();
         readShellLine(console, stdin);
         finish = processCommand(console->currentLine, console);
@@ -66,7 +66,7 @@ void programLoop(SDL_Renderer *renderer) {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
-    hme->console = createConsole(1, 80, 20);
+    hme->console = createConsole(1, LINE_LENGTH, 20);
 
     /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);

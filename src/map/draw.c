@@ -32,13 +32,13 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     char *consoleBuffer = console->buffer;
     int numChars = strlen(consoleBuffer);
-    int lengthLine = console->lengthLine;
-    int i;
+    int interLineSpace = console->interLineSpace;
 
-    char line[lengthLine + 1];
+    char line[LINE_LENGTH + 1];
     int currentLine = 0;
     int linePos = 0;
     char currentChar;
+    int i;
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(consoleBuffer + i);
@@ -48,15 +48,15 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
             linePos--;
         }
 
-        if(linePos == lengthLine || currentChar == '\n') {
+        if(linePos == LINE_LENGTH || currentChar == '\n') {
             line[linePos] = '\0';
-            printString(font, renderer, &line[0], 4, (currentLine++) * lengthLine + 4);
+            printString(font, renderer, &line[0], 4, (currentLine++) * interLineSpace + 4);
             linePos = 0;
         }
     }
 
     line[linePos] = '\0';
-    printString(font, renderer, &line[0], 4, (currentLine++) * lengthLine + 4);
+    printString(font, renderer, &line[0], 4, (currentLine++) * interLineSpace + 4);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {

@@ -27,8 +27,8 @@ SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x
     SDL_Rect textLocation;
     textLocation.x = x;
     textLocation.y = y;
-    SDL_QueryTexture(texture, NULL, NULL, &textLocation.w, &textLocation.h);
 
+    SDL_QueryTexture(texture, NULL, NULL, &textLocation.w, &textLocation.h);
     SDL_RenderCopy(renderer, texture, NULL, &textLocation);
 
     return texture;
