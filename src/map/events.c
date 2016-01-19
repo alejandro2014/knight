@@ -16,15 +16,13 @@ void readEvents(Console *console, int *finish) {
         }
 
         if (event.type == SDL_KEYDOWN) {
+            currentChar = (char)event.key.keysym.sym;
 
-                currentChar = (char)event.key.keysym.sym;
-
-                if(currentChar == SDLK_RETURN) {
-                    //consoleNewLine(console);
-                    consoleDeleteChar(console);
-                } else {
-                    consoleAddChar(console, currentChar);
-                }
+            switch(currentChar) {                
+                case SDLK_RETURN: consoleNewLine(console); break;
+                case SDLK_BACKSPACE: consoleDeleteChar(console); break;
+                default: consoleAddChar(console, currentChar); break;
+            }
         }
     }
 }

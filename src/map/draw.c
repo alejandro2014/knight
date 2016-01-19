@@ -34,36 +34,35 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     int numChars = strlen(consoleBuffer);
     int interLineSpace = console->interLineSpace;
 
-    char line[LINE_LENGTH + 1];
     int currentLine = 0;
     int linePos = 0;
     char currentChar;
     int i;
 
+    alloc(line, char, LINE_LENGTH + 1);
+
     for(i = 0; i < numChars; i++) {
         currentChar = *(consoleBuffer + i);
-        line[linePos++] = currentChar;
-
-        if(currentChar == '\n') {
-            linePos--;
-        }
+        *(line + (linePos++)) = currentChar;
 
         if(linePos == LINE_LENGTH || currentChar == '\n') {
-            line[linePos] = '\0';
-            printString(font, renderer, &line[0], 4, (currentLine++) * interLineSpace + 4);
+
+            if(currentChar == '\n') {
+                *(line + linePos - 1) = '\0';
+            }
+
+            printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
+            memset(line, 0, LINE_LENGTH + 1);
             linePos = 0;
         }
     }
 
-    line[linePos] = '\0';
-    printString(font, renderer, &line[0], 4, (currentLine++) * interLineSpace + 4);
+    printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
-    //int row = console->cursorPosition / console->width;
-    //int col = console->cursorPosition % console->width;
-    int row = console->cursorRow;
-    int col = console->cursorCol;
+    int row = console->cursorPos / console->width;
+    int col = console->cursorPos % console->width;
 
     int padding = 4;
     int pixelsFill = 5;
