@@ -30,7 +30,8 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 }
 
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
-    char *consoleBuffer = console->buffer;
+    //char *consoleBuffer = console->buffer;
+    char *consoleBuffer = "First line\nSecond line is longer\nThe third is a little bit more";
     int numChars = strlen(consoleBuffer);
     int interLineSpace = console->interLineSpace;
 
@@ -46,11 +47,6 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
         *(line + (linePos++)) = currentChar;
 
         if(linePos == LINE_LENGTH || currentChar == '\n') {
-
-            if(currentChar == '\n') {
-                *(line + linePos - 1) = '\0';
-            }
-
             printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
             memset(line, 0, LINE_LENGTH + 1);
             linePos = 0;
