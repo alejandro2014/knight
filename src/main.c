@@ -19,9 +19,9 @@ int main(int argc, char* argv[]) {
 
     printConsoleBanner(console);
 
-    /*while(!finish) {
-        printPrompt();
-        readShellLine(console, stdin);
+    /*while(!finish) {*/
+        printPrompt(console);
+        /*readShellLine(console, stdin);
         finish = processCommand(console->currentLine, console);
     }
 

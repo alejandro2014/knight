@@ -374,7 +374,10 @@ void consoleAddString(Console *console, char *string) {
 
     memcpy(buffer + console->offset, string, length);
     console->offset += length;
+}
 
+void consoleAddStringLine(Console *console, char *string) {
+    consoleAddString(console, string);
     consoleNewLine(console);
 }
 

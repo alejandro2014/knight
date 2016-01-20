@@ -1,10 +1,9 @@
-//#include "console.h"
 #include "print.h"
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
 
-void printPrompt() {
-    printf("> ");
+void printPrompt(Console *console) {
+    consoleAddString(console, "> ");
 }
 
 void printCommands(Console *console) {
@@ -38,8 +37,8 @@ void printConsoleBanner(Console *console) {
     alloc(banner, char, 100);
 
     sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - version %s", VERSION_NUMBER);
-    consoleAddString(console, banner);
-    consoleAddString(console, "Alejandro Ruperez 2015. Enter 'help' to see available commands");
+    consoleAddStringLine(console, banner);
+    consoleAddStringLine(console, "Alejandro Ruperez 2015. Enter 'help' to see available commands");
 }
 
 void printTerrain(Terrain *terrain) {

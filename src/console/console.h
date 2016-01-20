@@ -85,6 +85,7 @@ void consoleAddChar(Console *console, char currentChar);
 void consoleDeleteChar(Console *console);
 void consoleNewLine(Console *console);
 void consoleAddString(Console *console, char *string);
+void consoleAddStringLine(Console *console, char *string);
 void consoleResize(Console *console, int newRowsNum, int newColsNum);
 
 #endif
