@@ -14,9 +14,7 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 }
 
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
-    //char *consoleBuffer = console->buffer;
-    char *consoleBuffer = "First line\nSecond line is longer\nThe third is a little bit more";
-    int numChars = strlen(consoleBuffer);
+    int numChars = strlen(console->buffer);
     int interLineSpace = console->interLineSpace;
 
     int currentLine = 0;
@@ -29,7 +27,7 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     alloc(line, char, console->width + 1);
 
     for(i = 0; i < numChars; i++) {
-        currentChar = *(consoleBuffer + i);
+        currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
 
         if(offsetLine == console->width - 1 || currentChar == '\n') {
@@ -67,14 +65,12 @@ void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
 int calculateCursorPosition(Console *console) {
     int offsetScreen = 0;
     int offsetLine = 0;
-    char *consoleBuffer = "First line\nSecond line is longer\nThe third is a little bit more";
-    int length = strlen(consoleBuffer);
-    //int length = strlen(console->buffer);
+    int length = strlen(console->buffer);
     int i;
     char currentChar;
 
     for(i = 0; i < length; i++) {
-        currentChar = *(consoleBuffer + i);
+        currentChar = *(console->buffer + i);
 
         if(offsetLine == console->width) {
             offsetScreen++;

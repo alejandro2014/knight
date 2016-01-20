@@ -354,9 +354,7 @@ void consoleAddChar(Console *console, char currentChar) {
     char *buffer = console->buffer;
 
     *(buffer + console->offset) = currentChar;
-
     console->offset++;
-    //console->cursorPos++;
 }
 
 void consoleDeleteChar(Console *console) {
@@ -364,17 +362,10 @@ void consoleDeleteChar(Console *console) {
 
     *(buffer + console->offset) = '\0';
     console->offset--;
-    //console->cursorPos--;
 }
 
 void consoleNewLine(Console *console) {
-    char *buffer = console->buffer;
-
-    *(buffer + console->offset) = '\n';
-
-    console->offset++;
-
-    //console->cursorPos += console->width - (console->cursorPos % console->width);
+    consoleAddChar(console, '\n');
 }
 
 void consoleAddString(Console *console, char *string) {
