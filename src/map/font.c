@@ -22,7 +22,7 @@ Font *initFont(char *path) {
 }
 
 SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y) {
-    //trimLine(string);
+    trimLine(string);
 
     SDL_Texture *texture = getStringTexture(font->type, renderer, string, font->fgColor, font->bgColor);
 

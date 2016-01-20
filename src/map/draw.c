@@ -32,7 +32,7 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
         currentChar = *(consoleBuffer + i);
         *(line + offsetLine) = currentChar;
 
-        if(offsetLine == console->width || currentChar == '\n') {
+        if(offsetLine == console->width - 1 || currentChar == '\n') {
             printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
             memset(line, 0, console->width + 1);
             offsetLine = 0;
