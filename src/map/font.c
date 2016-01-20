@@ -22,7 +22,8 @@ Font *initFont(char *path) {
 }
 
 SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y) {
-    trimLine(string);
+    //trimLine(string);
+
     SDL_Texture *texture = getStringTexture(font->type, renderer, string, font->fgColor, font->bgColor);
 
     SDL_Rect textLocation;
@@ -44,15 +45,9 @@ SDL_Texture *getStringTexture(TTF_Font *font, SDL_Renderer *renderer, char *stri
 }
 
 void trimLine(char *line) {
-    int linePos = strlen(line);
-    char currentChar = *(line + linePos);
+    int linePos = strlen(line) - 1;
 
-    while(currentChar != '\0') {
-        linePos--;
-        currentChar = *(line + linePos);
-    }
-
-    if(currentChar == '\n') {
+    if(*(line + linePos) == '\n') {
         *(line + linePos) = '\0';
     }
 }

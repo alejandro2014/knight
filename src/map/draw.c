@@ -1,21 +1,5 @@
 #include "draw.h"
 
-/*
-> gterr width:5 height:5
-[INFO] Created terrain 5x5
-> sethterr height:5
-> sethp x:1 y:1 height:3
-> sethp x:2 y:1 height:3
-> sethp x:3 y:1 height:3
-> sethp x:1 y:2 height:3
-> sethp x:2 y:2 height:1
-[ERROR] One random error
-> sethp x:3 y:2 height:3
-> sethp x:1 y:3 height:3
-> sethp x:2 y:3 height:3
-> sethp x:3 y:3 height:3
-> prterr
-*/
 void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
@@ -40,16 +24,20 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
     char currentChar;
     int i;
 
-    alloc(line, char, LINE_LENGTH + 1);
+    int offsetLine = 0;
+
+    alloc(line, char, console->width + 1);
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(consoleBuffer + i);
-        *(line + (linePos++)) = currentChar;
+        *(line + offsetLine) = currentChar;
 
-        if(linePos == LINE_LENGTH || currentChar == '\n') {
+        if(offsetLine == console->width || currentChar == '\n') {
             printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
-            memset(line, 0, LINE_LENGTH + 1);
-            linePos = 0;
+            memset(line, 0, console->width + 1);
+            offsetLine = 0;
+        } else {
+            offsetLine++;
         }
     }
 
@@ -57,8 +45,9 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
-    int row = console->cursorPos / console->width;
-    int col = console->cursorPos % console->width;
+    int cursorPosition = calculateCursorPosition(console);
+    int row = cursorPosition / console->width;
+    int col = cursorPosition % console->width;
 
     int padding = 4;
     int pixelsFill = 5;
@@ -73,6 +62,33 @@ void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
+}
+
+int calculateCursorPosition(Console *console) {
+    int offsetScreen = 0;
+    int offsetLine = 0;
+    char *consoleBuffer = "First line\nSecond line is longer\nThe third is a little bit more";
+    int length = strlen(consoleBuffer);
+    //int length = strlen(console->buffer);
+    int i;
+    char currentChar;
+
+    for(i = 0; i < length; i++) {
+        currentChar = *(consoleBuffer + i);
+
+        if(offsetLine == console->width) {
+            offsetScreen++;
+            offsetLine = 0;
+        } else if(currentChar == '\n') {
+            offsetScreen += console->width - offsetLine;
+            offsetLine = 0;
+        } else {
+            offsetScreen++;
+            offsetLine++;
+        }
+    }
+
+    return offsetScreen;
 }
 
 /*#include "font.h"
