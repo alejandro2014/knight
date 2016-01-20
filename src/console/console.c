@@ -372,8 +372,8 @@ void consoleAddString(Console *console, char *string) {
     char *buffer = console->buffer;
     int length = strlen(string);
 
-    memcpy(buffer + console->cursorPos, string, length);
-    console->cursorPos += length;
+    memcpy(buffer + console->offset, string, length);
+    console->offset += length;
 
     consoleNewLine(console);
 }
