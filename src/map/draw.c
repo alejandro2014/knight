@@ -4,7 +4,14 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
-    drawConsole(renderer, font, console);
+    ConsoleVisualParams consoleParams;
+    consoleParams.x = 4;
+    consoleParams.y = 4;
+    consoleParams.interLineSpace = 20;
+    consoleParams.width = 80;
+    consoleParams.height = 10;
+
+    drawConsole(renderer, font, console, &consoleParams);
 
     if(showCursor) {
         drawCursor(console, renderer, &(font->fgColor));
@@ -13,14 +20,7 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
     SDL_RenderPresent(renderer);
 }
 
-void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
-    ConsoleVisualParams consoleParams;
-    consoleParams.x = 4;
-    consoleParams.y = 4;
-    consoleParams.interLineSpace = 20;
-    consoleParams.width = 80;
-    consoleParams.height = 10;
-
+void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams) {
     int numChars = strlen(console->buffer);
     int currentLine = 0;
     int linePos = 0;
@@ -30,24 +30,24 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
 
     int currentY;
 
-    alloc(line, char, consoleParams.width + 1);
+    alloc(line, char, consoleParams->width + 1);
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
 
-        if(offsetLine == consoleParams.width - 1 || currentChar == '\n') {
-            currentY = (currentLine++) * consoleParams.interLineSpace + consoleParams.y;
-            printString(font, renderer, line, consoleParams.x, currentY);
-            memset(line, 0, consoleParams.width + 1);
+        if(offsetLine == consoleParams->width - 1 || currentChar == '\n') {
+            currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
+            printString(font, renderer, line, consoleParams->x, currentY);
+            memset(line, 0, consoleParams->width + 1);
             offsetLine = 0;
         } else {
             offsetLine++;
         }
     }
 
-    currentY = (currentLine++) * consoleParams.interLineSpace + consoleParams.y;
-    printString(font, renderer, line, consoleParams.x, currentY);
+    currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
+    printString(font, renderer, line, consoleParams->x, currentY);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
