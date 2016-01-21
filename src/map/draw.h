@@ -8,23 +8,10 @@
 
 #include "../console/console.h"
 
+#include "draw_console.h"
 #include "font.h"
 
-typedef struct {
-    int x, y;
-    int width, height;
-    int interLineSpace;
-    int padding;
-    int pixelsFill;
-    int widthCursor;
-    int heightCursor;
-} ConsoleVisualParams;
-
 void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams, bool showCursor);
-void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams);
-void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams);
-
-int calculateCursorPosition(Console *console);
 
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

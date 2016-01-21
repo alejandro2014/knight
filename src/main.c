@@ -104,13 +104,15 @@ void freeResources(HeightMapEditor *hme) {
 ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     int consoleWidth = windowWidth;
     int yConsole = windowHeight / 2;
+    int heightConsole = windowHeight / 2;
+    int charWidth = 10;
 
     alloc(consoleParams, ConsoleVisualParams, 1);
     consoleParams->x = 0;
     consoleParams->y = yConsole;
     consoleParams->interLineSpace = 20;
-    consoleParams->width = 80;
-    consoleParams->height = 10;
+    consoleParams->width = windowWidth / charWidth;
+    consoleParams->height = heightConsole / consoleParams->interLineSpace;
 
     consoleParams->padding = 4;
     consoleParams->pixelsFill = 5;
