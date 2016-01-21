@@ -57,8 +57,8 @@ void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, Cons
     SDL_Rect r;
     r.w = consoleParams->widthCursor;
     r.h = consoleParams->heightCursor;
-    r.x = col * r.w + consoleParams->padding;
-    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->padding;
+    r.x = col * r.w + consoleParams->x;
+    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->y;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
@@ -91,8 +91,8 @@ int calculateCursorPosition(Console *console) {
 
 ConsoleVisualParams *loadConsoleParams() {
     alloc(consoleParams, ConsoleVisualParams, 1);
-    consoleParams->x = 4;
-    consoleParams->y = 4;
+    consoleParams->x = 20;
+    consoleParams->y = 100;
     consoleParams->interLineSpace = 20;
     consoleParams->width = 80;
     consoleParams->height = 10;
