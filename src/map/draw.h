@@ -10,6 +10,14 @@
 
 #include "font.h"
 
+typedef struct {
+    int x;
+    int y;
+    int width;
+    int height;
+    int interLineSpace;
+} ConsoleVisualParams;
+
 void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor);
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color);
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console);

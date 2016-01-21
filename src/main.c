@@ -15,17 +15,17 @@ int main(int argc, char* argv[]) {
 
     //bool finish = false;
     Console *console = hme->console;
-    //Command *listCommands = loadCommands(console);
+    Command *listCommands = loadCommands(console);
 
     printConsoleBanner(console);
 
-    /*while(!finish) {*/
+    //while(!finish) {
         printPrompt(console);
-        /*readShellLine(console, stdin);
-        finish = processCommand(console->currentLine, console);
-    }
+        //readShellLine(console, stdin);
+        //finish = processCommand(console->currentLine, console);
+    //}
 
-    freeConsole(console);*/
+    //freeConsole(console);
 
     programLoop(renderer);
 

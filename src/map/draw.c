@@ -14,38 +14,47 @@ void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showC
 }
 
 void drawConsole(SDL_Renderer *renderer, Font *font, Console *console) {
-    int numChars = strlen(console->buffer);
-    int interLineSpace = console->interLineSpace;
+    ConsoleVisualParams consoleParams;
+    consoleParams.x = 4;
+    consoleParams.y = 4;
+    consoleParams.interLineSpace = 20;
+    consoleParams.width = 80;
+    consoleParams.height = 10;
 
+    int numChars = strlen(console->buffer);
     int currentLine = 0;
     int linePos = 0;
     char currentChar;
     int i;
-
     int offsetLine = 0;
 
-    alloc(line, char, console->width + 1);
+    int currentY;
+
+    alloc(line, char, consoleParams.width + 1);
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
 
-        if(offsetLine == console->width - 1 || currentChar == '\n') {
-            printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
-            memset(line, 0, console->width + 1);
+        if(offsetLine == consoleParams.width - 1 || currentChar == '\n') {
+            currentY = (currentLine++) * consoleParams.interLineSpace + consoleParams.y;
+            printString(font, renderer, line, consoleParams.x, currentY);
+            memset(line, 0, consoleParams.width + 1);
             offsetLine = 0;
         } else {
             offsetLine++;
         }
     }
 
-    printString(font, renderer, line, 4, (currentLine++) * interLineSpace + 4);
+    currentY = (currentLine++) * consoleParams.interLineSpace + consoleParams.y;
+    printString(font, renderer, line, consoleParams.x, currentY);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
+    int consoleParamsWidth = 80;
     int cursorPosition = calculateCursorPosition(console);
-    int row = cursorPosition / console->width;
-    int col = cursorPosition % console->width;
+    int row = cursorPosition / consoleParamsWidth;
+    int col = cursorPosition % consoleParamsWidth;
 
     int padding = 4;
     int pixelsFill = 5;

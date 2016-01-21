@@ -38,7 +38,6 @@ typedef struct {
 } Command;
 
 typedef struct {
-    size_t interLineSpace;
     int numCommands;
     Command *commands;
     Command *currentCommand;

@@ -19,7 +19,6 @@ Console *createConsole(int sizeKb, int width, int height) {
     console->width = width;
     allocExist(console->window, char, console->width * console->height);
     allocExist(console->currentLine, char, console->width);
-    console->interLineSpace = 20;
 
     allocExist(console->commands, Command, NUM_COMMANDS);
     for(i = 0; i < NUM_COMMANDS; i++) {
@@ -99,7 +98,8 @@ void addParam(char *paramName, char *commandName, ParamType type, Console *conso
 }
 
 void readShellLine(Console *console, FILE *inputStream) {
-    size_t sizeLineRead = getline(&console->currentLine, &console->interLineSpace, inputStream);
+    size_t interLineSpace = 20;
+    size_t sizeLineRead = getline(&console->currentLine, &interLineSpace, inputStream);
     *(console->currentLine + sizeLineRead - 1) = '\0';
 }
 
