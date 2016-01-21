@@ -2,13 +2,9 @@
 
 ConsoleVisualParams *consoleParams = NULL;
 
-void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor) {
+void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
-
-    if(consoleParams == NULL) {
-        consoleParams = loadConsoleParams();
-    }
 
     drawConsole(renderer, font, console, consoleParams);
 
@@ -93,21 +89,6 @@ int calculateCursorPosition(Console *console) {
     return offsetScreen;
 }
 
-ConsoleVisualParams *loadConsoleParams() {
-    alloc(consoleParams, ConsoleVisualParams, 1);
-    consoleParams->x = 20;
-    consoleParams->y = 100;
-    consoleParams->interLineSpace = 20;
-    consoleParams->width = 80;
-    consoleParams->height = 10;
-
-    consoleParams->padding = 4;
-    consoleParams->pixelsFill = 5;
-    consoleParams->widthCursor = 10;
-    consoleParams->heightCursor = 15;
-
-    return consoleParams;
-}
 /*#include "font.h"
 #include "tools.h"
 

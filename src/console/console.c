@@ -9,7 +9,7 @@
 
 #include "../global.h"
 
-Console *createConsole(int sizeKb, int width, int height) {
+Console *createConsole(int sizeKb) {
     int i;
 
     alloc(console, Console, 1);

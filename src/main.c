@@ -42,7 +42,7 @@ void programLoop(SDL_Renderer *renderer) {
 
     while(!finish) {
         readEvents(hme->console, &finish);
-        drawScreen(renderer, font, hme->console, showCursor);
+        drawScreen(renderer, font, hme->console, hme->consoleParams, showCursor);
         SDL_Delay(500);
 
         showCursor = (showCursor ? false : true);
@@ -52,14 +52,17 @@ void programLoop(SDL_Renderer *renderer) {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
-    hme->console = createConsole(1, 80, 10);
+    hme->width = windowWidth;
+    hme->height = windowHeight;
+    hme->console = createConsole(1);
+    hme->consoleParams = loadConsoleParams(hme->width, hme->height);
 
     /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);
 
     heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);*/
 
-    window = createWindow("Knight", windowWidth, windowHeight);
+    window = createWindow("Knight", hme->width, hme->height);
     renderer = createRenderer(window);
     font = initFont(FONT_PATH_MAC);
 
@@ -98,24 +101,21 @@ void freeResources(HeightMapEditor *hme) {
 
 }
 
-/*processCommand("gterr width:5 height:5", console);
+ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
+    int consoleWidth = windowWidth;
+    int yConsole = windowHeight / 2;
 
-processCommand("sethterr height:5", console);
-processCommand("sethp x:1 y:1 height:3", console);
-processCommand("sethp x:2 y:1 height:3", console);
-processCommand("sethp x:3 y:1 height:3", console);
+    alloc(consoleParams, ConsoleVisualParams, 1);
+    consoleParams->x = 0;
+    consoleParams->y = yConsole;
+    consoleParams->interLineSpace = 20;
+    consoleParams->width = 80;
+    consoleParams->height = 10;
 
-processCommand("sethp x:1 y:2 height:3", console);
-processCommand("sethp x:2 y:2 height:1", console);
-//processCommand("sethp x:3 y:2 height:3", console);
+    consoleParams->padding = 4;
+    consoleParams->pixelsFill = 5;
+    consoleParams->widthCursor = 10;
+    consoleParams->heightCursor = 15;
 
-processCommand("sethp x:1 y:3 height:3", console);
-processCommand("sethp x:2 y:3 height:3", console);
-processCommand("sethp x:3 y:3 height:3", console);
-processCommand("prterr", console);
-
-processCommand("sethp x:2 y:2 height:4", console);
-processCommand("prterr", console);
-
-processCommand("flood x:2 y:2", console);
-processCommand("prterr", console);*/
+    return consoleParams;
+}

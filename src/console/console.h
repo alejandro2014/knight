@@ -51,7 +51,7 @@ typedef struct {
     int cursorPos;
 } Console;
 
-Console *createConsole(int sizeKb, int width, int height);
+Console *createConsole(int sizeKb);
 void freeConsole(Console *console);
 
 Command *loadCommands(Console *console);

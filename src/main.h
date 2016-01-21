@@ -17,13 +17,13 @@
 #include "map/draw.h"
 #include "map/events.h"
 #include "map/font.h"
-#include "map/window.h"
 
 typedef struct {
     Console *console;
+    ConsoleVisualParams *consoleParams;
     Terrain *terrain;
-    int horSize;
-    int verSize;
+    int height;
+    int width;
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
@@ -33,5 +33,7 @@ SDL_Renderer *createRenderer(SDL_Window *window);
 void freeResources(HeightMapEditor *hme);
 
 void programLoop(SDL_Renderer *renderer);
+
+ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight);
 
 #endif
