@@ -1,20 +1,19 @@
 #include "draw.h"
 
+ConsoleVisualParams *consoleParams = NULL;
+
 void drawScreen(SDL_Renderer *renderer, Font *font, Console *console, bool showCursor) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
-    ConsoleVisualParams consoleParams;
-    consoleParams.x = 4;
-    consoleParams.y = 4;
-    consoleParams.interLineSpace = 20;
-    consoleParams.width = 80;
-    consoleParams.height = 10;
+    if(consoleParams == NULL) {
+        consoleParams = loadConsoleParams();
+    }
 
-    drawConsole(renderer, font, console, &consoleParams);
+    drawConsole(renderer, font, console, consoleParams);
 
     if(showCursor) {
-        drawCursor(console, renderer, &(font->fgColor));
+        drawCursor(console, renderer, &(font->fgColor), consoleParams);
     }
 
     SDL_RenderPresent(renderer);
@@ -50,22 +49,16 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVi
     printString(font, renderer, line, consoleParams->x, currentY);
 }
 
-void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color) {
-    int consoleParamsWidth = 80;
+void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams) {
     int cursorPosition = calculateCursorPosition(console);
-    int row = cursorPosition / consoleParamsWidth;
-    int col = cursorPosition % consoleParamsWidth;
-
-    int padding = 4;
-    int pixelsFill = 5;
-    int widthCursor = 10;
-    int heightCursor = 15;
+    int row = cursorPosition / consoleParams->width;
+    int col = cursorPosition % consoleParams->width;
 
     SDL_Rect r;
-    r.w = widthCursor;
-    r.h = heightCursor;
-    r.x = col * r.w + padding;
-    r.y = row * (r.h + pixelsFill) + padding;
+    r.w = consoleParams->widthCursor;
+    r.h = consoleParams->heightCursor;
+    r.x = col * r.w + consoleParams->padding;
+    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->padding;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
@@ -96,6 +89,21 @@ int calculateCursorPosition(Console *console) {
     return offsetScreen;
 }
 
+ConsoleVisualParams *loadConsoleParams() {
+    alloc(consoleParams, ConsoleVisualParams, 1);
+    consoleParams->x = 4;
+    consoleParams->y = 4;
+    consoleParams->interLineSpace = 20;
+    consoleParams->width = 80;
+    consoleParams->height = 10;
+
+    consoleParams->padding = 4;
+    consoleParams->pixelsFill = 5;
+    consoleParams->widthCursor = 10;
+    consoleParams->heightCursor = 15;
+
+    return consoleParams;
+}
 /*#include "font.h"
 #include "tools.h"
 
