@@ -47,6 +47,10 @@ void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVi
 
     currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
     printString(font, renderer, line, consoleParams->x, currentY);
+
+    SDL_SetRenderDrawColor(renderer, 150, 0, 0, 255);
+    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, consoleParams->x, 600);
+    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, 800, consoleParams->y);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams) {
@@ -74,11 +78,11 @@ int calculateCursorPosition(Console *console) {
     for(i = 0; i < length; i++) {
         currentChar = *(console->buffer + i);
 
-        if(offsetLine == console->width) {
+        if(offsetLine == 80) {
             offsetScreen++;
             offsetLine = 0;
         } else if(currentChar == '\n') {
-            offsetScreen += console->width - offsetLine;
+            offsetScreen += 80 - offsetLine;
             offsetLine = 0;
         } else {
             offsetScreen++;

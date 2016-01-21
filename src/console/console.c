@@ -14,13 +14,9 @@ Console *createConsole(int sizeKb, int width, int height) {
 
     alloc(console, Console, 1);
     allocExist(console->buffer, char, sizeKb * 1024);
-
-    console->height = height;
-    console->width = width;
-    allocExist(console->window, char, console->width * console->height);
-    allocExist(console->currentLine, char, console->width);
-
+    allocExist(console->currentLine, char, 80);
     allocExist(console->commands, Command, NUM_COMMANDS);
+
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
