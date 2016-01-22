@@ -2,13 +2,18 @@
 
 ConsoleVisualParams *consoleParams = NULL;
 
-void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams, bool showCursor) {
+void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
     SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
     SDL_RenderClear(renderer);
 
     //drawTerrain(NULL);
     drawConsole(renderer, console, consoleParams);
-    if(showCursor) drawCursor(console, renderer, &(consoleParams->font->fgColor), consoleParams);
+    if(consoleParams->showCursor) {
+        drawCursor(console, renderer, &(consoleParams->font->fgColor), consoleParams);
+    }
+
+    consoleParams->showCursor = (consoleParams->showCursor ? false : true);
+
     SDL_RenderPresent(renderer);
 }
 

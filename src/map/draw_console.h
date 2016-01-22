@@ -4,6 +4,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "../global.h"
+
 #include "../console/console.h"
 
 #include "font.h"
@@ -17,6 +19,7 @@ typedef struct {
     int widthCursor;
     int heightCursor;
     Font *font;
+    bool showCursor;
 } ConsoleVisualParams;
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams);

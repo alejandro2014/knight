@@ -11,7 +11,7 @@
 #include "draw_console.h"
 #include "font.h"
 
-void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams, bool showCursor);
+void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
 
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

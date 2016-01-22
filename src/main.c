@@ -30,15 +30,12 @@ int main(int argc, char* argv[]) {
 
 void programLoop(SDL_Renderer *renderer) {
     bool finish = false;
-    bool showCursor = true;
     char *consoleBuffer = hme->console->buffer;
 
     while(!finish) {
         readEvents(hme->console, &finish);
-        drawScreen(renderer, hme->console, hme->consoleParams, showCursor);
+        drawScreen(renderer, hme->console, hme->consoleParams);
         SDL_Delay(500);
-
-        showCursor = (showCursor ? false : true);
     }
 }
 
@@ -110,8 +107,10 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
 
     consoleParams->padding = 4;
     consoleParams->pixelsFill = 5;
+
     consoleParams->widthCursor = 10;
     consoleParams->heightCursor = 15;
+    consoleParams->showCursor = true;
 
     consoleParams->font = initFont(FONT_PATH_MAC);
 
