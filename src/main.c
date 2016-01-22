@@ -3,10 +3,6 @@
 HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
-Font *font;
-
-char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
-char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
@@ -25,12 +21,9 @@ int main(int argc, char* argv[]) {
         //finish = processCommand(console->currentLine, console);
     //}
 
-    //freeConsole(console);
-
     programLoop(renderer);
 
     freeResources(hme);
-
     SDL_Quit();
     return 0;
 }
@@ -42,7 +35,7 @@ void programLoop(SDL_Renderer *renderer) {
 
     while(!finish) {
         readEvents(hme->console, &finish);
-        drawScreen(renderer, font, hme->console, hme->consoleParams, showCursor);
+        drawScreen(renderer, hme->console, hme->consoleParams, showCursor);
         SDL_Delay(500);
 
         showCursor = (showCursor ? false : true);
@@ -58,13 +51,12 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     hme->consoleParams = loadConsoleParams(hme->width, hme->height);
 
     /*heightMapEditor->dialogs = loadDialogs();
-    //printDialogs(heightMapEditor->dialogs);
+    //printDialogs(heightMapEditor->dialogs);*/
 
-    heightMapEditor->terrain = api_generateTerrain(heightMapEditor->horSize, heightMapEditor->verSize);*/
+    hme->terrain = api_generateTerrain(300, 150);
 
     window = createWindow("Knight", hme->width, hme->height);
     renderer = createRenderer(window);
-    font = initFont(FONT_PATH_MAC);
 
     return hme;
 }
@@ -95,13 +87,15 @@ void freeResources(HeightMapEditor *hme) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    TTF_CloseFont(font->type);
-    /*freeDialogs(heightMapEditor->dialogs);
-    api_freeTerrain(heightMapEditor->terrain);*/
-
+    TTF_CloseFont(hme->consoleParams->font->type);
+    api_freeTerrain(hme->terrain);
+    //freeDialogs(heightMapEditor->dialogs);
 }
 
 ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
+    char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
+    char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
+
     int consoleWidth = windowWidth;
     int yConsole = windowHeight / 2;
     int heightConsole = windowHeight / 2;
@@ -118,6 +112,8 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     consoleParams->pixelsFill = 5;
     consoleParams->widthCursor = 10;
     consoleParams->heightCursor = 15;
+
+    consoleParams->font = initFont(FONT_PATH_MAC);
 
     return consoleParams;
 }

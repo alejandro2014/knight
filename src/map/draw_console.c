@@ -1,6 +1,7 @@
 #include "draw_console.h"
 
-void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams) {
+void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
+    Font *font = consoleParams->font;
     int numChars = strlen(console->buffer);
     int currentLine = 0;
     int linePos = 0;

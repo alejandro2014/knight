@@ -16,10 +16,11 @@ typedef struct {
     int pixelsFill;
     int widthCursor;
     int heightCursor;
+    Font *font;
 } ConsoleVisualParams;
 
 void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams);
-void drawConsole(SDL_Renderer *renderer, Font *font, Console *console, ConsoleVisualParams *consoleParams);
+void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
 
 int calculateCursorPosition(Console *console);
 
