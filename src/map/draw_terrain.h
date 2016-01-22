@@ -1,6 +1,10 @@
 #ifndef DRAW_TERRAIN_H
 #define DRAW_TERRAIN_H
 
-void drawTerrain(Terrain *terrain);
+#include <SDL2/SDL.h>
+
+#include "../api/api.h"
+
+void drawTerrain(SDL_Renderer *renderer, Terrain *terrain);
 
 #endif

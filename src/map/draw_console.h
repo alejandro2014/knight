@@ -22,7 +22,7 @@ typedef struct {
     bool showCursor;
 } ConsoleVisualParams;
 
-void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams);
+void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
 
 int calculateCursorPosition(Console *console);

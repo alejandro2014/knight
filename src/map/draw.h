@@ -6,12 +6,14 @@
 
 #include "../global.h"
 
+#include "../api/api.h"
 #include "../console/console.h"
 
 #include "draw_console.h"
+#include "draw_terrain.h"
 #include "font.h"
 
-void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
+void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, ConsoleVisualParams *consoleParams);
 
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

@@ -31,11 +31,11 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     printString(font, renderer, line, consoleParams->x, currentY);
 
     SDL_SetRenderDrawColor(renderer, 150, 0, 0, 255);
-    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, consoleParams->x, 600);
     SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, 800, consoleParams->y);
 }
 
-void drawCursor(Console *console, SDL_Renderer *renderer, SDL_Color *color, ConsoleVisualParams *consoleParams) {
+void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+    SDL_Color *color = &(consoleParams->font->fgColor);
     int cursorPosition = calculateCursorPosition(console);
     int row = cursorPosition / consoleParams->width;
     int col = cursorPosition % consoleParams->width;
