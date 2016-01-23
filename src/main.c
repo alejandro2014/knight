@@ -98,21 +98,24 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     int heightConsole = windowHeight / 2;
     int charWidth = 10;
 
-    alloc(consoleParams, ConsoleVisualParams, 1);
-    consoleParams->x = 0;
-    consoleParams->y = yConsole;
-    consoleParams->interLineSpace = 20;
-    consoleParams->width = windowWidth / charWidth;
-    consoleParams->height = heightConsole / consoleParams->interLineSpace;
+    alloc(params, ConsoleVisualParams, 1);
+    params->x = 0;
+    params->y = yConsole;
+    params->interLineSpace = 20;
 
-    consoleParams->padding = 4;
-    consoleParams->pixelsFill = 5;
+    params->widthPixels = windowWidth;
+    params->heightPixels = heightConsole;
+    params->widthChars = windowWidth / charWidth;
+    params->heightChars = heightConsole / params->interLineSpace;
 
-    consoleParams->widthCursor = 10;
-    consoleParams->heightCursor = 15;
-    consoleParams->showCursor = true;
+    params->padding = 4;
+    params->pixelsFill = 5;
 
-    consoleParams->font = initFont(FONT_PATH_MAC);
+    params->widthCursor = 10;
+    params->heightCursor = 15;
+    params->showCursor = true;
 
-    return consoleParams;
+    params->font = initFont(FONT_PATH_MAC);
+
+    return params;
 }

@@ -14,24 +14,26 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
 
     //SDL_RenderPresent(renderer);
 
-    /*if(update) {
+    if(update) {
         allocExist(pixels, Uint32, 800 * 300);
         update = false;
-    }*/
+    } else {
+        memset(pixels, 100, 800 * 300 * sizeof(Uint32));
+    }
 
-    //SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
 
-    //SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
+    /*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_Rect r;
     r.w = 800;
     r.h = 300;
     r.x = 0;
-    r.y = 0;
+    r.y = 0;*/
 
-    SDL_RenderFillRect(renderer, &r);
+    //SDL_RenderFillRect(renderer, &r);
 
-    //SDL_RenderCopy(renderer, texture, NULL, NULL);
-    //SDL_RenderPresent(renderer);
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
 }

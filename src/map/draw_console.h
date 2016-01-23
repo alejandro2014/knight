@@ -12,7 +12,8 @@
 
 typedef struct {
     int x, y;
-    int width, height;
+    int widthChars, heightChars;
+    int widthPixels, heightPixels;
     int interLineSpace;
     int padding;
     int pixelsFill;

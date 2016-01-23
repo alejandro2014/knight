@@ -3,10 +3,10 @@
 ConsoleVisualParams *consoleParams = NULL;
 
 void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, ConsoleVisualParams *consoleParams) {
-    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    drawTerrain(renderer, terrain);
+    //drawTerrain(renderer, terrain);
 
     drawConsole(renderer, console, consoleParams);
     if(consoleParams->showCursor) {

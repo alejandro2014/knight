@@ -11,16 +11,26 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
 
     int currentY;
 
-    alloc(line, char, consoleParams->width + 1);
+    SDL_Color *bgColor = &(font->bgColor);
+    SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
+
+    SDL_Rect r;
+    r.w = consoleParams->widthPixels;
+    r.h = consoleParams->heightPixels;
+    r.x = consoleParams->x;
+    r.y = consoleParams->y;
+    SDL_RenderFillRect(renderer, &r);
+
+    alloc(line, char, consoleParams->widthChars + 1);
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
 
-        if(offsetLine == consoleParams->width - 1 || currentChar == '\n') {
+        if(offsetLine == consoleParams->widthChars - 1 || currentChar == '\n') {
             currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
             printString(font, renderer, line, consoleParams->x, currentY);
-            memset(line, 0, consoleParams->width + 1);
+            memset(line, 0, consoleParams->widthChars + 1);
             offsetLine = 0;
         } else {
             offsetLine++;
@@ -37,8 +47,8 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
     SDL_Color *color = &(consoleParams->font->fgColor);
     int cursorPosition = calculateCursorPosition(console);
-    int row = cursorPosition / consoleParams->width;
-    int col = cursorPosition % consoleParams->width;
+    int row = cursorPosition / consoleParams->widthChars;
+    int col = cursorPosition % consoleParams->widthChars;
 
     SDL_Rect r;
     r.w = consoleParams->widthCursor;
