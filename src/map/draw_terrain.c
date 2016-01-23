@@ -2,11 +2,12 @@
 
 Uint32 *pixels;
 bool update = true;
+int pitch;
 
 void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
-    /*int i, j;
+    int i, j;
 
-    for(i = 0; i < 200; i++) {
+    /*for(i = 0; i < 200; i++) {
         for(j = 0; j < 100; j++) {
             SDL_RenderDrawPoint(renderer, i, j);
         }
@@ -14,27 +15,24 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
 
     //SDL_RenderPresent(renderer);
 
-    if(update) {
-        allocExist(pixels, Uint32, 800 * 300);
-        update = false;
-    } else {
-        memset(pixels, 100, 800 * 300 * sizeof(Uint32));
-
-        setPixel(100, 100, 255);
-    }
-
-
     SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
 
-    SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
-    /*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_Rect r;
-    r.w = 800;
-    r.h = 300;
-    r.x = 0;
-    r.y = 0;*/
+    //if(update) {
+        allocExist(pixels, Uint32, 800 * 300);
+        update = false;
+    //} else {
+        memset(pixels, 100, 800 * 300 * sizeof(Uint32));
 
-    //SDL_RenderFillRect(renderer, &r);
+        SDL_LockTexture(texture, NULL, (void *)&pixels, &pitch);
+
+        for(i = 0; i < 10; i++) {
+            setPixel(i, i, 255);
+        }
+
+        SDL_UnlockTexture(texture);
+    //}
+
+    SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
 
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -53,7 +51,8 @@ void setPixel(int x, int y, int intensity) {
     intens = intensity;
     color += intens << 8;
 
-    *(pixels + y * 800 + x) = color;
+    Uint8 *pixel = (Uint8*)pixels + (y * pitch) + (x * sizeof(Uint32));
+    *((Uint32*)pixel) = color;
 }
 
 int getPixel(int x, int y) {
