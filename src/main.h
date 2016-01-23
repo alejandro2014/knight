@@ -10,6 +10,7 @@
 
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
+#include "api/generate_terrain.h"
 
 #include "console/console.h"
 #include "console/print.h"

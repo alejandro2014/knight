@@ -50,7 +50,8 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     /*heightMapEditor->dialogs = loadDialogs();
     //printDialogs(heightMapEditor->dialogs);*/
 
-    hme->terrain = api_generateTerrain(300, 150);
+    //hme->terrain = api_generateTerrain(300, 150);
+    hme->terrain = api_generateRandomTerrain(300, 150);
 
     window = createWindow("Knight", hme->width, hme->height);
     renderer = createRenderer(window);
