@@ -6,7 +6,7 @@ void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, Cons
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    //drawTerrain(renderer, terrain);
+    drawTerrain(renderer, terrain);
 
     drawConsole(renderer, console, consoleParams);
     if(consoleParams->showCursor) {

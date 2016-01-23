@@ -19,6 +19,8 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
         update = false;
     } else {
         memset(pixels, 100, 800 * 300 * sizeof(Uint32));
+
+        *(pixels + 3000) = 0xffffffff;
     }
 
 
