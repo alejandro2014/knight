@@ -6,30 +6,15 @@ int pitch;
 
 void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
     int x, y;
+    int color;
 
-    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
-
-    //if(update) {
-        allocExist(pixels, Uint32, 800 * 300);
-        update = false;
-    //} else {
-        memset(pixels, 100, 800 * 300 * sizeof(Uint32));
-
-        SDL_LockTexture(texture, NULL, (void *)&pixels, &pitch);
-
-        for(y = 0; y < 150; y++) {
-            for(x = 0; x < 300; x++) {
-                setPixel(x + 10 , y + 10, getHeight(terrain, x, y));
-            }
+    for(y = 0; y < 150; y++) {
+        for(x = 0; x < 300; x++) {
+            color = getHeight(terrain, x, y);
+            SDL_SetRenderDrawColor(renderer, color, color, color, 255);
+            SDL_RenderDrawPoint(renderer, x + 10, y + 10);
         }
-
-        SDL_UnlockTexture(texture);
-    //}
-
-    SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
-
-    SDL_RenderClear(renderer);
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    }
 }
 
 void setPixel(int x, int y, int intensity) {
