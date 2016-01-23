@@ -7,90 +7,6 @@
 #include "objects.h"
 #include "generate_terrain.h"
 
-#define BLACK 0x00000000
-#define RED   0x0000ff00
-
-extern SDL_Renderer *renderer;
-
-void terrain_on_screen (SDL_Surface * this_screen) {
-  Uint32 *screenPixels = (Uint32 *) this_screen->pixels;
-  int xmax = 0, ymax = 0;
-  int y = 0, x = 0;
-  Point *point;
-  //WIDTH = 700;
-  //HEIGHT = 480;
-
-  if (xoffset < 0) xoffset = 0;
-  if (yoffset < 0) yoffset = 0;
-
-  xmax = (WIDTH * terrain_ratio < window_width) ? WIDTH : (window_width / terrain_ratio);
-  ymax = (HEIGHT * terrain_ratio < window_height) ? HEIGHT : (window_height / terrain_ratio);
-
-  //check to see, in case of a window resize, if we exceeded the map size
-  //and, in case we did, change the x/yoffset
-  if ((xmax + xoffset) > WIDTH) xoffset = WIDTH - xmax;
-  if ((ymax + yoffset) > HEIGHT) yoffset = HEIGHT - ymax;
-
-  //no rescale needed
-  if (terrain_ratio == 1) {
-    for (y = 0; y < HEIGHT; y++) {
-      for (x = 0; x < WIDTH; x++) {
-          putPixel(x, y, getHeight(terrain, x, y));
-      }
-    }
-  }
-  else {
-
-  }
-}
-
-//void cls (SDL_Surface * this_screen) {
-void cls() {
-  int some_module, my_pitch;
-  int map_size;
-  int i,j;
-  if (x_screen_offset == 0 && y_screen_offset == 0 && terrain_ratio == 1 && terrain_height)
-    return;
-    /*no need to clear the screen, the terrain is all over it anyway */
-
-  my_pitch = this_screen->pitch;
-
-	if(terrain_ratio>1 && x_screen_offset == 0 && y_screen_offset == 0)
-	//we need to clear only the right 'frame' and the lower 'frame'
-		{
-			int *screen_buffer = (int *) this_screen->pixels;
-			//clear the right frame
-			screen_buffer+=(window_width-16)/4;
-			for(i=0;i<window_height;i++) {
-			  for(j=0;j<4;j++) {
-          *screen_buffer++ = 0xffffffff;
-        }
-
-				screen_buffer+=(window_width/4)-4;
-			}
-
-			//clear the bottom frame
-			screen_buffer = (int *) this_screen->pixels;
-			screen_buffer+=(window_width*window_height-16*window_width)/4;
-			for(i=0;i<window_width*16/4;i++)*screen_buffer++=0xffffffff;
-
-		 	return;
-		}
-
-  map_size = window_height * this_screen->pitch;
-  //my_pitch = this_screen->pitch;
-  memset(this_screen->pixels, 0xff0000ff, map_size);
-
-  /*for(i = 0; i < 50; i++) {
-    putPixel(this_screen, i, i, RED);
-  }*/
-  //SDL_FillRect(this_screen, NULL, BLACK);
-
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-  SDL_RenderClear(renderer);
-  SDL_RenderPresent(renderer);
-}
-
 void draw_grid (SDL_Surface * this_screen) { //draw the grid
     Uint8 *screen_buffer = (Uint8 *) this_screen->pixels;
     int my_pitch = this_screen->pitch;
@@ -186,12 +102,6 @@ void getScreenSelection(...) {
 	}
 }
 
-void debug_info() {
-    char str[80];
-    sprintf (str, "1021%%4= %lu", sizeof(str));
-    print_string (str, black, white, 1, window_height - 156);
-}
-
 void put_right_cursor() {
 	bool mouse_shape_arrow=0;
 	if(current_cursor==cursor_wait)return;
@@ -279,7 +189,6 @@ void drawScreen() {
     return some_int;
   }*/
 
-  cls();
   //terrain_on_screen(screen);
   //draw_selection(screen);
   //  debug_info();
