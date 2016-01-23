@@ -32,8 +32,6 @@ void draw_status_bar ();
 void draw_minimap (SDL_Surface * this_screen);
 void draw_tool_tip();
 
-int isPointInWindow(int x, int y);
-void setPixel(int x, int y, int colour);
-int getPixel(int x, int y);*/
+int isPointInWindow(int x, int y);*/
 
 #endif

@@ -293,16 +293,7 @@ int isPointInWindow(int x, int y) {
   return 0;
 }*/
 
-//void setPixel(int x, int y, int colour) {
-    /*currentScreen = NULL;
-    *((Uint32 *)currentScreen->pixels + y * currentScreen->w + x) = colour;*/
-//}
-
-/*int getPixel(int x, int y) {
-    return 0;
-}
-
-void function_object(int object_mode) {
+/*void function_object(int object_mode) {
     switch(object_mode) {
         case put_object:
             *(start_display_pointer+j)=cur_height/4;

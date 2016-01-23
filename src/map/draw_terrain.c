@@ -20,11 +20,11 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
     } else {
         memset(pixels, 100, 800 * 300 * sizeof(Uint32));
 
-        *(pixels + 3000) = 0xffffffff;
+        setPixel(100, 100, 255);
     }
 
 
-    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 800, 300);
 
     SDL_UpdateTexture(texture, NULL, pixels, 800 * sizeof(Uint32));
     /*SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -38,4 +38,24 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
 
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
+}
+
+void setPixel(int x, int y, int intensity) {
+    int intens;
+    int color = 0;
+
+    intens = intensity;
+    color += intens << 24;
+
+    intens = intensity;
+    color += intens << 16;
+
+    intens = intensity;
+    color += intens << 8;
+
+    *(pixels + y * 800 + x) = color;
+}
+
+int getPixel(int x, int y) {
+    return 0;
 }

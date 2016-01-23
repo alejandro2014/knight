@@ -7,4 +7,7 @@
 
 void drawTerrain(SDL_Renderer *renderer, Terrain *terrain);
 
+void setPixel(int x, int y, int intensity);
+int getPixel(int x, int y);
+
 #endif
