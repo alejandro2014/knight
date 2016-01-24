@@ -46,6 +46,7 @@ typedef struct {
     int size;
     char *buffer;
     int offset;
+    int lastLineOffset;
 
     char *currentLine;
     int cursorPos;
