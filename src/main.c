@@ -26,10 +26,9 @@ void programLoop(SDL_Renderer *renderer) {
 
         if(events->consoleNewLine) {
             readShellLine(hme->console, NULL);
-            printf("Read new line -> [%s]\n", hme->console->currentLine);
             memset(hme->console->currentLine, 0, 80);
+            processCommand(hme->console->currentLine, hme->console);
             events->consoleNewLine = false;
-            //finish = processCommand(console->currentLine, console);
         }
 
         if(events->updateScreen) {
