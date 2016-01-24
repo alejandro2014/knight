@@ -8,34 +8,28 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
     hme = loadHeightMapEditor(800, 600);
-
-    //bool finish = false;
-    Console *console = hme->console;
-    Command *listCommands = loadCommands(console);
-
-    printConsoleBanner(console);
-
-    //while(!finish) {
-        printPrompt(console);
-        //readShellLine(console, stdin);
-        //finish = processCommand(console->currentLine, console);
-    //}
-
     programLoop(renderer);
-
     freeResources(hme);
+
     SDL_Quit();
     return 0;
 }
 
 void programLoop(SDL_Renderer *renderer) {
     bool finish = false;
-    char *consoleBuffer = hme->console->buffer;
+    bool updateScreen = true;
 
     while(!finish) {
         readEvents(hme->console, &finish);
-        drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
+
+        //readShellLine(console, stdin);
+
+        if(updateScreen) {
+            drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
+        }
+
         SDL_Delay(500);
+        //finish = processCommand(console->currentLine, console);
     }
 }
 
@@ -48,7 +42,7 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     hme->consoleParams = loadConsoleParams(hme->width, hme->height);
 
     /*heightMapEditor->dialogs = loadDialogs();
-    //printDialogs(heightMapEditor->dialogs);*/
+    printDialogs(heightMapEditor->dialogs);*/
 
     //hme->terrain = api_generateTerrain(300, 150);
     hme->terrain = api_generateRandomTerrain(300, 150);

@@ -1,12 +1,24 @@
 #include "draw.h"
 
 ConsoleVisualParams *consoleParams = NULL;
+bool printBanner = true;
+bool printPrompt = true;
 
 void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, ConsoleVisualParams *consoleParams) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     drawTerrain(renderer, terrain);
+
+    if(printBanner) {
+        printConsoleBanner(console);
+        printBanner = false;
+    }
+
+    if(printPrompt) {
+        printConsolePrompt(console);
+        printPrompt = false;
+    }
 
     drawConsole(renderer, console, consoleParams);
     if(consoleParams->showCursor) {

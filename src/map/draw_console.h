@@ -7,6 +7,7 @@
 #include "../global.h"
 
 #include "../console/console.h"
+#include "../console/print.h"
 
 #include "font.h"
 

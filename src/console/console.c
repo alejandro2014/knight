@@ -21,6 +21,8 @@ Console *createConsole(int sizeKb) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
 
+    loadCommands(console);
+
     return console;
 }
 

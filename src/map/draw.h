@@ -8,6 +8,7 @@
 
 #include "../api/api.h"
 #include "../console/console.h"
+#include "../console/print.h"
 
 #include "draw_console.h"
 #include "draw_terrain.h"

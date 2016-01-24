@@ -4,7 +4,7 @@
 #include "console.h"
 #include "../api/api.h"
 
-void printPrompt(Console *console);
+void printConsolePrompt(Console *console);
 void printCommands(Console *console);
 void printCommand(Command *command);
 void printConsoleBanner(Console *console);

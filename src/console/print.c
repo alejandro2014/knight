@@ -2,7 +2,7 @@
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
 
-void printPrompt(Console *console) {
+void printConsolePrompt(Console *console) {
     consoleAddString(console, "> ");
 }
 
