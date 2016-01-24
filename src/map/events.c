@@ -1,25 +1,24 @@
 #include "events.h"
 
-/*#include "actions.h"
-#include "global_tools.h"
-#include "menus.h"
-#include "tools.h"*/
-
-void readEvents(Console *console, int *finish) {
+void readEvents(Console *console, Events *events) {
     SDL_Event event;
     Uint8 *keystate;
     char currentChar;
 
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            *finish = true;
+            events->finish = true;
         }
 
         if (event.type == SDL_KEYDOWN) {
             currentChar = (char)event.key.keysym.sym;
 
             switch(currentChar) {
-                case SDLK_RETURN: consoleNewLine(console); break;
+                case SDLK_RETURN:
+                    consoleNewLine(console);
+                    events->consoleNewLine = true;
+                    break;
+
                 case SDLK_BACKSPACE: consoleDeleteChar(console); break;
                 default: consoleAddChar(console, currentChar); break;
             }
@@ -27,7 +26,12 @@ void readEvents(Console *console, int *finish) {
     }
 }
 
-/*void resizeScreen(SDL_Event *event) {
+/*#include "actions.h"
+#include "global_tools.h"
+#include "menus.h"
+#include "tools.h"
+
+void resizeScreen(SDL_Event *event) {
     no_update_now=1;
     window_width = event->window.data1;
     window_height = event->window.data2;

@@ -16,15 +16,15 @@ int main(int argc, char* argv[]) {
 }
 
 void programLoop(SDL_Renderer *renderer) {
-    bool finish = false;
-    bool updateScreen = true;
+    alloc(events, Events, 1);
+    events->updateScreen = true;
 
-    while(!finish) {
-        readEvents(hme->console, &finish);
+    while(!events->finish) {
+        readEvents(hme->console, events);
 
         //readShellLine(console, stdin);
 
-        if(updateScreen) {
+        if(events->updateScreen) {
             drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
         }
 
