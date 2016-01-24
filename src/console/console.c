@@ -96,9 +96,11 @@ void addParam(char *paramName, char *commandName, ParamType type, Console *conso
 }
 
 void readShellLine(Console *console, FILE *inputStream) {
-    size_t interLineSpace = 20;
+    memset(console->currentLine, 0, 10);
+    strcpy(console->currentLine, "A string");
+    /*size_t interLineSpace = 20;
     size_t sizeLineRead = getline(&console->currentLine, &interLineSpace, inputStream);
-    *(console->currentLine + sizeLineRead - 1) = '\0';
+    *(console->currentLine + sizeLineRead - 1) = '\0';*/
 }
 
 bool processCommand(char *textCommand, Console *console) {

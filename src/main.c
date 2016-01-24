@@ -19,17 +19,23 @@ void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
     events->updateScreen = true;
 
+    char *line;
+
     while(!events->finish) {
         readEvents(hme->console, events);
 
-        //readShellLine(console, stdin);
+        if(events->consoleNewLine) {
+            readShellLine(hme->console, NULL);
+            printf("Read new line -> %s\n", hme->console->currentLine);
+            events->consoleNewLine = false;
+            //finish = processCommand(console->currentLine, console);
+        }
 
         if(events->updateScreen) {
             drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
         }
 
         SDL_Delay(500);
-        //finish = processCommand(console->currentLine, console);
     }
 }
 
