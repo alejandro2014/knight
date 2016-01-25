@@ -118,7 +118,6 @@ bool processCommand(char *textCommand, Console *console, Terrain *terrain) {
         }
     } else {
         finish = true;
-        printf("Bye\n");
     }
 
     return finish;
@@ -137,7 +136,10 @@ Command *parseCommand(char *strCommand, Console *console) {
     Command *command = lookupCommand(commandName, console);
 
     if(!command) {
-        printf("Unknown command: '%s'\n", commandName);
+        alloc(errorMessage, char, 100);
+        sprintf(errorMessage, "Unknown command: '%s'", commandName);
+        consoleAddStringLine(console, errorMessage);
+        free(errorMessage);
         return NULL;
     }
 
