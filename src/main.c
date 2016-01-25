@@ -4,6 +4,8 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+int memoryUsed = 0;
+
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -12,10 +14,10 @@ int main(int argc, char* argv[]) {
     freeResources(hme);
 
     SDL_Quit();
+    printf("Excess allocated memory: %d\n", memoryUsed);
     return 0;
 }
 
-//sethsel x1:10 y1:10 x2:100 y2:100 delta:255
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
@@ -45,9 +47,6 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
 
     /*heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);*/
-
-    //hme->terrain = api_generateTerrain(300, 150);
-    hme->terrain = api_generateRandomTerrain(300, 150);
 
     window = createWindow("Knight", hme->width, hme->height);
     renderer = createRenderer(window);

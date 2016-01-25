@@ -11,9 +11,11 @@ typedef int bool;
 #define MIN_HEIGHT 0
 
 #define alloc(Name, Type, NumElems) Type *Name = (Type *) malloc(sizeof(Type) * NumElems); \
-        memset(Name, 0, sizeof(Type) * NumElems)
+        memset(Name, 0, sizeof(Type) * NumElems); \
+        memoryUsed += (int)(sizeof(Type) * NumElems)
 
 #define allocExist(Name, Type, NumElems) Name = (Type *) malloc(sizeof(Type) * NumElems); \
-        memset(Name, 0, sizeof(Type) * NumElems)
+        memset(Name, 0, sizeof(Type) * NumElems); \
+        memoryUsed += (int)(sizeof(Type) * NumElems)
 
 #endif

@@ -5,6 +5,8 @@
 #include "hme_lowlevel.h"
 #include "../global.h"
 
+extern int memoryUsed;
+
 Terrain *api_generateTerrain(int width, int height) {
   Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
   int map_size = width * height;

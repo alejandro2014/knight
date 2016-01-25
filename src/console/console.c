@@ -9,6 +9,8 @@
 
 #include "../global.h"
 
+extern int memoryUsed;
+
 Console *createConsole(int sizeKb) {
     int i;
 

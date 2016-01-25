@@ -1,5 +1,7 @@
 #include "font.h"
 
+extern int memoryUsed;
+
 Font *initFont(char *path) {
     TTF_Init();
 

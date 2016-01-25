@@ -1,5 +1,7 @@
 #include "draw_console.h"
 
+extern int memoryUsed;
+
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
     Font *font = consoleParams->font;
     int numChars = strlen(console->buffer);
