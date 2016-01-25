@@ -15,25 +15,24 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+//sethsel x1:10 y1:10 x2:100 y2:100 delta:255
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
-    events->updateScreen = true;
-
-    char *line;
+    //events->updateScreen = true;
 
     while(!events->finish) {
         readEvents(hme->console, events);
 
         if(events->consoleNewLine) {
             readShellLine(hme->console, NULL);
+            printf("Current line [%s]\n", hme->console->currentLine);
+            processCommand(hme->console->currentLine, hme->console, hme->terrain);
             memset(hme->console->currentLine, 0, 80);
-            processCommand(hme->console->currentLine, hme->console);
+            printf("Executed console line\n");
             events->consoleNewLine = false;
         }
 
-        if(events->updateScreen) {
-            drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
-        }
+        drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
 
         SDL_Delay(500);
     }

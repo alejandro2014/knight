@@ -79,6 +79,7 @@ void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int e
 void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height) {
     int x, y;
 
+    printf("Calling api. Values [terrain:%p x1:%d x2:%d y1:%d y2:%d height:%d]\n", terrain, startX, startY, endX, endY, height);
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
             api_setHeight(terrain, x, y, height);

@@ -6,6 +6,8 @@
 typedef struct {
     bool consoleNewLine;
     bool updateScreen;
+    bool updateMap;
+    bool updateConsole;
     bool finish;
 } Events;
 

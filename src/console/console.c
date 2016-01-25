@@ -105,7 +105,7 @@ void readShellLine(Console *console, FILE *inputStream) {
     console->lastLineOffset = console->offset;
 }
 
-bool processCommand(char *textCommand, Console *console) {
+bool processCommand(char *textCommand, Console *console, Terrain *terrain) {
     Command *command = NULL;
     bool finish = false;
 
@@ -114,7 +114,7 @@ bool processCommand(char *textCommand, Console *console) {
 
         if(command) {
             console->currentCommand = command;
-            executeCommand(console);
+            executeCommand(console, terrain);
         }
     } else {
         finish = true;
@@ -179,7 +179,7 @@ void parseParam(char *paramString, char **key, char **value) {
     int colonPos = -1;
 
     for(i = 0; i < length; i++) {
-        if(*(paramString + i) == ':') {
+        if(*(paramString + i) == ';') {
             colonPos = i;
             break;
         }
@@ -227,7 +227,7 @@ Param *lookupParam(char *paramName, Command *command) {
 /**
 This method uses the macros P0, P1, P... to access the parameters array (params)
 */
-void executeCommand(Console *console) {
+void executeCommand(Console *console, Terrain *terrain) {
     int numStrings = 5;
     alloc(intParams, int, 5);
     alloc(strParams, char *, numStrings);
@@ -237,7 +237,7 @@ void executeCommand(Console *console) {
         allocExist(strParams[i], char, 100);
     }
 
-    Terrain *terrain = console->terrain;
+    //Terrain *terrain = console->terrain;
     Command *command = console->currentCommand;
 
     if(!areParamsValid(command, intParams, strParams)) return;
@@ -345,7 +345,7 @@ void loadScript(Console *console, char *path) {
         readShellLine(console, script);
         if(*(console->currentLine + 0) != '#' && strlen(console->currentLine) > 0) {
             printf("%s\n", console->currentLine);
-            processCommand(console->currentLine, console);
+            processCommand(console->currentLine, console, NULL); //TODO Null terrain
         }
     }
 
@@ -381,6 +381,7 @@ void consoleAddString(Console *console, char *string) {
 void consoleAddStringLine(Console *console, char *string) {
     consoleAddString(console, string);
     consoleNewLine(console);
+    console->lastLineOffset = console->offset;
 }
 
 void consoleResize(Console *console, int newRowsNum, int newColsNum) {
