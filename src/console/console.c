@@ -363,9 +363,12 @@ void consoleAddChar(Console *console, char currentChar) {
 
 void consoleDeleteChar(Console *console) {
     char *buffer = console->buffer;
+    char previousChar = *(buffer + console->offset);
 
-    console->offset--;
-    *(buffer + console->offset) = '\0';
+    if(previousChar != '\n' && console->offset > 0) {
+        console->offset--;
+        *(buffer + console->offset) = '\0';
+    }
 }
 
 void consoleNewLine(Console *console) {
