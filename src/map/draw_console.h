@@ -22,10 +22,13 @@ typedef struct {
     int heightCursor;
     Font *font;
     bool showCursor;
+    int cursorTimeOld;
 } ConsoleVisualParams;
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
+
+void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
 
 int calculateCursorPosition(Console *console);
 

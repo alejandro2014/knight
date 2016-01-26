@@ -4,8 +4,6 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-int memoryUsed = 0;
-
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -14,7 +12,7 @@ int main(int argc, char* argv[]) {
     freeResources(hme);
 
     SDL_Quit();
-    printf("Excess allocated memory: %d\n", memoryUsed);
+
     return 0;
 }
 
@@ -33,7 +31,7 @@ void programLoop(SDL_Renderer *renderer) {
 
         drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
 
-        SDL_Delay(500);
+        SDL_Delay(100);
     }
 }
 

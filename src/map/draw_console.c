@@ -1,7 +1,5 @@
 #include "draw_console.h"
 
-extern int memoryUsed;
-
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
     Font *font = consoleParams->font;
     int numChars = strlen(console->buffer);
@@ -16,12 +14,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     SDL_Color *bgColor = &(font->bgColor);
     SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
 
-    SDL_Rect r;
-    r.w = consoleParams->widthPixels;
-    r.h = consoleParams->heightPixels;
-    r.x = consoleParams->x;
-    r.y = consoleParams->y;
-    SDL_RenderFillRect(renderer, &r);
+    clearConsoleScreen(renderer, consoleParams);
 
     alloc(line, char, consoleParams->widthChars + 1);
 
@@ -59,6 +52,15 @@ void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *c
     r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->y;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
+    SDL_RenderFillRect(renderer, &r);
+}
+
+void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+    SDL_Rect r;
+    r.w = consoleParams->widthPixels;
+    r.h = consoleParams->heightPixels;
+    r.x = consoleParams->x;
+    r.y = consoleParams->y;
     SDL_RenderFillRect(renderer, &r);
 }
 

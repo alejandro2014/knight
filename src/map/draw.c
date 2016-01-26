@@ -27,7 +27,12 @@ void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, Cons
         drawCursor(console, renderer, consoleParams);
     }
 
-    consoleParams->showCursor = (consoleParams->showCursor ? false : true);
+    if(consoleParams->cursorTimeOld == 5) {
+        consoleParams->showCursor = (consoleParams->showCursor ? false : true);
+        consoleParams->cursorTimeOld = 0;
+    }
+
+    consoleParams->cursorTimeOld++;
 
     SDL_RenderPresent(renderer);
 }

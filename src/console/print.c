@@ -2,8 +2,6 @@
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
 
-extern int memoryUsed;
-
 void printConsolePrompt(Console *console) {
     //consoleAddString(console, "> ");
 }
