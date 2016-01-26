@@ -367,9 +367,8 @@ void consoleAddChar(Console *console, char currentChar) {
 
 void consoleDeleteChar(Console *console) {
     char *buffer = console->buffer;
-    char previousChar = *(buffer + console->offset);
-
-    if(previousChar != '\n' && console->offset > 0) {
+    if(!(*(buffer + console->offset - 2) == '>' &&
+        *(buffer + console->offset - 1) == ' ')) {
         console->offset--;
         *(buffer + console->offset) = '\0';
     }

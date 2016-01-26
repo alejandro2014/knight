@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#define VERSION_NUMBER "0.4"
+#define VERSION_NUMBER "0.3.5"
 
 typedef int bool;
 #define true 1
