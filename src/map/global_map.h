@@ -9,6 +9,7 @@ typedef struct {
     bool updateMap;
     bool updateConsole;
     bool finish;
+    bool printPrompt;
 } Events;
 
 #endif

@@ -17,6 +17,7 @@ void readEvents(Console *console, Events *events) {
                 case SDLK_RETURN:
                     consoleNewLine(console);
                     events->consoleNewLine = true;
+                    events->printPrompt = true;
                     break;
 
                 case SDLK_BACKSPACE: consoleDeleteChar(console); break;

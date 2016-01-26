@@ -3,7 +3,7 @@
 #include "../api/hme_lowlevel.h"
 
 void printConsolePrompt(Console *console) {
-    //consoleAddString(console, "> ");
+    consoleAddString(console, "> ");
 }
 
 void printCommands(Console *console) {

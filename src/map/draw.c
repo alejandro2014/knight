@@ -5,6 +5,8 @@ bool printBanner = true;
 bool printPrompt = true;
 
 void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, ConsoleVisualParams *consoleParams) {
+    bool printPrompt = consoleParams->printPrompt;
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
@@ -19,7 +21,7 @@ void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, Cons
 
     if(printPrompt) {
         printConsolePrompt(console);
-        printPrompt = false;
+        consoleParams->printPrompt = false;
     }
 
     drawConsole(renderer, console, consoleParams);

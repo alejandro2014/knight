@@ -23,6 +23,7 @@ typedef struct {
     Font *font;
     bool showCursor;
     int cursorTimeOld;
+    bool printPrompt;
 } ConsoleVisualParams;
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
