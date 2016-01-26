@@ -122,11 +122,14 @@ char *api_rotate(Terrain **terrain, Operation operation) {
         }
     }
 
-    //Terrain *oldTerrain = *terrain;
-    //*terrain = newTerrain;
-    //api_freeTerrain(oldTerrain);
+    switch(operation) {
+        case ROTATE_90: sprintf(infoMessage, "[INFO] Rotated 90 degrees (new width = %d, new height: %d)", width, height); break;
+        case ROTATE_180: sprintf(infoMessage, "[INFO] Rotated 180 degrees"); break;
+        case ROTATE_270: sprintf(infoMessage, "[INFO] Rotated 270 degrees (new width = %d, new height: %d)", width, height); break;
+        case FLIP_XAXIS: sprintf(infoMessage, "[INFO] Flip x axis"); break;
+        case FLIP_YAXIS: sprintf(infoMessage, "[INFO] Flip y axis"); break;
+    }
 
-    sprintf(infoMessage, "[INFO] Rotated terrain (new width = %d, new height: %d)", width, height);
     return infoMessage;
 }
 
