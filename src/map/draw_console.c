@@ -21,7 +21,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
-
+        
         if(offsetLine == consoleParams->widthChars - 1 || currentChar == '\n') {
             currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
             printString(font, renderer, line, consoleParams->x, currentY);

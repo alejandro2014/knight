@@ -39,7 +39,7 @@ typedef struct {
   int seedRandom;
 } Terrain;
 
-Terrain *api_generateTerrain(int width, int height);
+char *api_generateTerrain(Terrain **terrain, int width, int height);
 void api_freeTerrain(Terrain *terrain);
 
 void api_riseTerrain(Terrain *terrain, int delta);

@@ -230,6 +230,7 @@ Param *lookupParam(char *paramName, Command *command) {
 This method uses the macros P0, P1, P... to access the parameters array (params)
 */
 void executeCommand(Console *console, Terrain *terrain) {
+    char *infoMessage = NULL;
     int numStrings = 5;
     alloc(intParams, int, 5);
     alloc(strParams, char *, numStrings);
@@ -247,7 +248,7 @@ void executeCommand(Console *console, Terrain *terrain) {
     if(!strcmp("flipx", command->name))           console->terrain = api_rotate(FLIP_XAXIS, terrain);
     else if(!strcmp("flipy", command->name))      console->terrain = api_rotate(FLIP_YAXIS, terrain);
     else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1, P2);
-    else if(!strcmp("gterr", command->name))      console->terrain = api_generateTerrain(P0, P1);
+    else if(!strcmp("gterr", command->name))      infoMessage = api_generateTerrain(&(console->terrain), P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
@@ -269,6 +270,9 @@ void executeCommand(Console *console, Terrain *terrain) {
     else if(!strcmp("smoothterr", command->name)) api_smoothTerrain(terrain);
 
     deleteParamsValue(command);
+
+    consoleAddStringLine(console, infoMessage);
+    free(infoMessage);
 }
 
 bool areParamsValid(Command *command, int *intParams, char **strParams) {

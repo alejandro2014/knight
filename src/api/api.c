@@ -5,19 +5,22 @@
 #include "hme_lowlevel.h"
 #include "../global.h"
 
-Terrain *api_generateTerrain(int width, int height) {
-  Terrain *terrain = (Terrain *) malloc(sizeof(Terrain));
-  int map_size = width * height;
+char *api_generateTerrain(Terrain **terrain, int width, int height) {
+    alloc(infoMessage, char, 200);
 
-  terrain->width = width;
-  terrain->height = height;
-  terrain->pointsNo = map_size;
-  terrain->seedRandom = time(NULL);
+    *terrain = (Terrain *) malloc(sizeof(Terrain));
+    int map_size = width * height;
 
-  allocExist(terrain->points, Point, map_size);
+    (*terrain)->width = width;
+    (*terrain)->height = height;
+    (*terrain)->pointsNo = map_size;
+    (*terrain)->seedRandom = time(NULL);
 
-  printf("[INFO] Created terrain (%d x %d) = %d\n", terrain->width, terrain->height, terrain->pointsNo);
-  return terrain;
+    allocExist((*terrain)->points, Point, map_size);
+
+    sprintf(infoMessage, "[INFO] Created terrain (%d x %d) = %d", (*terrain)->width, (*terrain)->height, (*terrain)->pointsNo);
+
+    return infoMessage;
 }
 
 void api_freeTerrain(Terrain *terrain) {
@@ -105,7 +108,7 @@ void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int
 }
 
 Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
-    int x, y;
+    /*int x, y;
     int width, height;
     int newHeight;
 
@@ -122,7 +125,8 @@ Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
     api_freeTerrain(oldTerrain);
     oldTerrain = NULL;
 
-    return newTerrain;
+    return newTerrain;*/
+    return NULL;
 }
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
