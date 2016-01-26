@@ -39,6 +39,7 @@ void printConsoleBanner(Console *console) {
     sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - version %s", VERSION_NUMBER);
     consoleAddStringLine(console, banner);
     consoleAddStringLine(console, "Alejandro Ruperez 2015. Enter 'help' to see available commands");
+    printConsolePrompt(console);
 }
 
 void printTerrain(Terrain *terrain) {

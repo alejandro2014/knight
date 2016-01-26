@@ -24,7 +24,7 @@ void programLoop(SDL_Renderer *renderer) {
 
         if(events->consoleNewLine) {
             readShellLine(hme->console, NULL);
-            events->finish = processCommand(hme->console->currentLine, hme->console, hme->terrain);
+            events->finish = processCommand(hme->console->currentLine + 2, hme->console, hme->terrain);
             memset(hme->console->currentLine, 0, 80);
             events->consoleNewLine = false;
         }
