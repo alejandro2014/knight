@@ -42,18 +42,18 @@ typedef struct {
 char *api_generateTerrain(Terrain **terrain, int width, int height);
 void api_freeTerrain(Terrain *terrain);
 
-void api_riseTerrain(Terrain *terrain, int delta);
-void api_sinkTerrain(Terrain *terrain, int delta);
-void api_setHeightTerrain(Terrain *terrain, int height);
-void api_smoothTerrain(Terrain *terrain);
+char *api_riseTerrain(Terrain **terrain, int delta);
+char *api_sinkTerrain(Terrain **terrain, int delta);
+char *api_setHeightTerrain(Terrain **terrain, int height);
+char *api_smoothTerrain(Terrain **terrain);
 
-void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
-void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
-void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height);
-void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int endY);
+char *api_riseSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta);
+char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta);
+char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height);
+char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY);
 
 char *api_rotate(Terrain **terrain, Operation operation);
-void api_invertHeight(Terrain *terrain);
+char *api_invertHeight(Terrain **terrain);
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
 void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height);

@@ -30,56 +30,62 @@ void api_freeTerrain(Terrain *terrain) {
   free(terrain);
 }
 
-void api_invertHeight(Terrain *terrain) {
+char *api_invertHeight(Terrain **terrain) {
     int x, y;
     int newHeight;
 
-    for(x = 0; x < terrain->width; x++) {
-        for(y = 0; y < terrain->height; y++) {
-            newHeight = MAX_HEIGHT - getHeight(terrain, x, y);
+    for(x = 0; x < (*terrain)->width; x++) {
+        for(y = 0; y < (*terrain)->height; y++) {
+            newHeight = MAX_HEIGHT - getHeight((*terrain), x, y);
             api_setHeight(terrain, x, y, newHeight);
         }
     }
+
+    return NULL;
 }
 
-void api_riseTerrain(Terrain *terrain, int delta) {
-    api_riseSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
+char *api_riseTerrain(Terrain **terrain, int delta) {
+    return api_riseSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, delta);
 }
 
-void api_sinkTerrain(Terrain *terrain, int delta) {
-    api_sinkSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
+char *api_sinkTerrain(Terrain **terrain, int delta) {
+    return api_sinkSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, delta);
 }
 
-void api_setHeightTerrain(Terrain *terrain, int height) {
-    api_setHeightSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, height);
+char *api_setHeightTerrain(Terrain **terrain, int height) {
+    return api_setHeightSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, height);
 }
 
 //TODO Not tested
-void api_smoothTerrain(Terrain *terrain) {
-    api_smoothSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
+char *api_smoothTerrain(Terrain **terrain) {
+    return api_smoothSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1);
 }
 
-void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
+char *api_riseSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta) {
     int x, y;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            incHeight(terrain, x, y, delta);
+            incHeight(*terrain, x, y, delta);
         }
     }
+
+    return NULL;
 }
 
-void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
+char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta) {
     int x, y;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            decHeight(terrain, x, y, delta);
+            decHeight(*terrain, x, y, delta);
         }
     }
+
+    return NULL;
 }
 
-void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height) {
+char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height) {
     int x, y;
 
     for (y = startY; y <= endY; y++) {
@@ -87,23 +93,27 @@ void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, 
             api_setHeight(terrain, x, y, height);
         }
     }
+
+    return NULL;
 }
 
 //TODO Not tested
-void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int endY) {
+char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY) {
     int x, y;
     int sum;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            sum += getHeight(terrain, x-1, y-1) + getHeight(terrain, x, y-1) + getHeight(terrain, x+1, y-1);
-            sum += getHeight(terrain, x-1,   y) + getHeight(terrain, x,   y) + getHeight(terrain, x+1,   y);
-            sum += getHeight(terrain, x-1, y+1) + getHeight(terrain, x, y+1) + getHeight(terrain, x+1, y+1);
+            sum += getHeight(*terrain, x-1, y-1) + getHeight(*terrain, x, y-1) + getHeight(*terrain, x+1, y-1);
+            sum += getHeight(*terrain, x-1,   y) + getHeight(*terrain, x,   y) + getHeight(*terrain, x+1,   y);
+            sum += getHeight(*terrain, x-1, y+1) + getHeight(*terrain, x, y+1) + getHeight(*terrain, x+1, y+1);
             sum = (sum / 9) + (sum % 9 > 4 ? 1 : 0);
 
             api_setHeight(terrain, x, y, sum);
         }
     }
+
+    return NULL;
 }
 
 char *api_rotate(Terrain **terrain, Operation operation) {
@@ -118,7 +128,7 @@ char *api_rotate(Terrain **terrain, Operation operation) {
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
             newHeight = getHeightForOperation(operation, *terrain, x, y);
-            api_setHeight(*terrain, x, y, newHeight);
+            api_setHeight(terrain, x, y, newHeight);
         }
     }
 
@@ -162,7 +172,7 @@ void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width
 
 void replacePoint(Terrain *terrain, int x, int y, int delta, int mode) {
     switch(mode) {
-        case REPLACE_HEIGHT: api_setHeight(terrain, x, y, delta); break;
+        case REPLACE_HEIGHT: api_setHeight(&terrain, x, y, delta); break;
         case ADD_HEIGHT:  incHeight(terrain, x, y, delta); break;
         case SUBS_HEIGHT: decHeight(terrain, x, y, delta); break;
     }

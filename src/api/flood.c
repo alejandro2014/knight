@@ -10,20 +10,21 @@ lines at its left and right. For each point of these lines it will calculate the
 the vertical lines. The flood will stop when it finds a higher point. So basically, the way
 to create a lake is to excavate the terrain first, and then to set the height of the water
 */
-void api_floodArea(Terrain *terrain, int currentX, int currentY, int height) {
-    printf("[INFO] Not implemented yet\n");
-    return;
+char *api_floodArea(Terrain **terrain, int currentX, int currentY, int height) {
+    return "[INFO] (flood) Not implemented yet";
 
     int x = currentX;
     int y = currentY;
     bool pendingFound = true;
 
-    setFillStatusTerrain(terrain, NOT_FILLED);
+    setFillStatusTerrain(*terrain, NOT_FILLED);
 
-    floodLineHor(terrain, x, y, height, LEFT);
-    floodLineHor(terrain, x, y, height, RIGHT);
+    floodLineHor(*terrain, x, y, height, LEFT);
+    floodLineHor(*terrain, x, y, height, RIGHT);
 
-    setFillStatusTerrain(terrain, NOT_FILLED);
+    setFillStatusTerrain(*terrain, NOT_FILLED);
+
+    return NULL;
 }
 
 void floodLineHor(Terrain *terrain, int x, int y, int height, Direction direction) {
@@ -34,7 +35,7 @@ void floodLineHor(Terrain *terrain, int x, int y, int height, Direction directio
     x += delta;
 
     while(getHeight(terrain, x, y) <= height) {
-        api_setHeight(terrain, x, y, height);
+        api_setHeight(&terrain, x, y, height);
         setFillStatus(terrain, x, y, FILLED);
         floodLineVer(terrain, x, y, height, UP);
         floodLineVer(terrain, x, y, height, DOWN);
@@ -47,7 +48,7 @@ void floodLineVer(Terrain *terrain, int x, int y, int height, Direction directio
     y += delta;
 
     while(getHeight(terrain, x, y) <= height) {
-        api_setHeight(terrain, x, y, height);
+        api_setHeight(&terrain, x, y, height);
         setFillStatus(terrain, x, y, FILLED);
         y += delta;
 	}

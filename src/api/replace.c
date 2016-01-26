@@ -3,9 +3,8 @@
 #include "hme_lowlevel.h"
 
 //the fill tool
-void api_replace(Terrain *terrain, int mode, int currentX, int currentY, int delta) {
-    printf("[INFO] Not implemented yet\n");
-    return;
+char *api_replace(Terrain **terrain, int mode, int currentX, int currentY, int delta) {
+    return "[INFO] Not implemented yet";
 }
     /*int x,y;
     char *temp_buffer, *some_temp_buffer;

@@ -247,27 +247,27 @@ void executeCommand(Console *console, Terrain *terrain) {
 
     if(!strcmp("flipx", command->name))           infoMessage = api_rotate(&(console->terrain), FLIP_XAXIS);
     else if(!strcmp("flipy", command->name))      infoMessage = api_rotate(&(console->terrain), FLIP_YAXIS);
-    else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1, P2);
+    else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(&(console->terrain), P0, P1, P2);
     else if(!strcmp("gterr", command->name))      infoMessage = api_generateTerrain(&(console->terrain), P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
-    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
+    else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(&(console->terrain));
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
     else if(!strcmp("prterr", command->name))     printTerrain(terrain);
     else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
-    else if(!strcmp("replace", command->name))    api_replace(terrain, P0, P1, P2, P3);
-    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
+    else if(!strcmp("replace", command->name))    infoMessage = api_replace(&(console->terrain), P0, P1, P2, P3);
+    else if(!strcmp("risesel", command->name))    infoMessage = api_riseSelection(&(console->terrain), P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   infoMessage = api_riseTerrain(&(console->terrain), P0);
     else if(!strcmp("rotate90", command->name))   infoMessage = api_rotate(&(console->terrain), ROTATE_90);
     else if(!strcmp("rotate180", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_180);
     else if(!strcmp("rotate270", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_270);
-    else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
-    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);
-    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain, P0);
-    else if(!strcmp("smoothsel", command->name))  api_smoothSelection(terrain, P0, P1, P2, P3);
-    else if(!strcmp("smoothterr", command->name)) api_smoothTerrain(terrain);
+    else if(!strcmp("sethp", command->name))      infoMessage = api_setHeight(&(console->terrain), P0, P1, P2);
+    else if(!strcmp("sethsel", command->name))    infoMessage = api_setHeightSelection(&(console->terrain), P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   infoMessage = api_setHeightTerrain(&(console->terrain), P0);
+    else if(!strcmp("sinksel", command->name))    infoMessage = api_sinkSelection(&(console->terrain), P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   infoMessage = api_sinkTerrain(&(console->terrain), P0);
+    else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(&(console->terrain), P0, P1, P2, P3);
+    else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(&(console->terrain));
 
     deleteParamsValue(command);
 
