@@ -245,8 +245,8 @@ void executeCommand(Console *console, Terrain *terrain) {
 
     if(!areParamsValid(command, intParams, strParams)) return;
 
-    if(!strcmp("flipx", command->name))           console->terrain = api_rotate(FLIP_XAXIS, terrain);
-    else if(!strcmp("flipy", command->name))      console->terrain = api_rotate(FLIP_YAXIS, terrain);
+    if(!strcmp("flipx", command->name))           infoMessage = api_rotate(&(console->terrain), FLIP_XAXIS);
+    else if(!strcmp("flipy", command->name))      infoMessage = api_rotate(&(console->terrain), FLIP_YAXIS);
     else if(!strcmp("flood", command->name))      api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("gterr", command->name))      infoMessage = api_generateTerrain(&(console->terrain), P0, P1);
     else if(!strcmp("help", command->name))       printCommands(console);
@@ -258,9 +258,9 @@ void executeCommand(Console *console, Terrain *terrain) {
     else if(!strcmp("replace", command->name))    api_replace(terrain, P0, P1, P2, P3);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
-    else if(!strcmp("rotate90", command->name))   console->terrain = api_rotate(ROTATE_90, terrain);
-    else if(!strcmp("rotate180", command->name))  console->terrain = api_rotate(ROTATE_180, terrain);
-    else if(!strcmp("rotate270", command->name))  console->terrain = api_rotate(ROTATE_270, terrain);
+    else if(!strcmp("rotate90", command->name))   infoMessage = api_rotate(&(console->terrain), ROTATE_90);
+    else if(!strcmp("rotate180", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_180);
+    else if(!strcmp("rotate270", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_270);
     else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
     else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
     else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);

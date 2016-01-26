@@ -83,12 +83,13 @@ void setRandomHeightCorners(Terrain *terrain) {
 }
 
 Terrain *api_generateRandomTerrain(int width, int height) {
-    Terrain *terrain = api_generateTerrain(width, height);
+    /*Terrain *terrain = api_generateTerrain(width, height);
     srand(terrain->seedRandom);
 
     setRandomHeightCorners(terrain);
 
     drawMap(terrain, 0, 0, terrain->width - 1, terrain->height - 1);
 
-    return terrain;
+    return terrain;*/
+    return NULL;
 }

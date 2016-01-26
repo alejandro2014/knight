@@ -82,7 +82,6 @@ void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int e
 void api_setHeightSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int height) {
     int x, y;
 
-    printf("Calling api. Values [terrain:%p x1:%d x2:%d y1:%d y2:%d height:%d]\n", terrain, startX, startY, endX, endY, height);
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
             api_setHeight(terrain, x, y, height);
@@ -107,26 +106,28 @@ void api_smoothSelection(Terrain *terrain, int startX, int startY, int endX, int
     }
 }
 
-Terrain *api_rotate(Operation operation, Terrain *oldTerrain) {
-    /*int x, y;
+char *api_rotate(Terrain **terrain, Operation operation) {
+    alloc(infoMessage, char, 200);
+    int x, y;
     int width, height;
     int newHeight;
 
-    setDimensionsForOperation(operation, oldTerrain, &width, &height);
-    Terrain *newTerrain = api_generateTerrain(width, height);
+    setDimensionsForOperation(operation, *terrain, &width, &height);
+    api_generateTerrain(terrain, width, height);
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
-            newHeight = getHeightForOperation(operation, oldTerrain, x, y);
-            api_setHeight(newTerrain, x, y, newHeight);
+            newHeight = getHeightForOperation(operation, *terrain, x, y);
+            api_setHeight(*terrain, x, y, newHeight);
         }
     }
 
-    api_freeTerrain(oldTerrain);
-    oldTerrain = NULL;
+    //Terrain *oldTerrain = *terrain;
+    //*terrain = newTerrain;
+    //api_freeTerrain(oldTerrain);
 
-    return newTerrain;*/
-    return NULL;
+    sprintf(infoMessage, "[INFO] Rotated terrain (new width = %d, new height: %d)", width, height);
+    return infoMessage;
 }
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
