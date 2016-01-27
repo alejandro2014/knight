@@ -1,37 +1,36 @@
 #include "draw_console.h"
 
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
-    Font *font = consoleParams->font;
+    alloc(line, char, consoleParams->widthChars + 1);
     int numChars = strlen(console->buffer);
     int currentLine = 0;
-    int linePos = 0;
     char currentChar;
     int i;
     int offsetLine = 0;
-    int currentY;
 
     clearConsoleScreen(renderer, consoleParams);
-
-    alloc(line, char, consoleParams->widthChars + 1);
 
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
 
         if(offsetLine == consoleParams->widthChars - 1 || currentChar == '\n') {
-            currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
-            printString(font, renderer, line, consoleParams->x, currentY);
-            memset(line, 0, consoleParams->widthChars + 1);
+            printConsoleLine(line, renderer, consoleParams, &currentLine);
             offsetLine = 0;
         } else {
             offsetLine++;
         }
     }
 
-    currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
-    printString(font, renderer, line, consoleParams->x, currentY);
-
+    printConsoleLine(line, renderer, consoleParams, &currentLine);
     drawConsoleBorder(renderer, consoleParams);
+}
+
+void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine) {
+    int currentY = *currentLine * params->interLineSpace + params->y;
+    printString(params->font, renderer, line, params->x, currentY);
+    memset(line, 0, params->widthChars + 1);
+    (*currentLine)++;
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
