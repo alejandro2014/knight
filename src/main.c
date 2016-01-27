@@ -18,6 +18,8 @@ int main(int argc, char* argv[]) {
 
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
+    alloc(testLine, char, 15);
+    int i = 0;
 
     while(!events->finish) {
         readEvents(hme->console, events);
@@ -34,9 +36,15 @@ void programLoop(SDL_Renderer *renderer) {
             events->printPrompt = false;
         }
 
+        if(i % 5 == 0) {
+            sprintf(testLine, "Test line %d", i);
+            consoleAddStringLine(hme->console, testLine);
+        }
+
         drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
 
         SDL_Delay(100);
+        i++;
     }
 }
 

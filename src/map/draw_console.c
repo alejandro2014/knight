@@ -8,11 +8,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     char currentChar;
     int i;
     int offsetLine = 0;
-
     int currentY;
-
-    SDL_Color *bgColor = &(font->bgColor);
-    SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
 
     clearConsoleScreen(renderer, consoleParams);
 
@@ -21,7 +17,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     for(i = 0; i < numChars; i++) {
         currentChar = *(console->buffer + i);
         *(line + offsetLine) = currentChar;
-        
+
         if(offsetLine == consoleParams->widthChars - 1 || currentChar == '\n') {
             currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
             printString(font, renderer, line, consoleParams->x, currentY);
@@ -35,8 +31,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     currentY = (currentLine++) * consoleParams->interLineSpace + consoleParams->y;
     printString(font, renderer, line, consoleParams->x, currentY);
 
-    SDL_SetRenderDrawColor(renderer, 150, 0, 0, 255);
-    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, 800, consoleParams->y);
+    drawConsoleBorder(renderer, consoleParams);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
@@ -56,12 +51,22 @@ void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *c
 }
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+    SDL_Color *bgColor = &(consoleParams->font->bgColor);
+    SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
+
     SDL_Rect r;
     r.w = consoleParams->widthPixels;
     r.h = consoleParams->heightPixels;
     r.x = consoleParams->x;
     r.y = consoleParams->y;
     SDL_RenderFillRect(renderer, &r);
+}
+
+void drawConsoleBorder(SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+    SDL_Color *color = &(consoleParams->font->fgColor);
+
+    SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
+    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, 800, consoleParams->y);
 }
 
 int calculateCursorPosition(Console *console) {
