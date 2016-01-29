@@ -42,7 +42,6 @@ Command *loadCommands(Console *console) {
     addCommand("invheight", console);
     addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
     addCommandIntParams("merge", (char *[]){"x", "y", "op"}, 3, console);
-    addCommand("prterr", console);
     addCommandIntParams("randgterr", (char *[]){"width", "height"}, 2, console);
     addCommandIntParams("replace", (char *[]){"mode", "x", "y", "delta"}, 4, console);
     addCommandIntParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
@@ -253,7 +252,6 @@ void executeCommand(Console *console, Terrain *terrain) {
     else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(&(console->terrain));
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
-    else if(!strcmp("prterr", command->name))     printTerrain(terrain);
     else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
     else if(!strcmp("replace", command->name))    infoMessage = api_replace(&(console->terrain), P0, P1, P2, P3);
     else if(!strcmp("risesel", command->name))    infoMessage = api_riseSelection(&(console->terrain), P0, P1, P2, P3, P4);

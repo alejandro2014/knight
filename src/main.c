@@ -34,7 +34,7 @@ void programLoop(SDL_Renderer *renderer) {
             events->printPrompt = false;
         }
 
-        drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
+        drawScreen(renderer, hme->console, hme->consoleParams);
         SDL_Delay(100);
     }
 }

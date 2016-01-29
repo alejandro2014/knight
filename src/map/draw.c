@@ -4,10 +4,11 @@ ConsoleVisualParams *consoleParams = NULL;
 bool printBanner = true;
 bool printPrompt = true;
 
-void drawScreen(SDL_Renderer *renderer, Terrain *terrain, Console *console, ConsoleVisualParams *consoleParams) {
+void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams) {
+    Terrain *terrain = console->terrain;
     bool printPrompt = consoleParams->printPrompt;
 
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 80, 40, 40, 255);
     SDL_RenderClear(renderer);
 
     if(terrain) {

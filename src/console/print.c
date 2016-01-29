@@ -41,32 +41,3 @@ void printConsoleBanner(Console *console) {
     consoleAddStringLine(console, "Alejandro Ruperez 2015. Enter 'help' to see available commands");
     printConsolePrompt(console);
 }
-
-void printTerrain(Terrain *terrain) {
-    int i, j;
-    int columns = terrain->width;
-    int rows = terrain->height;
-    int value;
-
-    for(i = 0; i < rows; i++) {
-        printLine(columns);
-        for(j = 0; j < columns; j++) {
-            printf("| ");
-            value = getHeight(terrain, j, i);
-            if(value < 100) printf(" ");
-            if(value < 10) printf(" ");
-            printf("%d ", value);
-        }
-        printf("|\n");
-    }
-    printLine(columns);
-}
-
-void printLine(int width) {
-    int i;
-    for(i = 0; i < width; i++) {
-        printf("+-----");
-    }
-
-    printf("+\n");
-}
