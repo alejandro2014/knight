@@ -248,9 +248,9 @@ void executeCommand(Console *console) {
 
     if(!areParamsValid(command, intParams, strParams)) return;
 
-    /*if(!strcmp("flipx", command->name))           infoMessage = api_rotate(terrain, FLIP_XAXIS);
-    else if(!strcmp("flipy", command->name))      infoMessage = api_rotate(terrain, FLIP_YAXIS);
-    else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);*/
+    if(!strcmp("flipx", command->name))           terrain1 = api_rotate(terrain1, FLIP_XAXIS, infoMessage);
+    else if(!strcmp("flipy", command->name))      terrain1 = api_rotate(terrain1, FLIP_YAXIS, infoMessage);
+    //else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("gterr", command->name))      terrain1 = api_generateTerrain(P0, P1, infoMessage);
     /*else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(terrain);
