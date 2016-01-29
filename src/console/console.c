@@ -376,6 +376,12 @@ void consoleDeleteChar(Console *console) {
 
 void consoleNewLine(Console *console) {
     consoleAddChar(console, '\n');
+
+    console->currentLineNumber++;
+
+    if(console->currentLineNumber > 14) {
+        calculateWindowOffset(console);
+    }
 }
 
 void consoleAddString(Console *console, char *string) {
@@ -394,4 +400,15 @@ void consoleAddStringLine(Console *console, char *string) {
 
 void consoleResize(Console *console, int newRowsNum, int newColsNum) {
 
+}
+
+//TODO This function placed here seems to be a design error
+void calculateWindowOffset(Console *console) {
+    int position = console->windowOffset;
+
+    while(*(console->buffer + position) != '\n') {
+        position++;
+    }
+
+    console->windowOffset = position + 1;
 }

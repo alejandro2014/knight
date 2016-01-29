@@ -37,6 +37,4 @@ void programLoop(SDL_Renderer *renderer);
 
 ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight);
 
-void calculateWindowOffset(Console *console, ConsoleVisualParams *params);
-
 #endif

@@ -50,6 +50,9 @@ typedef struct {
 
     char *currentLine;
     int cursorPos;
+
+    int windowOffset;
+    int currentLineNumber;
 } Console;
 
 Console *createConsole(int sizeKb);
@@ -84,5 +87,7 @@ void consoleNewLine(Console *console);
 void consoleAddString(Console *console, char *string);
 void consoleAddStringLine(Console *console, char *string);
 void consoleResize(Console *console, int newRowsNum, int newColsNum);
+
+void calculateWindowOffset(Console *console);
 
 #endif

@@ -44,7 +44,6 @@ void programLoop(SDL_Renderer *renderer) {
             events->finish = processCommand(hme->console->currentLine + 2, hme->console, hme->terrain);
             memset(hme->console->currentLine, 0, 80);
             events->consoleNewLine = false;
-            calculateWindowOffset(hme->console, hme->consoleParams);
         }
 
         if(events->printPrompt) {
@@ -62,16 +61,6 @@ void programLoop(SDL_Renderer *renderer) {
         SDL_Delay(100);
         i++;
     }
-}
-
-void calculateWindowOffset(Console *console, ConsoleVisualParams *params) {
-    int position = params->windowOffset;
-
-    while(*(console->buffer + position) != '\n') {
-        position++;
-    }
-
-    params->windowOffset = position + 1;
 }
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
