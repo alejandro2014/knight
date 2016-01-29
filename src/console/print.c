@@ -34,7 +34,6 @@ void printCommand(Command *command) {
 }
 
 void printConsoleBanner(Console *console) {
-    return;
     alloc(banner, char, 100);
 
     sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - version %s", VERSION_NUMBER);

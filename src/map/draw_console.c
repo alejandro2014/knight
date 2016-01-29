@@ -29,15 +29,6 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     drawConsoleBorder(renderer, consoleParams);
 }
 
-/*void prototype() {
-    int offsetIni;
-    int linesWritten;
-
-    if(linesWritten == 15) {
-        moveOffsetIni();
-    }
-}*/
-
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine) {
     int currentY = *currentLine * params->interLineSpace + params->y;
     printString(params->font, renderer, line, params->x, currentY);
