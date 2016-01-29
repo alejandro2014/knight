@@ -6,25 +6,37 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     int currentLine = 0;
     char currentChar;
     int i;
-    int offsetLine = 0;
+    int cursorPos = 0;
+    bool finishedLine;
+    int windowOffset = consoleParams->windowOffset;
 
     clearConsoleScreen(renderer, consoleParams);
 
-    for(i = 0; i < numChars; i++) {
+    for(i = windowOffset; i < numChars; i++) {
         currentChar = *(console->buffer + i);
-        *(line + offsetLine) = currentChar;
+        *(line + cursorPos) = currentChar;
+        finishedLine = (cursorPos == consoleParams->widthChars - 1 || currentChar == '\n') ? true : false;
 
-        if(offsetLine == consoleParams->widthChars - 1 || currentChar == '\n') {
+        if(finishedLine) {
             printConsoleLine(line, renderer, consoleParams, &currentLine);
-            offsetLine = 0;
+            cursorPos = 0;
         } else {
-            offsetLine++;
+            cursorPos++;
         }
     }
 
     printConsoleLine(line, renderer, consoleParams, &currentLine);
     drawConsoleBorder(renderer, consoleParams);
 }
+
+/*void prototype() {
+    int offsetIni;
+    int linesWritten;
+
+    if(linesWritten == 15) {
+        moveOffsetIni();
+    }
+}*/
 
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine) {
     int currentY = *currentLine * params->interLineSpace + params->y;

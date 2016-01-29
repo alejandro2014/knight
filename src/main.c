@@ -21,6 +21,21 @@ void programLoop(SDL_Renderer *renderer) {
     alloc(testLine, char, 15);
     int i = 0;
 
+    consoleAddStringLine(hme->console, "Line number 1");
+    consoleAddStringLine(hme->console, "Line number 2");
+    consoleAddStringLine(hme->console, "Line number 3");
+    consoleAddStringLine(hme->console, "Line number 4");
+    consoleAddStringLine(hme->console, "Line number 5");
+    consoleAddStringLine(hme->console, "Line number 6");
+    consoleAddStringLine(hme->console, "Line number 7");
+    consoleAddStringLine(hme->console, "Line number 8");
+    consoleAddStringLine(hme->console, "Line number 9");
+    consoleAddStringLine(hme->console, "Line number 10");
+    consoleAddStringLine(hme->console, "Line number 11");
+    consoleAddStringLine(hme->console, "Line number 12");
+    consoleAddStringLine(hme->console, "Line number 13");
+    consoleAddStringLine(hme->console, "Line number 14");
+
     while(!events->finish) {
         readEvents(hme->console, events);
 
@@ -29,6 +44,7 @@ void programLoop(SDL_Renderer *renderer) {
             events->finish = processCommand(hme->console->currentLine + 2, hme->console, hme->terrain);
             memset(hme->console->currentLine, 0, 80);
             events->consoleNewLine = false;
+            calculateWindowOffset(hme->console, hme->consoleParams);
         }
 
         if(events->printPrompt) {
@@ -36,16 +52,26 @@ void programLoop(SDL_Renderer *renderer) {
             events->printPrompt = false;
         }
 
-        if(i % 5 == 0) {
+        /*if(i % 5 == 0) {
             sprintf(testLine, "Test line %d", i);
             consoleAddStringLine(hme->console, testLine);
-        }
+        }*/
 
         drawScreen(renderer, hme->terrain, hme->console, hme->consoleParams);
 
         SDL_Delay(100);
         i++;
     }
+}
+
+void calculateWindowOffset(Console *console, ConsoleVisualParams *params) {
+    int position = params->windowOffset;
+
+    while(*(console->buffer + position) != '\n') {
+        position++;
+    }
+
+    params->windowOffset = position + 1;
 }
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
