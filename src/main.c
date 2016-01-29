@@ -19,12 +19,15 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
+    processCommand("gterr width;200 height;100", hme->console);
+    processCommand("sethp x;10 y;10 height;200", hme->console);
+
     while(!events->finish) {
         readEvents(hme->console, events);
 
         if(events->consoleNewLine) {
             readShellLine(hme->console, NULL);
-            events->finish = processCommand(hme->console->currentLine + 2, hme->console, hme->terrain);
+            events->finish = processCommand(hme->console->currentLine + 2, hme->console);
             memset(hme->console->currentLine, 0, 80);
             events->consoleNewLine = false;
         }

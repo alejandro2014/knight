@@ -10,6 +10,8 @@ typedef int bool;
 #define MAX_HEIGHT 255
 #define MIN_HEIGHT 0
 
+#define LENGTH_MESSAGE 100
+
 #define alloc(Name, Type, NumElems) Type *Name = (Type *) malloc(sizeof(Type) * NumElems); \
         memset(Name, 0, sizeof(Type) * NumElems)
 

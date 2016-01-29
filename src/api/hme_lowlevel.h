@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "api.h"
 
-char *api_setHeight(Terrain **terrain, int x, int y, int height);
+void api_setHeight(Terrain *terrain, int x, int y, int height);
 void incHeight(Terrain *terrain, int x, int y, int delta);
 void decHeight(Terrain *terrain, int x, int y, int delta);
 int getHeight(Terrain *terrain, int x, int y);

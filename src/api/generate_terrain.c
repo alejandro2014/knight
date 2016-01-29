@@ -5,7 +5,7 @@
 
 void setRandomHeight(Terrain *terrain, int x, int y) {
     int randomValue = rand() % MAX_HEIGHT;
-    api_setHeight(&terrain, x, y, randomValue);
+    api_setHeight(terrain, x, y, randomValue);
 }
 
 int getRandomHeightOffset(int diffHeight) {
@@ -59,12 +59,12 @@ void drawMap(Terrain *terrain, int xtop, int ytop, int xbottom, int ybottom) {
     int hBottomRight = getHeight(terrain, xbottom, ybottom);
 
 
-    api_setHeight(&terrain, midx, midy, getNewHeight4(hTopLeft, hTopRight, hBottomLeft, hBottomRight));
+    api_setHeight(terrain, midx, midy, getNewHeight4(hTopLeft, hTopRight, hBottomLeft, hBottomRight));
 
-    api_setHeight(&terrain, xtop, midy, getNewHeight2(hTopLeft, hBottomLeft));
-    api_setHeight(&terrain, xbottom, midy, getNewHeight2(hTopRight, hBottomRight));
-    api_setHeight(&terrain, midx, ytop, getNewHeight2(hTopLeft, hTopRight));
-    api_setHeight(&terrain, midx, ybottom, getNewHeight2(hBottomLeft, hBottomRight));
+    api_setHeight(terrain, xtop, midy, getNewHeight2(hTopLeft, hBottomLeft));
+    api_setHeight(terrain, xbottom, midy, getNewHeight2(hTopRight, hBottomRight));
+    api_setHeight(terrain, midx, ytop, getNewHeight2(hTopLeft, hTopRight));
+    api_setHeight(terrain, midx, ybottom, getNewHeight2(hBottomLeft, hBottomRight));
 
     drawMap(terrain, xtop, ytop, midx, midy);
     drawMap(terrain, midx, ytop, xbottom, midy);

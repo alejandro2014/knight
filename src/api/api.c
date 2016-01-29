@@ -5,22 +5,20 @@
 #include "hme_lowlevel.h"
 #include "../global.h"
 
-char *api_generateTerrain(Terrain **terrain, int width, int height) {
-    alloc(infoMessage, char, 200);
-
-    *terrain = (Terrain *) malloc(sizeof(Terrain));
+Terrain *api_generateTerrain(int width, int height, char *infoMessage) {
+    alloc(terrain, Terrain, 1);
     int map_size = width * height;
 
-    (*terrain)->width = width;
-    (*terrain)->height = height;
-    (*terrain)->pointsNo = map_size;
-    (*terrain)->seedRandom = time(NULL);
+    terrain->width = width;
+    terrain->height = height;
+    terrain->pointsNo = map_size;
+    terrain->seedRandom = time(NULL);
 
-    allocExist((*terrain)->points, Point, map_size);
+    allocExist(terrain->points, Point, map_size);
 
-    sprintf(infoMessage, "[INFO] Created terrain (%d x %d) = %d", (*terrain)->width, (*terrain)->height, (*terrain)->pointsNo);
+    sprintf(infoMessage, "[INFO] Created terrain (%d x %d) = %d", terrain->width, terrain->height, terrain->pointsNo);
 
-    return infoMessage;
+    return terrain;
 }
 
 void api_freeTerrain(Terrain *terrain) {
@@ -31,7 +29,7 @@ void api_freeTerrain(Terrain *terrain) {
 }
 
 char *api_invertHeight(Terrain **terrain) {
-    int x, y;
+    /*int x, y;
     int newHeight;
 
     for(x = 0; x < (*terrain)->width; x++) {
@@ -39,7 +37,7 @@ char *api_invertHeight(Terrain **terrain) {
             newHeight = MAX_HEIGHT - getHeight((*terrain), x, y);
             api_setHeight(terrain, x, y, newHeight);
         }
-    }
+    }*/
 
     return NULL;
 }
@@ -86,20 +84,20 @@ char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int
 }
 
 char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height) {
-    int x, y;
+    /*int x, y;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
             api_setHeight(terrain, x, y, height);
         }
-    }
+    }*/
 
     return NULL;
 }
 
 //TODO Not tested
 char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY) {
-    int x, y;
+    /*int x, y;
     int sum;
 
     for (y = startY; y <= endY; y++) {
@@ -111,26 +109,28 @@ char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, i
 
             api_setHeight(terrain, x, y, sum);
         }
-    }
+    }*/
 
     return NULL;
 }
 
-char *api_rotate(Terrain **terrain, Operation operation) {
-    alloc(infoMessage, char, 200);
+Terrain *api_rotate(Terrain *oldTerrain, Operation operation, char *infoMessage) {
+    Terrain *newTerrain = NULL;
     int x, y;
     int width, height;
     int newHeight;
 
-    setDimensionsForOperation(operation, *terrain, &width, &height);
-    api_generateTerrain(terrain, width, height);
+    setDimensionsForOperation(operation, oldTerrain, &width, &height);
+    newTerrain = api_generateTerrain(width, height, infoMessage);
 
     for(x = 0; x < width; x++) {
         for(y = 0; y < height; y++) {
-            newHeight = getHeightForOperation(operation, *terrain, x, y);
-            api_setHeight(terrain, x, y, newHeight);
+            newHeight = getHeightForOperation(operation, oldTerrain, x, y);
+            api_setHeight(newTerrain, x, y, newHeight);
         }
     }
+
+    api_freeTerrain(oldTerrain);
 
     switch(operation) {
         case ROTATE_90: sprintf(infoMessage, "[INFO] Rotated 90 degrees (new width = %d, new height: %d)", width, height); break;
@@ -140,7 +140,7 @@ char *api_rotate(Terrain **terrain, Operation operation) {
         case FLIP_YAXIS: sprintf(infoMessage, "[INFO] Flip y axis"); break;
     }
 
-    return infoMessage;
+    return newTerrain;
 }
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y) {
@@ -172,7 +172,7 @@ void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width
 
 void replacePoint(Terrain *terrain, int x, int y, int delta, int mode) {
     switch(mode) {
-        case REPLACE_HEIGHT: api_setHeight(&terrain, x, y, delta); break;
+        case REPLACE_HEIGHT: api_setHeight(terrain, x, y, delta); break;
         case ADD_HEIGHT:  incHeight(terrain, x, y, delta); break;
         case SUBS_HEIGHT: decHeight(terrain, x, y, delta); break;
     }

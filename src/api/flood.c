@@ -35,7 +35,7 @@ void floodLineHor(Terrain *terrain, int x, int y, int height, Direction directio
     x += delta;
 
     while(getHeight(terrain, x, y) <= height) {
-        api_setHeight(&terrain, x, y, height);
+        api_setHeight(terrain, x, y, height);
         setFillStatus(terrain, x, y, FILLED);
         floodLineVer(terrain, x, y, height, UP);
         floodLineVer(terrain, x, y, height, DOWN);
@@ -48,7 +48,7 @@ void floodLineVer(Terrain *terrain, int x, int y, int height, Direction directio
     y += delta;
 
     while(getHeight(terrain, x, y) <= height) {
-        api_setHeight(&terrain, x, y, height);
+        api_setHeight(terrain, x, y, height);
         setFillStatus(terrain, x, y, FILLED);
         y += delta;
 	}

@@ -65,7 +65,7 @@ void addCommandStrParams(char *commandName, char *params[], int numParams, Conso
 void addParam(char *paramName, char *commandName, ParamType type, Console *console);
 
 void readShellLine(Console *console, FILE *inputStream);
-bool processCommand(char *textCommand, Console *console, Terrain *terrain);
+bool processCommand(char *textCommand, Console *console);
 Command *parseCommand(char *strCommand, Console *console);
 bool getCommandParams(Command *command);
 void parseParam(char *paramString, char **key, char **value);
@@ -74,7 +74,7 @@ Command *lookupCommand(char *commandName, Console *console);
 Param *lookupParam(char *paramName, Command *command);
 
 bool areParamsValid(Command *command, int *params, char **strParams);
-void executeCommand(Console *console, Terrain *terrain);
+void executeCommand(Console *console);
 int getParamValueInt(char *paramName, Command *command, bool *error);
 char *getParamValueStr(char *paramName, Command *command, bool *validParam);
 void deleteParamsValue(Command *command);

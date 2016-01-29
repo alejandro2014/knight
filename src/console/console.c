@@ -34,10 +34,10 @@ void freeConsole(Console *console) {
 Command *loadCommands(Console *console) {
     Command *command = NULL;
 
+    // Non tested
     addCommand("flipx", console);
     addCommand("flipy", console);
     addCommandIntParams("flood", (char *[]){"x", "y", "height"}, 3, console);
-    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
     addCommand("help", console);
     addCommand("invheight", console);
     addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
@@ -56,6 +56,9 @@ Command *loadCommands(Console *console) {
     addCommandIntParams("sinkterr", (char *[]){"delta"}, 1, console);
     addCommandIntParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
     addCommand("smoothterr", console);
+
+    // Tested
+    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
 
     return console->commands;
 }
@@ -104,7 +107,7 @@ void readShellLine(Console *console, FILE *inputStream) {
     console->lastLineOffset = console->offset;
 }
 
-bool processCommand(char *textCommand, Console *console, Terrain *terrain) {
+bool processCommand(char *textCommand, Console *console) {
     Command *command = NULL;
     bool finish = false;
 
@@ -113,7 +116,7 @@ bool processCommand(char *textCommand, Console *console, Terrain *terrain) {
 
         if(command) {
             console->currentCommand = command;
-            executeCommand(console, terrain);
+            executeCommand(console);
         }
     } else {
         finish = true;
@@ -163,7 +166,7 @@ bool getCommandParams(Command *command) {
         if(param) {
             param->value = value;
         } else {
-            printf("Param not found [%s]\n", typedParam);
+            printf("Param not found [%s]\n", typedParam); //TODO How to write this to the console?
             execute = false;
             break;
         }
@@ -228,49 +231,53 @@ Param *lookupParam(char *paramName, Command *command) {
 /**
 This method uses the macros P0, P1, P... to access the parameters array (params)
 */
-void executeCommand(Console *console, Terrain *terrain) {
-    char *infoMessage = NULL;
+void executeCommand(Console *console) {
     int numStrings = 5;
     alloc(intParams, int, 5);
     alloc(strParams, char *, numStrings);
+    alloc(infoMessage, char, LENGTH_MESSAGE);
 
     int i;
     for(i = 0; i < numStrings; i++) {
         allocExist(strParams[i], char, 100);
     }
 
-    //Terrain *terrain = console->terrain;
+    Terrain **terrain = &(console->terrain);
+    Terrain *terrain1 = console->terrain;
     Command *command = console->currentCommand;
 
     if(!areParamsValid(command, intParams, strParams)) return;
 
-    if(!strcmp("flipx", command->name))           infoMessage = api_rotate(&(console->terrain), FLIP_XAXIS);
-    else if(!strcmp("flipy", command->name))      infoMessage = api_rotate(&(console->terrain), FLIP_YAXIS);
-    else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(&(console->terrain), P0, P1, P2);
-    else if(!strcmp("gterr", command->name))      infoMessage = api_generateTerrain(&(console->terrain), P0, P1);
-    else if(!strcmp("help", command->name))       printCommands(console);
-    else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(&(console->terrain));
+    /*if(!strcmp("flipx", command->name))           infoMessage = api_rotate(terrain, FLIP_XAXIS);
+    else if(!strcmp("flipy", command->name))      infoMessage = api_rotate(terrain, FLIP_YAXIS);
+    else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);*/
+    else if(!strcmp("gterr", command->name))      terrain1 = api_generateTerrain(P0, P1, infoMessage);
+    /*else if(!strcmp("help", command->name))       printCommands(console);
+    else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(terrain);
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
     else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
-    else if(!strcmp("replace", command->name))    infoMessage = api_replace(&(console->terrain), P0, P1, P2, P3);
-    else if(!strcmp("risesel", command->name))    infoMessage = api_riseSelection(&(console->terrain), P0, P1, P2, P3, P4);
-    else if(!strcmp("riseterr", command->name))   infoMessage = api_riseTerrain(&(console->terrain), P0);
-    else if(!strcmp("rotate90", command->name))   infoMessage = api_rotate(&(console->terrain), ROTATE_90);
-    else if(!strcmp("rotate180", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_180);
-    else if(!strcmp("rotate270", command->name))  infoMessage = api_rotate(&(console->terrain), ROTATE_270);
-    else if(!strcmp("sethp", command->name))      infoMessage = api_setHeight(&(console->terrain), P0, P1, P2);
-    else if(!strcmp("sethsel", command->name))    infoMessage = api_setHeightSelection(&(console->terrain), P0, P1, P2, P3, P4);
-    else if(!strcmp("sethterr", command->name))   infoMessage = api_setHeightTerrain(&(console->terrain), P0);
-    else if(!strcmp("sinksel", command->name))    infoMessage = api_sinkSelection(&(console->terrain), P0, P1, P2, P3, P4);
-    else if(!strcmp("sinkterr", command->name))   infoMessage = api_sinkTerrain(&(console->terrain), P0);
-    else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(&(console->terrain), P0, P1, P2, P3);
-    else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(&(console->terrain));
+    else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);
+    else if(!strcmp("risesel", command->name))    infoMessage = api_riseSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   infoMessage = api_riseTerrain(terrain, P0);*/
+    else if(!strcmp("rotate90", command->name))   terrain1 = api_rotate(terrain1, ROTATE_90, infoMessage);
+    else if(!strcmp("rotate180", command->name))  terrain1 = api_rotate(terrain1, ROTATE_180, infoMessage);
+    else if(!strcmp("rotate270", command->name))  terrain1 = api_rotate(terrain1, ROTATE_270, infoMessage);
+    else if(!strcmp("sethp", command->name))      api_setHeight(terrain1, P0, P1, P2);
+    /*else if(!strcmp("sethsel", command->name))    infoMessage = api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   infoMessage = api_setHeightTerrain(terrain, P0);
+    else if(!strcmp("sinksel", command->name))    infoMessage = api_sinkSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   infoMessage = api_sinkTerrain(terrain, P0);
+    else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
+    else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(terrain);*/
 
+    console->terrain = terrain1;
     deleteParamsValue(command);
 
-    consoleAddStringLine(console, infoMessage);
-    free(infoMessage);
+    if(infoMessage != NULL) {
+        consoleAddStringLine(console, infoMessage);
+        free(infoMessage);
+    }
 }
 
 bool areParamsValid(Command *command, int *intParams, char **strParams) {
@@ -349,7 +356,7 @@ void loadScript(Console *console, char *path) {
         readShellLine(console, script);
         if(*(console->currentLine + 0) != '#' && strlen(console->currentLine) > 0) {
             printf("%s\n", console->currentLine);
-            processCommand(console->currentLine, console, NULL); //TODO Null terrain
+            processCommand(console->currentLine, console);
         }
     }
 

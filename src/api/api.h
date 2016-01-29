@@ -6,8 +6,6 @@
 
 #include "../global.h"
 
-#define MAX_HEIGHT 255
-
 typedef int Operation;
 #define ROTATE_90 0
 #define ROTATE_180 1
@@ -39,7 +37,7 @@ typedef struct {
   int seedRandom;
 } Terrain;
 
-char *api_generateTerrain(Terrain **terrain, int width, int height);
+Terrain *api_generateTerrain(int width, int height, char *infoMessage);
 void api_freeTerrain(Terrain *terrain);
 
 char *api_riseTerrain(Terrain **terrain, int delta);
@@ -52,7 +50,7 @@ char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int
 char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height);
 char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY);
 
-char *api_rotate(Terrain **terrain, Operation operation);
+Terrain *api_rotate(Terrain *oldTerrain, Operation operation, char *infoMessage);
 char *api_invertHeight(Terrain **terrain);
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
