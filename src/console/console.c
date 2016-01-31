@@ -1,99 +1,4 @@
 #include "console.h"
-#include "print.h"
-
-#include "../api/api.h"
-#include "../api/hme_lowlevel.h"
-#include "../api/generate_terrain.h"
-#include "../api/flood.h"
-#include "../api/replace.h"
-
-#include "../global.h"
-
-Console *createConsole(int sizeKb) {
-    int i;
-
-    alloc(console, Console, 1);
-    allocExist(console->buffer, char, sizeKb * 1024);
-    allocExist(console->currentLine, char, 80);
-    allocExist(console->commands, Command, NUM_COMMANDS);
-
-    for(i = 0; i < NUM_COMMANDS; i++) {
-        allocExist((console->commands + i)->params, Param, MAX_PARAMS);
-    }
-
-    loadCommands(console);
-
-    return console;
-}
-
-void freeConsole(Console *console) {
-    free(console->buffer);
-    free(console);
-}
-
-Command *loadCommands(Console *console) {
-    Command *command = NULL;
-
-    // Non tested
-    addCommand("flipx", console);
-    addCommand("flipy", console);
-    addCommandIntParams("flood", (char *[]){"x", "y", "height"}, 3, console);
-    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
-    addCommand("help", console);
-    addCommand("invheight", console);
-    addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
-    addCommandIntParams("merge", (char *[]){"x", "y", "op"}, 3, console);
-    addCommandIntParams("randgterr", (char *[]){"width", "height"}, 2, console);
-    addCommandIntParams("replace", (char *[]){"mode", "x", "y", "delta"}, 4, console);
-    addCommandIntParams("risesel", (char *[]){"x1", "y1", "x2", "y2", "delta"}, 5, console);
-    addCommandIntParams("riseterr", (char *[]){"delta"}, 1, console);
-    addCommand("rotate90", console);
-    addCommand("rotate180", console);
-    addCommand("rotate270", console);
-    addCommandIntParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
-    addCommandIntParams("sethsel", (char *[]){"x1", "y1", "x2", "y2", "height"}, 5, console);
-    addCommandIntParams("sethterr", (char *[]){"height"}, 1, console);
-    addCommandIntParams("sinksel", (char *[]){"x1", "y1", "x2", "y2", "delta"}, 5, console);
-    addCommandIntParams("sinkterr", (char *[]){"delta"}, 1, console);
-    addCommandIntParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
-    addCommand("smoothterr", console);
-
-    return console->commands;
-}
-
-void addCommandIntParams(char *commandName, char *params[], int numParams, Console *console) {
-    addCommand(commandName, console);
-
-    int i;
-    for(i = 0; i < numParams; i++) {
-        addParam(params[i], commandName, INT, console);
-    }
-}
-
-void addCommandStrParams(char *commandName, char *params[], int numParams, Console *console) {
-    addCommand(commandName, console);
-
-    int i;
-    for(i = 0; i < numParams; i++) {
-        addParam(params[i], commandName, STRING, console);
-    }
-}
-
-void addCommand(char *commandName, Console *console) {
-    int positionCommand = console->numCommands;
-    Command *command = console->commands + positionCommand;
-    command->name = commandName;
-    console->numCommands++;
-}
-
-void addParam(char *paramName, char *commandName, ParamType type, Console *console) {
-    Command *command = lookupCommand(commandName, console);
-    int positionParam = command->numParams;
-    Param *param = command->params + positionParam;
-    param->key = paramName;
-    param->type = type;
-    command->numParams++;
-}
 
 void readShellLine(Console *console, FILE *inputStream) {
     int endOffset = console->offset;
@@ -245,11 +150,7 @@ void executeCommand(Console *console) {
     Command *command = console->currentCommand;
 
     if(!areParamsValid(command, intParams, strParams, infoMessage)) {
-        if(infoMessage != NULL) {
-            consoleAddStringLine(console, infoMessage);
-            free(infoMessage);
-        }
-        
+        printInfoMessage(infoMessage, console);
         return;
     }
 
@@ -279,11 +180,14 @@ void executeCommand(Console *console) {
 
     console->terrain = terrain1;
     deleteParamsValue(command);
+    printInfoMessage(infoMessage, console);
+}
 
-    if(infoMessage != NULL) {
-        consoleAddStringLine(console, infoMessage);
-        free(infoMessage);
-    }
+void printInfoMessage(char *infoMessage, Console *console) {
+    if(infoMessage == NULL) return;
+
+    consoleAddStringLine(console, infoMessage);
+    free(infoMessage);
 }
 
 bool areParamsValid(Command *command, int *intParams, char **strParams, char *infoMessage) {

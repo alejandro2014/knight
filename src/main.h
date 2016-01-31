@@ -13,6 +13,7 @@
 #include "api/generate_terrain.h"
 
 #include "console/console.h"
+#include "console/load_console.h"
 #include "console/print.h"
 
 #include "map/draw.h"

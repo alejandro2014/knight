@@ -1,8 +1,9 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#include "console.h"
 #include "../api/api.h"
+
+#include "console.h"
 
 void printConsolePrompt(Console *console);
 void printCommands(Console *console);

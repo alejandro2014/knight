@@ -34,7 +34,8 @@ API04=flood
 API05=replace
 
 CON01=console
-CON02=print
+CON02=load_console
+CON03=print
 
 MAP01=draw
 MAP02=draw_console
@@ -45,7 +46,7 @@ MAP05=font
 SRC01=main
 
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
-OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o
+OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o ${OBJDIR_CON}/${CON03}.o
 OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/${MAP02}.o ${OBJDIR_MAP}/${MAP03}.o ${OBJDIR_MAP}/${MAP04}.o ${OBJDIR_MAP}/${MAP05}.o
 OBJ_REST=${OBJDIR}/${SRC01}.o
 
