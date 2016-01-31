@@ -244,18 +244,20 @@ void executeCommand(Console *console) {
     Terrain *terrain1 = console->terrain;
     Command *command = console->currentCommand;
 
-    if(!areParamsValid(command, intParams, strParams)) return;
+    if(!areParamsValid(command, intParams, strParams, infoMessage)) {
+        if(infoMessage != NULL) {
+            consoleAddStringLine(console, infoMessage);
+            free(infoMessage);
+        }
+        
+        return;
+    }
 
     if(!strcmp("flipx", command->name))           terrain1 = api_rotate(terrain1, FLIP_XAXIS, infoMessage);
     else if(!strcmp("flipy", command->name))      terrain1 = api_rotate(terrain1, FLIP_YAXIS, infoMessage);
-    //else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("gterr", command->name))      terrain1 = api_generateTerrain(P0, P1, infoMessage);
-    //else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain1);
-    /*else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
-    else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);*/
     else if(!strcmp("randgterr", command->name))  terrain1 = api_generateRandomTerrain(P0, P1, infoMessage);
-    //else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain1, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain1, P0);
     else if(!strcmp("rotate90", command->name))   terrain1 = api_rotate(terrain1, ROTATE_90, infoMessage);
@@ -266,7 +268,13 @@ void executeCommand(Console *console) {
     else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain1, P0);
     else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain1, P0, P1, P2, P3, P4);
     else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain1, P0);
-    /*else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
+
+    /*else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
+    else if(!strcmp("help", command->name))       printCommands(console);
+    else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
+    else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
+    else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);
+    else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
     else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(terrain);*/
 
     console->terrain = terrain1;
@@ -278,7 +286,7 @@ void executeCommand(Console *console) {
     }
 }
 
-bool areParamsValid(Command *command, int *intParams, char **strParams) {
+bool areParamsValid(Command *command, int *intParams, char **strParams, char *infoMessage) {
     if(command->numParams == 0) return true;
 
     int currentIntParam = 0;
@@ -292,11 +300,11 @@ bool areParamsValid(Command *command, int *intParams, char **strParams) {
 
         switch(currentParam->type) {
             case INT:
-                *(intParams + currentIntParam) = getParamValueInt(currentParam->key, command, &validParams);
+                *(intParams + currentIntParam) = getParamValueInt(currentParam->key, command, &validParams, infoMessage);
                 currentIntParam++;
                 break;
             case STRING:
-                *(strParams + currentStrParam) = getParamValueStr(currentParam->key, command, &validParams);
+                *(strParams + currentStrParam) = getParamValueStr(currentParam->key, command, &validParams, infoMessage);
                 currentStrParam++;
                 break;
         }
@@ -308,11 +316,11 @@ bool areParamsValid(Command *command, int *intParams, char **strParams) {
     return validParams;
 }
 
-int getParamValueInt(char *paramName, Command *command, bool *validParam) {
+int getParamValueInt(char *paramName, Command *command, bool *validParam, char *infoMessage) {
     Param *param = lookupParam(paramName, command);
 
     if(!param->value) {
-        printf("[ERROR] The '%s' parameter is not present\n", paramName);
+        sprintf(infoMessage, "[ERROR] The '%s' parameter is not present\n", paramName);
         *validParam = false;
         return -1;
     }
@@ -321,11 +329,11 @@ int getParamValueInt(char *paramName, Command *command, bool *validParam) {
     return atoi(param->value);
 }
 
-char *getParamValueStr(char *paramName, Command *command, bool *validParam) {
+char *getParamValueStr(char *paramName, Command *command, bool *validParam, char *infoMessage) {
     Param *param = lookupParam(paramName, command);
 
     if(!param->value) {
-        printf("[ERROR] The '%s' parameter is not present\n", paramName);
+        sprintf(infoMessage, "[ERROR] The '%s' parameter is not present\n", paramName);
         *validParam = false;
         return NULL;
     }

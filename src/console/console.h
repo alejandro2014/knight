@@ -73,10 +73,10 @@ void parseParam(char *paramString, char **key, char **value);
 Command *lookupCommand(char *commandName, Console *console);
 Param *lookupParam(char *paramName, Command *command);
 
-bool areParamsValid(Command *command, int *params, char **strParams);
+bool areParamsValid(Command *command, int *params, char **strParams, char *infoMessage);
 void executeCommand(Console *console);
-int getParamValueInt(char *paramName, Command *command, bool *error);
-char *getParamValueStr(char *paramName, Command *command, bool *validParam);
+int getParamValueInt(char *paramName, Command *command, bool *error, char *infoMessage);
+char *getParamValueStr(char *paramName, Command *command, bool *validParam, char *infoMessage);
 void deleteParamsValue(Command *command);
 
 void loadScript(Console *console, char *pathScript);
