@@ -24,6 +24,7 @@ typedef struct {
     Console *console;
     ConsoleVisualParams *consoleParams;
     Terrain *terrain;
+    TerrainVisualParams *terrainParams;
     int height;
     int width;
 } HeightMapEditor;
@@ -37,5 +38,6 @@ void freeResources(HeightMapEditor *hme);
 void programLoop(SDL_Renderer *renderer);
 
 ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight);
+TerrainVisualParams *loadTerrainParams();
 
 #endif

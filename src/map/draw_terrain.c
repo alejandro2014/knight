@@ -2,13 +2,13 @@
 
 bool update = true;
 
-void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
+void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *terrainParams) {
     int x, y;
     int color;
     int xOffset;
     int yOffset;
 
-    calculateOffset(terrain, &xOffset, &yOffset);
+    calculateOffset(terrain, &xOffset, &yOffset, terrainParams);
 
     for(y = 0; y < terrain->height; y++) {
         for(x = 0; x < terrain->width; x++) {
@@ -19,10 +19,7 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain) {
     }
 }
 
-void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset) {
-    int widthScreen = 800;
-    int heightScreen = 300;
-
-    *xOffset = (widthScreen - terrain->width) / 2;
-    *yOffset = (heightScreen - terrain->height) / 2;
+void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainParams) {
+    *xOffset = (terrainParams->width - terrain->width) / 2;
+    *yOffset = (terrainParams->height - terrain->height) / 2;
 }

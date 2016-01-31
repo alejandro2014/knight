@@ -6,7 +6,12 @@
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
 
-void drawTerrain(SDL_Renderer *renderer, Terrain *terrain);
-void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset);
+typedef struct {
+    int x, y;
+    int width, height;
+} TerrainVisualParams;
+
+void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *terrainParams);
+void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainParams);
 
 #endif

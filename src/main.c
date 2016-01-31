@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
-    //processCommand("gterr width=200 height=100", hme->console);
+    processCommand("gterr width=200 height=100", hme->console);
     //processCommand("sethterr height=200", hme->console);
     //processCommand("sethsel x1=10 y1=9 x2=80 y2=79 height=200", hme->console);
     //processCommand("risesel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
@@ -40,7 +40,7 @@ void programLoop(SDL_Renderer *renderer) {
             events->printPrompt = false;
         }
 
-        drawScreen(renderer, hme->console, hme->consoleParams);
+        drawScreen(renderer, hme->console, hme->consoleParams, hme->terrainParams);
         SDL_Delay(100);
     }
 }
@@ -52,6 +52,7 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     hme->height = windowHeight;
     hme->console = createConsole(1);
     hme->consoleParams = loadConsoleParams(hme->width, hme->height);
+    hme->terrainParams = loadTerrainParams(800, 300);
 
     /*heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);*/
@@ -122,4 +123,11 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     params->font = initFont(FONT_PATH_MAC);
 
     return params;
+}
+
+TerrainVisualParams *loadTerrainParams(int width, int height) {
+    alloc(terrainParams, TerrainVisualParams, 1);
+    terrainParams->width = width;
+    terrainParams->height = height;
+    return terrainParams;
 }
