@@ -51,7 +51,7 @@ void api_setHeightSelection(Terrain *terrain, int x1, int y1, int x2, int y2, in
 char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY);
 
 Terrain *api_rotate(Terrain *oldTerrain, Operation operation, char *infoMessage);
-char *api_invertHeight(Terrain **terrain);
+void api_invertHeight(Terrain *terrain);
 
 int getHeightForOperation(Operation operation, Terrain *terrain, int x, int y);
 void setDimensionsForOperation(Operation operation, Terrain *terrain, int *width, int *height);

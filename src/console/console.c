@@ -250,9 +250,9 @@ void executeCommand(Console *console) {
     else if(!strcmp("flipy", command->name))      terrain1 = api_rotate(terrain1, FLIP_YAXIS, infoMessage);
     //else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("gterr", command->name))      terrain1 = api_generateTerrain(P0, P1, infoMessage);
-    /*else if(!strcmp("help", command->name))       printCommands(console);
-    else if(!strcmp("invheight", command->name))  infoMessage = api_invertHeight(terrain);
-    else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
+    //else if(!strcmp("help", command->name))       printCommands(console);
+    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain1);
+    /*else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
     else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
     else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);*/

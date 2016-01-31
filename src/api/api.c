@@ -28,18 +28,16 @@ void api_freeTerrain(Terrain *terrain) {
   free(terrain);
 }
 
-char *api_invertHeight(Terrain **terrain) {
-    /*int x, y;
+void api_invertHeight(Terrain *terrain) {
+    int x, y;
     int newHeight;
 
-    for(x = 0; x < (*terrain)->width; x++) {
-        for(y = 0; y < (*terrain)->height; y++) {
-            newHeight = MAX_HEIGHT - getHeight((*terrain), x, y);
+    for(x = 0; x < terrain->width; x++) {
+        for(y = 0; y < terrain->height; y++) {
+            newHeight = MAX_HEIGHT - getHeight(terrain, x, y);
             api_setHeight(terrain, x, y, newHeight);
         }
-    }*/
-
-    return NULL;
+    }
 }
 
 void api_riseTerrain(Terrain *terrain, int delta) {
