@@ -40,14 +40,14 @@ typedef struct {
 Terrain *api_generateTerrain(int width, int height, char *infoMessage);
 void api_freeTerrain(Terrain *terrain);
 
-char *api_riseTerrain(Terrain **terrain, int delta);
-char *api_sinkTerrain(Terrain **terrain, int delta);
-char *api_setHeightTerrain(Terrain **terrain, int height);
+void api_riseTerrain(Terrain *terrain, int delta);
+void api_sinkTerrain(Terrain *terrain, int delta);
+void api_setHeightTerrain(Terrain *terrain, int height);
 char *api_smoothTerrain(Terrain **terrain);
 
-char *api_riseSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta);
-char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta);
-char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height);
+void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
+void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta);
+void api_setHeightSelection(Terrain *terrain, int x1, int y1, int x2, int y2, int height);
 char *api_smoothSelection(Terrain **terrain, int startX, int startY, int endX, int endY);
 
 Terrain *api_rotate(Terrain *oldTerrain, Operation operation, char *infoMessage);

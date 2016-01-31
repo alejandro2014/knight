@@ -38,6 +38,7 @@ Command *loadCommands(Console *console) {
     addCommand("flipx", console);
     addCommand("flipy", console);
     addCommandIntParams("flood", (char *[]){"x", "y", "height"}, 3, console);
+    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
     addCommand("help", console);
     addCommand("invheight", console);
     addCommandStrParams("loadscr", (char *[]){"path"}, 1, console);
@@ -50,15 +51,12 @@ Command *loadCommands(Console *console) {
     addCommand("rotate180", console);
     addCommand("rotate270", console);
     addCommandIntParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
-    addCommandIntParams("sethsel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("sethsel", (char *[]){"x1", "y1", "x2", "y2", "height"}, 5, console);
     addCommandIntParams("sethterr", (char *[]){"height"}, 1, console);
     addCommandIntParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
     addCommandIntParams("sinkterr", (char *[]){"delta"}, 1, console);
     addCommandIntParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
     addCommand("smoothterr", console);
-
-    // Tested
-    addCommandIntParams("gterr", (char *[]){"width", "height"}, 2, console);
 
     return console->commands;
 }
@@ -183,7 +181,7 @@ void parseParam(char *paramString, char **key, char **value) {
     int colonPos = -1;
 
     for(i = 0; i < length; i++) {
-        if(*(paramString + i) == ';') {
+        if(*(paramString + i) == '=') {
             colonPos = i;
             break;
         }
@@ -195,6 +193,8 @@ void parseParam(char *paramString, char **key, char **value) {
 
         allocExist(*value, char, length - colonPos + 1);
         memcpy(*value, paramString + i + 1, length - colonPos + 1);
+
+        printf("[DEBUG] Parsed param (%s, %s)\n", *key, *value);
     }
 }
 
@@ -257,18 +257,18 @@ void executeCommand(Console *console) {
     else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
     else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
     else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
-    else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);
-    else if(!strcmp("risesel", command->name))    infoMessage = api_riseSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("riseterr", command->name))   infoMessage = api_riseTerrain(terrain, P0);*/
+    else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);*/
+    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain1, P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain1, P0);
     else if(!strcmp("rotate90", command->name))   terrain1 = api_rotate(terrain1, ROTATE_90, infoMessage);
     else if(!strcmp("rotate180", command->name))  terrain1 = api_rotate(terrain1, ROTATE_180, infoMessage);
     else if(!strcmp("rotate270", command->name))  terrain1 = api_rotate(terrain1, ROTATE_270, infoMessage);
     else if(!strcmp("sethp", command->name))      api_setHeight(terrain1, P0, P1, P2);
-    /*else if(!strcmp("sethsel", command->name))    infoMessage = api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sethterr", command->name))   infoMessage = api_setHeightTerrain(terrain, P0);
-    else if(!strcmp("sinksel", command->name))    infoMessage = api_sinkSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sinkterr", command->name))   infoMessage = api_sinkTerrain(terrain, P0);
-    else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
+    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain1, P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain1, P0);
+    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain1, P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain1, P0);
+    /*else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
     else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(terrain);*/
 
     console->terrain = terrain1;
@@ -320,6 +320,7 @@ int getParamValueInt(char *paramName, Command *command, bool *validParam) {
     }
 
     *validParam = true;
+    printf("[DEBUG] Getting param value int (%s, %d)\n", param->key, atoi(param->value));
     return atoi(param->value);
 }
 
@@ -333,6 +334,7 @@ char *getParamValueStr(char *paramName, Command *command, bool *validParam) {
     }
 
     *validParam = true;
+    printf("[DEBUG] Getting param value string (%s, %s)\n", param->key, param->value);
     return param->value;
 }
 

@@ -42,16 +42,16 @@ char *api_invertHeight(Terrain **terrain) {
     return NULL;
 }
 
-char *api_riseTerrain(Terrain **terrain, int delta) {
-    return api_riseSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, delta);
+void api_riseTerrain(Terrain *terrain, int delta) {
+    return api_riseSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
 }
 
-char *api_sinkTerrain(Terrain **terrain, int delta) {
-    return api_sinkSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, delta);
+void api_sinkTerrain(Terrain *terrain, int delta) {
+    return api_sinkSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, delta);
 }
 
-char *api_setHeightTerrain(Terrain **terrain, int height) {
-    return api_setHeightSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1, height);
+void api_setHeightTerrain(Terrain *terrain, int height) {
+    return api_setHeightSelection(terrain, 0, 0, terrain->width - 1, terrain->height - 1, height);
 }
 
 //TODO Not tested
@@ -59,40 +59,35 @@ char *api_smoothTerrain(Terrain **terrain) {
     return api_smoothSelection(terrain, 0, 0, (*terrain)->width - 1, (*terrain)->height - 1);
 }
 
-char *api_riseSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta) {
+void api_riseSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
     int x, y;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            incHeight(*terrain, x, y, delta);
+            incHeight(terrain, x, y, delta);
         }
     }
-
-    return NULL;
 }
 
-char *api_sinkSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int delta) {
+void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int endY, int delta) {
     int x, y;
 
     for (y = startY; y <= endY; y++) {
         for (x = startX; x <= endX; x++) {
-            decHeight(*terrain, x, y, delta);
+            decHeight(terrain, x, y, delta);
         }
     }
-
-    return NULL;
 }
 
-char *api_setHeightSelection(Terrain **terrain, int startX, int startY, int endX, int endY, int height) {
-    /*int x, y;
+void api_setHeightSelection(Terrain *terrain, int x1, int y1, int x2, int y2, int height) {
+    int x, y;
 
-    for (y = startY; y <= endY; y++) {
-        for (x = startX; x <= endX; x++) {
+    printf("sethsel (x1:%d y1:%d x2:%d y2:%d height:%d)\n", x1, y1, x2, y2, height);
+    for (y = y1; y <= y2; y++) {
+        for (x = x1; x <= x2; x++) {
             api_setHeight(terrain, x, y, height);
         }
-    }*/
-
-    return NULL;
+    }
 }
 
 //TODO Not tested
