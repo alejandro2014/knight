@@ -253,9 +253,9 @@ void executeCommand(Console *console) {
     //else if(!strcmp("help", command->name))       printCommands(console);
     else if(!strcmp("invheight", command->name))  api_invertHeight(terrain1);
     /*else if(!strcmp("loadscr", command->name))    loadScript(console, *(strParams + 0));
-    else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);
-    else if(!strcmp("randgterr", command->name))  console->terrain = api_generateRandomTerrain(P0, P1);
-    else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);*/
+    else if(!strcmp("merge", command->name))      api_MergeTerrains(NULL, NULL, P0, P1, P2);*/
+    else if(!strcmp("randgterr", command->name))  terrain1 = api_generateRandomTerrain(P0, P1, infoMessage);
+    //else if(!strcmp("replace", command->name))    infoMessage = api_replace(terrain, P0, P1, P2, P3);
     else if(!strcmp("risesel", command->name))    api_riseSelection(terrain1, P0, P1, P2, P3, P4);
     else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain1, P0);
     else if(!strcmp("rotate90", command->name))   terrain1 = api_rotate(terrain1, ROTATE_90, infoMessage);

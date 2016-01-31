@@ -4,7 +4,7 @@
 #include "../global.h"
 #include "api.h"
 
-Terrain *api_generateRandomTerrain(int width, int height);
+Terrain *api_generateRandomTerrain(int width, int height, char *infoMessage);
 void setRandomHeightCorners(Terrain *terrain);
 
 void setRandomHeight(Terrain *terrain, int x, int y);
