@@ -45,7 +45,7 @@ Command *loadCommands(Console *console) {
     addCommandIntParams("merge", (char *[]){"x", "y", "op"}, 3, console);
     addCommandIntParams("randgterr", (char *[]){"width", "height"}, 2, console);
     addCommandIntParams("replace", (char *[]){"mode", "x", "y", "delta"}, 4, console);
-    addCommandIntParams("risesel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("risesel", (char *[]){"x1", "y1", "x2", "y2", "delta"}, 5, console);
     addCommandIntParams("riseterr", (char *[]){"delta"}, 1, console);
     addCommand("rotate90", console);
     addCommand("rotate180", console);
@@ -53,7 +53,7 @@ Command *loadCommands(Console *console) {
     addCommandIntParams("sethp", (char *[]){"x", "y", "height"}, 3, console);
     addCommandIntParams("sethsel", (char *[]){"x1", "y1", "x2", "y2", "height"}, 5, console);
     addCommandIntParams("sethterr", (char *[]){"height"}, 1, console);
-    addCommandIntParams("sinksel", (char *[]){"x1", "x2", "y1", "y2", "delta"}, 5, console);
+    addCommandIntParams("sinksel", (char *[]){"x1", "y1", "x2", "y2", "delta"}, 5, console);
     addCommandIntParams("sinkterr", (char *[]){"delta"}, 1, console);
     addCommandIntParams("smoothsel", (char *[]){"x1", "x2", "y1", "y2"}, 4, console);
     addCommand("smoothterr", console);
@@ -193,8 +193,6 @@ void parseParam(char *paramString, char **key, char **value) {
 
         allocExist(*value, char, length - colonPos + 1);
         memcpy(*value, paramString + i + 1, length - colonPos + 1);
-
-        printf("[DEBUG] Parsed param (%s, %s)\n", *key, *value);
     }
 }
 
@@ -320,7 +318,6 @@ int getParamValueInt(char *paramName, Command *command, bool *validParam) {
     }
 
     *validParam = true;
-    printf("[DEBUG] Getting param value int (%s, %d)\n", param->key, atoi(param->value));
     return atoi(param->value);
 }
 
@@ -334,7 +331,6 @@ char *getParamValueStr(char *paramName, Command *command, bool *validParam) {
     }
 
     *validParam = true;
-    printf("[DEBUG] Getting param value string (%s, %s)\n", param->key, param->value);
     return param->value;
 }
 

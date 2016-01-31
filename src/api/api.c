@@ -79,10 +79,10 @@ void api_sinkSelection(Terrain *terrain, int startX, int startY, int endX, int e
     }
 }
 
+//TODO Bug 1: Fix the order of the parameters
 void api_setHeightSelection(Terrain *terrain, int x1, int y1, int x2, int y2, int height) {
     int x, y;
 
-    printf("sethsel (x1:%d y1:%d x2:%d y2:%d height:%d)\n", x1, y1, x2, y2, height);
     for (y = y1; y <= y2; y++) {
         for (x = x1; x <= x2; x++) {
             api_setHeight(terrain, x, y, height);
