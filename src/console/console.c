@@ -10,22 +10,18 @@ void readShellLine(Console *console, FILE *inputStream) {
     console->lastLineOffset = console->offset;
 }
 
+// Returns whether we need to finish
 bool processCommand(char *textCommand, Console *console) {
-    Command *command = NULL;
-    bool finish = false;
+    if(!strcmp(textCommand, "exit")) return true;
 
-    if(strcmp(textCommand, "exit")) {
-        command = parseCommand(textCommand, console);
+    Command *command = parseCommand(textCommand, console);
 
-        if(command) {
-            console->currentCommand = command;
-            executeCommand(console);
-        }
-    } else {
-        finish = true;
+    if(command) {
+        console->currentCommand = command;
+        executeCommand(console);
     }
 
-    return finish;
+    return false;
 }
 
 Command *parseCommand(char *strCommand, Console *console) {
@@ -145,8 +141,7 @@ void executeCommand(Console *console) {
         allocExist(strParams[i], char, 100);
     }
 
-    Terrain **terrain = &(console->terrain);
-    Terrain *terrain1 = console->terrain;
+    Terrain *terrain = console->terrain;
     Command *command = console->currentCommand;
 
     if(!areParamsValid(command, intParams, strParams, infoMessage)) {
@@ -154,21 +149,21 @@ void executeCommand(Console *console) {
         return;
     }
 
-    if(!strcmp("flipx", command->name))           terrain1 = api_rotate(terrain1, FLIP_XAXIS, infoMessage);
-    else if(!strcmp("flipy", command->name))      terrain1 = api_rotate(terrain1, FLIP_YAXIS, infoMessage);
-    else if(!strcmp("gterr", command->name))      terrain1 = api_generateTerrain(P0, P1, infoMessage);
-    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain1);
-    else if(!strcmp("randgterr", command->name))  terrain1 = api_generateRandomTerrain(P0, P1, infoMessage);
-    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain1, P0, P1, P2, P3, P4);
-    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain1, P0);
-    else if(!strcmp("rotate90", command->name))   terrain1 = api_rotate(terrain1, ROTATE_90, infoMessage);
-    else if(!strcmp("rotate180", command->name))  terrain1 = api_rotate(terrain1, ROTATE_180, infoMessage);
-    else if(!strcmp("rotate270", command->name))  terrain1 = api_rotate(terrain1, ROTATE_270, infoMessage);
-    else if(!strcmp("sethp", command->name))      api_setHeight(terrain1, P0, P1, P2);
-    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain1, P0, P1, P2, P3, P4);
-    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain1, P0);
-    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain1, P0, P1, P2, P3, P4);
-    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain1, P0);
+    if(!strcmp("flipx", command->name))           terrain = api_rotate(terrain, FLIP_XAXIS, infoMessage);
+    else if(!strcmp("flipy", command->name))      terrain = api_rotate(terrain, FLIP_YAXIS, infoMessage);
+    else if(!strcmp("gterr", command->name))      terrain = api_generateTerrain(P0, P1, infoMessage);
+    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
+    else if(!strcmp("randgterr", command->name))  terrain = api_generateRandomTerrain(P0, P1, infoMessage);
+    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
+    else if(!strcmp("rotate90", command->name))   terrain = api_rotate(terrain, ROTATE_90, infoMessage);
+    else if(!strcmp("rotate180", command->name))  terrain = api_rotate(terrain, ROTATE_180, infoMessage);
+    else if(!strcmp("rotate270", command->name))  terrain = api_rotate(terrain, ROTATE_270, infoMessage);
+    else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
+    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);
+    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain, P0);
 
     /*else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("help", command->name))       printCommands(console);
@@ -178,7 +173,7 @@ void executeCommand(Console *console) {
     else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
     else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(terrain);*/
 
-    console->terrain = terrain1;
+    console->terrain = terrain;
     deleteParamsValue(command);
     printInfoMessage(infoMessage, console);
 }
@@ -203,16 +198,9 @@ bool areParamsValid(Command *command, int *intParams, char **strParams, char *in
         currentParam = command->params + i;
 
         switch(currentParam->type) {
-            case INT:
-                *(intParams + currentIntParam) = getParamValueInt(currentParam->key, command, &validParams, infoMessage);
-                currentIntParam++;
-                break;
-            case STRING:
-                *(strParams + currentStrParam) = getParamValueStr(currentParam->key, command, &validParams, infoMessage);
-                currentStrParam++;
-                break;
+            case INT: *(intParams + (currentIntParam++)) = getParamValueInt(currentParam->key, command, &validParams, infoMessage); break;
+            case STRING: *(strParams + (currentStrParam++)) = getParamValueStr(currentParam->key, command, &validParams, infoMessage); break;
         }
-
 
         if(!validParams) break;
     }
@@ -282,19 +270,22 @@ void consoleAddChar(Console *console, char currentChar) {
 
 void consoleDeleteChar(Console *console) {
     char *buffer = console->buffer;
-    if(!(*(buffer + console->offset - 2) == '>' &&
-        *(buffer + console->offset - 1) == ' ')) {
+    int offset = console->offset;
+    bool isCursorAfterPrompt = (*(buffer + offset - 2) == '>' && *(buffer + offset - 1) == ' ');
+
+    if(!isCursorAfterPrompt) {
         console->offset--;
         *(buffer + console->offset) = '\0';
     }
 }
 
 void consoleNewLine(Console *console) {
+    int maxLine = 14; //TODO Hardcoded variable
     consoleAddChar(console, '\n');
 
     console->currentLineNumber++;
 
-    if(console->currentLineNumber > 14) {
+    if(console->currentLineNumber > maxLine) {
         calculateWindowOffset(console);
     }
 }
