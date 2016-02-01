@@ -48,11 +48,9 @@ void programLoop(SDL_Renderer *renderer) {
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     alloc(hme, HeightMapEditor, 1);
 
-    hme->width = windowWidth;
-    hme->height = windowHeight;
     hme->console = createConsole(1);
-    hme->consoleParams = loadConsoleParams(hme->width, hme->height);
-    hme->terrainParams = loadTerrainParams(800, 300);
+
+    hmeSetLayout(hme, windowWidth, windowHeight);
 
     /*heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);*/
@@ -61,6 +59,16 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     renderer = createRenderer(window);
 
     return hme;
+}
+
+void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight) {
+    int heightConsoleWindow = windowHeight / 2;
+    int heightTerrainWindow = windowHeight / 2;
+
+    hme->width = windowWidth;
+    hme->height = windowHeight;
+    hme->consoleParams = loadConsoleParams(hme->width, heightConsoleWindow);
+    hme->terrainParams = loadTerrainParams(hme->width, heightTerrainWindow);
 }
 
 SDL_Window *createWindow(char *title, int width, int height) {
@@ -99,8 +107,8 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 
     int consoleWidth = windowWidth;
-    int yConsole = windowHeight / 2;
-    int heightConsole = windowHeight / 2;
+    int yConsole = windowHeight;
+    int heightConsole = windowHeight;
     int charWidth = 10;
 
     alloc(params, ConsoleVisualParams, 1);

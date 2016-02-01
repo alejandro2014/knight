@@ -30,6 +30,7 @@ typedef struct {
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
+void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight);
 SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);
 
