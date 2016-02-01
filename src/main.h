@@ -20,6 +20,14 @@
 #include "map/events.h"
 #include "map/font.h"
 
+typedef int Layout;
+#define LAYOUT_ONLY_CONSOLE 0
+#define LAYOUT_ONLY_TERRAIN 1
+#define LAYOUT_VER_CONSOLE_TERRAIN 2
+#define LAYOUT_VER_TERRAIN_CONSOLE 3
+#define LAYOUT_HOR_CONSOLE_TERRAIN 4
+#define LAYOUT_HOR_TERRAIN_CONSOLE 5
+
 typedef struct {
     Console *console;
     ConsoleVisualParams *consoleParams;
@@ -36,7 +44,8 @@ SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);
 void freeResources(HeightMapEditor *hme);
 
-void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight);
+void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight, Layout);
+void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRect, HeightMapEditor *hme);
 void setRect(SDL_Rect *rect, int x, int y, int w, int h);
 
 void programLoop(SDL_Renderer *renderer);
