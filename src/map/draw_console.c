@@ -41,6 +41,9 @@ void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *c
     int cursorPosition = calculateCursorPosition(console);
     int row = cursorPosition / consoleParams->widthChars;
     int col = cursorPosition % consoleParams->widthChars;
+    int maxRows = consoleParams->heightChars;
+
+    if(row > maxRows) row = maxRows;
 
     SDL_Rect r;
     r.w = consoleParams->widthCursor;
