@@ -61,14 +61,25 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
     return hme;
 }
 
-void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight) {
-    int heightConsoleWindow = windowHeight / 2;
-    int heightTerrainWindow = windowHeight / 2;
+void hmeSetLayout(HeightMapEditor *hme, int width, int height) {
+    hme->width = width;
+    hme->height = height;
 
-    hme->width = windowWidth;
-    hme->height = windowHeight;
-    hme->consoleParams = loadConsoleParams(hme->width, heightConsoleWindow);
-    hme->terrainParams = loadTerrainParams(hme->width, heightTerrainWindow);
+    SDL_Rect consoleParams;
+    consoleParams.w = width;
+    consoleParams.h = height / 2;
+    consoleParams.x = 0;
+    consoleParams.y = height / 2;
+
+    hme->consoleParams = loadConsoleParams(&consoleParams);
+
+    SDL_Rect terrainParams;
+    terrainParams.w = width;
+    terrainParams.h = height / 2;
+    terrainParams.x = 0;
+    terrainParams.y = 0;
+
+    hme->terrainParams = loadTerrainParams(&terrainParams);
 }
 
 SDL_Window *createWindow(char *title, int width, int height) {
@@ -102,24 +113,21 @@ void freeResources(HeightMapEditor *hme) {
     //freeDialogs(heightMapEditor->dialogs);
 }
 
-ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
+ConsoleVisualParams *loadConsoleParams(SDL_Rect *paramsRect) {
+    //TODO Hardcoded values
     char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
     char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-
-    int consoleWidth = windowWidth;
-    int yConsole = windowHeight;
-    int heightConsole = windowHeight;
     int charWidth = 10;
 
     alloc(params, ConsoleVisualParams, 1);
-    params->x = 0;
-    params->y = yConsole;
+    params->x = paramsRect->x;
+    params->y = paramsRect->y;
     params->interLineSpace = 20;
 
-    params->widthPixels = windowWidth;
-    params->heightPixels = heightConsole;
-    params->widthChars = windowWidth / charWidth;
-    params->heightChars = heightConsole / params->interLineSpace;
+    params->widthPixels = paramsRect->w;
+    params->heightPixels = paramsRect->h;
+    params->widthChars = paramsRect->w / charWidth;
+    params->heightChars = paramsRect->h / params->interLineSpace;
 
     params->padding = 4;
     params->pixelsFill = 5;
@@ -133,9 +141,13 @@ ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight) {
     return params;
 }
 
-TerrainVisualParams *loadTerrainParams(int width, int height) {
+TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect) {
     alloc(terrainParams, TerrainVisualParams, 1);
-    terrainParams->width = width;
-    terrainParams->height = height;
+    
+    terrainParams->width = paramsRect->w;
+    terrainParams->height = paramsRect->h;
+    terrainParams->x = paramsRect->x;
+    terrainParams->y = paramsRect->y;
+
     return terrainParams;
 }

@@ -1,7 +1,5 @@
 #include "draw_terrain.h"
 
-bool update = true;
-
 void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *terrainParams) {
     int x, y;
     int color;
@@ -20,6 +18,6 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *
 }
 
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainParams) {
-    *xOffset = (terrainParams->width - terrain->width) / 2;
-    *yOffset = (terrainParams->height - terrain->height) / 2;
+    *xOffset = ((terrainParams->width - terrain->width) / 2) + terrainParams->x;
+    *yOffset = ((terrainParams->height - terrain->height) / 2) + terrainParams->y;
 }

@@ -38,7 +38,7 @@ void freeResources(HeightMapEditor *hme);
 
 void programLoop(SDL_Renderer *renderer);
 
-ConsoleVisualParams *loadConsoleParams(int windowWidth, int windowHeight);
+ConsoleVisualParams *loadConsoleParams(SDL_Rect *params);
 TerrainVisualParams *loadTerrainParams();
 
 #endif
