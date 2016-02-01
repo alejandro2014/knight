@@ -65,20 +65,20 @@ void hmeSetLayout(HeightMapEditor *hme, int width, int height) {
     hme->width = width;
     hme->height = height;
 
-    SDL_Rect consoleParams;
-    consoleParams.w = width;
-    consoleParams.h = height / 2;
-    consoleParams.x = 0;
-    consoleParams.y = height / 2;
+    SDL_Rect consoleRect;
+    setRect(&consoleRect, 0, height / 2, width, height / 2);
+    hme->consoleParams = loadConsoleParams(&consoleRect);
 
-    SDL_Rect terrainParams;
-    terrainParams.w = width;
-    terrainParams.h = height / 2;
-    terrainParams.x = 0;
-    terrainParams.y = 0;
+    SDL_Rect terrainRect;
+    setRect(&terrainRect, 0, 0, width, height / 2);
+    hme->terrainParams = loadTerrainParams(&terrainRect);
+}
 
-    hme->consoleParams = loadConsoleParams(&terrainParams);
-    hme->terrainParams = loadTerrainParams(&consoleParams);
+void setRect(SDL_Rect *rect, int x, int y, int w, int h) {
+    rect->x = x;
+    rect->y = y;
+    rect->w = w;
+    rect->h = h;
 }
 
 SDL_Window *createWindow(char *title, int width, int height) {

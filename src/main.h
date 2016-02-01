@@ -30,15 +30,15 @@ typedef struct {
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
-void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight);
-SDL_Window *createWindow(char *title, int width, int height);
-SDL_Renderer *createRenderer(SDL_Window *window);
-
-void freeResources(HeightMapEditor *hme);
-
-void programLoop(SDL_Renderer *renderer);
-
 ConsoleVisualParams *loadConsoleParams(SDL_Rect *params);
 TerrainVisualParams *loadTerrainParams();
+SDL_Window *createWindow(char *title, int width, int height);
+SDL_Renderer *createRenderer(SDL_Window *window);
+void freeResources(HeightMapEditor *hme);
+
+void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight);
+void setRect(SDL_Rect *rect, int x, int y, int w, int h);
+
+void programLoop(SDL_Renderer *renderer);
 
 #endif
