@@ -3,8 +3,7 @@
 void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *terrainParams) {
     int x, y;
     int color;
-    int xOffset;
-    int yOffset;
+    int xOffset, yOffset;
 
     calculateOffset(terrain, &xOffset, &yOffset, terrainParams);
 
@@ -17,7 +16,7 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *
     }
 }
 
-void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainParams) {
-    *xOffset = ((terrainParams->width - terrain->width) / 2) + terrainParams->x;
-    *yOffset = ((terrainParams->height - terrain->height) / 2) + terrainParams->y;
+void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainWindow) {
+    *xOffset = ((terrainWindow->width - terrain->width) / 2) + terrainWindow->x;
+    *yOffset = ((terrainWindow->height - terrain->height) / 2) + terrainWindow->y;
 }
