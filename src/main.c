@@ -50,7 +50,7 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
 
     hme->console = createConsole(1);
 
-    hmeSetLayout(hme, windowWidth, windowHeight, LAYOUT_VER_CONSOLE_TERRAIN);
+    hmeSetLayout(hme, windowWidth, windowHeight, LAYOUT_VER_TERRAIN_CONSOLE);
 
     /*heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);*/

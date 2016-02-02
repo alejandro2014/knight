@@ -68,10 +68,18 @@ void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *consolePara
 }
 
 void drawConsoleBorder(SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+    int x = consoleParams->x;
+    int y = consoleParams->y;
+    int w = consoleParams->widthPixels - 1;
+    int h = consoleParams->heightPixels - 1;
     SDL_Color *color = &(consoleParams->font->fgColor);
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
-    SDL_RenderDrawLine(renderer, consoleParams->x, consoleParams->y, consoleParams->widthPixels, consoleParams->y);
+
+    SDL_RenderDrawLine(renderer, x, y, x+w, y); //Top
+    SDL_RenderDrawLine(renderer, x, y, x, y+h); //Left
+    SDL_RenderDrawLine(renderer, x+w, y, x+w, y+h); //Right
+    SDL_RenderDrawLine(renderer, x, y+h, x+w, y+h); //Bottom
 }
 
 int calculateCursorPosition(Console *console) {
