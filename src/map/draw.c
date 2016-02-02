@@ -47,6 +47,17 @@ void setRect(SDL_Rect *rect, int x, int y, int w, int h) {
     rect->h = h;
 }
 
+void drawBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color) {
+    int x = r->x, y = r->y;
+    int w = r->w, h = r->h;
+
+    SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
+
+    SDL_RenderDrawLine(renderer, x, y, x+w, y); //Top
+    SDL_RenderDrawLine(renderer, x, y, x, y+h); //Left
+    SDL_RenderDrawLine(renderer, x+w, y, x+w, y+h); //Right
+    SDL_RenderDrawLine(renderer, x, y+h, x+w, y+h); //Bottom
+}
 /*#include "font.h"
 #include "tools.h"
 

@@ -6,6 +6,8 @@
 #include "../api/api.h"
 #include "../api/hme_lowlevel.h"
 
+#include "global_map.h"
+
 typedef struct {
     int x, y;
     int width, height;

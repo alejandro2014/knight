@@ -33,7 +33,6 @@ typedef struct {
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
-void drawConsoleBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color);
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine);
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);

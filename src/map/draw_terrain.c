@@ -1,11 +1,11 @@
 #include "draw_terrain.h"
 
-void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *terrainParams) {
+void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *params) {
     int x, y;
     int color;
     int xOffset, yOffset;
 
-    calculateOffset(terrain, &xOffset, &yOffset, terrainParams);
+    calculateOffset(terrain, &xOffset, &yOffset, params);
 
     for(y = 0; y < terrain->height; y++) {
         for(x = 0; x < terrain->width; x++) {
@@ -14,6 +14,12 @@ void drawTerrain(SDL_Renderer *renderer, Terrain *terrain, TerrainVisualParams *
             SDL_RenderDrawPoint(renderer, x + xOffset, y + yOffset);
         }
     }
+
+    SDL_Rect r;
+    SDL_Color c;
+    c.r = 160; c.g = 80; c.b = 80;
+    setRect(&r, params->x, params->y, params->width - 1, params->height - 1);
+    drawBorder(renderer, &r, &c);
 }
 
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainWindow) {
