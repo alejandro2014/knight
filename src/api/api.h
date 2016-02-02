@@ -6,6 +6,8 @@
 
 #include "../global.h"
 
+#include "types_api.h"
+
 typedef int Operation;
 #define ROTATE_90 0
 #define ROTATE_180 1
@@ -15,27 +17,6 @@ typedef int Operation;
 #define REPLACE_HEIGHT 5
 #define ADD_HEIGHT 6
 #define SUBS_HEIGHT 7
-
-typedef int FillStatus;
-#define NOT_FILLED 0
-#define FILLED 1
-#define PENDING_FILL 2
-
-typedef struct {
-  int x;
-  int y;
-  int z;
-  bool isHeightSetted;
-  FillStatus fillStatus;
-} Point;
-
-typedef struct {
-  int width;
-  int height;
-  int pointsNo;
-  Point *points;
-  int seedRandom;
-} Terrain;
 
 Terrain *api_generateTerrain(int width, int height, char *infoMessage);
 void api_freeTerrain(Terrain *terrain);

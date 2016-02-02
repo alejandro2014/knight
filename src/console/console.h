@@ -13,6 +13,9 @@
 #include "../api/flood.h"
 #include "../api/replace.h"
 
+#include "types_console.h"
+#include "write_console.h"
+
 #define LINE_LENGTH 50
 #define NUM_COMMANDS 30
 #define MAX_PARAMS 10
@@ -25,41 +28,6 @@
 #define P5 *(intParams+5)
 #define P6 *(intParams+6)
 #define P7 *(intParams+7)
-
-typedef int ParamType;
-#define STRING 0
-#define INT 1
-
-typedef struct {
-    char *key;
-    char *value;
-    ParamType type;
-} Param;
-
-typedef struct {
-    char *name;
-    Param *params;
-    int numParams;
-    char *target;
-} Command;
-
-typedef struct {
-    int numCommands;
-    Command *commands;
-    Command *currentCommand;
-    Terrain *terrain;
-
-    int size;
-    char *buffer;
-    int offset;
-    int lastLineOffset;
-
-    char *currentLine;
-    int cursorPos;
-
-    int windowOffset;
-    int currentLineNumber;
-} Console;
 
 void readShellLine(Console *console, FILE *inputStream);
 bool processCommand(char *textCommand, Console *console);
@@ -80,13 +48,6 @@ void deleteParamsValue(Command *command);
 
 void loadScript(Console *console, char *pathScript);
 
-void consoleAddChar(Console *console, char currentChar);
-void consoleDeleteChar(Console *console);
-void consoleNewLine(Console *console);
-void consoleAddString(Console *console, char *string);
-void consoleAddStringLine(Console *console, char *string);
 void consoleResize(Console *console, int newRowsNum, int newColsNum);
-
-void calculateWindowOffset(Console *console);
 
 #endif
