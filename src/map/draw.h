@@ -15,7 +15,6 @@
 #include "font.h"
 
 void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams, TerrainVisualParams *terrainParams);
-
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_down_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);
 void draw_up_button (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

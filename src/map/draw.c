@@ -40,6 +40,13 @@ void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *c
     SDL_RenderPresent(renderer);
 }
 
+void setRect(SDL_Rect *rect, int x, int y, int w, int h) {
+    rect->x = x;
+    rect->y = y;
+    rect->w = w;
+    rect->h = h;
+}
+
 /*#include "font.h"
 #include "tools.h"
 

@@ -12,4 +12,6 @@ typedef struct {
     bool printPrompt;
 } Events;
 
+void setRect(SDL_Rect *rect, int x, int y, int w, int h);
+
 #endif

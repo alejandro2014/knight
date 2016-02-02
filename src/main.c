@@ -107,13 +107,6 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
     }
 }
 
-void setRect(SDL_Rect *rect, int x, int y, int w, int h) {
-    rect->x = x;
-    rect->y = y;
-    rect->w = w;
-    rect->h = h;
-}
-
 SDL_Window *createWindow(char *title, int width, int height) {
     SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
                     SDL_WINDOW_RESIZABLE);
