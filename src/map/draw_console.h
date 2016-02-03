@@ -13,9 +13,8 @@
 #include "global_map.h"
 
 typedef struct {
-    int x, y;
+    SDL_Rect *coords;
     int widthChars, heightChars;
-    int widthPixels, heightPixels;
     int interLineSpace;
     int padding;
     int pixelsFill;

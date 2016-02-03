@@ -15,7 +15,7 @@ int main(int argn, char *argv[]) {
 
     consoleAddChar(console, 'a');
 
-    assert(*(console->buffer + 0) == 'b');
+    assert(*(console->buffer + 0) == 'a');
     assert(console->offset == 1);
 
     free(buffer);

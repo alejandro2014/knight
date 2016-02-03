@@ -27,14 +27,14 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
 
     printConsoleLine(line, renderer, params, &currentLine);
 
-    SDL_Rect r;
-    setRect(&r, params->x, params->y, params->widthPixels - 1, params->heightPixels - 1);
-    drawBorder(renderer, &r, &(params->font->fgColor));
+    //SDL_Rect r;
+    //setRect(&r, params->coords->x, params->coords->y, params->coords->w - 1, params->coords->h - 1);
+    drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine) {
-    int currentY = *currentLine * params->interLineSpace + params->y;
-    printString(params->font, renderer, line, params->x, currentY);
+    int currentY = *currentLine * params->interLineSpace + params->coords->y;
+    printString(params->font, renderer, line, params->coords->x, currentY);
     memset(line, 0, params->widthChars + 1);
     (*currentLine)++;
 }
@@ -51,8 +51,8 @@ void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *c
     SDL_Rect r;
     r.w = consoleParams->widthCursor;
     r.h = consoleParams->heightCursor;
-    r.x = col * r.w + consoleParams->x;
-    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->y;
+    r.x = col * r.w + consoleParams->coords->x;
+    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->coords->y;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
@@ -62,10 +62,10 @@ void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params) {
     SDL_Color *bgColor = &(params->font->bgColor);
     SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
 
-    SDL_Rect r;
-
-    setRect(&r, params->x, params->y, params->widthPixels, params->heightPixels);
-    SDL_RenderFillRect(renderer, &r);
+    //printf("Coords(x:%d y:%d w:%d h:%d)\n", params->coords->x, params->coords->y, params->coords->w, params->coords->h);
+    //SDL_Rect r;
+    //setRect(&r, params->coords->x, params->coords->y, params->coords->w, params->coords->h);
+    SDL_RenderFillRect(renderer, params->coords);
 }
 
 int calculateCursorPosition(Console *console) {

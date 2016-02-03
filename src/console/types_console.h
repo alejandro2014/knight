@@ -25,7 +25,7 @@ typedef struct {
     int numCommands;
     Command *commands;
     Command *currentCommand;
-    Terrain *terrain;
+    Terrain *terrain; //TODO Coupled with map
 
     int size;
     char *buffer;
@@ -35,8 +35,8 @@ typedef struct {
     char *currentLine;
     int cursorPos;
 
-    int windowOffset;
-    int currentLineNumber;
+    int windowOffset; //TODO
+    int currentLineNumber; //TODO
 } Console;
 
 #endif

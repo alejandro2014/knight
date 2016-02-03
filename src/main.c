@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
-    processCommand("gterr width=200 height=100", hme->console);
+    //processCommand("gterr width=200 height=100", hme->console);
     //processCommand("sethterr height=200", hme->console);
     //processCommand("sethsel x1=10 y1=9 x2=80 y2=79 height=200", hme->console);
     //processCommand("risesel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
@@ -145,15 +145,13 @@ ConsoleVisualParams *loadConsoleParams(SDL_Rect *paramsRect) {
     int charWidth = 10;
 
     alloc(params, ConsoleVisualParams, 1);
-    params->x = paramsRect->x;
-    params->y = paramsRect->y;
+    allocExist(params->coords, SDL_Rect, 1);
+    memcpy(params->coords, paramsRect, sizeof(SDL_Rect));
+
     params->interLineSpace = 20;
 
-    params->widthPixels = paramsRect->w;
-    params->heightPixels = paramsRect->h;
-
-    params->widthChars =params->widthPixels / charWidth;
-    params->heightChars = params->heightPixels / params->interLineSpace - 1;
+    params->widthChars =params->coords->w / charWidth;
+    params->heightChars = params->coords->h / params->interLineSpace - 1;
 
     params->padding = 4;
     params->pixelsFill = 5;
