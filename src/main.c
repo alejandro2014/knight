@@ -4,24 +4,54 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-/*
-int getLinePosition(int lineNumber, char *buffer) {
-    char currentChar;
+int getLinePosition(char *buffer, int lineNumber) {
     int currentLine = 0;
     int length = strlen(buffer);
     int i;
 
+    if(lineNumber == 0) return currentLine;
+
     for(i = 0; i < length; i++) {
-        currentChar = *(buffer + i);
+        if(*(buffer + i) == '\n') currentLine++;
+
+        if(currentLine == lineNumber) return i + 1;
     }
 
-    return 0;
-}*/
-int main(int argc, char* argv[]) {
-    char *buffer = "line 1\nline 2\nline 3\nline 4\nline 5";
-    int linePosition = getLinePosition(0, buffer);
+    return currentLine >= lineNumber ? currentLine : -1;
+}
 
-    printf("%s\n", buffer + linePosition);
+int printBufferLine(char *buffer, int lineNumber, char *lineConsole) {
+    int offsetStart = getLinePosition(buffer, lineNumber);
+    int i = 0;
+
+    while(*(buffer + offsetStart + i) != '\n') {
+        i++;
+    }
+
+    int offsetEnd = offsetStart + i;
+
+    memcpy(lineConsole, buffer + offsetStart, offsetEnd - offsetStart);
+    printf("%s\n", lineConsole);
+
+    return 0;
+}
+
+void showWindow(char *buffer, int lineStart, int numLines) {
+    alloc(lineConsole, char, 10);
+    int lineEnd = lineStart + numLines;
+    int i;
+
+    for(i = lineStart; i < lineEnd; i++) {
+        printBufferLine(buffer, i, lineConsole);
+    }
+}
+
+int main(int argc, char* argv[]) {
+    char *buffer = "line a\nline b\nline c\nline d\nline e";
+    int linePosition;
+
+    showWindow(buffer, 1, 3);
+
     return 0;
 
     SDL_Init(SDL_INIT_VIDEO);
