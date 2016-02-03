@@ -1,6 +1,7 @@
 #include "draw_console.h"
 
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *params) {
+    //console->buffer = "first line\nsecond line\n0123456789012345678901234567890123456789";
     alloc(line, char, params->widthChars + 1);
     int numChars = strlen(console->buffer);
     int currentLine = 0;
@@ -26,9 +27,6 @@ void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *
     }
 
     printConsoleLine(line, renderer, params, &currentLine);
-
-    //SDL_Rect r;
-    //setRect(&r, params->coords->x, params->coords->y, params->coords->w - 1, params->coords->h - 1);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
@@ -61,10 +59,6 @@ void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *c
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params) {
     SDL_Color *bgColor = &(params->font->bgColor);
     SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
-
-    //printf("Coords(x:%d y:%d w:%d h:%d)\n", params->coords->x, params->coords->y, params->coords->w, params->coords->h);
-    //SDL_Rect r;
-    //setRect(&r, params->coords->x, params->coords->y, params->coords->w, params->coords->h);
     SDL_RenderFillRect(renderer, params->coords);
 }
 

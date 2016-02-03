@@ -4,7 +4,26 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+/*
+int getLinePosition(int lineNumber, char *buffer) {
+    char currentChar;
+    int currentLine = 0;
+    int length = strlen(buffer);
+    int i;
+
+    for(i = 0; i < length; i++) {
+        currentChar = *(buffer + i);
+    }
+
+    return 0;
+}*/
 int main(int argc, char* argv[]) {
+    char *buffer = "line 1\nline 2\nline 3\nline 4\nline 5";
+    int linePosition = getLinePosition(0, buffer);
+
+    printf("%s\n", buffer + linePosition);
+    return 0;
+
     SDL_Init(SDL_INIT_VIDEO);
 
     hme = loadHeightMapEditor(800, 600);

@@ -24,10 +24,6 @@ typedef struct {
     bool showCursor;
     int cursorTimeOld;
     bool printPrompt;
-
-    int lineStart;
-    int lineEnd;
-    int currentLine;
 } ConsoleVisualParams;
 
 void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);

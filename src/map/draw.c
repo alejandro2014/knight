@@ -55,8 +55,8 @@ void drawBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color) {
 
     SDL_RenderDrawLine(renderer, x, y, x+w, y); //Top
     SDL_RenderDrawLine(renderer, x, y, x, y+h); //Left
-    SDL_RenderDrawLine(renderer, x+w, y, x+w, y+h); //Right
-    SDL_RenderDrawLine(renderer, x, y+h, x+w, y+h); //Bottom
+    SDL_RenderDrawLine(renderer, x+w-1, y, x+w-1, y+h-1); //Right
+    SDL_RenderDrawLine(renderer, x, y+h-1, x+w, y+h-1); //Bottom
 }
 /*#include "font.h"
 #include "tools.h"
