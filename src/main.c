@@ -46,16 +46,17 @@ void copyLineFromBuffer(int lineNumber, char *buffer, char *lineConsole) {
 
 void showWindow(char *buffer, int lineStart, int numLines) {
     int width = 10;
-    alloc(lineConsole, char, width);
+    alloc(lineConsole, char, width + 1);
     int lineEnd = lineStart + numLines;
     int i;
 
     printLine(width);
 
     for(i = lineStart; i < lineEnd; i++) {
+        memset(lineConsole, ' ', width);
+        *(lineConsole + width) = '\0';
         copyLineFromBuffer(i, buffer, lineConsole);
         printf("|%s|\n", lineConsole);
-        memset(lineConsole, 0, width);
     }
 
     printLine(width);
