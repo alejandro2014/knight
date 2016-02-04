@@ -4,11 +4,6 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-/*int getLinePosition(char *buffer, int lineNumber);
-void printLine(int width);
-void copyLineFromBuffer(int lineNumber, char *buffer, char *lineConsole);
-void showWindow(char *buffer, int lineStart, int numLines);*/
-
 int getLinePosition(char *buffer, int lineNumber) {
     int currentLine = 0;
     int length = strlen(buffer);
@@ -23,14 +18,6 @@ int getLinePosition(char *buffer, int lineNumber) {
 
     return currentLine >= lineNumber ? currentLine : -1;
 }
-
-/*void printLine(int width) {
-    int i = 0;
-
-    printf("+");
-    for(i = 0; i < width; i++) printf("-");
-    printf("+\n");
-}*/
 
 int getLengthLine(char *buffer, int bufferPos) {
     int i = 0;
@@ -50,6 +37,31 @@ char *getLineFromBuffer(int lineNumber, char *buffer) {
     memcpy(bufferLine, buffer + bufferPos, lengthLine);
 
     return bufferLine;
+}
+
+void printLine(int width) {
+    int i = 0;
+
+    printf("+");
+    for(i = 0; i < width; i++) printf("-");
+    printf("+\n");
+}
+
+void printConsoleString(char *string, int lengthRowConsole) {
+    alloc(consoleRow, char, lengthRowConsole + 1);
+    int lengthString = strlen(string);
+    int completeRows = lengthString / lengthRowConsole;
+    int i, j;
+
+    for(i = 0; i < completeRows; i++) {
+        memcpy(consoleRow, string + (i * lengthRowConsole), 10);
+        printf("|%s|\n", consoleRow);
+    }
+
+    printf("|");
+    printf("%s", string + (i * lengthRowConsole));
+    for(j = 0; j < 10 - strlen(string + (i * lengthRowConsole)); j++) printf(" ");
+    printf("|\n");
 }
 
 /*void showWindow(char *buffer, int lineStart, int numLines) {
@@ -74,14 +86,26 @@ char *getLineFromBuffer(int lineNumber, char *buffer) {
 // 3. Write all the lines in the window
 int main(int argc, char* argv[]) {
     char *buffer = "line a\nline b\nline c a little bit longer\nline d\nline e";
+    char *consoleLine = NULL;
     //char *buffer = "line a\nline b\nline c\nline d\nline e";
 
     //showWindow(buffer, 1, 3);
-    printf("[%s]\n", getLineFromBuffer(0, buffer));
-    printf("[%s]\n", getLineFromBuffer(1, buffer));
-    printf("[%s]\n", getLineFromBuffer(2, buffer));
-    printf("[%s]\n", getLineFromBuffer(3, buffer));
-    printf("[%s]\n", getLineFromBuffer(4, buffer));
+    printLine(10);
+    consoleLine = getLineFromBuffer(0, buffer);
+    printConsoleString(consoleLine, 10);
+
+    consoleLine = getLineFromBuffer(1, buffer);
+    printConsoleString(consoleLine, 10);
+
+    consoleLine = getLineFromBuffer(2, buffer);
+    printConsoleString(consoleLine, 10);
+
+    consoleLine = getLineFromBuffer(3, buffer);
+    printConsoleString(consoleLine, 10);
+
+    consoleLine = getLineFromBuffer(4, buffer);
+    printConsoleString(consoleLine, 10);
+    printLine(10);
 
     return 0;
 
