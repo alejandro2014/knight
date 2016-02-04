@@ -4,6 +4,11 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+int getLinePosition(char *buffer, int lineNumber);
+void printLine(int width);
+void copyLineFromBuffer(int lineNumber, char *buffer, char *lineConsole);
+void showWindow(char *buffer, int lineStart, int numLines);
+
 int getLinePosition(char *buffer, int lineNumber) {
     int currentLine = 0;
     int length = strlen(buffer);
@@ -13,42 +18,52 @@ int getLinePosition(char *buffer, int lineNumber) {
 
     for(i = 0; i < length; i++) {
         if(*(buffer + i) == '\n') currentLine++;
-
         if(currentLine == lineNumber) return i + 1;
     }
 
     return currentLine >= lineNumber ? currentLine : -1;
 }
 
-int printBufferLine(char *buffer, int lineNumber, char *lineConsole) {
-    int offsetStart = getLinePosition(buffer, lineNumber);
+void printLine(int width) {
     int i = 0;
 
-    while(*(buffer + offsetStart + i) != '\n') {
-        i++;
+    printf("+");
+    for(i = 0; i < width; i++) printf("-");
+    printf("+\n");
+}
+
+void copyLineFromBuffer(int lineNumber, char *buffer, char *lineConsole) {
+    int bufferPos = getLinePosition(buffer, lineNumber);
+    int width = 10;
+    int i = 0;
+    char currentChar = *(buffer + bufferPos + i);
+
+    while(i < width && currentChar != '\n') {
+        *(lineConsole + i) = currentChar;
+        currentChar = *(buffer + bufferPos + (++i));
     }
-
-    int offsetEnd = offsetStart + i;
-
-    memcpy(lineConsole, buffer + offsetStart, offsetEnd - offsetStart);
-    printf("%s\n", lineConsole);
-
-    return 0;
 }
 
 void showWindow(char *buffer, int lineStart, int numLines) {
-    alloc(lineConsole, char, 10);
+    int width = 10;
+    alloc(lineConsole, char, width);
     int lineEnd = lineStart + numLines;
     int i;
 
+    printLine(width);
+
     for(i = lineStart; i < lineEnd; i++) {
-        printBufferLine(buffer, i, lineConsole);
+        copyLineFromBuffer(i, buffer, lineConsole);
+        printf("|%s|\n", lineConsole);
+        memset(lineConsole, 0, width);
     }
+
+    printLine(width);
 }
 
 int main(int argc, char* argv[]) {
-    char *buffer = "line a\nline b\nline c\nline d\nline e";
-    int linePosition;
+    char *buffer = "line a\nline b\nline c a little bit longer\nline d\nline e";
+    //char *buffer = "line a\nline b\nline c\nline d\nline e";
 
     showWindow(buffer, 1, 3);
 
