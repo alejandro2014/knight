@@ -48,6 +48,14 @@ Console2 *initConsole() {
     return console;
 }
 
+void printLine(int width) {
+    int i = 0;
+
+    printf("+");
+    for(i = 0; i < width; i++) printf("-");
+    printf("+\n");
+}
+
 ConsoleLine *getLineNumber(Console2 *console, int lineNumber) {
     ConsoleLine *line = console->lines;
     int currentLine = 0;
@@ -58,6 +66,26 @@ ConsoleLine *getLineNumber(Console2 *console, int lineNumber) {
     }
 
     return (currentLine == lineNumber) ? line : NULL;
+}
+
+void showWindow(Console2 *console, int lineStart, int numLines) {
+    int width = 10; //TODO Hardcoded
+    ConsoleLine *line = NULL;
+    int i;
+
+    printLine(width);
+
+    for(i = lineStart; i < lineStart + numLines; i++) {
+        line = getLineNumber(console, i);
+
+        if(line != NULL) {
+            printf("%s\n", line->content);
+        } else {
+            printf("\n");
+        }
+    }
+
+    printLine(width);
 }
 
 int main(int argc, char* argv[]) {
@@ -73,19 +101,10 @@ int main(int argc, char* argv[]) {
     addLineToConsole(console);
     addLineToConsole(console);
 
-    ConsoleLine *line = NULL;
-    line = getLineNumber(console, 0);
-    printf("> %s\n", line->content);
-
-    line = getLineNumber(console, 1);
-    printf("> %s\n", line->content);
-
-    line = getLineNumber(console, 2);
-    printf("> %s\n", line->content);
-
-    line = getLineNumber(console, 3);
-    if(line == NULL) { printf("NULL"); return 0; }
-    printf("> %s\n", line->content);
+    showWindow(console, 0, 3);
+    showWindow(console, 1, 3);
+    showWindow(console, 2, 3);
+    showWindow(console, 3, 3);
 
     return 0;
 
@@ -135,14 +154,6 @@ char *getLineFromBuffer(int lineNumber, char *buffer) {
     return bufferLine;
 }
 
-void printLine(int width) {
-    int i = 0;
-
-    printf("+");
-    for(i = 0; i < width; i++) printf("-");
-    printf("+\n");
-}
-
 void printConsoleLine2(char *consoleLine, int *remaining) {
     printf("|%s|\n", consoleLine);
     (*remaining)--;
@@ -173,26 +184,6 @@ void printConsoleString(char *string, int lengthRowConsole, int *remaining) {
         stringOffset = string + (i * lengthRowConsole);
         printConsoleLine3(consoleRow, stringOffset, lengthRowConsole, remaining, true);
     }
-}
-
-void showWindow(char *buffer, int lineStart, int numLines) {
-    int width = 10;
-    int consoleRows = 3;
-    int remaining = 3;
-    char *consoleLine = NULL;
-
-    alloc(lineConsole, char, width + 1);
-    int lineEnd = lineStart + numLines;
-    int i;
-
-    printLine(width);
-
-    for(i = lineStart; i < lineEnd; i++) {
-        consoleLine = getLineFromBuffer(i, buffer);
-        printConsoleString(consoleLine, 10, &remaining);
-    }
-
-    printLine(width);
 }*/
 
 void programLoop(SDL_Renderer *renderer) {
