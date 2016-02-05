@@ -71,6 +71,8 @@ void hmeSetLayout(HeightMapEditor *hme, int width, int height, Layout layout) {
     setWindowsLayout(layout, &consoleRect, &terrainRect, hme);
 
     hme->console->visual = loadConsoleParams(&consoleRect);
+    addLineToConsole(hme->console);
+
     hme->terrainParams = loadTerrainParams(&terrainRect);
 }
 
@@ -129,11 +131,10 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
 }
 
 void freeResources(HeightMapEditor *hme) {
+    TTF_CloseFont(hme->console->visual->font->type);
     freeConsole(hme->console);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
-    TTF_CloseFont(hme->console->visual->font->type);
     api_freeTerrain(hme->terrain);
     //freeDialogs(heightMapEditor->dialogs);
 }

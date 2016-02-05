@@ -2,12 +2,12 @@
 
 void readShellLine(Console *console, FILE *inputStream) {
     int endOffset = console->offset;
-    int beginOffset = console->lastLineOffset;
+    int beginOffset = console->visual->lineOffset;
     int length = endOffset - beginOffset;
 
-    memcpy(console->currentLine, console->buffer + console->lastLineOffset, length - 1);
+    memcpy(console->currentLine, console->buffer + console->visual->lineOffset, length - 1);
     *(console->currentLine + length) = '\0';
-    console->lastLineOffset = console->offset;
+    console->visual->lineOffset = console->offset;
 }
 
 // Returns whether we need to finish

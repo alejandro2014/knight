@@ -36,6 +36,7 @@ typedef struct {
 
 typedef struct ConsoleLine {
     char *content;
+    bool newLine;
     struct ConsoleLine *previous;
     struct ConsoleLine *next;
 } ConsoleLine;
@@ -46,8 +47,7 @@ typedef struct {
     int interLineSpace;
     int padding;
     int pixelsFill;
-    int widthCursor;
-    int heightCursor;
+    int widthCursor, heightCursor;
     Font *font;
     bool showCursor;
     int cursorTimeOld;
@@ -57,6 +57,7 @@ typedef struct {
 
     ConsoleLine *lines;
     ConsoleLine *lastLine;
+    int lineOffset;
 } ConsoleVisualParams;
 
 typedef struct {
@@ -68,7 +69,6 @@ typedef struct {
     int size;
     char *buffer;
     int offset;
-    int lastLineOffset;
 
     char *currentLine;
     int cursorPos;

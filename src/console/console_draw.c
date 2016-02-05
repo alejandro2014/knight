@@ -2,7 +2,7 @@
 
 void drawConsole(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *params = console->visual;
-    //console->buffer = "first line\nsecond line\n0123456789012345678901234567890123456789";
+    //console->buffer = "first line\nsecond line\n012345678901234567890123``4567890123456789";
     alloc(line, char, params->widthChars + 1);
     int numChars = strlen(console->buffer);
     int currentLine = 0;
@@ -14,18 +14,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
 
     clearConsoleScreen(renderer, params);
 
-    for(i = windowOffset; i < numChars; i++) {
-        currentChar = *(console->buffer + i);
-        *(line + cursorPos) = currentChar;
-        finishedLine = (cursorPos == params->widthChars - 1 || currentChar == '\n') ? true : false;
-
-        if(finishedLine) {
-            printConsoleLine(line, renderer, params, &currentLine);
-            cursorPos = 0;
-        } else {
-            cursorPos++;
-        }
-    }
+    showWindow(renderer, console, currentLine, console->visual->widthChars);
 
     printConsoleLine(line, renderer, params, &currentLine);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
@@ -98,24 +87,20 @@ void printLine(int width) {
     printf("+\n");
 }
 
-void showWindow(Console *console, int lineStart, int numLines) {
-    int width = 10; //TODO Hardcoded
+void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines) {
+    int width = console->visual->widthChars;
     ConsoleLine *line = NULL;
     int i;
-
-    printLine(width);
+    int currentY;
 
     for(i = lineStart; i < lineStart + numLines; i++) {
         line = getLineNumber(console, i);
 
         if(line != NULL) {
-            printf("%s\n", line->content);
-        } else {
-            printf("\n");
+            currentY = i - lineStart;
+            printString(console->visual->font, renderer, line->content, console->visual->coords->x, currentY);
         }
     }
-
-    printLine(width);
 }
 
 void addLineToConsole(Console *console) {
@@ -137,7 +122,7 @@ ConsoleLine *getLineNumber(Console *console, int lineNumber) {
     ConsoleLine *line = console->visual->lines;
     int currentLine = 0;
 
-    while(currentLine < lineNumber && line->next != NULL) {
+    while(currentLine < lineNumber && line != NULL) {
         line = line->next;
         currentLine++;
     }

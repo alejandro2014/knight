@@ -2,6 +2,7 @@
 #define LOAD_CONSOLE_H
 
 #include "console.h"
+#include "console_draw.h"
 
 Console *createConsole(int sizeKb);
 void freeConsole(Console *console);

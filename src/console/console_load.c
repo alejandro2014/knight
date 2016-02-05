@@ -9,6 +9,9 @@ Console *createConsole(int sizeKb) {
     allocExist(console->currentLine, char, lengthLine);
     allocExist(console->commands, Command, NUM_COMMANDS);
 
+    allocExist(console->visual, ConsoleVisualParams, 1);
+    addLineToConsole(console);
+
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
     }
@@ -18,7 +21,9 @@ Console *createConsole(int sizeKb) {
     return console;
 }
 
+//TODO It doesn't free all the memory
 void freeConsole(Console *console) {
+    free(console->visual);
     free(console->buffer);
     free(console);
 }

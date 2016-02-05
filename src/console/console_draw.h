@@ -22,11 +22,7 @@ void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
 int calculateCursorPosition(Console *console);
 
 void printLine(int width);
-void showWindow(Console *console, int lineStart, int numLines);
-void addLineToConsole(Console *console);
-
-void printLine(int width);
-void showWindow(Console *console, int lineStart, int numLines);
+void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines);
 void addLineToConsole(Console *console);
 ConsoleLine *getLineNumber(Console *console, int lineNumber);
 
