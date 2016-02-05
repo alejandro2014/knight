@@ -4,7 +4,103 @@ HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-int getLinePosition(char *buffer, int lineNumber) {
+/*
+1. Compose console line -
+2. Add line to pointer list -
+3. Lookup line (pointer)
+4. Delete console pointers
+5. Redo structure when console is resized
+*/
+
+typedef struct ConsoleLine {
+    char *content;
+    struct ConsoleLine *previous;
+    struct ConsoleLine *next;
+} ConsoleLine;
+
+typedef struct {
+    ConsoleLine *lines;
+    ConsoleLine *lastLine;
+} Console2;
+
+int contador = 0;
+
+void addLineToConsole(Console2 *console) {
+    int lengthLine = 10; //TODO Hardcoded
+    alloc(newConsoleLine, ConsoleLine, 1);
+    allocExist(newConsoleLine->content, char, lengthLine);
+
+    sprintf(newConsoleLine->content, "Line %d", contador++);
+
+    if(console->lastLine != NULL) {
+        console->lastLine->next = newConsoleLine;
+        newConsoleLine->previous = console->lastLine;
+    } else {
+        console->lines = newConsoleLine;
+    }
+
+    console->lastLine = newConsoleLine;
+}
+
+Console2 *initConsole() {
+    alloc(console, Console2, 1);
+    addLineToConsole(console);
+    return console;
+}
+
+ConsoleLine *getLineNumber(Console2 *console, int lineNumber) {
+    ConsoleLine *line = console->lines;
+    int currentLine = 0;
+
+    while(currentLine < lineNumber && line->next != NULL) {
+        line = line->next;
+        currentLine++;
+    }
+
+    return (currentLine == lineNumber) ? line : NULL;
+}
+
+int main(int argc, char* argv[]) {
+    /*alloc(consoleWindow, char, 10 * 3);
+    char *buffer = "line a\nline b\nline c a little bit longer\nline d\nline e";
+    char *consoleLine = NULL;
+    int remaining = 3;
+
+    showWindow(buffer, 1, 3);
+    showWindow(buffer, 2, 3);
+    showWindow(buffer, 3, 3);*/
+    Console2 *console = initConsole();
+    addLineToConsole(console);
+    addLineToConsole(console);
+
+    ConsoleLine *line = NULL;
+    line = getLineNumber(console, 0);
+    printf("> %s\n", line->content);
+
+    line = getLineNumber(console, 1);
+    printf("> %s\n", line->content);
+
+    line = getLineNumber(console, 2);
+    printf("> %s\n", line->content);
+
+    line = getLineNumber(console, 3);
+    if(line == NULL) { printf("NULL"); return 0; }
+    printf("> %s\n", line->content);
+
+    return 0;
+
+    SDL_Init(SDL_INIT_VIDEO);
+
+    hme = loadHeightMapEditor(800, 600);
+    programLoop(renderer);
+    freeResources(hme);
+
+    SDL_Quit();
+
+    return 0;
+}
+
+/*int getLinePosition(char *buffer, int lineNumber) {
     int currentLine = 0;
     int length = strlen(buffer);
     int i;
@@ -47,26 +143,43 @@ void printLine(int width) {
     printf("+\n");
 }
 
-void printConsoleString(char *string, int lengthRowConsole) {
-    alloc(consoleRow, char, lengthRowConsole + 1);
-    int lengthString = strlen(string);
-    int completeRows = lengthString / lengthRowConsole;
-    int i, j;
-
-    for(i = 0; i < completeRows; i++) {
-        memcpy(consoleRow, string + (i * lengthRowConsole), 10);
-        printf("|%s|\n", consoleRow);
-    }
-
-    printf("|");
-    printf("%s", string + (i * lengthRowConsole));
-    for(j = 0; j < 10 - strlen(string + (i * lengthRowConsole)); j++) printf(" ");
-    printf("|\n");
+void printConsoleLine2(char *consoleLine, int *remaining) {
+    printf("|%s|\n", consoleLine);
+    (*remaining)--;
 }
 
-/*void showWindow(char *buffer, int lineStart, int numLines) {
+void printConsoleLine3(char *consoleRow, char *stringOffset, int lengthRowConsole, int *remaining, bool trailingSpaces) {
+    memcpy(consoleRow, stringOffset, lengthRowConsole);
+
+    if(trailingSpaces) {
+        memset(consoleRow + strlen(stringOffset), ' ', lengthRowConsole - strlen(stringOffset));
+    }
+
+    printConsoleLine2(consoleRow, remaining);
+}
+
+void printConsoleString(char *string, int lengthRowConsole, int *remaining) {
+    alloc(consoleRow, char, lengthRowConsole + 1);
+    int completeRows = strlen(string) / lengthRowConsole;
+    int i;
+    char *stringOffset = NULL;
+
+    for(i = 0; i < completeRows && *remaining > 0; i++) {
+        stringOffset = string + (i * lengthRowConsole);
+        printConsoleLine3(consoleRow, stringOffset, lengthRowConsole, remaining, false);
+    }
+
+    if(*remaining > 0) {
+        stringOffset = string + (i * lengthRowConsole);
+        printConsoleLine3(consoleRow, stringOffset, lengthRowConsole, remaining, true);
+    }
+}
+
+void showWindow(char *buffer, int lineStart, int numLines) {
     int width = 10;
     int consoleRows = 3;
+    int remaining = 3;
+    char *consoleLine = NULL;
 
     alloc(lineConsole, char, width + 1);
     int lineEnd = lineStart + numLines;
@@ -75,50 +188,12 @@ void printConsoleString(char *string, int lengthRowConsole) {
     printLine(width);
 
     for(i = lineStart; i < lineEnd; i++) {
-        copyLineFromBuffer(i, buffer, lineConsole);
+        consoleLine = getLineFromBuffer(i, buffer);
+        printConsoleString(consoleLine, 10, &remaining);
     }
 
     printLine(width);
 }*/
-
-// 1. Position in line <offset>
-// 2. Get all the lines needed to fill the console. Console lines != buffer lines
-// 3. Write all the lines in the window
-int main(int argc, char* argv[]) {
-    char *buffer = "line a\nline b\nline c a little bit longer\nline d\nline e";
-    char *consoleLine = NULL;
-    //char *buffer = "line a\nline b\nline c\nline d\nline e";
-
-    //showWindow(buffer, 1, 3);
-    printLine(10);
-    consoleLine = getLineFromBuffer(0, buffer);
-    printConsoleString(consoleLine, 10);
-
-    consoleLine = getLineFromBuffer(1, buffer);
-    printConsoleString(consoleLine, 10);
-
-    consoleLine = getLineFromBuffer(2, buffer);
-    printConsoleString(consoleLine, 10);
-
-    consoleLine = getLineFromBuffer(3, buffer);
-    printConsoleString(consoleLine, 10);
-
-    consoleLine = getLineFromBuffer(4, buffer);
-    printConsoleString(consoleLine, 10);
-    printLine(10);
-
-    return 0;
-
-    SDL_Init(SDL_INIT_VIDEO);
-
-    hme = loadHeightMapEditor(800, 600);
-    programLoop(renderer);
-    freeResources(hme);
-
-    SDL_Quit();
-
-    return 0;
-}
 
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
