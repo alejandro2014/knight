@@ -1,8 +1,13 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
 #include "../global.h"
 #include "../api/types_api.h"
+
+#include "../map/font.h"
 
 typedef int ParamType;
 #define STRING 0
@@ -20,6 +25,20 @@ typedef struct {
     int numParams;
     char *target;
 } Command;
+
+typedef struct {
+    SDL_Rect *coords;
+    int widthChars, heightChars;
+    int interLineSpace;
+    int padding;
+    int pixelsFill;
+    int widthCursor;
+    int heightCursor;
+    Font *font;
+    bool showCursor;
+    int cursorTimeOld;
+    bool printPrompt;
+} ConsoleVisualParams;
 
 typedef struct {
     int numCommands;
