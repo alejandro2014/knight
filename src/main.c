@@ -48,14 +48,6 @@ Console2 *initConsole() {
     return console;
 }
 
-void printLine(int width) {
-    int i = 0;
-
-    printf("+");
-    for(i = 0; i < width; i++) printf("-");
-    printf("+\n");
-}
-
 ConsoleLine *getLineNumber(Console2 *console, int lineNumber) {
     ConsoleLine *line = console->lines;
     int currentLine = 0;
@@ -67,6 +59,15 @@ ConsoleLine *getLineNumber(Console2 *console, int lineNumber) {
 
     return (currentLine == lineNumber) ? line : NULL;
 }
+
+void printLine(int width) {
+    int i = 0;
+
+    printf("+");
+    for(i = 0; i < width; i++) printf("-");
+    printf("+\n");
+}
+
 
 void showWindow(Console2 *console, int lineStart, int numLines) {
     int width = 10; //TODO Hardcoded
@@ -89,14 +90,6 @@ void showWindow(Console2 *console, int lineStart, int numLines) {
 }
 
 int main(int argc, char* argv[]) {
-    /*alloc(consoleWindow, char, 10 * 3);
-    char *buffer = "line a\nline b\nline c a little bit longer\nline d\nline e";
-    char *consoleLine = NULL;
-    int remaining = 3;
-
-    showWindow(buffer, 1, 3);
-    showWindow(buffer, 2, 3);
-    showWindow(buffer, 3, 3);*/
     Console2 *console = initConsole();
     addLineToConsole(console);
     addLineToConsole(console);
@@ -118,73 +111,6 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-/*int getLinePosition(char *buffer, int lineNumber) {
-    int currentLine = 0;
-    int length = strlen(buffer);
-    int i;
-
-    if(lineNumber == 0) return currentLine;
-
-    for(i = 0; i < length; i++) {
-        if(*(buffer + i) == '\n') currentLine++;
-        if(currentLine == lineNumber) return i + 1;
-    }
-
-    return currentLine >= lineNumber ? currentLine : -1;
-}
-
-int getLengthLine(char *buffer, int bufferPos) {
-    int i = 0;
-    char currentChar = *(buffer + bufferPos);
-
-    while(currentChar != '\n' && currentChar != '\0')
-        currentChar = *(buffer + bufferPos + (i++));
-
-    return i - 1;
-}
-
-char *getLineFromBuffer(int lineNumber, char *buffer) {
-    int bufferPos = getLinePosition(buffer, lineNumber);
-    int lengthLine = getLengthLine(buffer, bufferPos);
-
-    alloc(bufferLine, char, lengthLine + 1);
-    memcpy(bufferLine, buffer + bufferPos, lengthLine);
-
-    return bufferLine;
-}
-
-void printConsoleLine2(char *consoleLine, int *remaining) {
-    printf("|%s|\n", consoleLine);
-    (*remaining)--;
-}
-
-void printConsoleLine3(char *consoleRow, char *stringOffset, int lengthRowConsole, int *remaining, bool trailingSpaces) {
-    memcpy(consoleRow, stringOffset, lengthRowConsole);
-
-    if(trailingSpaces) {
-        memset(consoleRow + strlen(stringOffset), ' ', lengthRowConsole - strlen(stringOffset));
-    }
-
-    printConsoleLine2(consoleRow, remaining);
-}
-
-void printConsoleString(char *string, int lengthRowConsole, int *remaining) {
-    alloc(consoleRow, char, lengthRowConsole + 1);
-    int completeRows = strlen(string) / lengthRowConsole;
-    int i;
-    char *stringOffset = NULL;
-
-    for(i = 0; i < completeRows && *remaining > 0; i++) {
-        stringOffset = string + (i * lengthRowConsole);
-        printConsoleLine3(consoleRow, stringOffset, lengthRowConsole, remaining, false);
-    }
-
-    if(*remaining > 0) {
-        stringOffset = string + (i * lengthRowConsole);
-        printConsoleLine3(consoleRow, stringOffset, lengthRowConsole, remaining, true);
-    }
-}*/
 
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);

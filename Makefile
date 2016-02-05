@@ -34,21 +34,22 @@ API04=flood
 API05=replace
 
 CON01=console
-CON02=load_console
-CON03=print
-CON04=write_console
+CON02=console_draw
+CON03=console_lang
+CON04=console_load
+CON05=console_print
+CON06=console_write
 
 MAP01=draw
-MAP02=draw_console
-MAP03=draw_terrain
-MAP04=events
-MAP05=font
+MAP02=draw_terrain
+MAP03=events
+MAP04=font
 
 SRC01=main
 
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
-OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o ${OBJDIR_CON}/${CON03}.o ${OBJDIR_CON}/${CON04}.o
-OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/${MAP02}.o ${OBJDIR_MAP}/${MAP03}.o ${OBJDIR_MAP}/${MAP04}.o ${OBJDIR_MAP}/${MAP05}.o
+OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o ${OBJDIR_CON}/${CON03}.o ${OBJDIR_CON}/${CON04}.o ${OBJDIR_CON}/${CON04}.o ${OBJDIR_CON}/${CON05}.o
+OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/${MAP02}.o ${OBJDIR_MAP}/${MAP03}.o ${OBJDIR_MAP}/${MAP04}.o
 OBJ_REST=${OBJDIR}/${SRC01}.o
 
 LIBA_API=${LIBDIR}/lib${LIBAPI}.a
