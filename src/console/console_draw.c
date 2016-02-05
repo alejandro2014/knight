@@ -89,3 +89,58 @@ int calculateCursorPosition(Console *console) {
 
     return offsetScreen;
 }
+
+void printLine(int width) {
+    int i = 0;
+
+    printf("+");
+    for(i = 0; i < width; i++) printf("-");
+    printf("+\n");
+}
+
+void showWindow(Console *console, int lineStart, int numLines) {
+    int width = 10; //TODO Hardcoded
+    ConsoleLine *line = NULL;
+    int i;
+
+    printLine(width);
+
+    for(i = lineStart; i < lineStart + numLines; i++) {
+        line = getLineNumber(console, i);
+
+        if(line != NULL) {
+            printf("%s\n", line->content);
+        } else {
+            printf("\n");
+        }
+    }
+
+    printLine(width);
+}
+
+void addLineToConsole(Console *console) {
+    int lengthLine = 10; //TODO Hardcoded
+    alloc(newConsoleLine, ConsoleLine, 1);
+    allocExist(newConsoleLine->content, char, lengthLine);
+
+    if(console->visual->lastLine != NULL) {
+        console->visual->lastLine->next = newConsoleLine;
+        newConsoleLine->previous = console->visual->lastLine;
+    } else {
+        console->visual->lines = newConsoleLine;
+    }
+
+    console->visual->lastLine = newConsoleLine;
+}
+
+ConsoleLine *getLineNumber(Console *console, int lineNumber) {
+    ConsoleLine *line = console->visual->lines;
+    int currentLine = 0;
+
+    while(currentLine < lineNumber && line->next != NULL) {
+        line = line->next;
+        currentLine++;
+    }
+
+    return (currentLine == lineNumber) ? line : NULL;
+}

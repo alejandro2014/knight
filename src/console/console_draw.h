@@ -12,6 +12,7 @@
 
 #include "../map/global_map.h"
 
+
 void drawCursor(Console *console, SDL_Renderer *renderer);
 void drawConsole(SDL_Renderer *renderer, Console *console);
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine);
@@ -19,5 +20,14 @@ void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *p
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
 
 int calculateCursorPosition(Console *console);
+
+void printLine(int width);
+void showWindow(Console *console, int lineStart, int numLines);
+void addLineToConsole(Console *console);
+
+void printLine(int width);
+void showWindow(Console *console, int lineStart, int numLines);
+void addLineToConsole(Console *console);
+ConsoleLine *getLineNumber(Console *console, int lineNumber);
 
 #endif

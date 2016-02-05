@@ -26,6 +26,20 @@ typedef struct {
     char *target;
 } Command;
 
+/*
+1. Compose console line -
+2. Add line to pointer list -
+3. Lookup line (pointer)
+4. Delete console pointers
+5. Redo structure when console is resized
+*/
+
+typedef struct ConsoleLine {
+    char *content;
+    struct ConsoleLine *previous;
+    struct ConsoleLine *next;
+} ConsoleLine;
+
 typedef struct {
     SDL_Rect *coords;
     int widthChars, heightChars;
@@ -40,6 +54,9 @@ typedef struct {
     bool printPrompt;
     int windowOffset;
     int currentLineNumber;
+
+    ConsoleLine *lines;
+    ConsoleLine *lastLine;
 } ConsoleVisualParams;
 
 typedef struct {
