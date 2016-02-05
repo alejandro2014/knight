@@ -1,7 +1,6 @@
 #ifndef LOAD_CONSOLE_H
 #define LOAD_CONSOLE_H
 
-//#include "../api/api.h"
 #include "console.h"
 
 Console *createConsole(int sizeKb);

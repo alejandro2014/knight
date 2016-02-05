@@ -13,8 +13,8 @@
 #include "../api/flood.h"
 #include "../api/replace.h"
 
-#include "types_console.h"
-#include "write_console.h"
+#include "console_types.h"
+#include "console_write.h"
 
 #define LINE_LENGTH 50
 #define NUM_COMMANDS 30

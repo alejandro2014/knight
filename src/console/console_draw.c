@@ -1,4 +1,4 @@
-#include "draw_console.h"
+#include "console_draw.h"
 
 void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *params) {
     //console->buffer = "first line\nsecond line\n0123456789012345678901234567890123456789";

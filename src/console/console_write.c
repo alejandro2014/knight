@@ -1,4 +1,4 @@
-#include "write_console.h"
+#include "console_write.h"
 
 void consoleAddChar(Console *console, char currentChar) {
     char *buffer = console->buffer;

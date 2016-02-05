@@ -7,10 +7,11 @@
 #include "../global.h"
 
 #include "../api/api.h"
-#include "../console/console.h"
-#include "../console/print.h"
 
-#include "draw_console.h"
+#include "../console/console.h"
+#include "../console/console_print.h"
+#include "../console/console_draw.h"
+
 #include "draw_terrain.h"
 #include "font.h"
 

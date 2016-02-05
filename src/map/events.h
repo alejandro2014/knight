@@ -5,6 +5,7 @@
 
 #include "../global.h"
 #include "../console/console.h"
+#include "../console/console_write.h"
 
 #include "global_map.h"
 

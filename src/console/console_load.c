@@ -1,4 +1,4 @@
-#include "load_console.h"
+#include "console_load.h"
 
 Console *createConsole(int sizeKb) {
     int lengthLine = 80; //TODO Hardcoded

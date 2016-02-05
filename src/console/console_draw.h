@@ -7,10 +7,10 @@
 #include "../global.h"
 
 #include "../console/console.h"
-#include "../console/print.h"
+#include "../console/console_print.h"
 
-#include "font.h"
-#include "global_map.h"
+#include "../map/font.h"
+#include "../map/global_map.h"
 
 typedef struct {
     SDL_Rect *coords;

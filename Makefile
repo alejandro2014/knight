@@ -6,11 +6,11 @@ LIBMAP=map
 
 ### Options ###
 OPTC_API=
-OPTC_CON=
+OPTC_CON=-I/usr/local/include
 OPTC_MAP=-I/usr/local/include
-OPTL_MAP=-L/usr/local/lib -lSDL2 -lSDL2_ttf
-OPTC_REST=${OPTC_MAP}
-OPTL_REST=${OPTL_MAP}
+OPTC_REST=-I/usr/local/include
+
+OPTL=-L/usr/local/lib -lSDL2 -lSDL2_ttf
 
 ### Directories ###
 BINDIR=./bin
@@ -48,7 +48,7 @@ MAP04=font
 SRC01=main
 
 OBJ_API=${OBJDIR_API}/${API01}.o ${OBJDIR_API}/${API02}.o ${OBJDIR_API}/${API03}.o ${OBJDIR_API}/${API04}.o ${OBJDIR_API}/${API05}.o
-OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o ${OBJDIR_CON}/${CON03}.o ${OBJDIR_CON}/${CON04}.o ${OBJDIR_CON}/${CON04}.o ${OBJDIR_CON}/${CON05}.o
+OBJ_CON=${OBJDIR_CON}/${CON01}.o ${OBJDIR_CON}/${CON02}.o ${OBJDIR_CON}/${CON03}.o ${OBJDIR_CON}/${CON04}.o ${OBJDIR_CON}/${CON05}.o ${OBJDIR_CON}/${CON06}.o
 OBJ_MAP=${OBJDIR_MAP}/${MAP01}.o ${OBJDIR_MAP}/${MAP02}.o ${OBJDIR_MAP}/${MAP03}.o ${OBJDIR_MAP}/${MAP04}.o
 OBJ_REST=${OBJDIR}/${SRC01}.o
 
@@ -60,7 +60,7 @@ LIBSA=${LIBA_API} ${LIBA_CON} ${LIBA_MAP}
 
 ### Rules ###
 ${BINDIR}/${EXE}: ${LIBSA} ${OBJ_REST}
-	${CC} -L${LIBDIR} -l${LIBAPI} -l${LIBCON} -l${LIBMAP} ${OBJ_REST} -o ${BINDIR}/${EXE} ${OPTL_REST}
+	${CC} -L${LIBDIR} -l${LIBAPI} -l${LIBCON} -l${LIBMAP} ${OBJ_REST} -o ${BINDIR}/${EXE} ${OPTL}
 
 ${LIBA_API}: ${OBJ_API}
 	ar rcs ${LIBA_API} ${OBJ_API}

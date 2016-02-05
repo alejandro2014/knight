@@ -2,7 +2,7 @@
 #define WRITE_CONSOLE_H
 
 #include <string.h>
-#include "types_console.h"
+#include "console_types.h"
 
 void consoleAddChar(Console *console, char currentChar);
 void consoleDeleteChar(Console *console);
