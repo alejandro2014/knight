@@ -38,6 +38,8 @@ typedef struct {
     bool showCursor;
     int cursorTimeOld;
     bool printPrompt;
+    int windowOffset;
+    int currentLineNumber;
 } ConsoleVisualParams;
 
 typedef struct {
@@ -54,8 +56,6 @@ typedef struct {
     char *currentLine;
     int cursorPos;
 
-    int windowOffset; //TODO
-    int currentLineNumber; //TODO
     ConsoleVisualParams *visual;
 } Console;
 

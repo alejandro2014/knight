@@ -22,9 +22,9 @@ void consoleNewLine(Console *console) {
     int maxLine = 14; //TODO Hardcoded variable
     consoleAddChar(console, '\n');
 
-    console->currentLineNumber++;
+    console->visual->currentLineNumber++;
 
-    if(console->currentLineNumber > maxLine) {
+    if(console->visual->currentLineNumber > maxLine) {
         calculateWindowOffset(console);
     }
 }
@@ -45,11 +45,11 @@ void consoleAddStringLine(Console *console, char *string) {
 
 //TODO This function placed here seems to be a design error
 void calculateWindowOffset(Console *console) {
-    int position = console->windowOffset;
+    int position = console->visual->windowOffset;
 
     while(*(console->buffer + position) != '\n') {
         position++;
     }
 
-    console->windowOffset = position + 1;
+    console->visual->windowOffset = position + 1;
 }

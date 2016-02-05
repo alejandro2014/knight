@@ -10,7 +10,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
     int i;
     int cursorPos = 0;
     bool finishedLine;
-    int windowOffset = console->windowOffset;
+    int windowOffset = console->visual->windowOffset;
 
     clearConsoleScreen(renderer, params);
 
