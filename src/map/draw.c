@@ -4,7 +4,8 @@ ConsoleVisualParams *consoleParams = NULL;
 bool printBanner = true;
 bool printPrompt = true;
 
-void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams, TerrainVisualParams *terrainParams) {
+void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *terrainParams) {
+    ConsoleVisualParams *consoleParams = console->visual;
     Terrain *terrain = console->terrain;
     bool printPrompt = consoleParams->printPrompt;
 
@@ -25,9 +26,9 @@ void drawScreen(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *c
         consoleParams->printPrompt = false;
     }
 
-    drawConsole(renderer, console, consoleParams);
+    drawConsole(renderer, console);
     if(consoleParams->showCursor) {
-        drawCursor(console, renderer, consoleParams);
+        drawCursor(console, renderer);
     }
 
     if(consoleParams->cursorTimeOld == 5) {

@@ -1,6 +1,7 @@
 #include "console_draw.h"
 
-void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *params) {
+void drawConsole(SDL_Renderer *renderer, Console *console) {
+    ConsoleVisualParams *params = console->visual;
     //console->buffer = "first line\nsecond line\n0123456789012345678901234567890123456789";
     alloc(line, char, params->widthChars + 1);
     int numChars = strlen(console->buffer);
@@ -37,7 +38,8 @@ void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *p
     (*currentLine)++;
 }
 
-void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams) {
+void drawCursor(Console *console, SDL_Renderer *renderer) {
+    ConsoleVisualParams *consoleParams = console->visual;
     SDL_Color *color = &(consoleParams->font->fgColor);
     int cursorPosition = calculateCursorPosition(console);
     int row = cursorPosition / consoleParams->widthChars;

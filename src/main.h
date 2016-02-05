@@ -30,7 +30,6 @@ typedef int Layout;
 
 typedef struct {
     Console *console;
-    ConsoleVisualParams *consoleParams;
     Terrain *terrain;
     TerrainVisualParams *terrainParams;
     int height;

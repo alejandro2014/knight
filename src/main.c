@@ -132,11 +132,11 @@ void programLoop(SDL_Renderer *renderer) {
         }
 
         if(events->printPrompt) {
-            hme->consoleParams->printPrompt = true;
+            hme->console->visual->printPrompt = true;
             events->printPrompt = false;
         }
 
-        drawScreen(renderer, hme->console, hme->consoleParams, hme->terrainParams);
+        drawScreen(renderer, hme->console, hme->terrainParams);
         SDL_Delay(100);
     }
 }
@@ -166,7 +166,7 @@ void hmeSetLayout(HeightMapEditor *hme, int width, int height, Layout layout) {
 
     setWindowsLayout(layout, &consoleRect, &terrainRect, hme);
 
-    hme->consoleParams = loadConsoleParams(&consoleRect);
+    hme->console->visual = loadConsoleParams(&consoleRect);
     hme->terrainParams = loadTerrainParams(&terrainRect);
 }
 
@@ -229,7 +229,7 @@ void freeResources(HeightMapEditor *hme) {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    TTF_CloseFont(hme->consoleParams->font->type);
+    TTF_CloseFont(hme->console->visual->font->type);
     api_freeTerrain(hme->terrain);
     //freeDialogs(heightMapEditor->dialogs);
 }

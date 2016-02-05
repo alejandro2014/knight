@@ -56,6 +56,7 @@ typedef struct {
 
     int windowOffset; //TODO
     int currentLineNumber; //TODO
+    ConsoleVisualParams *visual;
 } Console;
 
 #endif

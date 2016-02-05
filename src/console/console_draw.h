@@ -12,8 +12,8 @@
 
 #include "../map/global_map.h"
 
-void drawCursor(Console *console, SDL_Renderer *renderer, ConsoleVisualParams *consoleParams);
-void drawConsole(SDL_Renderer *renderer, Console *console, ConsoleVisualParams *consoleParams);
+void drawCursor(Console *console, SDL_Renderer *renderer);
+void drawConsole(SDL_Renderer *renderer, Console *console);
 void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine);
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
