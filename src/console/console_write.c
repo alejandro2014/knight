@@ -2,26 +2,31 @@
 
 void consoleAddChar(Console *console, char currentChar) {
     ConsoleLine *line = console->visual->lastLine;
-    int lineOffset = console->visual->lineOffset;
-    int width = console->visual->widthChars;
+    //int lineOffset = console->visual->lineOffset;
+    //int width = console->visual->widthChars;
+    /*int width = 5;
 
-    *(line->content + lineOffset) = currentChar;
+    if(lineOffset == width) {
+        addLineToConsole(console);
+    }*/
+
+    *(line->content + console->visual->lineOffset) = currentChar;
     console->visual->lineOffset++;
-    /*char *buffer = console->buffer;
-
-    *(buffer + console->offset) = currentChar;
-    console->offset++;*/
 }
 
 void consoleDeleteChar(Console *console) {
-    char *buffer = console->buffer;
+    ConsoleLine *line = console->visual->lastLine;
+
+    *(line->content + console->visual->lineOffset - 1) = '\0';
+    console->visual->lineOffset--;
+    /*char *buffer = console->buffer;
     int offset = console->offset;
     bool isCursorAfterPrompt = (*(buffer + offset - 2) == '>' && *(buffer + offset - 1) == ' ');
 
     if(!isCursorAfterPrompt) {
         console->offset--;
         *(buffer + console->offset) = '\0';
-    }
+    }*/
 }
 
 void consoleNewLine(Console *console) {

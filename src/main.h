@@ -37,7 +37,6 @@ typedef struct {
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight);
-ConsoleVisualParams *loadConsoleParams(SDL_Rect *params);
 TerrainVisualParams *loadTerrainParams();
 SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);

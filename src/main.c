@@ -139,33 +139,6 @@ void freeResources(HeightMapEditor *hme) {
     //freeDialogs(heightMapEditor->dialogs);
 }
 
-ConsoleVisualParams *loadConsoleParams(SDL_Rect *paramsRect) {
-    //TODO Hardcoded values
-    char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
-    char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-    int charWidth = 10;
-
-    alloc(params, ConsoleVisualParams, 1);
-    allocExist(params->coords, SDL_Rect, 1);
-    memcpy(params->coords, paramsRect, sizeof(SDL_Rect));
-
-    params->interLineSpace = 20;
-
-    params->widthChars =params->coords->w / charWidth;
-    params->heightChars = params->coords->h / params->interLineSpace - 1;
-
-    params->padding = 4;
-    params->pixelsFill = 5;
-
-    params->widthCursor = 10;
-    params->heightCursor = 15;
-    params->showCursor = true;
-
-    params->font = initFont(FONT_PATH_MAC);
-
-    return params;
-}
-
 TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect) {
     alloc(terrainParams, TerrainVisualParams, 1);
 

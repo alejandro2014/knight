@@ -116,6 +116,7 @@ void addLineToConsole(Console *console) {
     }
 
     console->visual->lastLine = newConsoleLine;
+    console->visual->lineOffset = 0;
 }
 
 ConsoleLine *getLineNumber(Console *console, int lineNumber) {
