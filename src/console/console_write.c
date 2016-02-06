@@ -1,17 +1,16 @@
+#include "console_draw.h"
 #include "console_write.h"
 
 void consoleAddChar(Console *console, char currentChar) {
     ConsoleLine *line = console->visual->lastLine;
-    //int lineOffset = console->visual->lineOffset;
-    //int width = console->visual->widthChars;
-    /*int width = 5;
-
-    if(lineOffset == width) {
-        addLineToConsole(console);
-    }*/
+    int width = console->visual->widthChars;
 
     *(line->content + console->visual->lineOffset) = currentChar;
     console->visual->lineOffset++;
+
+    if(console->visual->lineOffset == width) {
+        addLineToConsole(console);
+    }
 }
 
 void consoleDeleteChar(Console *console) {

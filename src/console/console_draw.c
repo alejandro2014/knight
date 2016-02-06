@@ -2,29 +2,28 @@
 
 void drawConsole(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *params = console->visual;
-    //console->buffer = "first line\nsecond line\n012345678901234567890123``4567890123456789";
     alloc(line, char, params->widthChars + 1);
-    int numChars = strlen(console->buffer);
-    int currentLine = 0;
-    char currentChar;
-    int i;
-    int cursorPos = 0;
-    bool finishedLine;
-    int windowOffset = console->visual->windowOffset;
+    int currentLine = 0; //TODO
 
     clearConsoleScreen(renderer, params);
-
     showWindow(renderer, console, currentLine, console->visual->widthChars);
-
-    printConsoleLine(line, renderer, params, &currentLine);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
-void printConsoleLine(char *line, SDL_Renderer *renderer, ConsoleVisualParams *params, int *currentLine) {
-    int currentY = *currentLine * params->interLineSpace + params->coords->y;
-    printString(params->font, renderer, line, params->coords->x, currentY);
-    memset(line, 0, params->widthChars + 1);
-    (*currentLine)++;
+void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines) {
+    int width = console->visual->widthChars;
+    ConsoleLine *line = NULL;
+    int i;
+    int currentY;
+
+    for(i = lineStart; i < lineStart + numLines; i++) {
+        line = getLineNumber(console, i);
+
+        if(line != NULL) {
+            currentY = i * console->visual->interLineSpace;
+            printString(console->visual->font, renderer, line->content, console->visual->coords->x, currentY);
+        }
+    }
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer) {
@@ -79,32 +78,8 @@ int calculateCursorPosition(Console *console) {
     return offsetScreen;
 }
 
-void printLine(int width) {
-    int i = 0;
-
-    printf("+");
-    for(i = 0; i < width; i++) printf("-");
-    printf("+\n");
-}
-
-void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines) {
-    int width = console->visual->widthChars;
-    ConsoleLine *line = NULL;
-    int i;
-    int currentY;
-
-    for(i = lineStart; i < lineStart + numLines; i++) {
-        line = getLineNumber(console, i);
-
-        if(line != NULL) {
-            currentY = i - lineStart;
-            printString(console->visual->font, renderer, line->content, console->visual->coords->x, currentY);
-        }
-    }
-}
-
 void addLineToConsole(Console *console) {
-    int lengthLine = 10; //TODO Hardcoded
+    int lengthLine = console->visual->widthChars;
     alloc(newConsoleLine, ConsoleLine, 1);
     allocExist(newConsoleLine->content, char, lengthLine);
 
