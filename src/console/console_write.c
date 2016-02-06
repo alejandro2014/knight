@@ -8,7 +8,7 @@ void consoleAddChar(Console *console, char currentChar) {
     *(line->content + console->visual->lineOffset) = currentChar;
     console->visual->lineOffset++;
 
-    if(console->visual->lineOffset == width) {
+    if(console->visual->lineOffset == width && line->next == NULL) {
         addLineToConsole(console);
     }
 }

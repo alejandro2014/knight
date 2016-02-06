@@ -103,7 +103,7 @@ ConsoleVisualParams *loadConsoleParams(SDL_Rect *paramsRect) {
 
     params->interLineSpace = 20;
 
-    params->widthChars =params->coords->w / charWidth;
+    params->widthChars = params->coords->w / charWidth;
     params->heightChars = params->coords->h / params->interLineSpace - 1;
 
     params->padding = 4;

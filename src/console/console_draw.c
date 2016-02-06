@@ -81,7 +81,7 @@ int calculateCursorPosition(Console *console) {
 void addLineToConsole(Console *console) {
     int lengthLine = console->visual->widthChars;
     alloc(newConsoleLine, ConsoleLine, 1);
-    allocExist(newConsoleLine->content, char, lengthLine);
+    allocExist(newConsoleLine->content, char, lengthLine + 1);
 
     if(console->visual->lastLine != NULL) {
         console->visual->lastLine->next = newConsoleLine;
