@@ -8,16 +8,27 @@ void consoleAddChar(Console *console, char currentChar) {
     *(line->content + console->visual->lineOffset) = currentChar;
     console->visual->lineOffset++;
 
-    if(console->visual->lineOffset == width && line->next == NULL) {
-        addLineToConsole(console);
+    if(console->visual->lineOffset == width) {
+        if(line->next == NULL) {
+            addLineToConsole(console);
+        } else {
+            console->visual->lastLine = line->next;
+            console->visual->lineOffset = 0;
+        }
     }
 }
 
 void consoleDeleteChar(Console *console) {
     ConsoleLine *line = console->visual->lastLine;
 
-    *(line->content + console->visual->lineOffset - 1) = '\0';
-    console->visual->lineOffset--;
+    if(console->visual->lineOffset > 0) {
+        console->visual->lineOffset--;
+    } else {
+        console->visual->lastLine = console->visual->lastLine->previous;
+        console->visual->lineOffset = console->visual->widthChars - 1;
+    }
+
+    *(console->visual->lastLine->content + console->visual->lineOffset) = '\0';
     /*char *buffer = console->buffer;
     int offset = console->offset;
     bool isCursorAfterPrompt = (*(buffer + offset - 2) == '>' && *(buffer + offset - 1) == ' ');
