@@ -2,18 +2,19 @@
 #include "console_write.h"
 
 void consoleAddChar(Console *console, char currentChar) {
-    ConsoleLine *line = console->visual->lastLine;
-    int width = console->visual->widthChars;
+    ConsoleVisualParams *visual = console->visual;
+    ConsoleLine *line = visual->lastLine;
+    int width = visual->widthChars;
 
-    *(line->content + console->visual->lineOffset) = currentChar;
-    console->visual->lineOffset++;
+    *(line->content + visual->lineOffset) = currentChar;
+    visual->lineOffset++;
 
-    if(console->visual->lineOffset == width) {
+    if(visual->lineOffset == width) {
         if(line->next == NULL) {
             addLineToConsole(console);
         } else {
-            console->visual->lastLine = line->next;
-            console->visual->lineOffset = 0;
+            visual->lastLine = line->next;
+            visual->lineOffset = 0;
         }
     }
 }
@@ -40,14 +41,17 @@ void consoleDeleteChar(Console *console) {
 }
 
 void consoleNewLine(Console *console) {
-    int maxLine = 14; //TODO Hardcoded variable
-    consoleAddChar(console, '\n');
+    ConsoleVisualParams *visual = console->visual;
+    ConsoleLine *line = visual->lastLine;
 
-    console->visual->currentLineNumber++;
-
-    if(console->visual->currentLineNumber > maxLine) {
-        calculateWindowOffset(console);
+    if(line->next == NULL) {
+        addLineToConsole(console);
+    } else {
+        visual->lastLine = line->next;
+        visual->lineOffset = 0;
     }
+
+    visual->lastLine->newLine = true;
 }
 
 void consoleAddString(Console *console, char *string) {
