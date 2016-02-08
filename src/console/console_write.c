@@ -20,16 +20,18 @@ void consoleAddChar(Console *console, char currentChar) {
 }
 
 void consoleDeleteChar(Console *console) {
-    ConsoleLine *line = console->visual->lastLine;
+    ConsoleVisualParams *visual = console->visual;
+    ConsoleLine *line = visual->lastLine;
 
-    if(console->visual->lineOffset > 0) {
-        console->visual->lineOffset--;
-    } else {
-        console->visual->lastLine = console->visual->lastLine->previous;
-        console->visual->lineOffset = console->visual->widthChars - 1;
+    if(visual->lineOffset > 0) {
+        visual->lineOffset--;
+        *(visual->lastLine->content + visual->lineOffset) = '\0';
+    } else if(!visual->lastLine->newLine) {
+        visual->lastLine = visual->lastLine->previous;
+        visual->lineOffset = visual->widthChars - 1;
+        *(visual->lastLine->content + visual->lineOffset) = '\0';
     }
 
-    *(console->visual->lastLine->content + console->visual->lineOffset) = '\0';
     /*char *buffer = console->buffer;
     int offset = console->offset;
     bool isCursorAfterPrompt = (*(buffer + offset - 2) == '>' && *(buffer + offset - 1) == ' ');
