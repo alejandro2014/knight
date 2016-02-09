@@ -10,6 +10,7 @@ void consoleAddChar(Console *console, char currentChar) {
     visual->lineOffset++;
 
     if(visual->lineOffset == width) {
+        printf("offset = %d. New line\n", width);
         if(line->next == NULL) {
             addLineToConsole(console);
         } else {
@@ -43,31 +44,23 @@ void consoleDeleteChar(Console *console) {
 }
 
 void consoleNewLine(Console *console) {
-    ConsoleVisualParams *visual = console->visual;
-    ConsoleLine *line = visual->lastLine;
-
-    if(line->next == NULL) {
-        addLineToConsole(console);
-    } else {
-        visual->lastLine = line->next;
-        visual->lineOffset = 0;
-    }
-
-    visual->lastLine->newLine = true;
+    addLineToConsole(console);
+    console->visual->lastLine->newLine = true;
 }
 
 void consoleAddString(Console *console, char *string) {
-    char *buffer = console->buffer;
     int length = strlen(string);
+    int i;
 
-    memcpy(buffer + console->offset, string, length);
-    console->offset += length;
+    for(i = 0; i < length; i++) {
+        consoleAddChar(console, *(string + i));
+    }
 }
 
 void consoleAddStringLine(Console *console, char *string) {
     consoleAddString(console, string);
     consoleNewLine(console);
-    console->visual->lineOffset = console->offset;
+    //console->visual->lineOffset = console->offset;
 }
 
 //TODO This function placed here seems to be a design error

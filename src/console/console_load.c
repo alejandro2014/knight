@@ -1,7 +1,7 @@
 #include "console_load.h"
 
 Console *createConsole(int sizeKb) {
-    int lengthLine = 80; //TODO Hardcoded
+    int lengthLine = 10; //TODO Hardcoded
     int i;
 
     alloc(console, Console, 1);
@@ -9,7 +9,7 @@ Console *createConsole(int sizeKb) {
     allocExist(console->currentLine, char, lengthLine);
     allocExist(console->commands, Command, NUM_COMMANDS);
 
-    allocExist(console->visual, ConsoleVisualParams, 1);
+    console->visual = loadConsoleParams();
     addLineToConsole(console);
 
     for(i = 0; i < NUM_COMMANDS; i++) {
@@ -91,20 +91,21 @@ void addParam(char *paramName, char *commandName, ParamType type, Console *conso
     command->numParams++;
 }
 
-ConsoleVisualParams *loadConsoleParams(SDL_Rect *paramsRect) {
+void consoleSetCoords(Console *console, SDL_Rect *paramsRect) {
+    ConsoleVisualParams *params = console->visual;
+    allocExist(params->coords, SDL_Rect, 1);
+    memcpy(params->coords, paramsRect, sizeof(SDL_Rect));
+}
+
+ConsoleVisualParams *loadConsoleParams() {
     //TODO Hardcoded values
     char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
     char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
     int charWidth = 10;
 
     alloc(params, ConsoleVisualParams, 1);
-    allocExist(params->coords, SDL_Rect, 1);
-    memcpy(params->coords, paramsRect, sizeof(SDL_Rect));
 
     params->interLineSpace = 20;
-
-    params->widthChars = params->coords->w / charWidth;
-    params->heightChars = params->coords->h / params->interLineSpace - 1;
 
     params->padding = 4;
     params->pixelsFill = 5;

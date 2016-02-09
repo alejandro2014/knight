@@ -5,10 +5,10 @@ LIBCON=console
 LIBMAP=map
 
 ### Options ###
-OPTC_API=
-OPTC_CON=-I/usr/local/include
-OPTC_MAP=-I/usr/local/include
-OPTC_REST=-I/usr/local/include
+OPTC_API=-g
+OPTC_CON=-I/usr/local/include -g
+OPTC_MAP=-I/usr/local/include -g
+OPTC_REST=-I/usr/local/include -g
 
 OPTL=-L/usr/local/lib -lSDL2 -lSDL2_ttf
 

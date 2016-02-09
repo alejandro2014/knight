@@ -25,6 +25,8 @@ void programLoop(SDL_Renderer *renderer) {
     //processCommand("risesel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
     //processCommand("sinksel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
 
+    printConsoleBanner(hme->console);
+
     while(!events->finish) {
         readEvents(hme->console, events);
 
@@ -62,16 +64,19 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
 }
 
 void hmeSetLayout(HeightMapEditor *hme, int width, int height, Layout layout) {
+    int charWidth = 10; //TODO Hardcoded
+
     hme->width = width;
     hme->height = height;
 
-    SDL_Rect consoleRect;
+    SDL_Rect consoleCoords;
     SDL_Rect terrainRect;
 
-    setWindowsLayout(layout, &consoleRect, &terrainRect, hme);
+    setWindowsLayout(layout, &consoleCoords, &terrainRect, hme);
 
-    hme->console->visual = loadConsoleParams(&consoleRect);
-    addLineToConsole(hme->console);
+    consoleSetCoords(hme->console, &consoleCoords);
+    hme->console->visual->widthChars = hme->console->visual->coords->w / charWidth;
+    hme->console->visual->heightChars = hme->console->visual->coords->h / hme->console->visual->interLineSpace - 1;
 
     hme->terrainParams = loadTerrainParams(&terrainRect);
 }

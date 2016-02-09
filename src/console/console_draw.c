@@ -79,19 +79,25 @@ int calculateCursorPosition(Console *console) {
 }
 
 void addLineToConsole(Console *console) {
-    int lengthLine = console->visual->widthChars;
-    alloc(newConsoleLine, ConsoleLine, 1);
-    allocExist(newConsoleLine->content, char, lengthLine + 1);
+    ConsoleVisualParams *visual = console->visual;
+    ConsoleLine *lastLine = visual->lastLine;
+    ConsoleLine *newLine = NULL;
+    int lengthLine = visual->widthChars;
 
-    if(console->visual->lastLine != NULL) {
-        console->visual->lastLine->next = newConsoleLine;
-        newConsoleLine->previous = console->visual->lastLine;
+    if(lastLine == NULL) {
+        allocExist(newLine, ConsoleLine, 1);
+        allocExist(newLine->content, char, lengthLine + 1);
+        visual->lines = newLine;
+        visual->lastLine = newLine;
+    } else if(lastLine->next == NULL) {
+        allocExist(newLine, ConsoleLine, 1);
+        allocExist(newLine->content, char, lengthLine + 1);
+        visual->lastLine = newLine;
     } else {
-        console->visual->lines = newConsoleLine;
+        visual->lastLine = visual->lastLine->next;
     }
 
-    console->visual->lastLine = newConsoleLine;
-    console->visual->lineOffset = 0;
+    visual->lineOffset = 0;
 }
 
 ConsoleLine *getLineNumber(Console *console, int lineNumber) {
