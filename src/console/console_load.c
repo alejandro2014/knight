@@ -10,7 +10,6 @@ Console *createConsole(int sizeKb) {
     allocExist(console->commands, Command, NUM_COMMANDS);
 
     console->visual = loadConsoleParams();
-    addLineToConsole(console);
 
     for(i = 0; i < NUM_COMMANDS; i++) {
         allocExist((console->commands + i)->params, Param, MAX_PARAMS);
@@ -101,12 +100,10 @@ ConsoleVisualParams *loadConsoleParams() {
     //TODO Hardcoded values
     char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
     char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-    int charWidth = 10;
 
     alloc(params, ConsoleVisualParams, 1);
 
     params->interLineSpace = 20;
-
     params->padding = 4;
     params->pixelsFill = 5;
 

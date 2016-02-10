@@ -10,13 +10,7 @@ void consoleAddChar(Console *console, char currentChar) {
     visual->lineOffset++;
 
     if(visual->lineOffset == width) {
-        printf("offset = %d. New line\n", width);
-        if(line->next == NULL) {
-            addLineToConsole(console);
-        } else {
-            visual->lastLine = line->next;
-            visual->lineOffset = 0;
-        }
+        addLineToConsole(console);
     }
 }
 
@@ -53,6 +47,7 @@ void consoleAddString(Console *console, char *string) {
     int i;
 
     for(i = 0; i < length; i++) {
+        printf("%d -> %c\n", i, *(string + i));
         consoleAddChar(console, *(string + i));
     }
 }

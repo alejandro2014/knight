@@ -78,6 +78,8 @@ void hmeSetLayout(HeightMapEditor *hme, int width, int height, Layout layout) {
     hme->console->visual->widthChars = hme->console->visual->coords->w / charWidth;
     hme->console->visual->heightChars = hme->console->visual->coords->h / hme->console->visual->interLineSpace - 1;
 
+    addLineToConsole(hme->console);
+
     hme->terrainParams = loadTerrainParams(&terrainRect);
 }
 

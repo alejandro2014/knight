@@ -18,6 +18,7 @@ void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int num
 
     for(i = lineStart; i < lineStart + numLines; i++) {
         line = getLineNumber(console, i);
+        //printf("Line %d: %p\n", i, line);
 
         if(line != NULL) {
             currentY = i * console->visual->interLineSpace;
@@ -92,6 +93,8 @@ void addLineToConsole(Console *console) {
     } else if(lastLine->next == NULL) {
         allocExist(newLine, ConsoleLine, 1);
         allocExist(newLine->content, char, lengthLine + 1);
+        lastLine->next = newLine;
+        newLine->previous = lastLine;
         visual->lastLine = newLine;
     } else {
         visual->lastLine = visual->lastLine->next;
@@ -100,6 +103,11 @@ void addLineToConsole(Console *console) {
     visual->lineOffset = 0;
 }
 
+// l1->l2->l3->NULL
+// console->lines: l1
+// line: l1
+// currentLine: 0
+// lineNumber: 1
 ConsoleLine *getLineNumber(Console *console, int lineNumber) {
     ConsoleLine *line = console->visual->lines;
     int currentLine = 0;
