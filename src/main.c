@@ -17,9 +17,14 @@ int main(int argc, char* argv[]) {
 }
 
 void programLoop(SDL_Renderer *renderer) {
+    bool printBanner = true;
     alloc(events, Events, 1);
 
-    printConsoleBanner(hme->console);
+    if(printBanner) {
+        printConsoleBanner(hme->console);
+    } else {
+        printConsolePrompt(hme->console);
+    }
 
     while(!events->finish) {
         readEvents(hme->console, events);
@@ -46,7 +51,7 @@ HeightMapEditor *loadHeightMapEditor(int windowWidth, int windowHeight) {
 
     hme->console = createConsole(1);
 
-    hmeSetLayout(hme, windowWidth, windowHeight, LAYOUT_VER_TERRAIN_CONSOLE);
+    hmeSetLayout(hme, windowWidth, windowHeight, LAYOUT_HOR_TERRAIN_CONSOLE);
 
     /*heightMapEditor->dialogs = loadDialogs();
     printDialogs(heightMapEditor->dialogs);*/
@@ -95,8 +100,7 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
 
         case LAYOUT_VER_TERRAIN_CONSOLE:
             setRect(terrainRect, 0, 0, (width/2), height);
-            //setRect(consoleRect, (width/2), 0, (width/2), height);
-            setRect(consoleRect, (width/2), 0, (width/8), height);
+            setRect(consoleRect, (width/2) + 1, 0, (width/2) - 1, height - 1);
             break;
 
         case LAYOUT_HOR_CONSOLE_TERRAIN:
@@ -106,7 +110,7 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
 
         case LAYOUT_HOR_TERRAIN_CONSOLE:
             setRect(terrainRect, 0, 0, width, (height/2));
-            setRect(consoleRect, 0, (height/2), width, height);
+            setRect(consoleRect, 0, (height/2), width, (height/2) - 1);
             break;
     }
 }

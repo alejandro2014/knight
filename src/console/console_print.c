@@ -36,7 +36,7 @@ void printCommand(Command *command) {
 void printConsoleBanner(Console *console) {
     alloc(banner, char, 100);
 
-    sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - version %s", VERSION_NUMBER);
-    consoleAddStringLine(console, banner);
+    sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - v%s. ", VERSION_NUMBER);
+    consoleAddString(console, banner);
     consoleAddStringLine(console, "Alejandro Ruperez 2015-2016. Enter 'help' to see available commands");
 }

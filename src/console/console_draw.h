@@ -17,8 +17,6 @@ void drawConsole(SDL_Renderer *renderer, Console *console);
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
 
-int calculateCursorPosition(Console *console);
-
 void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines);
 void addLineToConsole(Console *console);
 ConsoleLine *getLineNumber(Console *console, int lineNumber);

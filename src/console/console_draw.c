@@ -20,7 +20,7 @@ void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int num
         line = getLineNumber(console, i);
 
         if(line != NULL) {
-            currentY = i * console->visual->interLineSpace;
+            currentY = i * console->visual->interLineSpace + console->visual->coords->y;
             printString(console->visual->font, renderer, line->content, console->visual->coords->x, currentY);
         }
     }
@@ -49,32 +49,6 @@ void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params) {
     SDL_Color *bgColor = &(params->font->bgColor);
     SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
     SDL_RenderFillRect(renderer, params->coords);
-}
-
-int calculateCursorPosition(Console *console) {
-    int lineLength = 80; //TODO Hardcoded variable
-    int offsetScreen = 0;
-    int offsetLine = 0;
-    int length = strlen(console->buffer);
-    int i;
-    char currentChar;
-
-    for(i = 0; i < length; i++) {
-        currentChar = *(console->buffer + i);
-
-        if(offsetLine == lineLength) {
-            offsetScreen++;
-            offsetLine = 0;
-        } else if(currentChar == '\n') {
-            offsetScreen += lineLength - offsetLine;
-            offsetLine = 0;
-        } else {
-            offsetScreen++;
-            offsetLine++;
-        }
-    }
-
-    return offsetScreen;
 }
 
 void addLineToConsole(Console *console) {
