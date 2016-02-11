@@ -6,7 +6,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
     int currentLine = 0; //TODO
 
     clearConsoleScreen(renderer, params);
-    showWindow(renderer, console, currentLine, console->visual->widthChars);
+    showWindow(renderer, console, currentLine, params->heightChars);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
