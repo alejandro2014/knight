@@ -27,9 +27,10 @@ void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *t
     }*/
 
     drawConsole(renderer, console);
-    /*if(consoleParams->showCursor) {
+
+    if(consoleParams->showCursor) {
         drawCursor(console, renderer);
-    }*/
+    }
 
     if(consoleParams->cursorTimeOld == 5) {
         consoleParams->showCursor = (consoleParams->showCursor ? false : true);

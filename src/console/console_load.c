@@ -113,5 +113,7 @@ ConsoleVisualParams *loadConsoleParams() {
 
     params->font = initFont(FONT_PATH_MAC);
 
+    params->currentLineNumber = -1;
+
     return params;
 }

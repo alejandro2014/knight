@@ -23,6 +23,8 @@ void consoleDeleteChar(Console *console) {
         *(visual->lastLine->content + visual->lineOffset) = '\0';
     } else if(!visual->lastLine->newLine) {
         visual->lastLine = visual->lastLine->previous;
+        visual->currentLineNumber--;
+
         visual->lineOffset = visual->widthChars - 1;
         *(visual->lastLine->content + visual->lineOffset) = '\0';
     }
@@ -47,7 +49,6 @@ void consoleAddString(Console *console, char *string) {
     int i;
 
     for(i = 0; i < length; i++) {
-        printf("%d -> %c\n", i, *(string + i));
         consoleAddChar(console, *(string + i));
     }
 }

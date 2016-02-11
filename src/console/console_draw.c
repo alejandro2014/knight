@@ -18,7 +18,6 @@ void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int num
 
     for(i = lineStart; i < lineStart + numLines; i++) {
         line = getLineNumber(console, i);
-        //printf("Line %d: %p\n", i, line);
 
         if(line != NULL) {
             currentY = i * console->visual->interLineSpace;
@@ -28,20 +27,19 @@ void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int num
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer) {
-    ConsoleVisualParams *consoleParams = console->visual;
-    SDL_Color *color = &(consoleParams->font->fgColor);
-    int cursorPosition = calculateCursorPosition(console);
-    int row = cursorPosition / consoleParams->widthChars;
-    int col = cursorPosition % consoleParams->widthChars;
-    int maxRows = consoleParams->heightChars;
+    ConsoleVisualParams *visual = console->visual;
+    SDL_Color *color = &(visual->font->fgColor);
+    int row = visual->currentLineNumber;
+    int col = visual->lineOffset;
+    int maxRows = visual->heightChars;
 
     if(row > maxRows) row = maxRows;
 
     SDL_Rect r;
-    r.w = consoleParams->widthCursor;
-    r.h = consoleParams->heightCursor;
-    r.x = col * r.w + consoleParams->coords->x;
-    r.y = row * (r.h + consoleParams->pixelsFill) + consoleParams->coords->y;
+    r.w = visual->widthCursor;
+    r.h = visual->heightCursor;
+    r.x = col * r.w + visual->coords->x;
+    r.y = row * (r.h + visual->pixelsFill) + visual->coords->y;
 
     SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, 255);
     SDL_RenderFillRect(renderer, &r);
@@ -101,6 +99,7 @@ void addLineToConsole(Console *console) {
     }
 
     visual->lineOffset = 0;
+    visual->currentLineNumber++;
 }
 
 // l1->l2->l3->NULL

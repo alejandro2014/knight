@@ -19,13 +19,7 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
-    //processCommand("gterr width=200 height=100", hme->console);
-    //processCommand("sethterr height=200", hme->console);
-    //processCommand("sethsel x1=10 y1=9 x2=80 y2=79 height=200", hme->console);
-    //processCommand("risesel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
-    //processCommand("sinksel x1=10 y1=9 x2=80 y2=79 delta=200", hme->console);
-
-    printConsoleBanner(hme->console);
+    //printConsoleBanner(hme->console);
 
     while(!events->finish) {
         readEvents(hme->console, events);
