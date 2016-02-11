@@ -11,6 +11,7 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
 }
 
 void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines) {
+    ConsoleVisualParams *visual = console->visual;
     int width = console->visual->widthChars;
     ConsoleLine *line = NULL;
     int i;
@@ -20,8 +21,8 @@ void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int num
         line = getLineNumber(console, i);
 
         if(line != NULL) {
-            currentY = i * console->visual->interLineSpace + console->visual->coords->y;
-            printString(console->visual->font, renderer, line->content, console->visual->coords->x, currentY);
+            currentY = (i - lineStart) * visual->interLineSpace + visual->coords->y;
+            printString(visual->font, renderer, line->content, visual->coords->x, currentY);
         }
     }
 }
