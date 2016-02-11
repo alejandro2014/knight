@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 void programLoop(SDL_Renderer *renderer) {
     alloc(events, Events, 1);
 
-    //printConsoleBanner(hme->console);
+    printConsoleBanner(hme->console);
 
     while(!events->finish) {
         readEvents(hme->console, events);

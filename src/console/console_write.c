@@ -17,6 +17,10 @@ void consoleAddChar(Console *console, char currentChar) {
 void consoleDeleteChar(Console *console) {
     ConsoleVisualParams *visual = console->visual;
     ConsoleLine *line = visual->lastLine;
+    bool isCursorAfterPrompt = (*(line->content + visual->lineOffset - 2) == '>' && *(line->content + visual->lineOffset - 1) == ' ');
+
+    if(isCursorAfterPrompt) return;
+    //if(visual->lin)
 
     if(visual->lineOffset > 0) {
         visual->lineOffset--;
@@ -28,20 +32,12 @@ void consoleDeleteChar(Console *console) {
         visual->lineOffset = visual->widthChars - 1;
         *(visual->lastLine->content + visual->lineOffset) = '\0';
     }
-
-    /*char *buffer = console->buffer;
-    int offset = console->offset;
-    bool isCursorAfterPrompt = (*(buffer + offset - 2) == '>' && *(buffer + offset - 1) == ' ');
-
-    if(!isCursorAfterPrompt) {
-        console->offset--;
-        *(buffer + console->offset) = '\0';
-    }*/
 }
 
 void consoleNewLine(Console *console) {
     addLineToConsole(console);
     console->visual->lastLine->newLine = true;
+    printConsolePrompt(console);
 }
 
 void consoleAddString(Console *console, char *string) {
@@ -56,7 +52,6 @@ void consoleAddString(Console *console, char *string) {
 void consoleAddStringLine(Console *console, char *string) {
     consoleAddString(console, string);
     consoleNewLine(console);
-    //console->visual->lineOffset = console->offset;
 }
 
 //TODO This function placed here seems to be a design error
