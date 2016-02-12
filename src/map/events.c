@@ -21,7 +21,7 @@ void readEvents(Console *console, Events *events) {
                     break;
 
                 case SDLK_BACKSPACE: consoleDeleteChar(console); break;
-                default: consoleAddChar(console, currentChar); break;
+                default: consoleAddChar(console, currentChar, true); break;
             }
         }
     }

@@ -26,14 +26,6 @@ typedef struct {
     char *target;
 } Command;
 
-/*
-1. Compose console line -
-2. Add line to pointer list -
-3. Lookup line (pointer)
-4. Delete console pointers
-5. Redo structure when console is resized
-*/
-
 typedef struct ConsoleLine {
     char *content;
     bool newLine;
@@ -65,13 +57,14 @@ typedef struct {
     int numCommands;
     Command *commands;
     Command *currentCommand;
-    Terrain *terrain; //TODO Coupled with map
+    Terrain *terrain; //TODO
 
     int size;
     char *buffer;
     int offset;
 
     char *currentLine;
+    int currentLineOffset;
     int cursorPos;
 
     ConsoleVisualParams *visual;

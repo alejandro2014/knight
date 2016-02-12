@@ -1,7 +1,7 @@
 #include "console_load.h"
 
 Console *createConsole(int sizeKb) {
-    int lengthLine = 10; //TODO Hardcoded
+    int lengthLine = 100; //TODO Hardcoded
     int i;
 
     alloc(console, Console, 1);

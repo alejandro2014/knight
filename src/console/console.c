@@ -39,7 +39,7 @@ Command *parseCommand(char *strCommand, Console *console) {
     if(!command) {
         alloc(errorMessage, char, 100);
         sprintf(errorMessage, "Unknown command: '%s'", commandName);
-        consoleAddStringLine(console, errorMessage);
+        consoleAddStringLine(console, errorMessage, true);
         free(errorMessage);
         return NULL;
     }
@@ -181,7 +181,7 @@ void executeCommand(Console *console) {
 void printInfoMessage(char *infoMessage, Console *console) {
     if(infoMessage == NULL) return;
 
-    consoleAddStringLine(console, infoMessage);
+    consoleAddStringLine(console, infoMessage, false);
     free(infoMessage);
 }
 

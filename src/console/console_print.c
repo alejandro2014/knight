@@ -3,7 +3,7 @@
 #include "../api/hme_lowlevel.h"
 
 void printConsolePrompt(Console *console) {
-    consoleAddString(console, "> ");
+    consoleAddString(console, "> ", false);
 }
 
 void printCommands(Console *console) {
@@ -37,6 +37,6 @@ void printConsoleBanner(Console *console) {
     alloc(banner, char, 100);
 
     sprintf(banner, "Welcome to KNIGHT, the height terrain editor! - v%s. ", VERSION_NUMBER);
-    consoleAddString(console, banner);
-    consoleAddStringLine(console, "Alejandro Ruperez 2015-2016. Enter 'help' to see available commands");
+    consoleAddString(console, banner, false);
+    consoleAddStringLine(console, "Alejandro Ruperez 2015-2016. Enter 'help' to see available commands", false);
 }
