@@ -57,7 +57,6 @@ typedef struct {
     int numCommands;
     Command *commands;
     Command *currentCommand;
-    Terrain *terrain; //TODO
 
     int size;
     char *buffer;

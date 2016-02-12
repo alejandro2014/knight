@@ -1,19 +1,20 @@
 #include "draw.h"
 
+extern Terrain *currentTerrain;
+
 ConsoleVisualParams *consoleParams = NULL;
 bool printBanner = true;
 bool printPrompt = true;
 
 void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *terrainParams) {
     ConsoleVisualParams *consoleParams = console->visual;
-    Terrain *terrain = console->terrain;
     bool printPrompt = consoleParams->printPrompt;
 
     SDL_SetRenderDrawColor(renderer, 80, 40, 40, 255);
     SDL_RenderClear(renderer);
 
-    if(terrain) {
-        drawTerrain(renderer, terrain, terrainParams);
+    if(currentTerrain) {
+        drawTerrain(renderer, currentTerrain, terrainParams);
     }
 
     /*if(printBanner) {

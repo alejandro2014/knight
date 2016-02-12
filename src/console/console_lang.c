@@ -1,5 +1,7 @@
 #include "console_lang.h"
 
+extern Terrain *currentTerrain;
+
 void readShellLine(Console *console, FILE *inputStream) {
     int endOffset = console->offset;
     int beginOffset = console->visual->lineOffset;
@@ -141,7 +143,6 @@ void executeCommand(Console *console) {
         allocExist(strParams[i], char, 100);
     }
 
-    Terrain *terrain = console->terrain;
     Command *command = console->currentCommand;
 
     if(!areParamsValid(command, intParams, strParams, infoMessage)) {
@@ -149,21 +150,21 @@ void executeCommand(Console *console) {
         return;
     }
 
-    if(!strcmp("flipx", command->name))           terrain = api_rotate(terrain, FLIP_XAXIS, infoMessage);
-    else if(!strcmp("flipy", command->name))      terrain = api_rotate(terrain, FLIP_YAXIS, infoMessage);
-    else if(!strcmp("gterr", command->name))      terrain = api_generateTerrain(P0, P1, infoMessage);
-    else if(!strcmp("invheight", command->name))  api_invertHeight(terrain);
-    else if(!strcmp("randgterr", command->name))  terrain = api_generateRandomTerrain(P0, P1, infoMessage);
-    else if(!strcmp("risesel", command->name))    api_riseSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("riseterr", command->name))   api_riseTerrain(terrain, P0);
-    else if(!strcmp("rotate90", command->name))   terrain = api_rotate(terrain, ROTATE_90, infoMessage);
-    else if(!strcmp("rotate180", command->name))  terrain = api_rotate(terrain, ROTATE_180, infoMessage);
-    else if(!strcmp("rotate270", command->name))  terrain = api_rotate(terrain, ROTATE_270, infoMessage);
-    else if(!strcmp("sethp", command->name))      api_setHeight(terrain, P0, P1, P2);
-    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(terrain, P0);
-    else if(!strcmp("sinksel", command->name))    api_sinkSelection(terrain, P0, P1, P2, P3, P4);
-    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(terrain, P0);
+    if(!strcmp("flipx", command->name))           currentTerrain = api_rotate(currentTerrain, FLIP_XAXIS, infoMessage);
+    else if(!strcmp("flipy", command->name))      currentTerrain = api_rotate(currentTerrain, FLIP_YAXIS, infoMessage);
+    else if(!strcmp("gterr", command->name))      currentTerrain = api_generateTerrain(P0, P1, infoMessage);
+    else if(!strcmp("invheight", command->name))  api_invertHeight(currentTerrain);
+    else if(!strcmp("randgterr", command->name))  currentTerrain = api_generateRandomTerrain(P0, P1, infoMessage);
+    else if(!strcmp("risesel", command->name))    api_riseSelection(currentTerrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("riseterr", command->name))   api_riseTerrain(currentTerrain, P0);
+    else if(!strcmp("rotate90", command->name))   currentTerrain = api_rotate(currentTerrain, ROTATE_90, infoMessage);
+    else if(!strcmp("rotate180", command->name))  currentTerrain = api_rotate(currentTerrain, ROTATE_180, infoMessage);
+    else if(!strcmp("rotate270", command->name))  currentTerrain = api_rotate(currentTerrain, ROTATE_270, infoMessage);
+    else if(!strcmp("sethp", command->name))      api_setHeight(currentTerrain, P0, P1, P2);
+    else if(!strcmp("sethsel", command->name))    api_setHeightSelection(currentTerrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sethterr", command->name))   api_setHeightTerrain(currentTerrain, P0);
+    else if(!strcmp("sinksel", command->name))    api_sinkSelection(currentTerrain, P0, P1, P2, P3, P4);
+    else if(!strcmp("sinkterr", command->name))   api_sinkTerrain(currentTerrain, P0);
 
     /*else if(!strcmp("flood", command->name))      infoMessage = api_floodArea(terrain, P0, P1, P2);
     else if(!strcmp("help", command->name))       printCommands(console);
@@ -173,7 +174,6 @@ void executeCommand(Console *console) {
     else if(!strcmp("smoothsel", command->name))  infoMessage = api_smoothSelection(terrain, P0, P1, P2, P3);
     else if(!strcmp("smoothterr", command->name)) infoMessage = api_smoothTerrain(terrain);*/
 
-    console->terrain = terrain;
     deleteParamsValue(command);
     printInfoMessage(infoMessage, console);
 }
