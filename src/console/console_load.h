@@ -4,7 +4,7 @@
 #include "console_lang.h"
 #include "console_draw.h"
 
-Console *createConsole(int sizeKb);
+Console *createConsole();
 void freeConsole(Console *console);
 
 Command *loadCommands(Console *console);

@@ -10,6 +10,4 @@ void consoleNewLine(Console *console);
 void consoleAddString(Console *console, char *string, bool addToCommand);
 void consoleAddStringLine(Console *console, char *string, bool addToCommand);
 
-void calculateWindowOffset(Console *console);
-
 #endif

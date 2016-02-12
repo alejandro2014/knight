@@ -1,11 +1,10 @@
 #include "console_load.h"
 
-Console *createConsole(int sizeKb) {
+Console *createConsole() {
     int lengthLine = 100; //TODO Hardcoded
     int i;
 
     alloc(console, Console, 1);
-    allocExist(console->buffer, char, sizeKb * 1024);
     allocExist(console->currentLine, char, lengthLine);
     allocExist(console->commands, Command, NUM_COMMANDS);
 
@@ -23,7 +22,6 @@ Console *createConsole(int sizeKb) {
 //TODO It doesn't free all the memory
 void freeConsole(Console *console) {
     free(console->visual);
-    free(console->buffer);
     free(console);
 }
 

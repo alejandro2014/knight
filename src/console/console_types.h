@@ -54,19 +54,17 @@ typedef struct {
 } ConsoleVisualParams;
 
 typedef struct {
+    ConsoleVisualParams *visual;
     int numCommands;
     Command *commands;
     Command *currentCommand;
 
-    int size;
-    char *buffer;
+    //char *buffer;
     int offset;
 
     char *currentLine;
     int currentLineOffset;
     int cursorPos;
-
-    ConsoleVisualParams *visual;
 } Console;
 
 #endif

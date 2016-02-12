@@ -29,7 +29,6 @@
 #define P6 *(intParams+6)
 #define P7 *(intParams+7)
 
-void readShellLine(Console *console, FILE *inputStream);
 bool processCommand(char *textCommand, Console *console);
 Command *parseCommand(char *strCommand, Console *console);
 bool getCommandParams(Command *command);

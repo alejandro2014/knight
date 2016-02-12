@@ -67,14 +67,3 @@ void consoleAddStringLine(Console *console, char *string, bool addToCommand) {
     consoleAddString(console, string, addToCommand);
     consoleNewLine(console);
 }
-
-//TODO This function placed here seems to be a design error
-void calculateWindowOffset(Console *console) {
-    int position = console->visual->windowOffset;
-
-    while(*(console->buffer + position) != '\n') {
-        position++;
-    }
-
-    console->visual->windowOffset = position + 1;
-}

@@ -2,16 +2,6 @@
 
 extern Terrain *currentTerrain;
 
-void readShellLine(Console *console, FILE *inputStream) {
-    int endOffset = console->offset;
-    int beginOffset = console->visual->lineOffset;
-    int length = endOffset - beginOffset;
-
-    memcpy(console->currentLine, console->buffer + console->visual->lineOffset, length - 1);
-    *(console->currentLine + length) = '\0';
-    console->visual->lineOffset = console->offset;
-}
-
 // Returns whether we need to finish
 bool processCommand(char *textCommand, Console *console) {
     if(!strcmp(textCommand, "exit")) return true;
@@ -243,7 +233,7 @@ void deleteParamsValue(Command *command) {
 }
 
 void loadScript(Console *console, char *path) {
-    FILE *script = fopen(path, "r");
+    /*FILE *script = fopen(path, "r");
 
     if(script == NULL) {
         printf("The script with path %s couldn't be loaded: file doesn't exist\n", path);
@@ -258,7 +248,7 @@ void loadScript(Console *console, char *path) {
         }
     }
 
-    fclose(script);
+    fclose(script);*/
 }
 
 void consoleResize(Console *console, int newRowsNum, int newColsNum) {
