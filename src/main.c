@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 }
 
 void programLoop(SDL_Renderer *renderer) {
-    bool printBanner = true;
+    bool printBanner = false;
     alloc(events, Events, 1);
 
     if(printBanner) {
@@ -100,7 +100,7 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
 
         case LAYOUT_VER_TERRAIN_CONSOLE:
             setRect(terrainRect, 0, 0, (width/2), height);
-            setRect(consoleRect, (width/2) + 1, 0, (width/2) - 1, height - 1);
+            setRect(consoleRect, (width/2) + 1, 0, (width/2) - 1, height/2 - 1);
             break;
 
         case LAYOUT_HOR_CONSOLE_TERRAIN:
@@ -110,7 +110,7 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
 
         case LAYOUT_HOR_TERRAIN_CONSOLE:
             setRect(terrainRect, 0, 0, width, (height/2));
-            setRect(consoleRect, 0, (height/2), width, (height/2) - 1);
+            setRect(consoleRect, 0, (height/2), width/8, (height/4) - 1);
             break;
     }
 }

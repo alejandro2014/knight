@@ -20,7 +20,6 @@ void consoleDeleteChar(Console *console) {
     bool isCursorAfterPrompt = (*(line->content + visual->lineOffset - 2) == '>' && *(line->content + visual->lineOffset - 1) == ' ');
 
     if(isCursorAfterPrompt) return;
-    //if(visual->lin)
 
     if(visual->lineOffset > 0) {
         visual->lineOffset--;

@@ -17,8 +17,9 @@ void drawConsole(SDL_Renderer *renderer, Console *console);
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
 
-void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines);
+void showWindow(SDL_Renderer *renderer, Console *console);
+void consolePrintLine(SDL_Renderer *renderer, Console *console, char *content, int lineNumber);
 void addLineToConsole(Console *console);
-ConsoleLine *getLineNumber(Console *console, int lineNumber);
+ConsoleLine *consoleGetLineByNumber(Console *console, int lineNumber);
 
 #endif

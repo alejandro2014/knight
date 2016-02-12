@@ -2,29 +2,38 @@
 
 void drawConsole(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *params = console->visual;
-    alloc(line, char, params->widthChars + 1);
-    int currentLine = 0; //TODO
 
     clearConsoleScreen(renderer, params);
-    showWindow(renderer, console, currentLine, params->heightChars);
+    showWindow(renderer, console);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
-void showWindow(SDL_Renderer *renderer, Console *console, int lineStart, int numLines) {
+void showWindow(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *visual = console->visual;
-    int width = console->visual->widthChars;
+    int lineStartAbs = visual->lineNumberAbsolute;
+    int lineEndAbs = lineStartAbs + visual->heightChars;
+    int width = visual->widthChars;
+
     ConsoleLine *line = NULL;
     int i;
-    int currentY;
+    int lineWindow;
 
-    for(i = lineStart; i < lineStart + numLines; i++) {
-        line = getLineNumber(console, i);
+    if(lineStartAbs >= visual->heightChars) lineStartAbs -= visual->heightChars;
+
+    for(i = lineStartAbs; i < lineEndAbs; i++) {
+        line = consoleGetLineByNumber(console, i);
 
         if(line != NULL) {
-            currentY = (i - lineStart) * visual->interLineSpace + visual->coords->y;
-            printString(visual->font, renderer, line->content, visual->coords->x, currentY);
+            lineWindow = i - lineStartAbs;
+            consolePrintLine(renderer, console, line->content, lineWindow);
         }
     }
+}
+
+void consolePrintLine(SDL_Renderer *renderer, Console *console, char *content, int lineNumber) {
+    ConsoleVisualParams *visual = console->visual;
+    SDL_Rect *coords = visual->coords;
+    printString(visual->font, renderer, content, coords->x, lineNumber * visual->interLineSpace + coords->y);
 }
 
 void drawCursor(Console *console, SDL_Renderer *renderer) {
@@ -75,14 +84,10 @@ void addLineToConsole(Console *console) {
 
     visual->lineOffset = 0;
     visual->currentLineNumber++;
+    //visual->lineNumberAbsolute++;
 }
 
-// l1->l2->l3->NULL
-// console->lines: l1
-// line: l1
-// currentLine: 0
-// lineNumber: 1
-ConsoleLine *getLineNumber(Console *console, int lineNumber) {
+ConsoleLine *consoleGetLineByNumber(Console *console, int lineNumber) {
     ConsoleLine *line = console->visual->lines;
     int currentLine = 0;
 

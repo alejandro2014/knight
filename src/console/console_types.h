@@ -54,6 +54,7 @@ typedef struct {
     bool printPrompt;
     int windowOffset;
     int currentLineNumber;
+    int lineNumberAbsolute;
 
     ConsoleLine *lines;
     ConsoleLine *lastLine;
