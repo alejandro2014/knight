@@ -4,7 +4,7 @@
 #include <SDL2/SDL_events.h>
 
 #include "../global.h"
-#include "../console/console.h"
+#include "../console/console_lang.h"
 #include "../console/console_write.h"
 
 #include "global_map.h"

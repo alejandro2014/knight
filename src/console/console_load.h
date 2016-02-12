@@ -1,7 +1,7 @@
 #ifndef LOAD_CONSOLE_H
 #define LOAD_CONSOLE_H
 
-#include "console.h"
+#include "console_lang.h"
 #include "console_draw.h"
 
 Console *createConsole(int sizeKb);

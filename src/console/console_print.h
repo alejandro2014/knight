@@ -3,7 +3,7 @@
 
 #include "../api/api.h"
 
-#include "console.h"
+#include "console_lang.h"
 
 void printConsolePrompt(Console *console);
 void printCommands(Console *console);

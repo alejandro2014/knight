@@ -8,7 +8,7 @@
 
 #include "../api/api.h"
 
-#include "../console/console.h"
+#include "../console/console_lang.h"
 #include "../console/console_print.h"
 #include "../console/console_draw.h"
 

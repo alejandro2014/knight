@@ -12,7 +12,7 @@
 #include "api/hme_lowlevel.h"
 #include "api/generate_terrain.h"
 
-#include "console/console.h"
+#include "console/console_lang.h"
 #include "console/console_load.h"
 #include "console/console_print.h"
 

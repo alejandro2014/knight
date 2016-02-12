@@ -7,7 +7,7 @@
 
 #include "../global.h"
 
-#include "../console/console.h"
+#include "../console/console_lang.h"
 #include "../console/console_print.h"
 
 #include "../map/global_map.h"
