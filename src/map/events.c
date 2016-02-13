@@ -8,23 +8,25 @@ void readEvents(Console *console, Events *events) {
     char currentChar;
 
     while(SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            events->finish = true;
-        }
+        switch(event.type) {
+            case SDL_QUIT:
+                events->finish = true;
+                break;
 
-        if (event.type == SDL_KEYDOWN) {
-            currentChar = (char)event.key.keysym.sym;
+            case SDL_KEYDOWN:
+                currentChar = (char)event.key.keysym.sym;
 
-            switch(currentChar) {
-                case SDLK_RETURN:
-                    consoleNewLine(console);
-                    //events->consoleNewLine = true;
-                    //events->printPrompt = true;
-                    break;
+                switch(currentChar) {
+                    case SDLK_RETURN: consoleNewLine(console); break;
+                    case SDLK_BACKSPACE: consoleDeleteChar(console); break;
+                    default: consoleAddChar(console, currentChar, true); break;
+                }
 
-                case SDLK_BACKSPACE: consoleDeleteChar(console); break;
-                default: consoleAddChar(console, currentChar, true); break;
-            }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                printf("Coords(%d, %d)\n", event.button.x, event.button.y);
+                break;
         }
     }
 }
