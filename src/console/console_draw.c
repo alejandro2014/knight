@@ -3,26 +3,19 @@
 void drawConsole(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *params = console->visual;
 
-    clearConsoleScreen(renderer, params);
-    showWindow(renderer, console);
+    consoleClearScreen(renderer, params);
+    consoleShowWindow(renderer, console);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
-void showWindow(SDL_Renderer *renderer, Console *console) {
+void consoleShowWindow(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *visual = console->visual;
-    int lineStartAbs = visual->lineNumberAbsolute;
-    int lineEndAbs;
-    int width = visual->widthChars;
-
     ConsoleLine *line = NULL;
-    int i;
+    int lineStartAbs, lineEndAbs;
     int lineWindow;
+    int i;
 
-    if(visual->currentLineNumber >= visual->heightChars) {
-        lineStartAbs = visual->currentLineNumber - visual->heightChars;
-    }
-
-    lineEndAbs = lineStartAbs + visual->heightChars;
+    consoleCalculateOffsetWindow(visual, &lineStartAbs, &lineEndAbs);
 
     for(i = lineStartAbs; i < lineEndAbs; i++) {
         line = consoleGetLineByNumber(console, i);
@@ -32,6 +25,16 @@ void showWindow(SDL_Renderer *renderer, Console *console) {
             consolePrintLine(renderer, console, line->content, lineWindow);
         }
     }
+}
+
+void consoleCalculateOffsetWindow(ConsoleVisualParams *visual, int *lineStartAbs, int *lineEndAbs) {
+    *lineStartAbs = visual->lineNumberAbsolute;
+
+    if(visual->currentLineNumber >= visual->heightChars) {
+        *lineStartAbs = visual->currentLineNumber - visual->heightChars;
+    }
+
+    *lineEndAbs = *lineStartAbs + visual->heightChars;
 }
 
 void consolePrintLine(SDL_Renderer *renderer, Console *console, char *content, int lineNumber) {
