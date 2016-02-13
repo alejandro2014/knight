@@ -31,4 +31,4 @@ Credits
 -------
 * Alejandro Ruperez. Refactoring, API design and continuity of the project from height map editor v1.3.1
 * Radu Privantu. Original program Height Map Editor
-* Stefan Hellkvist. Origina generation of terrains (sdlplasma)
+* Stefan Hellkvist. Original generation of terrains (sdlplasma)
