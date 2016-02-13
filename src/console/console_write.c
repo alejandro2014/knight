@@ -20,22 +20,25 @@ void consoleAddChar(Console *console, char currentChar, bool addToCommand) {
 void consoleDeleteChar(Console *console) {
     ConsoleVisualParams *visual = console->visual;
     ConsoleLine *line = visual->lastLine;
-    bool isCursorAfterPrompt = (*(line->content + visual->lineOffset - 2) == '>' && *(line->content + visual->lineOffset - 1) == ' ');
 
-    if(isCursorAfterPrompt) return;
+    if(isCursorAfterPrompt(visual)) return;
 
     if(visual->lineOffset > 0) {
         visual->lineOffset--;
-        *(visual->lastLine->content + visual->lineOffset) = '\0';
+        *(line->content + visual->lineOffset) = '\0';
 
         console->currentLineOffset--;
         *(console->currentLine + console->currentLineOffset) = '\0';
-    } else if(!visual->lastLine->newLine) {
-        visual->lastLine = visual->lastLine->previous;
+        return;
+    }
+
+    //Go back to the previous line
+    if(!line->newLine) {
+        visual->lastLine = line->previous;
         visual->currentLineNumber--;
 
         visual->lineOffset = visual->widthChars - 1;
-        *(visual->lastLine->content + visual->lineOffset) = '\0';
+        *(line->content + visual->lineOffset) = '\0';
 
         console->currentLineOffset--;
         *(console->currentLine + console->currentLineOffset) = '\0';
@@ -43,14 +46,13 @@ void consoleDeleteChar(Console *console) {
 }
 
 void consoleNewLine(Console *console) {
-    int lengthCurrentLine = 100; //TODO Hardcoded
     addLineToConsole(console);
     console->visual->lastLine->newLine = true;
     printConsolePrompt(console);
 
-    printf("Exec -> [%s]\n", console->currentLine);
+    processCommand(console);
 
-    memset(console->currentLine, 0, lengthCurrentLine);
+    memset(console->currentLine, 0, console->maxLineLength);
     console->currentLineOffset = 0;
 }
 
@@ -66,4 +68,11 @@ void consoleAddString(Console *console, char *string, bool addToCommand) {
 void consoleAddStringLine(Console *console, char *string, bool addToCommand) {
     consoleAddString(console, string, addToCommand);
     consoleNewLine(console);
+}
+
+bool isCursorAfterPrompt(ConsoleVisualParams *visual) {
+    ConsoleLine *line = visual->lastLine;
+
+    return (*(line->content + visual->lineOffset - 2) == '>' &&
+            *(line->content + visual->lineOffset - 1) == ' ') ? true : false;
 }

@@ -1,8 +1,8 @@
-#ifndef LOAD_CONSOLE_H
-#define LOAD_CONSOLE_H
+#ifndef CONSOLE_LOAD_H
+#define CONSOLE_LOAD_H
 
+#include "console_types.h"
 #include "console_lang.h"
-#include "console_draw.h"
 
 Console *createConsole();
 void freeConsole(Console *console);

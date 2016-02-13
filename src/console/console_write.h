@@ -7,7 +7,10 @@
 void consoleAddChar(Console *console, char currentChar, bool addToCommand);
 void consoleDeleteChar(Console *console);
 void consoleNewLine(Console *console);
+
 void consoleAddString(Console *console, char *string, bool addToCommand);
 void consoleAddStringLine(Console *console, char *string, bool addToCommand);
+
+bool isCursorAfterPrompt(ConsoleVisualParams *visual);
 
 #endif

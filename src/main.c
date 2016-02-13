@@ -30,7 +30,7 @@ void programLoop(SDL_Renderer *renderer) {
         readEvents(hme->console, events);
 
         if(events->consoleNewLine) {
-            events->finish = processCommand(hme->console->currentLine + 2, hme->console);
+            events->finish = processCommand(hme->console);
             memset(hme->console->currentLine, 0, 80);
             events->consoleNewLine = false;
         }

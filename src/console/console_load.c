@@ -1,11 +1,13 @@
 #include "console_load.h"
 
 Console *createConsole() {
-    int lengthLine = 100; //TODO Hardcoded
     int i;
 
     alloc(console, Console, 1);
-    allocExist(console->currentLine, char, lengthLine);
+
+    console->maxLineLength = 100;
+    allocExist(console->currentLine, char, console->maxLineLength);
+
     allocExist(console->commands, Command, NUM_COMMANDS);
 
     console->visual = loadConsoleParams();

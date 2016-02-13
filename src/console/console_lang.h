@@ -29,7 +29,7 @@
 #define P6 *(intParams+6)
 #define P7 *(intParams+7)
 
-bool processCommand(char *textCommand, Console *console);
+bool processCommand(Console *console);
 Command *parseCommand(char *strCommand, Console *console);
 bool getCommandParams(Command *command);
 void parseParam(char *paramString, char **key, char **value);

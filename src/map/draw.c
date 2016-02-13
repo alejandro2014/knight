@@ -2,10 +2,6 @@
 
 extern Terrain *currentTerrain;
 
-ConsoleVisualParams *consoleParams = NULL;
-bool printBanner = true;
-bool printPrompt = true;
-
 void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *terrainParams) {
     ConsoleVisualParams *consoleParams = console->visual;
     bool printPrompt = consoleParams->printPrompt;
@@ -16,16 +12,6 @@ void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *t
     if(currentTerrain) {
         drawTerrain(renderer, currentTerrain, terrainParams);
     }
-
-    /*if(printBanner) {
-        printConsoleBanner(console);
-        printBanner = false;
-    }
-
-    if(printPrompt) {
-        printConsolePrompt(console);
-        consoleParams->printPrompt = false;
-    }*/
 
     drawConsole(renderer, console);
 

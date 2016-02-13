@@ -1,11 +1,9 @@
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef CONSOLE_TYPES_H
+#define CONSOLE_TYPES_H
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
 #include "../global.h"
-#include "../api/types_api.h"
 
 #include "../map/font.h"
 
@@ -35,14 +33,15 @@ typedef struct ConsoleLine {
 
 typedef struct {
     SDL_Rect *coords;
-    int widthChars, heightChars;
-    int interLineSpace;
-    int padding;
-    int pixelsFill;
-    int widthCursor, heightCursor;
     Font *font;
+    int widthChars;
+    int heightChars;
+
     bool showCursor;
+    int widthCursor;
+    int heightCursor;
     int cursorTimeOld;
+
     bool printPrompt;
     int windowOffset;
     int currentLineNumber;
@@ -51,20 +50,23 @@ typedef struct {
     ConsoleLine *lines;
     ConsoleLine *lastLine;
     int lineOffset;
+
+    int interLineSpace;
+    int padding;
+    int pixelsFill;
 } ConsoleVisualParams;
 
 typedef struct {
     ConsoleVisualParams *visual;
+
+    //TODO
     int numCommands;
     Command *commands;
     Command *currentCommand;
 
-    //char *buffer;
-    int offset;
-
     char *currentLine;
     int currentLineOffset;
-    int cursorPos;
+    int maxLineLength;
 } Console;
 
 #endif
