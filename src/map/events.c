@@ -1,5 +1,7 @@
 #include "events.h"
 
+Events *events;
+
 void readEvents(Console *console, Events *events) {
     SDL_Event event;
     Uint8 *keystate;

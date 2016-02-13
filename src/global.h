@@ -12,6 +12,14 @@ typedef int bool;
 
 #define LENGTH_MESSAGE 100
 
+typedef struct {
+    bool consoleNewLine;
+    bool updateScreen;
+    bool updateMap;
+    bool updateConsole;
+    bool finish;
+} Events;
+
 #define alloc(Name, Type, NumElems) Type *Name = (Type *) malloc(sizeof(Type) * NumElems); \
         memset(Name, 0, sizeof(Type) * NumElems)
 

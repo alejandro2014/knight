@@ -1,6 +1,8 @@
 #include "console_draw.h"
 #include "console_write.h"
 
+extern Events *events;
+
 void consoleAddChar(Console *console, char currentChar, bool addToCommand) {
     ConsoleVisualParams *visual = console->visual;
     ConsoleLine *line = visual->lastLine;
@@ -50,10 +52,7 @@ void consoleNewLine(Console *console) {
     console->visual->lastLine->newLine = true;
     printConsolePrompt(console);
 
-    processCommand(console);
-
-    memset(console->currentLine, 0, console->maxLineLength);
-    console->currentLineOffset = 0;
+    events->consoleNewLine = true;
 }
 
 void consoleAddString(Console *console, char *string, bool addToCommand) {

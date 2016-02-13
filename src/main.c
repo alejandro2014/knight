@@ -1,5 +1,7 @@
 #include "main.h"
 
+extern Events *events;
+
 HeightMapEditor *hme;
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -18,7 +20,7 @@ int main(int argc, char* argv[]) {
 
 void programLoop(SDL_Renderer *renderer) {
     bool printBanner = false;
-    alloc(events, Events, 1);
+    allocExist(events, Events, 1);
 
     if(printBanner) {
         printConsoleBanner(hme->console);
@@ -31,13 +33,9 @@ void programLoop(SDL_Renderer *renderer) {
 
         if(events->consoleNewLine) {
             events->finish = processCommand(hme->console);
-            memset(hme->console->currentLine, 0, 80);
+            memset(hme->console->currentLine, 0, hme->console->maxLineLength);
+            hme->console->currentLineOffset = 0;
             events->consoleNewLine = false;
-        }
-
-        if(events->printPrompt) {
-            hme->console->visual->printPrompt = true;
-            events->printPrompt = false;
         }
 
         drawScreen(renderer, hme->console, hme->terrainParams);

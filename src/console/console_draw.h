@@ -18,6 +18,8 @@ void drawConsole(SDL_Renderer *renderer, Console *console);
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params);
 
 void showWindow(SDL_Renderer *renderer, Console *console);
+void consoleCalculateOffsetWindow(ConsoleVisualParams *visual, int *lineStartAbs, int *lineEndAbs);
+
 void consolePrintLine(SDL_Renderer *renderer, Console *console, char *content, int lineNumber);
 void addLineToConsole(Console *console);
 ConsoleLine *consoleGetLineByNumber(Console *console, int lineNumber);

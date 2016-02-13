@@ -2,9 +2,6 @@
 
 extern Terrain *currentTerrain;
 
-int lineNumber = 0;
-char newLine[20];
-
 void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *terrainParams) {
     ConsoleVisualParams *consoleParams = console->visual;
     bool printPrompt = consoleParams->printPrompt;
@@ -23,10 +20,6 @@ void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *t
     }
 
     if(consoleParams->cursorTimeOld == 5) {
-        memset(&newLine[0], 0, 20);
-        sprintf(&newLine[0], "Adding line %d", lineNumber++);
-        consoleAddStringLine(console, &newLine[0], false);
-
         consoleParams->showCursor = (consoleParams->showCursor ? false : true);
         consoleParams->cursorTimeOld = 0;
     }

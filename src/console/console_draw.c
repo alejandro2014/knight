@@ -3,12 +3,12 @@
 void drawConsole(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *params = console->visual;
 
-    consoleClearScreen(renderer, params);
-    consoleShowWindow(renderer, console);
+    clearConsoleScreen(renderer, params);
+    showWindow(renderer, console);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
 }
 
-void consoleShowWindow(SDL_Renderer *renderer, Console *console) {
+void showWindow(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *visual = console->visual;
     ConsoleLine *line = NULL;
     int lineStartAbs, lineEndAbs;

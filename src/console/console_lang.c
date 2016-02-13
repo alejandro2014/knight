@@ -5,8 +5,7 @@ extern Terrain *currentTerrain;
 // Returns whether we need to finish
 bool processCommand(Console *console) {
     char *textCommand = console->currentLine;
-    return false;
-
+    printf("Executing command [%s]\n", textCommand);
     if(!strcmp(textCommand, "exit")) return true;
 
     Command *command = parseCommand(textCommand, console);
