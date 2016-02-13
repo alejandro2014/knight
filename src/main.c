@@ -109,7 +109,7 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
 
         case LAYOUT_HOR_TERRAIN_CONSOLE:
             setRect(terrainRect, 0, 0, width, (height/2));
-            setRect(consoleRect, 0, (height/2), width/8, (height/4) - 1);
+            setRect(consoleRect, 0, (height/2), width, (height/2) - 1);
             break;
     }
 }

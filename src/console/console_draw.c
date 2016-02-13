@@ -11,14 +11,18 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
 void showWindow(SDL_Renderer *renderer, Console *console) {
     ConsoleVisualParams *visual = console->visual;
     int lineStartAbs = visual->lineNumberAbsolute;
-    int lineEndAbs = lineStartAbs + visual->heightChars;
+    int lineEndAbs;
     int width = visual->widthChars;
 
     ConsoleLine *line = NULL;
     int i;
     int lineWindow;
 
-    if(lineStartAbs >= visual->heightChars) lineStartAbs -= visual->heightChars;
+    if(visual->currentLineNumber >= visual->heightChars) {
+        lineStartAbs = visual->currentLineNumber - visual->heightChars;
+    }
+
+    lineEndAbs = lineStartAbs + visual->heightChars;
 
     for(i = lineStartAbs; i < lineEndAbs; i++) {
         line = consoleGetLineByNumber(console, i);
