@@ -1,10 +1,12 @@
-# Knight 0.3.5
+# Knight 0.4
 
-Knight is an editor of heightmaps. Still it doesn't do much, but little by little is taking shape. It will be an editor with different inputs:
+Knight is an editor of heightmaps. Little by little is taking shape. It will be an editor with different inputs:
 A 2d view, a 3d view and a console. This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
 
 Updates
 -------
+* 0.4 (13/2/2016) - The shell is working generally speaking. Able to scroll, to process big lines and to have different size. The program is able
+to have different layouts combining console and map
 * 0.3.5 - Created a splitted screen with two views: 2d map and console. The console is working and sending commands to the 2d view. The view is getting updated according to the operations. There are commands that are not available, or haven't been tested yet. 
 * 0.3.4 - Upgraded to SDL2 and not dependant on SDLMain files anymore. The project has its definitive structure
 * 0.3.3 - Refactored all the structure of the programs in order to compile separate projects: api, 2d, console and main
@@ -18,7 +20,7 @@ operations are now part of the API. The menu.c is becoming thiner and thiner, an
 
 Roadmap
 -------
-* 0.4 - Fully operative shell. All the functionality of the program is migrated to api calls
+* 0.4.5 - Development of the widgets (menu bar, status bar, dialogs, buttons, etc)
 * 0.5 - Restored 2d functionality of the old program. Widget engine completed. Console and 2d views are equivalent
 * 0.7 - 3d view with openGl, not very interactive
 * 0.8 - Interactive 3d view
