@@ -1,5 +1,17 @@
 #include "main.h"
 
+#define NORTHWEST 0,menuHeight
+#define NORTH width/2,menuHeight
+#define NORTHEAST width-1,menuHeight
+
+#define WEST 0,(height-menuHeight)/2+menuHeight
+#define CENTER width/2,(height-menuHeight)/2+menuHeight
+#define EAST width-1,(height-menuHeight)/2+menuHeight
+
+#define SOUTHWEST 0,height-1
+#define SOUTH width/2,height-1
+#define SOUTHEAST width-1,height-1
+
 extern Events *events;
 
 HeightMapEditor *hme;
@@ -65,23 +77,26 @@ void hmeSetLayout(HeightMapEditor *hme, int width, int height, Layout layout) {
     hme->width = width;
     hme->height = height;
 
+    SDL_Rect menuCoords;
     SDL_Rect consoleCoords;
     SDL_Rect terrainRect;
 
-    setWindowsLayout(layout, &consoleCoords, &terrainRect, hme);
+    setWindowsLayout(layout, &menuCoords, &consoleCoords, &terrainRect, hme);
 
     consoleSetCoords(hme->console, &consoleCoords);
     hme->console->visual->widthChars = hme->console->visual->coords->w / charWidth;
     hme->console->visual->heightChars = hme->console->visual->coords->h / hme->console->visual->interLineSpace - 1;
-
     addLineToConsole(hme->console);
 
     hme->terrainParams = loadTerrainParams(&terrainRect);
 }
 
-void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRect, HeightMapEditor *hme) {
+void setWindowsLayout(Layout layout, SDL_Rect *menuRect, SDL_Rect *consoleRect, SDL_Rect *terrainRect, HeightMapEditor *hme) {
+    int menuHeight = 20; //TODO
     int width = hme->width;
     int height = hme->height;
+
+    setRect(menuRect, 0, 0, width, menuHeight);
 
     switch(layout) {
         case LAYOUT_ONLY_CONSOLE:
@@ -91,23 +106,23 @@ void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRec
             break;
 
         case LAYOUT_VER_CONSOLE_TERRAIN:
-            setRect(consoleRect, 0, 0, (width/2), height);
-            setRect(terrainRect, (width/2) + 1, 0, (width/2) - 1, height - 1);
+            setRect(consoleRect, NORTHWEST, SOUTH);
+            setRect(terrainRect, NORTH, SOUTHEAST);
             break;
 
         case LAYOUT_VER_TERRAIN_CONSOLE:
-            setRect(terrainRect, 0, 0, (width/2), height);
-            setRect(consoleRect, (width/2) + 1, 0, (width/2) - 1, height/2 - 1);
+            setRect(terrainRect, NORTHWEST, SOUTH);
+            setRect(consoleRect, NORTH, SOUTHEAST);
             break;
 
         case LAYOUT_HOR_CONSOLE_TERRAIN:
-            setRect(consoleRect, 0, 0, width, (height/2));
-            setRect(terrainRect, 0, (height/2), width, height);
+            setRect(consoleRect, NORTHWEST, EAST);
+            setRect(terrainRect, WEST, SOUTHEAST);
             break;
 
         case LAYOUT_HOR_TERRAIN_CONSOLE:
-            setRect(terrainRect, 0, 0, width, (height/2));
-            setRect(consoleRect, 0, (height/2), width, (height/2) - 1);
+            setRect(terrainRect, NORTHWEST, EAST);
+            setRect(consoleRect, WEST, SOUTHEAST);
             break;
     }
 }

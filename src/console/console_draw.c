@@ -64,8 +64,7 @@ void drawCursor(Console *console, SDL_Renderer *renderer) {
 
 void clearConsoleScreen(SDL_Renderer *renderer, ConsoleVisualParams *params) {
     SDL_Color *bgColor = &(params->font->bgColor);
-    SDL_SetRenderDrawColor(renderer, bgColor->r, bgColor->g, bgColor->b, 255);
-    SDL_RenderFillRect(renderer, params->coords);
+    clearSubScreen(renderer, params->coords, bgColor);
 }
 
 void addLineToConsole(Console *console) {

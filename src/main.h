@@ -43,7 +43,7 @@ SDL_Renderer *createRenderer(SDL_Window *window);
 void freeResources(HeightMapEditor *hme);
 
 void hmeSetLayout(HeightMapEditor *hme, int windowWidth, int windowHeight, Layout);
-void setWindowsLayout(Layout layout, SDL_Rect *consoleRect, SDL_Rect *terrainRect, HeightMapEditor *hme);
+void setWindowsLayout(Layout layout, SDL_Rect *menuRect, SDL_Rect *consoleRect, SDL_Rect *terrainRect, HeightMapEditor *hme);
 
 void programLoop(SDL_Renderer *renderer);
 
