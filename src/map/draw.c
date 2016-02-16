@@ -2,32 +2,27 @@
 
 extern Terrain *currentTerrain;
 
-void drawScreen(SDL_Renderer *renderer, Console *console, TerrainVisualParams *terrainParams) {
+void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams) {
+    SDL_Renderer *renderer = screen->renderer;
     ConsoleVisualParams *consoleParams = console->visual;
     bool printPrompt = consoleParams->printPrompt;
-
-    SDL_Rect coordsTerrain;
-    setRect(&coordsTerrain, 0, 20, 799, 309);
 
     SDL_Color bgColorTerrain;
     bgColorTerrain.r = 80;
     bgColorTerrain.g = 40;
     bgColorTerrain.b = 40;
 
-    SDL_Rect coordsMenu;
-    setRect(&coordsMenu, 0, 0, 799, 19);
-
     SDL_Color bgColorMenu;
     bgColorMenu.r = 40;
     bgColorMenu.g = 80;
     bgColorMenu.b = 40;
 
-    clearSubScreen(renderer, &coordsTerrain, &bgColorTerrain);
+    clearSubScreen(renderer, &(screen->terrainCoords), &bgColorTerrain);
 
-    clearSubScreen(renderer, &coordsMenu, &bgColorMenu);
+    clearSubScreen(renderer, &(screen->menuBarCoords), &bgColorMenu);
 
     if(currentTerrain) {
-        drawTerrain(renderer, currentTerrain, terrainParams);
+        drawTerrain(screen, currentTerrain, terrainParams);
     }
 
     drawConsole(renderer, console);
