@@ -55,6 +55,14 @@ HeightMapEditor *loadHeightMapEditor() {
     hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
     hme->screen->renderer = createRenderer(hme->screen->window);
 
+    hme->screen->bgColorTerrain.r = 80;
+    hme->screen->bgColorTerrain.g = 40;
+    hme->screen->bgColorTerrain.b = 40;
+
+    hme->screen->bgColorMenuBar.r = 40;
+    hme->screen->bgColorMenuBar.g = 80;
+    hme->screen->bgColorMenuBar.b = 40;
+
     return hme;
 }
 

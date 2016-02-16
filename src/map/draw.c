@@ -7,19 +7,9 @@ void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainPa
     ConsoleVisualParams *consoleParams = console->visual;
     bool printPrompt = consoleParams->printPrompt;
 
-    SDL_Color bgColorTerrain;
-    bgColorTerrain.r = 80;
-    bgColorTerrain.g = 40;
-    bgColorTerrain.b = 40;
+    clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
-    SDL_Color bgColorMenu;
-    bgColorMenu.r = 40;
-    bgColorMenu.g = 80;
-    bgColorMenu.b = 40;
-
-    clearSubScreen(renderer, &(screen->terrainCoords), &bgColorTerrain);
-
-    clearSubScreen(renderer, &(screen->menuBarCoords), &bgColorMenu);
+    clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
 
     if(currentTerrain) {
         drawTerrain(screen, currentTerrain, terrainParams);
