@@ -16,7 +16,6 @@ int main(int argc, char* argv[]) {
 }
 
 void programLoop(HeightMapEditor *hme) {
-    SDL_Renderer *renderer = hme->screen->renderer;
     allocExist(events, Events, 1);
     bool printBanner = false;
 
@@ -36,14 +35,19 @@ void programLoop(HeightMapEditor *hme) {
             events->consoleNewLine = false;
         }
 
-        drawMenuBar(hme->menuBar, hme->screen);
-        drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
-        drawConsole(renderer, hme->console);
-
-        SDL_RenderPresent(renderer);
+        drawScreen(hme);
 
         SDL_Delay(100);
     }
+}
+
+void drawScreen(HeightMapEditor *hme) {
+    SDL_Renderer *renderer = hme->screen->renderer;
+
+    drawMenuBar(hme->menuBar, hme->screen);
+    drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
+    drawConsole(renderer, hme->console);
+    SDL_RenderPresent(renderer);
 }
 
 HeightMapEditor *loadHeightMapEditor() {

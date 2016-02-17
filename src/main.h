@@ -43,5 +43,6 @@ void hmeSetLayout(Screen *screen, Layout layout, Console *console);
 void setWindowsLayout(Screen *screen, Layout layout);
 
 void programLoop(HeightMapEditor *hme);
+void drawScreen(HeightMapEditor *hme);
 
 #endif
