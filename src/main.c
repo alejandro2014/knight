@@ -1,5 +1,8 @@
 #include "main.h"
 
+#include "console/console_draw.h"
+
+extern Terrain *currentTerrain;
 extern Events *events;
 
 int main(int argc, char* argv[]) {
@@ -36,7 +39,10 @@ void programLoop(HeightMapEditor *hme) {
         }
 
         drawMenuBar(hme->menuBar, hme->screen);
-        drawScreen(hme->screen, hme->console, hme->terrainParams);
+        drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
+        drawConsole(renderer, hme->console);
+
+        SDL_RenderPresent(renderer);
 
         SDL_Delay(100);
     }

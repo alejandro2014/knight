@@ -46,7 +46,4 @@ typedef struct {
     int width, height;
 } TerrainVisualParams;
 
-void setRect(SDL_Rect *rect, int x, int y, int w, int h);
-void drawBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color);
-
 #endif

@@ -20,6 +20,7 @@
 #include "map/draw.h"
 #include "map/events.h"
 #include "map/font.h"
+#include "map/map_draw.h"
 
 #include "widgets/menu_bar.h"
 
