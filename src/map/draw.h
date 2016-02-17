@@ -16,9 +16,7 @@
 #include "global_map.h"
 #include "draw_terrain.h"
 
-#include "../widgets/menu_bar.h"
-
-void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams, Widget_MenuBar *menuBar);
+void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams);
 void drawBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color);
 void clearSubScreen(SDL_Renderer *renderer, SDL_Rect *coords, SDL_Color *color);
 /*void draw_frame (SDL_Surface * this_screen, int xmenu, int ymenu, int xlen, int ylen);

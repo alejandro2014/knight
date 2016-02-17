@@ -5,6 +5,15 @@
 
 #include "../global.h"
 
+#include "../map/draw.h"
+
+void drawMenuBar(Widget_MenuBar *menuBar, Screen *screen) {
+    SDL_Renderer *renderer = screen->renderer;
+
+    clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
+    printString(menuBar->font, renderer, "Knight", 10, 2);
+}
+
 Widget_MenuBar *loadMenuBar(SDL_Color *bgColor) {
     alloc(menuBar, Widget_MenuBar, 1);
 

@@ -35,7 +35,8 @@ void programLoop(HeightMapEditor *hme) {
             events->consoleNewLine = false;
         }
 
-        drawScreen(hme->screen, hme->console, hme->terrainParams, hme->menuBar);
+        drawMenuBar(hme->menuBar, hme->screen);
+        drawScreen(hme->screen, hme->console, hme->terrainParams);
 
         SDL_Delay(100);
     }
