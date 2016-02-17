@@ -7,13 +7,16 @@
 
 #include "../global.h"
 
+#define FONT_PATH_MAC "/Library/Fonts/Courier New.ttf"
+#define FONT_PATH_LINUX "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+
 typedef struct {
     TTF_Font *type;
     SDL_Color fgColor;
     SDL_Color bgColor;
 } Font;
 
-Font *initFont(char *path);
+Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg);
 SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y);
 SDL_Texture *getStringTexture(TTF_Font *font, SDL_Renderer *renderer, char *string, SDL_Color fgColor, SDL_Color bgColor);
 

@@ -35,12 +35,15 @@ void programLoop(HeightMapEditor *hme) {
             events->consoleNewLine = false;
         }
 
-        drawScreen(hme->screen, hme->console, hme->terrainParams);
+        drawScreen(hme->screen, hme->console, hme->terrainParams, hme->menuBar);
+
         SDL_Delay(100);
     }
 }
 
 HeightMapEditor *loadHeightMapEditor() {
+    TTF_Init();
+
     alloc(hme, HeightMapEditor, 1);
 
     hme->console = createConsole(1);
@@ -62,6 +65,8 @@ HeightMapEditor *loadHeightMapEditor() {
     hme->screen->bgColorMenuBar.r = 40;
     hme->screen->bgColorMenuBar.g = 80;
     hme->screen->bgColorMenuBar.b = 40;
+
+    hme->menuBar = loadMenuBar(&(hme->screen->bgColorMenuBar));
 
     return hme;
 }

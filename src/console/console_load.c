@@ -97,10 +97,6 @@ void consoleSetCoords(Console *console, SDL_Rect *paramsRect) {
 }
 
 ConsoleVisualParams *loadConsoleParams() {
-    //TODO Hardcoded values
-    char *FONT_PATH_MAC = "/Library/Fonts/Courier New.ttf";
-    char *FONT_PATH_LINUX = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
-
     alloc(params, ConsoleVisualParams, 1);
 
     params->interLineSpace = 20;
@@ -111,7 +107,9 @@ ConsoleVisualParams *loadConsoleParams() {
     params->heightCursor = 15;
     params->showCursor = true;
 
-    params->font = initFont(FONT_PATH_MAC);
+    SDL_Color fgColor = {180, 180, 180};
+    SDL_Color bgColor = {50, 50, 50};
+    params->font = loadFont(FONT_PATH_MAC, 16, &fgColor, &bgColor);
 
     params->currentLineNumber = -1;
 

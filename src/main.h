@@ -21,11 +21,14 @@
 #include "map/events.h"
 #include "map/font.h"
 
+#include "widgets/menu_bar.h"
+
 typedef struct {
     Console *console;
     Terrain *terrain;
     TerrainVisualParams *terrainParams;
     Screen *screen;
+    Widget_MenuBar *menuBar; //TODO
 } HeightMapEditor;
 
 HeightMapEditor *loadHeightMapEditor();

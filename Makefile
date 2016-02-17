@@ -67,7 +67,7 @@ LIBSA=${LIBA_API} ${LIBA_CON} ${LIBA_MAP} ${LIBA_WID}
 
 ### Rules ###
 ${BINDIR}/${EXE}: ${LIBSA} ${OBJ_REST}
-	${CC} -L${LIBDIR} -l${LIBAPI} -l${LIBCON} -l${LIBMAP} ${OBJ_REST} -o ${BINDIR}/${EXE} ${OPTL}
+	${CC} -L${LIBDIR} -l${LIBAPI} -l${LIBCON} -l${LIBMAP} -l${LIBWID} ${OBJ_REST} -o ${BINDIR}/${EXE} ${OPTL}
 
 ${LIBA_API}: ${OBJ_API}
 	ar rcs ${LIBA_API} ${OBJ_API}

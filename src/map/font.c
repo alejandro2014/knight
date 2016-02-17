@@ -1,22 +1,17 @@
 #include "font.h"
 
-Font *initFont(char *path) {
-    TTF_Init();
-
+Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg) {
     alloc(font, Font, 1);
 
-    font->type = TTF_OpenFont(path, 16);
+    font->type = TTF_OpenFont(path, size);
 
     if(font->type == NULL) {
         printf("Could not load the font\n");
         return NULL;
     }
 
-    SDL_Color fgColor = {180, 180, 180};
-    SDL_Color bgColor = {50, 50, 50};
-
-    font->fgColor = fgColor;
-    font->bgColor = bgColor;
+    font->fgColor.r = fg->r; font->fgColor.g = fg->g; font->fgColor.b = fg->b;
+    font->bgColor.r = bg->r; font->bgColor.g = bg->g; font->bgColor.b = bg->b;
 
     return font;
 }

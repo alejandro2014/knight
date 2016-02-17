@@ -2,14 +2,15 @@
 
 extern Terrain *currentTerrain;
 
-void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams) {
+void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams, Widget_MenuBar *menuBar) {
     SDL_Renderer *renderer = screen->renderer;
     ConsoleVisualParams *consoleParams = console->visual;
     bool printPrompt = consoleParams->printPrompt;
 
-    clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
-
     clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
+    printString(menuBar->font, renderer, "Knight", 10, 2);
+
+    clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
     if(currentTerrain) {
         drawTerrain(screen, currentTerrain, terrainParams);
