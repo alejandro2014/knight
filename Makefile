@@ -44,7 +44,7 @@ CON04=console_print
 CON05=console_write
 
 MAP01=draw
-MAP02=draw_terrain
+MAP02=map_draw
 MAP03=events
 MAP04=font
 

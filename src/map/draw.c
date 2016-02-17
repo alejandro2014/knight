@@ -4,28 +4,10 @@ extern Terrain *currentTerrain;
 
 void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams) {
     SDL_Renderer *renderer = screen->renderer;
-    ConsoleVisualParams *consoleParams = console->visual;
-    bool printPrompt = consoleParams->printPrompt;
 
-    clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
-
-    if(currentTerrain) {
-        drawTerrain(screen, currentTerrain, terrainParams);
-    }
+    drawTerrain(screen, currentTerrain, terrainParams);
 
     drawConsole(renderer, console);
-
-    //TODO Place the console-related parts into drawConsole
-    if(consoleParams->showCursor) {
-        drawCursor(console, renderer);
-    }
-
-    if(consoleParams->cursorTimeOld == 5) {
-        consoleParams->showCursor = (consoleParams->showCursor ? false : true);
-        consoleParams->cursorTimeOld = 0;
-    }
-
-    consoleParams->cursorTimeOld++;
 
     SDL_RenderPresent(renderer);
 }

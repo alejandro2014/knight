@@ -14,7 +14,7 @@
 
 #include "font.h"
 #include "global_map.h"
-#include "draw_terrain.h"
+#include "map_draw.h"
 
 void drawScreen(Screen *screen, Console *console, TerrainVisualParams *terrainParams);
 void drawBorder(SDL_Renderer *renderer, SDL_Rect *r, SDL_Color *color);

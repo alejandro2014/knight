@@ -1,5 +1,5 @@
-#ifndef DRAW_TERRAIN_H
-#define DRAW_TERRAIN_H
+#ifndef MAP_DRAW_H
+#define MAP_DRAW_H
 
 #include <SDL2/SDL.h>
 

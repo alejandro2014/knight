@@ -1,10 +1,14 @@
-#include "draw_terrain.h"
+#include "map_draw.h"
 
 void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) {
     SDL_Renderer *renderer = screen->renderer;
     int x, y;
     int color;
     int xOffset, yOffset;
+
+    clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
+
+    if(!terrain) return;
 
     calculateOffset(terrain, &xOffset, &yOffset, params);
 
@@ -16,9 +20,7 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
         }
     }
 
-    SDL_Color c;
-    c.r = 160; c.g = 80; c.b = 80;
-
+    SDL_Color c = {160, 80, 80};
     drawBorder(renderer, &(screen->terrainCoords), &c);
 }
 

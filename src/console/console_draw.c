@@ -6,6 +6,17 @@ void drawConsole(SDL_Renderer *renderer, Console *console) {
     clearConsoleScreen(renderer, params);
     showWindow(renderer, console);
     drawBorder(renderer, params->coords, &(params->font->fgColor));
+
+    if(params->showCursor) {
+        drawCursor(console, renderer);
+    }
+
+    if(params->cursorTimeOld == 5) {
+        params->showCursor = (params->showCursor ? false : true);
+        params->cursorTimeOld = 0;
+    }
+
+    params->cursorTimeOld++;
 }
 
 void showWindow(SDL_Renderer *renderer, Console *console) {
