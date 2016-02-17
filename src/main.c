@@ -1,7 +1,5 @@
 #include "main.h"
 
-#include "console/console_draw.h"
-
 extern Terrain *currentTerrain;
 extern Events *events;
 

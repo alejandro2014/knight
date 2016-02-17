@@ -6,11 +6,11 @@
 #include "console_types.h"
 
 #include "../global.h"
+#include "../draw.h"
 
 #include "../console/console_lang.h"
 #include "../console/console_print.h"
 
-#include "../map/draw.h" //TODO Shouldn't be placed in common space?
 #include "../map/global_map.h"
 
 void drawCursor(Console *console, SDL_Renderer *renderer);

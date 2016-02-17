@@ -8,16 +8,17 @@
 #include <SDL2/SDL_ttf.h>
 
 #include "global.h"
+#include "draw.h"
 
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
 #include "api/generate_terrain.h"
 
+#include "console/console_draw.h"
 #include "console/console_lang.h"
 #include "console/console_load.h"
 #include "console/console_print.h"
 
-#include "map/draw.h"
 #include "map/events.h"
 #include "map/font.h"
 #include "map/map_draw.h"

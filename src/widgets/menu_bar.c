@@ -4,8 +4,7 @@
 #include "menu_bar.h"
 
 #include "../global.h"
-
-#include "../map/draw.h"
+#include "../draw.h"
 
 void drawMenuBar(Widget_MenuBar *menuBar, Screen *screen) {
     SDL_Renderer *renderer = screen->renderer;

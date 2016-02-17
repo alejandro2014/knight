@@ -1,8 +1,9 @@
 #ifndef MENU_BAR_H
 #define MENU_BAR_H
 
+#include "../draw.h"
+
 #include "../map/font.h"
-#include "../map/draw.h"
 #include "../map/global_map.h"
 
 typedef struct {
