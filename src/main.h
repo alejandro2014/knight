@@ -33,12 +33,6 @@ typedef struct {
     Widget_MenuBar *menuBar; //TODO
 } HeightMapEditor;
 
-HeightMapEditor *loadHeightMapEditor();
-TerrainVisualParams *loadTerrainParams();
-SDL_Window *createWindow(char *title, int width, int height);
-SDL_Renderer *createRenderer(SDL_Window *window);
-void freeResources(HeightMapEditor *hme);
-
 void hmeSetLayout(Screen *screen, Layout layout, Console *console);
 void setWindowsLayout(Screen *screen, Layout layout);
 
