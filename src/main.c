@@ -45,9 +45,9 @@ void programLoop(HeightMapEditor *hme) {
 void drawScreen(HeightMapEditor *hme) {
     SDL_Renderer *renderer = hme->screen->renderer;
 
-    drawMenuBar(hme->menuBar, hme->screen);
     drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
     drawConsole(renderer, hme->console);
+    drawMenuBar(hme->menuBar, hme->screen);
     SDL_RenderPresent(renderer);
 }
 

@@ -17,6 +17,10 @@ void drawMenuBar(WMenuBar *menuBar, Screen *screen) {
         currentFont = (menuBar->options + i)->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
         printString(currentFont, renderer, (menuBar->options + i)->text, i * 100 + 10, 2);
     }
+
+    printString(menuBar->fontNormal, renderer, "Sub-option 1", 1 * 100 + 10, 25);
+    printString(menuBar->fontNormal, renderer, "Sub-option 2", 1 * 100 + 10, 47);
+    printString(menuBar->fontNormal, renderer, "Sub-option 3", 1 * 100 + 10, 69);
 }
 
 WMenuBar *loadMenuBar(SDL_Color *bgColor) {
