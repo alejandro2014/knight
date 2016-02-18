@@ -30,7 +30,7 @@ typedef struct {
     Terrain *terrain;
     TerrainVisualParams *terrainParams;
     Screen *screen;
-    WMenuBar *menuBar; //TODO
+    WMenu *menuBar;
 } HeightMapEditor;
 
 void hmeSetLayout(Screen *screen, Layout layout, Console *console);

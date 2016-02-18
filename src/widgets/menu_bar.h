@@ -20,17 +20,22 @@ typedef struct {
 } WMenuBar;
 
 typedef struct _WMenu {
+    char *text;
     int numOptions;
     struct _WMenu *options;
+    struct _WMenu *next;
     bool isSelected;
 
     Font *fontNormal;
     Font *fontSelected;
 } WMenu;
 
-void drawMenuBar(WMenuBar *menuBar, Screen *screen);
-WMenuBar *loadMenuBar(SDL_Color *bgColor);
+void drawMenuBar(WMenu *menuBar, Screen *screen);
+WMenu *loadMenuBar(SDL_Color *bgColor);
 void addNewOption(WMenuBarOption *option, char *text, bool isSelected);
-void drawMenu(Screen *screen, WMenuBar *menuBar);
+void drawMenu(Screen *screen, WMenu *menuBar);
+
+WMenu *addOption(WMenu *menu, char *text);
+WMenu *createOption(char *text);
 
 #endif
