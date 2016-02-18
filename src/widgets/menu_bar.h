@@ -19,8 +19,18 @@ typedef struct {
     int numOptions;
 } WMenuBar;
 
+typedef struct _WMenu {
+    int numOptions;
+    struct _WMenu *options;
+    bool isSelected;
+
+    Font *fontNormal;
+    Font *fontSelected;
+} WMenu;
+
 void drawMenuBar(WMenuBar *menuBar, Screen *screen);
 WMenuBar *loadMenuBar(SDL_Color *bgColor);
 void addNewOption(WMenuBarOption *option, char *text, bool isSelected);
+void drawMenu(Screen *screen, WMenuBar *menuBar);
 
 #endif

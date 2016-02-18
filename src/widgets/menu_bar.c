@@ -18,13 +18,30 @@ void drawMenuBar(WMenuBar *menuBar, Screen *screen) {
         printString(currentFont, renderer, (menuBar->options + i)->text, i * 100 + 10, 2);
     }
 
+    drawMenu(screen, menuBar);
+}
+
+void drawMenu(Screen *screen, WMenuBar *menuBar) {
+    SDL_Renderer *renderer = screen->renderer;
+    int numOptions = 3;
+    char *optionTexts[numOptions];
+    optionTexts[0] = "Sub-option 1";
+    optionTexts[1] = "Sub-option 2";
+    optionTexts[2] = "Sub-option 3";
+
+    int optionSelected = 1;
+    int heightOption = 23;
+    int xSubMenu = optionSelected * 100 + 10;
+    int i;
+
     SDL_Rect rectMenu;
-    setRect(&rectMenu, 1 * 100 + 10, 20, 1 * 100 + 140, 90);
+    setRect(&rectMenu, xSubMenu, 20, xSubMenu + 130, 20 + 3 * heightOption);
     clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
 
-    printString(menuBar->fontNormal, renderer, "Sub-option 1", 1 * 100 + 10, 25);
-    printString(menuBar->fontNormal, renderer, "Sub-option 2", 1 * 100 + 10, 47);
-    printString(menuBar->fontNormal, renderer, "Sub-option 3", 1 * 100 + 10, 69);
+    for(i = 0; i < numOptions; i++) {
+        //currentFont = (menuBar->options + i)->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
+        printString(menuBar->fontNormal, renderer, optionTexts[i], xSubMenu, i * heightOption + 25);
+    }
 }
 
 WMenuBar *loadMenuBar(SDL_Color *bgColor) {
