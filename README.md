@@ -3,6 +3,15 @@
 Knight is an editor of heightmaps. Little by little is taking shape. It will be an editor with different inputs:
 A 2d view, a 3d view and a console. This project is a fork of the project "height map editor", located in http://hme.sourceforge.net/
 
+Install project
+---------------
+
+In order to install the dependencies of the project run ./configure
+
+Then create the compile the executable with make
+
+To run the executable: ./bin/knight 
+
 Updates
 -------
 * 0.4 (13/2/2016) - The shell is working generally speaking. Able to scroll, to process big lines and to have different size. The program is able

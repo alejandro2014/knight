@@ -182,24 +182,6 @@ void changeCursor(int cursor) {
 }
 
 void drawScreen() {
-  /*put_right_cursor();
-  check_toolbar_mouse_over();
-  if(no_update_now) {
-    no_update_now=0;
-    return some_int;
-  }*/
-
-  //terrain_on_screen(screen);
-  //draw_selection(screen);
-  //  debug_info();
-  //if (current_tool == t_object && current_cursor!=cursor_arrow)draw_object_on_screen(screen);
-  //if (grid)draw_grid (screen);
-  //if (status_bar)draw_status_bar ();
-  //if (mini_map)draw_minimap (screen);
-
-  //if (tool_bar)draw_tool_bar (screen);
-  /*if (show_tip)draw_tool_tip();*/
-
   if (show_new_terrain_menu) drawMenu("newTerrain");
   if (show_generate_terrain_menu) drawMenu("generateTerrain");
   if (show_view_menu) drawMenu("view");

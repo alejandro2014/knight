@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#Install the dependencies
+sudo apt-get install libsdl2-2.0
+sudo apt-get install libsdl2-dev
+sudo apt-get install libsdl2-ttf-dev
+
+#Create the directories
+mkdir ./bin
+mkdir ./lib
+mkdir ./obj
+mkdir ./obj/api
+mkdir ./obj/console
+mkdir ./obj/map
+mkdir ./obj/widgets
