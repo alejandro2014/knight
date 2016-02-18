@@ -1,6 +1,7 @@
 #ifndef MENU_BAR_H
 #define MENU_BAR_H
 
+#include "../global.h"
 #include "../draw.h"
 
 #include "../map/font.h"
@@ -8,10 +9,12 @@
 
 typedef struct {
     char *text;
+    bool isSelected;
 } WMenuBarOption;
 
 typedef struct {
-    Font *font;
+    Font *fontNormal;
+    Font *fontSelected;
     WMenuBarOption *options;
     int numOptions;
 } WMenuBar;
