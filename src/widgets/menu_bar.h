@@ -7,10 +7,16 @@
 #include "../map/global_map.h"
 
 typedef struct {
-    Font *font;
-} Widget_MenuBar;
+    char *text;
+} WMenuBarOption;
 
-void drawMenuBar(Widget_MenuBar *menuBar, Screen *screen);
-Widget_MenuBar *loadMenuBar(SDL_Color *bgColor);
+typedef struct {
+    Font *font;
+    WMenuBarOption *options;
+    int numOptions;
+} WMenuBar;
+
+void drawMenuBar(WMenuBar *menuBar, Screen *screen);
+WMenuBar *loadMenuBar(SDL_Color *bgColor);
 
 #endif

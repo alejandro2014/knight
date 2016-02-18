@@ -1,5 +1,4 @@
 #include "main.h"
-
 #include "hme_load.h"
 
 extern Terrain *currentTerrain;
