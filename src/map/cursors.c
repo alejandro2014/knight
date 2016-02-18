@@ -146,11 +146,4 @@ void change_cursor(int cursor_id)
 
 void change_cursor_show(int cursor_id)
 {
-
-  /*TODO
-  if(current_cursor!=cursor_arrow && current_cursor!=cursor_wait && current_cursor!=cursor_target)last_cursor=current_cursor;
-  SDL_SetCursor((SDL_Cursor *)cursors_array[cursor_id].cursor_pointer);
-  current_cursor=cursor_id;
-  SDL_WarpMouse(x_mouse_pos,y_mouse_pos);
-  */
 }
