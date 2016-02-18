@@ -20,11 +20,17 @@ void drawMenuBar(WMenuBar *menuBar, Screen *screen) {
 WMenuBar *loadMenuBar(SDL_Color *bgColor) {
     alloc(menuBar, WMenuBar, 1);
 
-    menuBar->numOptions = 1;
+    menuBar->numOptions = 3;
     allocExist(menuBar->options, WMenuBarOption, menuBar->numOptions);
 
     allocExist((menuBar->options + 0)->text, char, 20);
     strcpy((menuBar->options + 0)->text, "Option 1");
+
+    allocExist((menuBar->options + 1)->text, char, 20);
+    strcpy((menuBar->options + 1)->text, "Option 2");
+
+    allocExist((menuBar->options + 2)->text, char, 20);
+    strcpy((menuBar->options + 2)->text, "Option 3");
 
     SDL_Color fgColor = {160, 160, 40};
     menuBar->font = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
