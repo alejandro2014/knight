@@ -21,5 +21,6 @@ typedef struct {
 
 void drawMenuBar(WMenuBar *menuBar, Screen *screen);
 WMenuBar *loadMenuBar(SDL_Color *bgColor);
+void addNewOption(WMenuBarOption *option, char *text, bool isSelected);
 
 #endif

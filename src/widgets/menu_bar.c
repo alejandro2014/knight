@@ -26,24 +26,19 @@ WMenuBar *loadMenuBar(SDL_Color *bgColor) {
     menuBar->numOptions = 3;
     allocExist(menuBar->options, WMenuBarOption, menuBar->numOptions);
 
-    option = (menuBar->options + 0);
-    allocExist(option->text, char, 20);
-    strcpy(option->text, "Option 1");
-    option->isSelected = false;
-
-    option = (menuBar->options + 1);
-    allocExist(option->text, char, 20);
-    strcpy(option->text, "Option 2");
-    option->isSelected = true;
-
-    option = (menuBar->options + 2);
-    allocExist(option->text, char, 20);
-    strcpy(option->text, "Option 3");
-    option->isSelected = false;
+    addNewOption((menuBar->options + 0), "Option 1", false);
+    addNewOption((menuBar->options + 1), "Option 2", true);
+    addNewOption((menuBar->options + 2), "Option 3", false);
 
     SDL_Color fgColor = {160, 160, 40};
     menuBar->fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
     menuBar->fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
 
     return menuBar;
+}
+
+void addNewOption(WMenuBarOption *option, char *text, bool isSelected) {
+    allocExist(option->text, char, 20);
+    strcpy(option->text, text);
+    option->isSelected = isSelected;
 }
