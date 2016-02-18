@@ -18,6 +18,10 @@ void drawMenuBar(WMenuBar *menuBar, Screen *screen) {
         printString(currentFont, renderer, (menuBar->options + i)->text, i * 100 + 10, 2);
     }
 
+    SDL_Rect rectMenu;
+    setRect(&rectMenu, 1 * 100 + 10, 20, 1 * 100 + 140, 90);
+    clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
+
     printString(menuBar->fontNormal, renderer, "Sub-option 1", 1 * 100 + 10, 25);
     printString(menuBar->fontNormal, renderer, "Sub-option 2", 1 * 100 + 10, 47);
     printString(menuBar->fontNormal, renderer, "Sub-option 3", 1 * 100 + 10, 69);
