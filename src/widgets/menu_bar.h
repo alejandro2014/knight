@@ -35,7 +35,7 @@ WMenu *loadMenuBar(SDL_Color *bgColor);
 void addNewOption(WMenuBarOption *option, char *text, bool isSelected);
 void drawMenu(Screen *screen, WMenu *menuBar);
 
-WMenu *addOption(WMenu *menu, char *text);
-WMenu *createOption(char *text);
+void addOption(WMenu *menu, char *text);
+WMenu *createOption(WMenu *menu, char *text);
 
 #endif

@@ -25,17 +25,12 @@ void drawMenuBar(WMenu *menuBar, Screen *screen) {
         option = option->next;
     }
 
-    drawMenu(screen, menuBar);
+    drawMenu(screen, menuBar->options);
 }
 
 void drawMenu(Screen *screen, WMenu *menuBar) {
     SDL_Renderer *renderer = screen->renderer;
     int numOptions = 3;
-
-    alloc(options, WMenu, numOptions);
-    (options + 0)->text = "Sub-option 1";
-    (options + 1)->text = "Sub-option 2";
-    (options + 2)->text = "Sub-option 3";
 
     int optionSelected = 1;
     int heightOption = 23;
@@ -46,9 +41,12 @@ void drawMenu(Screen *screen, WMenu *menuBar) {
     setRect(&rectMenu, xSubMenu, 20, xSubMenu + 130, 20 + 3 * heightOption);
     clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
 
+    WMenu *currentOption = menuBar->options;
+
     for(i = 0; i < numOptions; i++) {
         //currentFont = (menuBar->options + i)->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
-        printString(menuBar->fontNormal, renderer, (options + i)->text, xSubMenu, i * heightOption + 25);
+        printString(menuBar->fontNormal, renderer, currentOption->text, xSubMenu, i * heightOption + 25);
+        currentOption = currentOption->next;
     }
 }
 
@@ -62,17 +60,21 @@ WMenu *loadMenuBar(SDL_Color *bgColor) {
     addOption(menuBar, "Option 2");
     addOption(menuBar, "Option 3");
 
+    addOption(menuBar->options, "Sub-option1");
+    addOption(menuBar->options, "Sub-option2");
+    addOption(menuBar->options, "Sub-option3");
+
     return menuBar;
 }
 
-WMenu *addOption(WMenu *menu, char *text) {
-    WMenu *newOption = createOption(text);
+void addOption(WMenu *menu, char *text) {
+    WMenu *newOption = createOption(menu, text);
     WMenu *lastOption = menu->options;
 
     if(lastOption == NULL) {
         menu->options = newOption;
         menu->numOptions++;
-        return newOption;
+        return;
     }
 
     while(lastOption->next != NULL) {
@@ -81,13 +83,15 @@ WMenu *addOption(WMenu *menu, char *text) {
 
     lastOption->next = newOption;
     menu->numOptions++;
-    return newOption;
 }
 
-WMenu *createOption(char *text) {
+WMenu *createOption(WMenu *menu, char *text) {
     alloc(option, WMenu, 1);
     allocExist(option->text, char, 20);
     strcpy(option->text, text);
+
+    option->fontNormal = menu->fontNormal;
+    option->fontSelected = menu->fontSelected;
 
     return option;
 }
