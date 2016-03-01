@@ -7,32 +7,22 @@
 #include "../map/font.h"
 #include "../map/global_map.h"
 
-typedef struct {
-    char *text;
-    bool isSelected;
-} WMenuBarOption;
-
-typedef struct {
-    Font *fontNormal;
-    Font *fontSelected;
-    WMenuBarOption *options;
-    int numOptions;
-} WMenuBar;
+#define MAX_OPTIONS 10
 
 typedef struct _WMenu {
     char *text;
-    int numOptions;
-    struct _WMenu *options;
-    struct _WMenu *next;
     bool isSelected;
-
     Font *fontNormal;
     Font *fontSelected;
+    int numOptions;
+    struct _WMenu *options;
+    int level;
 } WMenu;
+
+void setCoordsMenu(int optionNo, int *x, int *y, int level);
 
 void drawMenuBar(WMenu *menuBar, Screen *screen);
 WMenu *loadMenuBar(SDL_Color *bgColor);
-void addNewOption(WMenuBarOption *option, char *text, bool isSelected);
 void drawMenu(Screen *screen, WMenu *menuBar);
 
 void addOption(WMenu *menu, char *text);
