@@ -22,12 +22,10 @@ typedef struct _WMenu {
     int level;
 } WMenu;
 
-void setCoordsMenu(int *x, int *y, int level);
 void drawMenuBar(WMenu *menuBar, Screen *screen);
 
 WMenu *loadMenuBar(SDL_Color *bgColor);
 void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected);
-
 void setCoordsOption(WMenu *option, int optionNo);
 
 #endif

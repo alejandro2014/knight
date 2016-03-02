@@ -47,6 +47,8 @@ void drawScreen(HeightMapEditor *hme) {
 
     drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
     drawConsole(renderer, hme->console);
+
+    clearSubScreen(renderer, &(hme->screen->menuBarCoords), &(hme->screen->bgColorMenuBar));
     drawMenuBar(hme->menuBar, hme->screen);
     SDL_RenderPresent(renderer);
 }

@@ -6,21 +6,6 @@
 #include "../global.h"
 #include "../draw.h"
 
-void setCoordsMenu(int *x, int *y, int level) {
-    int optionNo = 2;
-    int widthOption = 100;
-    int heightOption = 23;
-    int optionSelected = 2;
-
-    if(level == 0) {
-        *x = optionNo * widthOption + 10;
-        *y = 2;
-    } else {
-        *x = optionSelected * widthOption + 10;
-        *y = optionNo * heightOption + 25;
-    }
-}
-
 void drawMenuBar(WMenu *menuBar, Screen *screen) {
     SDL_Rect rectMenu;
     WMenu *option = NULL;
@@ -31,22 +16,16 @@ void drawMenuBar(WMenu *menuBar, Screen *screen) {
 
     if(menuBar->numOptions == 0) return;
 
-    //setCoordsMenu(&x, &y, menuBar->level);
-
-    /*if(menuBar->level == 0) {
-        clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
-    } else {
-        setRect(&rectMenu, x, y, x + 130, 20 + 3 * 23);
+    if(menuBar->options->level > 0) {
+        setRect(&rectMenu, menuBar->options->x, menuBar->options->y, menuBar->options->x + 130, 20 + 3 * 23);
         clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
-    }*/
+    }
 
     for(i = 0; i < menuBar->numOptions; i++) {
         option = menuBar->options + i;
         currentFont = option->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
-        //setCoordsMenu(&x, &y, option->level);
 
         printString(currentFont, renderer, option->text, option->x, option->y);
-
         drawMenuBar(option, screen);
     }
 }
