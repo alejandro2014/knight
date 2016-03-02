@@ -12,6 +12,9 @@
 typedef struct _WMenu {
     char *text;
     bool isSelected;
+    int x;
+    int y;
+
     Font *fontNormal;
     Font *fontSelected;
     int numOptions;
@@ -19,13 +22,12 @@ typedef struct _WMenu {
     int level;
 } WMenu;
 
-void setCoordsMenu(int optionNo, int *x, int *y, int level);
-
+void setCoordsMenu(int *x, int *y, int level);
 void drawMenuBar(WMenu *menuBar, Screen *screen);
-WMenu *loadMenuBar(SDL_Color *bgColor);
-void drawMenu(Screen *screen, WMenu *menuBar);
 
-void addOption(WMenu *menu, char *text);
-WMenu *createOption(WMenu *menu, char *text);
+WMenu *loadMenuBar(SDL_Color *bgColor);
+void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected);
+
+void setCoordsOption(WMenu *option, int optionNo);
 
 #endif

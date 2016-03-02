@@ -6,87 +6,106 @@
 #include "../global.h"
 #include "../draw.h"
 
-void setCoordsMenu(int optionNo, int *x, int *y, int level) {
+void setCoordsMenu(int *x, int *y, int level) {
+    int optionNo = 2;
+    int widthOption = 100;
+    int heightOption = 23;
+    int optionSelected = 2;
+
     if(level == 0) {
-        *x = optionNo * 100 + 10;
+        *x = optionNo * widthOption + 10;
         *y = 2;
+    } else {
+        *x = optionSelected * widthOption + 10;
+        *y = optionNo * heightOption + 25;
     }
 }
 
 void drawMenuBar(WMenu *menuBar, Screen *screen) {
+    SDL_Rect rectMenu;
     WMenu *option = NULL;
     Font *currentFont = NULL;
     SDL_Renderer *renderer = screen->renderer;
     int x, y;
     int i;
 
-    clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
+    if(menuBar->numOptions == 0) return;
 
-    for(i = 0; i < menuBar->numOptions; i++) {
-        option = menuBar->options + i;
-        currentFont = option->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
-        setCoordsMenu(i, &x, &y, menuBar->level);
-        printString(currentFont, renderer, option->text, x, y);
+    //setCoordsMenu(&x, &y, menuBar->level);
 
-        //drawMenuBar(screen, menuBar->options, level++);
-    }
-}
-
-void drawMenu(Screen *screen, WMenu *menuBar) {
-    /*WMenu *option = NULL;
-    Font *currentFont = NULL;
-    SDL_Renderer *renderer = screen->renderer;
-    int x, y;
-    int i;
-
-    int optionSelected = 2;
-    int heightOption = 23;
-    int xSubMenu = optionSelected * 100 + 10;
-
-    SDL_Rect rectMenu;
-    setRect(&rectMenu, xSubMenu, 20, xSubMenu + 130, 20 + 3 * heightOption);
-    clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
-
-    for(i = 0; i < menuBar->numOptions; i++) {
-        option = menuBar->options + i;
-        currentFont = option->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
-        x = xSubMenu;
-        y = i * heightOption + 25;
-        printString(currentFont, renderer, option->text, x, y);
+    /*if(menuBar->level == 0) {
+        clearSubScreen(renderer, &(screen->menuBarCoords), &(screen->bgColorMenuBar));
+    } else {
+        setRect(&rectMenu, x, y, x + 130, 20 + 3 * 23);
+        clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
     }*/
+
+    for(i = 0; i < menuBar->numOptions; i++) {
+        option = menuBar->options + i;
+        currentFont = option->isSelected ? menuBar->fontSelected : menuBar->fontNormal;
+        //setCoordsMenu(&x, &y, option->level);
+
+        printString(currentFont, renderer, option->text, option->x, option->y);
+
+        drawMenuBar(option, screen);
+    }
 }
 
 WMenu *loadMenuBar(SDL_Color *bgColor) {
     int level = 0;
     alloc(menuBar, WMenu, 1);
     allocExist(menuBar->options, WMenu, MAX_OPTIONS);
-    SDL_Color fgColor = {160, 160, 40};
-    menuBar->fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
-    menuBar->fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
 
-    addOption(menuBar, "File");
-    addOption(menuBar, "Edit");
-    addOption(menuBar, "Help");
+    SDL_Color fgColor = {160, 160, 40};
+    Font *fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
+    Font *fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
+
+    menuBar->fontNormal = fontNormal;
+    menuBar->fontSelected = fontSelected;
+
+    addOption(menuBar, "File", fontNormal, fontSelected);
+    addOption(menuBar, "Edit", fontNormal, fontSelected);
+    addOption(menuBar, "Help", fontNormal, fontSelected);
 
     (menuBar->options + 2)->isSelected = true;
 
-    addOption(menuBar->options, "Sub-option1");
-    addOption(menuBar->options, "Sub-option2");
-    addOption(menuBar->options, "Sub-option3");
+    addOption(menuBar->options, "Sub-option1", fontNormal, fontSelected);
+    addOption(menuBar->options, "Sub-option2", fontNormal, fontSelected);
+    addOption(menuBar->options, "Sub-option3", fontNormal, fontSelected);
 
     return menuBar;
 }
 
-void addOption(WMenu *menu, char *text) {
+void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected) {
     int i;
-    WMenu *currentOption = menu->options + (menu->numOptions++);
+    WMenu *currentOption = menu->options + menu->numOptions;
+    WMenu *option = NULL;
+
+    setCoordsOption(currentOption, menu->numOptions);
+    menu->numOptions++;
 
     currentOption->text = text;
+    currentOption->fontNormal = fontNormal;
+    currentOption->fontSelected = fontSelected;
     allocExist(currentOption->options, WMenu, MAX_OPTIONS);
 
     for(i = 0; i < MAX_OPTIONS; i++) {
-        (currentOption->options + i)->fontNormal = menu->fontNormal;
-        (currentOption->options + i)->fontSelected = menu->fontSelected;
-        (currentOption->options + i)->level = menu->level + 1;
+        option = currentOption->options + i;
+        option->level = menu->level + 1;
+        setCoordsOption(option, i);
+    }
+}
+
+void setCoordsOption(WMenu *option, int optionNo) {
+    int widthOption = 100;
+    int heightOption = 23;
+    int optionSelected = 2;
+
+    if(option->level == 0) {
+        option->x = optionNo * widthOption + 10;
+        option->y = 2;
+    } else {
+        option->x = optionSelected * widthOption + 10;
+        option->y = optionNo * heightOption + 25;
     }
 }
