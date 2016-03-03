@@ -20,12 +20,17 @@ typedef struct _WMenu {
     int numOptions;
     struct _WMenu *options;
     int level;
+
+    int thisOptionPos;
+    int parentOptionPos;
 } WMenu;
 
 void drawMenuBar(WMenu *menuBar, Screen *screen);
 
 WMenu *loadMenuBar(SDL_Color *bgColor);
+
 void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected);
+void selectOption(WMenu *menu, int optionNo);
 void setCoordsOption(WMenu *option, int optionNo);
 
 #endif
