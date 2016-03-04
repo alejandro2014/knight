@@ -6,36 +6,34 @@
 #include "../global.h"
 #include "../draw.h"
 
-void drawMenuBar(WMenu *menuBar, Screen *screen) {
+void drawMenu(WMenu *menuBar, Screen *screen) {
     SDL_Rect rectMenu;
     WMenu *option = NULL;
     Font *currentFont = NULL;
     SDL_Renderer *renderer = screen->renderer;
-    int x, y;
+    int widthOption = 130;
+    int heightOption = 23;
+    int heightMenuBar = 20;
     int i;
 
     if(menuBar->numOptions == 0) return;
 
     if(menuBar->options->level > 0) {
-        setRect(&rectMenu, menuBar->options->x, menuBar->options->y, menuBar->options->x + 130, 20 + 3 * 23);
+        setRect(&rectMenu, menuBar->options->x, menuBar->options->y, menuBar->options->x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
         clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
     }
 
     for(i = 0; i < menuBar->numOptions; i++) {
         option = menuBar->options + i;
+        if(option->isSelected)
+            drawMenu(option, screen);
 
-        if(option->isSelected) {
-            currentFont = menuBar->fontSelected;
-            drawMenuBar(option, screen);
-        } else {
-            currentFont = menuBar->fontNormal;
-        }
-
+        currentFont = option->isSelected ? option->fontSelected : option->fontNormal;
         printString(currentFont, renderer, option->text, option->x, option->y);
     }
 }
 
-WMenu *loadMenuBar(SDL_Color *bgColor) {
+WMenu *loadMenu(SDL_Color *bgColor) {
     int level = 0;
     alloc(menuBar, WMenu, 1);
     allocExist(menuBar->options, WMenu, MAX_OPTIONS);
@@ -47,46 +45,45 @@ WMenu *loadMenuBar(SDL_Color *bgColor) {
     menuBar->fontNormal = fontNormal;
     menuBar->fontSelected = fontSelected;
 
-    addOption(menuBar, "File", fontNormal, fontSelected);
-    addOption(menuBar, "Edit", fontNormal, fontSelected);
-    addOption(menuBar, "Help", fontNormal, fontSelected);
+    addOption(menuBar, "File");
+    addOption(menuBar, "Edit");
+    addOption(menuBar, "Help");
 
-    addOption(menuBar->options, "Sub-option1", fontNormal, fontSelected);
-    addOption(menuBar->options, "Sub-option2", fontNormal, fontSelected);
-    addOption(menuBar->options, "Sub-option3", fontNormal, fontSelected);
+    addOption(menuBar->options, "Sub-option1");
+    addOption(menuBar->options, "Sub-option2");
+    addOption(menuBar->options, "Sub-option3");
 
-    addOption(menuBar->options + 1, "Sub-option11", fontNormal, fontSelected);
-    addOption(menuBar->options + 1, "Sub-option22", fontNormal, fontSelected);
-    addOption(menuBar->options + 1, "Sub-option33", fontNormal, fontSelected);
+    addOption(menuBar->options + 1, "Sub-option11");
+    addOption(menuBar->options + 1, "Sub-option22");
+    addOption(menuBar->options + 1, "Sub-option33");
 
-    selectOption(menuBar, 2);
+    selectOption(menuBar, 0);
 
     return menuBar;
 }
 
 void selectOption(WMenu *menu, int optionNo) {
-    int i;
     WMenu *option = menu->options + optionNo;
-    WMenu *suboption = NULL;
     option->isSelected = true;
-
-    for(i = 0; i < menu->numOptions; i++) {
-        suboption = option->options + i;
-        suboption->parentOptionPos = optionNo;
-    }
 }
 
-void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected) {
+void addOption(WMenu *menu, char *text) {
     int i;
     WMenu *currentOption = menu->options + menu->numOptions;
-    WMenu *option = NULL;
-
-    setCoordsOption(currentOption, menu->numOptions);
 
     currentOption->text = text;
-    currentOption->fontNormal = fontNormal;
-    currentOption->fontSelected = fontSelected;
     currentOption->thisOptionPos = menu->numOptions;
+    currentOption->fontNormal = menu->fontNormal;
+    currentOption->fontSelected = menu->fontSelected;
+    setCoordsOption(currentOption, menu->numOptions);
+
+    allocateSubOptions(currentOption, menu);
+    menu->numOptions++;
+}
+
+void allocateSubOptions(WMenu *currentOption, WMenu *menu) {
+    WMenu *option = NULL;
+    int i;
 
     allocExist(currentOption->options, WMenu, MAX_OPTIONS);
 
@@ -96,8 +93,6 @@ void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected) {
         option->parentOptionPos = currentOption->thisOptionPos;
         setCoordsOption(option, i);
     }
-
-    menu->numOptions++;
 }
 
 void setCoordsOption(WMenu *option, int optionNo) {

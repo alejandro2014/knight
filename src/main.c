@@ -49,7 +49,7 @@ void drawScreen(HeightMapEditor *hme) {
     drawConsole(renderer, hme->console);
 
     clearSubScreen(renderer, &(hme->screen->menuBarCoords), &(hme->screen->bgColorMenuBar));
-    drawMenuBar(hme->menuBar, hme->screen);
+    drawMenu(hme->menuBar, hme->screen);
     SDL_RenderPresent(renderer);
 }
 

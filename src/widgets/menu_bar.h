@@ -25,11 +25,13 @@ typedef struct _WMenu {
     int parentOptionPos;
 } WMenu;
 
-void drawMenuBar(WMenu *menuBar, Screen *screen);
+void drawMenu(WMenu *menuBar, Screen *screen);
 
-WMenu *loadMenuBar(SDL_Color *bgColor);
+WMenu *loadMenu(SDL_Color *bgColor);
 
-void addOption(WMenu *menu, char *text, Font *fontNormal, Font *fontSelected);
+void addOption(WMenu *menu, char *text);
+void allocateSubOptions(WMenu *currentOption, WMenu *menu);
+
 void selectOption(WMenu *menu, int optionNo);
 void setCoordsOption(WMenu *option, int optionNo);
 

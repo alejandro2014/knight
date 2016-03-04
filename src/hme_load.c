@@ -25,7 +25,7 @@ HeightMapEditor *loadHeightMapEditor() {
     hme->screen->bgColorMenuBar.g = 80;
     hme->screen->bgColorMenuBar.b = 40;
 
-    hme->menuBar = loadMenuBar(&(hme->screen->bgColorMenuBar));
+    hme->menuBar = loadMenu(&(hme->screen->bgColorMenuBar));
 
     return hme;
 }
