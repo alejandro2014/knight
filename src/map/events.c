@@ -4,31 +4,28 @@ Events *events;
 
 void readEvents(Console *console, Events *events) {
     SDL_Event event;
-    Uint8 *keystate;
-    char currentChar;
 
     while(SDL_PollEvent(&event)) {
         switch(event.type) {
-            case SDL_QUIT:
-                events->finish = true;
-                break;
-
-            case SDL_KEYDOWN:
-                currentChar = (char)event.key.keysym.sym;
-
-                switch(currentChar) {
-                    case SDLK_RETURN: consoleNewLine(console); break;
-                    case SDLK_BACKSPACE: consoleDeleteChar(console); break;
-                    default: consoleAddChar(console, currentChar, true); break;
-                }
-
-                break;
-
-            case SDL_MOUSEBUTTONDOWN:
-                printf("Coords(%d, %d)\n", event.button.x, event.button.y);
-                break;
+            case SDL_QUIT: events->finish = true; break;
+            case SDL_KEYDOWN: processKeyboardEvent(&event, console); break;
+            case SDL_MOUSEBUTTONDOWN: processMouseEvent(&event); break;
         }
     }
+}
+
+void processKeyboardEvent(SDL_Event *event, Console *console) {
+    char currentChar = (char)event->key.keysym.sym;
+
+    switch(currentChar) {
+        case SDLK_RETURN: consoleNewLine(console); break;
+        case SDLK_BACKSPACE: consoleDeleteChar(console); break;
+        default: consoleAddChar(console, currentChar, true); break;
+    }
+}
+
+void processMouseEvent(SDL_Event *event) {
+    printf("Coords(%d, %d)\n", event->button.x, event->button.y);
 }
 
 //NEW xSize ySize baseHeight ok cancel - base_height_dialog x_map_size_dialog y_map_size_dialog

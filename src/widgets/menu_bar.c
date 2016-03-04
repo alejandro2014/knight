@@ -57,7 +57,8 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar->options + 1, "Sub-option22");
     addOption(menuBar->options + 1, "Sub-option33");
 
-    selectOption(menuBar, 0);
+    selectOption(menuBar, 1);
+    selectOption(menuBar->options + 1, 1);
 
     return menuBar;
 }
