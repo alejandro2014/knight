@@ -1,5 +1,7 @@
 #include "events.h"
 
+#include "../widgets/menu_bar.h"
+
 Events *events;
 
 void readEvents(Console *console, Events *events) {
@@ -9,7 +11,7 @@ void readEvents(Console *console, Events *events) {
         switch(event.type) {
             case SDL_QUIT: events->finish = true; break;
             case SDL_KEYDOWN: processKeyboardEvent(&event, console); break;
-            case SDL_MOUSEBUTTONDOWN: processMouseEvent(&event); break;
+            case SDL_MOUSEBUTTONDOWN: processMouseButtonDownEvent(&event); break;
         }
     }
 }
@@ -24,8 +26,11 @@ void processKeyboardEvent(SDL_Event *event, Console *console) {
     }
 }
 
-void processMouseEvent(SDL_Event *event) {
-    printf("Coords(%d, %d)\n", event->button.x, event->button.y);
+void processMouseButtonDownEvent(SDL_Event *event) {
+    int x = event->button.x;
+    int y = event->button.y;
+
+    WMenu *optionClicked = getOptionClicked(x, y);
 }
 
 //NEW xSize ySize baseHeight ok cancel - base_height_dialog x_map_size_dialog y_map_size_dialog

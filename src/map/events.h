@@ -11,6 +11,6 @@
 
 void readEvents(Console *console, Events *events);
 void processKeyboardEvent(SDL_Event *event, Console *console);
-void processMouseEvent(SDL_Event *event);
+void processMouseButtonDownEvent(SDL_Event *event);
 
 #endif
