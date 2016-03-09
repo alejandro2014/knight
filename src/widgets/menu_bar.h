@@ -39,10 +39,9 @@ WMenu *loadMenu(SDL_Color *bgColor);
 void addOption(WMenu *menu, char *text);
 void allocateSubOptions(WMenu *menu);
 
-void selectOption(WMenu *menu, int optionNo);
+void selectOption(WMenu *option);
 void setCoordsOption(WMenu *option, int optionNo);
 void registerOption(WMenu *option);
-WMenu *getOptionClicked(int x, int y);
 
 WMenu *getOptionClicked(int x, int y);
 bool isCursorInsideOption(int x, int y, WMenu *option);

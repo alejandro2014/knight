@@ -59,14 +59,20 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar->options + 1, "Sub-option22");
     addOption(menuBar->options + 1, "Sub-option33");
 
-    /*selectOption(menuBar, 0);
-    selectOption(menuBar->options + 0, 1);*/
-
     return menuBar;
 }
 
-void selectOption(WMenu *menu, int optionNo) {
-    WMenu *option = menu->options + optionNo;
+void selectOption(WMenu *option) {
+    WMenu *parentOption = option->parentOption;
+    WMenu *currentOption = NULL;
+    int optionsNo = parentOption->numOptions;
+    int i;
+
+    for(i = 0; i < optionsNo; i++) {
+        currentOption = parentOption->options + i;
+        currentOption->isSelected = false;
+    }
+
     option->isSelected = true;
 }
 
