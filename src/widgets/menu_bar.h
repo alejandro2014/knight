@@ -17,8 +17,10 @@ typedef struct _WMenu {
 
     Font *fontNormal;
     Font *fontSelected;
+    SDL_Rect collisionRectangle;
     int numOptions;
     struct _WMenu *options;
+    struct _WMenu *parentOption;
     int level;
 
     int thisOptionPos;
@@ -34,5 +36,6 @@ void allocateSubOptions(WMenu *currentOption, WMenu *menu);
 
 void selectOption(WMenu *menu, int optionNo);
 void setCoordsOption(WMenu *option, int optionNo);
+void registerOption(WMenu *option);
 
 #endif

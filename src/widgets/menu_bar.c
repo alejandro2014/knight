@@ -57,8 +57,8 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar->options + 1, "Sub-option22");
     addOption(menuBar->options + 1, "Sub-option33");
 
-    selectOption(menuBar, 1);
-    selectOption(menuBar->options + 1, 1);
+    selectOption(menuBar, 0);
+    selectOption(menuBar->options + 0, 1);
 
     return menuBar;
 }
@@ -70,29 +70,34 @@ void selectOption(WMenu *menu, int optionNo) {
 
 void addOption(WMenu *menu, char *text) {
     int i;
-    WMenu *currentOption = menu->options + menu->numOptions;
 
-    currentOption->text = text;
-    currentOption->thisOptionPos = menu->numOptions;
-    currentOption->fontNormal = menu->fontNormal;
-    currentOption->fontSelected = menu->fontSelected;
-    setCoordsOption(currentOption, menu->numOptions);
+    if(menu->options == NULL) {
+        allocExist(menu->options, WMenu, MAX_OPTIONS);
 
-    allocateSubOptions(currentOption, menu);
+        for(i = 0; i < MAX_OPTIONS; i++) {
+            (menu->options + i)->level = menu->level + 1;
+        }
+    }
+
+    WMenu *option = menu->options + menu->numOptions;
+
+    option->text = text;
+    option->thisOptionPos = menu->numOptions;
+    option->fontNormal = menu->fontNormal;
+    option->fontSelected = menu->fontSelected;
+    option->parentOption = menu;
+
+    setCoordsOption(option, menu->numOptions);
     menu->numOptions++;
 }
 
-void allocateSubOptions(WMenu *currentOption, WMenu *menu) {
-    WMenu *option = NULL;
+void allocateSubOptions(WMenu *option, WMenu *menu) {
+    WMenu *suboption = NULL;
     int i;
 
-    allocExist(currentOption->options, WMenu, MAX_OPTIONS);
-
     for(i = 0; i < MAX_OPTIONS; i++) {
-        option = currentOption->options + i;
-        option->level = menu->level + 1;
-        option->parentOptionPos = currentOption->thisOptionPos;
-        setCoordsOption(option, i);
+        suboption = menu->options + i;
+        suboption->level = menu->level + 1;
     }
 }
 
@@ -104,7 +109,14 @@ void setCoordsOption(WMenu *option, int optionNo) {
         option->x = optionNo * widthOption + 10;
         option->y = 2;
     } else {
-        option->x = option->parentOptionPos * widthOption + 10;
-        option->y = optionNo * heightOption + 22;
+        option->x = option->parentOption->x;
+        option->y = option->parentOption->y + optionNo * heightOption + 22;
     }
+
+    setRect(&(option->collisionRectangle), option->x, option->y, option->x + widthOption, option->y + heightOption);
+    registerOption(option);
+}
+
+void registerOption(WMenu *option) {
+    printf("Reg [%s] -> (x:%d y:%d w:%d h:%d)\n", option->text, option->collisionRectangle.x, option->collisionRectangle.y, option->collisionRectangle.w, option->collisionRectangle.h);
 }
