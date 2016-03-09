@@ -6,6 +6,8 @@
 #include "../global.h"
 #include "../draw.h"
 
+RegisteredOptions registeredOptions;
+
 void drawMenu(WMenu *menuBar, Screen *screen) {
     SDL_Rect rectMenu;
     WMenu *option = NULL;
@@ -69,15 +71,8 @@ void selectOption(WMenu *menu, int optionNo) {
 }
 
 void addOption(WMenu *menu, char *text) {
-    int i;
-
-    if(menu->options == NULL) {
-        allocExist(menu->options, WMenu, MAX_OPTIONS);
-
-        for(i = 0; i < MAX_OPTIONS; i++) {
-            (menu->options + i)->level = menu->level + 1;
-        }
-    }
+    if(menu->options == NULL)
+        allocateSubOptions(menu);
 
     WMenu *option = menu->options + menu->numOptions;
 
@@ -91,13 +86,13 @@ void addOption(WMenu *menu, char *text) {
     menu->numOptions++;
 }
 
-void allocateSubOptions(WMenu *option, WMenu *menu) {
-    WMenu *suboption = NULL;
+void allocateSubOptions(WMenu *menu) {
     int i;
 
+    allocExist(menu->options, WMenu, MAX_OPTIONS);
+
     for(i = 0; i < MAX_OPTIONS; i++) {
-        suboption = menu->options + i;
-        suboption->level = menu->level + 1;
+        (menu->options + i)->level = menu->level + 1;
     }
 }
 
@@ -118,5 +113,34 @@ void setCoordsOption(WMenu *option, int optionNo) {
 }
 
 void registerOption(WMenu *option) {
-    printf("Reg [%s] -> (x:%d y:%d w:%d h:%d)\n", option->text, option->collisionRectangle.x, option->collisionRectangle.y, option->collisionRectangle.w, option->collisionRectangle.h);
+    int currentOption = registeredOptions.numOptions++;
+    registeredOptions.options[currentOption] = option;
+}
+
+WMenu *getOptionClicked(int x, int y) {
+    WMenu *option = NULL;
+    int numOptions = registeredOptions.numOptions;
+    int i;
+
+    for(i = 0; i < numOptions; i++) {
+        option = registeredOptions.options[i];
+
+        if(isCursorInsideOption(x, y, option))
+            return option;
+    }
+
+    return NULL;
+}
+
+bool isCursorInsideOption(int x, int y, WMenu *option) {
+    return isPointInsideRectangle(x, y, &(option->collisionRectangle));
+}
+
+bool isPointInsideRectangle(int x, int y, SDL_Rect *rectangle) {
+    int x1 = rectangle->x;
+    int x2 = rectangle->x + rectangle->w;
+    int y1 = rectangle->y;
+    int y2 = rectangle->y + rectangle->h;
+
+    return (x > x1 && x < x2 && y > y1 && y < y2) ? true : false;
 }

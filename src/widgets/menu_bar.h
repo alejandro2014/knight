@@ -27,15 +27,25 @@ typedef struct _WMenu {
     int parentOptionPos;
 } WMenu;
 
+typedef struct {
+    WMenu *options[100];
+    int numOptions;
+} RegisteredOptions;
+
 void drawMenu(WMenu *menuBar, Screen *screen);
 
 WMenu *loadMenu(SDL_Color *bgColor);
 
 void addOption(WMenu *menu, char *text);
-void allocateSubOptions(WMenu *currentOption, WMenu *menu);
+void allocateSubOptions(WMenu *menu);
 
 void selectOption(WMenu *menu, int optionNo);
 void setCoordsOption(WMenu *option, int optionNo);
 void registerOption(WMenu *option);
+WMenu *getOptionClicked(int x, int y);
+
+WMenu *getOptionClicked(int x, int y);
+bool isCursorInsideOption(int x, int y, WMenu *option);
+bool isPointInsideRectangle(int x, int y, SDL_Rect *rectangle);
 
 #endif
