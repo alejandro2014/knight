@@ -32,7 +32,10 @@ void processMouseButtonDownEvent(SDL_Event *event) {
 
     WMenu *optionClicked = getOptionClicked(x, y);
 
-    printf("Click (%d, %d) -> [%s]\n", x, y, optionClicked->text);
+    if(optionClicked) {
+        printf("Click (%d, %d) -> [%s]\n", x, y, optionClicked->text);
+        optionClicked->isSelected = true;    
+    }
 }
 
 //NEW xSize ySize baseHeight ok cancel - base_height_dialog x_map_size_dialog y_map_size_dialog
