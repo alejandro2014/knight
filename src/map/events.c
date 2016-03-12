@@ -31,9 +31,11 @@ void processMouseButtonDownEvent(SDL_Event *event) {
     int y = event->button.y;
 
     WMenu *optionClicked = getOptionClicked(x, y);
+    WMenu *mainMenu = NULL;
 
-    if(optionClicked)
+    if(optionClicked) {
         selectOption(optionClicked);
+    }
 }
 
 //NEW xSize ySize baseHeight ok cancel - base_height_dialog x_map_size_dialog y_map_size_dialog

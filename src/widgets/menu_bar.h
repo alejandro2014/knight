@@ -11,20 +11,16 @@
 
 typedef struct _WMenu {
     char *text;
+    bool isVisible;
     bool isSelected;
-    int x;
-    int y;
 
     Font *fontNormal;
     Font *fontSelected;
-    SDL_Rect collisionRectangle;
+    SDL_Rect coords;
     int numOptions;
     struct _WMenu *options;
     struct _WMenu *parentOption;
     int level;
-
-    int thisOptionPos;
-    int parentOptionPos;
 } WMenu;
 
 typedef struct {
@@ -40,6 +36,8 @@ void addOption(WMenu *menu, char *text);
 void allocateSubOptions(WMenu *menu);
 
 void selectOption(WMenu *option);
+void deselectOption(WMenu *option);
+
 void setCoordsOption(WMenu *option, int optionNo);
 void registerOption(WMenu *option);
 

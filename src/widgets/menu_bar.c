@@ -1,3 +1,7 @@
+//TODO Click on an option only when visible
+//TODO Implement states of the menu
+//TODO Link clik on an option with the actual action
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -21,7 +25,7 @@ void drawMenu(WMenu *menuBar, Screen *screen) {
     if(menuBar->numOptions == 0) return;
 
     if(menuBar->options->level > 0) {
-        setRect(&rectMenu, menuBar->options->x, menuBar->options->y, menuBar->options->x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
+        setRect(&rectMenu, menuBar->options->coords.x, menuBar->options->coords.y, menuBar->options->coords.x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
         clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
     }
 
@@ -31,7 +35,7 @@ void drawMenu(WMenu *menuBar, Screen *screen) {
             drawMenu(option, screen);
 
         currentFont = option->isSelected ? option->fontSelected : option->fontNormal;
-        printString(currentFont, renderer, option->text, option->x, option->y);
+        printString(currentFont, renderer, option->text, option->coords.x, option->coords.y);
     }
 }
 
@@ -53,7 +57,7 @@ WMenu *loadMenu(SDL_Color *bgColor) {
 
     addOption(menuBar->options, "Sub-option1");
     addOption(menuBar->options, "Sub-option2");
-    addOption(menuBar->options, "Sub-option3");
+    addOption(menuBar->options, "Exit");
 
     addOption(menuBar->options + 1, "Sub-option11");
     addOption(menuBar->options + 1, "Sub-option22");
@@ -63,17 +67,23 @@ WMenu *loadMenu(SDL_Color *bgColor) {
 }
 
 void selectOption(WMenu *option) {
-    WMenu *parentOption = option->parentOption;
+    deselectOption(option->parentOption);
+    option->parentOption->isSelected = true;
+    option->isSelected = true;
+}
+
+void deselectOption(WMenu *option) {
+    option->isSelected = false;
+    if(option->options == NULL) return;
+
+    int optionsNo = option->numOptions;
     WMenu *currentOption = NULL;
-    int optionsNo = parentOption->numOptions;
     int i;
 
     for(i = 0; i < optionsNo; i++) {
-        currentOption = parentOption->options + i;
-        currentOption->isSelected = false;
+        currentOption = option->options + i;
+        deselectOption(currentOption);
     }
-
-    option->isSelected = true;
 }
 
 void addOption(WMenu *menu, char *text) {
@@ -83,7 +93,6 @@ void addOption(WMenu *menu, char *text) {
     WMenu *option = menu->options + menu->numOptions;
 
     option->text = text;
-    option->thisOptionPos = menu->numOptions;
     option->fontNormal = menu->fontNormal;
     option->fontSelected = menu->fontSelected;
     option->parentOption = menu;
@@ -105,16 +114,17 @@ void allocateSubOptions(WMenu *menu) {
 void setCoordsOption(WMenu *option, int optionNo) {
     int widthOption = 100;
     int heightOption = 23;
+    int x, y;
 
     if(option->level == 0) {
-        option->x = optionNo * widthOption + 10;
-        option->y = 2;
+        x = optionNo * widthOption + 10;
+        y = 2;
     } else {
-        option->x = option->parentOption->x;
-        option->y = option->parentOption->y + optionNo * heightOption + 22;
+        x = option->parentOption->coords.x;
+        y = option->parentOption->coords.y + optionNo * heightOption + 22;
     }
 
-    setRect(&(option->collisionRectangle), option->x, option->y, option->x + widthOption, option->y + heightOption);
+    setRect(&(option->coords), x, y, x + widthOption, y + heightOption);
     registerOption(option);
 }
 
@@ -139,7 +149,7 @@ WMenu *getOptionClicked(int x, int y) {
 }
 
 bool isCursorInsideOption(int x, int y, WMenu *option) {
-    return isPointInsideRectangle(x, y, &(option->collisionRectangle));
+    return isPointInsideRectangle(x, y, &(option->coords));
 }
 
 bool isPointInsideRectangle(int x, int y, SDL_Rect *rectangle) {
