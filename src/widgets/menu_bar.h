@@ -29,14 +29,13 @@ typedef struct {
 } RegisteredOptions;
 
 void drawMenu(WMenu *menuBar, Screen *screen);
+void drawMenuBox(Screen *screen, WMenu *menuBar);
+void drawTextOption(Screen *screen, WMenu *option);
 
 WMenu *loadMenu(SDL_Color *bgColor);
 
 void addOption(WMenu *menu, char *text);
 void allocateSubOptions(WMenu *menu);
-
-void selectOption(WMenu *option);
-void deselectOption(WMenu *option);
 
 void setCoordsOption(WMenu *option, int optionNo);
 void registerOption(WMenu *option);
@@ -44,5 +43,9 @@ void registerOption(WMenu *option);
 WMenu *getOptionClicked(int x, int y);
 bool isCursorInsideOption(int x, int y, WMenu *option);
 bool isPointInsideRectangle(int x, int y, SDL_Rect *rectangle);
+
+void openOption(WMenu *option);
+void closeOption(WMenu *option);
+void closeBrotherOptions(WMenu *option);
 
 #endif

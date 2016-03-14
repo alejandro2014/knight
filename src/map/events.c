@@ -33,8 +33,8 @@ void processMouseButtonDownEvent(SDL_Event *event) {
     WMenu *optionClicked = getOptionClicked(x, y);
     WMenu *mainMenu = NULL;
 
-    if(optionClicked) {
-        selectOption(optionClicked);
+    if(optionClicked && optionClicked->isVisible) {
+        openOption(optionClicked);
     }
 }
 

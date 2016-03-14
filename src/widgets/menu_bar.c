@@ -1,6 +1,6 @@
 //TODO Click on an option only when visible
 //TODO Implement states of the menu
-//TODO Link clik on an option with the actual action
+//TODO Link click on an option with the actual action
 
 #include <stdlib.h>
 #include <string.h>
@@ -13,29 +13,83 @@
 RegisteredOptions registeredOptions;
 
 void drawMenu(WMenu *menuBar, Screen *screen) {
-    SDL_Rect rectMenu;
     WMenu *option = NULL;
-    Font *currentFont = NULL;
-    SDL_Renderer *renderer = screen->renderer;
-    int widthOption = 130;
-    int heightOption = 23;
-    int heightMenuBar = 20;
     int i;
 
     if(menuBar->numOptions == 0) return;
 
-    if(menuBar->options->level > 0) {
-        setRect(&rectMenu, menuBar->options->coords.x, menuBar->options->coords.y, menuBar->options->coords.x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
-        clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
-    }
+    drawMenuBox(screen, menuBar);
 
     for(i = 0; i < menuBar->numOptions; i++) {
         option = menuBar->options + i;
         if(option->isSelected)
             drawMenu(option, screen);
 
-        currentFont = option->isSelected ? option->fontSelected : option->fontNormal;
-        printString(currentFont, renderer, option->text, option->coords.x, option->coords.y);
+        drawTextOption(screen, option);
+    }
+}
+
+void drawMenuBox(Screen *screen, WMenu *menuBar) {
+    SDL_Renderer *renderer = screen->renderer;
+    SDL_Rect coords = menuBar->options->coords;
+    SDL_Rect rectMenu;
+    int widthOption = 130;
+    int heightOption = 23;
+    int heightMenuBar = 20;
+
+    if(menuBar->options->level > 0) {
+        setRect(&rectMenu, coords.x, coords.y, coords.x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
+        clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
+    }
+}
+
+void drawTextOption(Screen *screen, WMenu *option) {
+    SDL_Renderer *renderer = screen->renderer;
+    Font *currentFont = option->isSelected ? option->fontSelected : option->fontNormal;
+
+    printString(currentFont, renderer, option->text, option->coords.x, option->coords.y);
+}
+
+void openOption(WMenu *option) {
+    WMenu *subOption = NULL;
+    int i;
+
+    closeBrotherOptions(option);
+
+    for(i = 0; i < option->numOptions; i++) {
+        subOption = option->options + i;
+        subOption->isVisible = true;
+    }
+
+    option->isSelected = true;
+}
+
+void closeOption(WMenu *option) {
+    WMenu *subOption = NULL;
+    int i;
+
+    for(i = 0; i < option->numOptions; i++) {
+        subOption = option->options + i;
+        subOption->isVisible = false;
+        subOption->isSelected = false;
+
+        closeOption(subOption);
+    }
+
+    /*if(option->level > 0) {
+        option->isVisible = false;
+        option->isSelected = false;
+    }*/
+}
+
+void closeBrotherOptions(WMenu *option) {
+    WMenu *parentOption = option->parentOption;
+    WMenu *currentOption = NULL;
+    int i;
+
+    for(i = 0; i < parentOption->numOptions; i++) {
+        currentOption = parentOption->options + i;
+        closeOption(currentOption);
     }
 }
 
@@ -55,6 +109,10 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar, "Edit");
     addOption(menuBar, "Help");
 
+    (menuBar->options + 0)->isVisible = true;
+    (menuBar->options + 1)->isVisible = true;
+    (menuBar->options + 2)->isVisible = true;
+
     addOption(menuBar->options, "Sub-option1");
     addOption(menuBar->options, "Sub-option2");
     addOption(menuBar->options, "Exit");
@@ -64,26 +122,6 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar->options + 1, "Sub-option33");
 
     return menuBar;
-}
-
-void selectOption(WMenu *option) {
-    deselectOption(option->parentOption);
-    option->parentOption->isSelected = true;
-    option->isSelected = true;
-}
-
-void deselectOption(WMenu *option) {
-    option->isSelected = false;
-    if(option->options == NULL) return;
-
-    int optionsNo = option->numOptions;
-    WMenu *currentOption = NULL;
-    int i;
-
-    for(i = 0; i < optionsNo; i++) {
-        currentOption = option->options + i;
-        deselectOption(currentOption);
-    }
 }
 
 void addOption(WMenu *menu, char *text) {
