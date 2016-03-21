@@ -28,8 +28,8 @@ typedef struct {
     int numOptions;
 } RegisteredOptions;
 
-void drawMenu(WMenu *menuBar, Screen *screen);
-void drawMenuBox(Screen *screen, WMenu *menuBar);
+void drawMenu(WMenu *menu, Screen *screen);
+void drawMenuBox(Screen *screen, WMenu *menu);
 void drawTextOption(Screen *screen, WMenu *option);
 
 WMenu *loadMenu(SDL_Color *bgColor);

@@ -1,6 +1,6 @@
-//TODO Click on an option only when visible
-//TODO Implement states of the menu
 //TODO Link click on an option with the actual action
+//TODO Implement states of the menu
+//TODO Change event type, from click to hover over
 
 #include <stdlib.h>
 #include <string.h>
@@ -12,33 +12,34 @@
 
 RegisteredOptions registeredOptions;
 
-void drawMenu(WMenu *menuBar, Screen *screen) {
+void drawMenu(WMenu *menu, Screen *screen) {
     WMenu *option = NULL;
     int i;
 
-    if(menuBar->numOptions == 0) return;
+    if(menu->options == 0) return;
 
-    drawMenuBox(screen, menuBar);
+    drawMenuBox(screen, menu);
 
-    for(i = 0; i < menuBar->numOptions; i++) {
-        option = menuBar->options + i;
-        if(option->isSelected)
+    for(i = 0; i < menu->numOptions; i++) {
+        option = menu->options + i;
+
+        if(option->isVisible)
             drawMenu(option, screen);
 
         drawTextOption(screen, option);
     }
 }
 
-void drawMenuBox(Screen *screen, WMenu *menuBar) {
+void drawMenuBox(Screen *screen, WMenu *menu) {
     SDL_Renderer *renderer = screen->renderer;
-    SDL_Rect coords = menuBar->options->coords;
+    SDL_Rect coords = menu->options->coords;
     SDL_Rect rectMenu;
     int widthOption = 130;
     int heightOption = 23;
     int heightMenuBar = 20;
 
-    if(menuBar->options->level > 0) {
-        setRect(&rectMenu, coords.x, coords.y, coords.x + widthOption, menuBar->numOptions * heightOption + heightMenuBar);
+    if(menu->options->level > 0) {
+        setRect(&rectMenu, coords.x, coords.y, coords.x + widthOption, menu->numOptions * heightOption + heightMenuBar);
         clearSubScreen(renderer, &rectMenu, &(screen->bgColorMenuBar));
     }
 }
@@ -62,6 +63,7 @@ void openOption(WMenu *option) {
     }
 
     option->isSelected = true;
+    option->isVisible = true;
 }
 
 void closeOption(WMenu *option) {
@@ -76,10 +78,8 @@ void closeOption(WMenu *option) {
         closeOption(subOption);
     }
 
-    /*if(option->level > 0) {
-        option->isVisible = false;
-        option->isSelected = false;
-    }*/
+    option->isVisible = false;
+    option->isSelected = false;
 }
 
 void closeBrotherOptions(WMenu *option) {
@@ -108,10 +108,6 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     addOption(menuBar, "File");
     addOption(menuBar, "Edit");
     addOption(menuBar, "Help");
-
-    (menuBar->options + 0)->isVisible = true;
-    (menuBar->options + 1)->isVisible = true;
-    (menuBar->options + 2)->isVisible = true;
 
     addOption(menuBar->options, "Sub-option1");
     addOption(menuBar->options, "Sub-option2");
