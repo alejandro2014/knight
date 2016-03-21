@@ -18,6 +18,7 @@ typedef struct {
     bool updateMap;
     bool updateConsole;
     bool finish;
+    int angleRotation;
 } Events;
 
 #define alloc(Name, Type, NumElems) Type *Name = (Type *) malloc(sizeof(Type) * NumElems); \

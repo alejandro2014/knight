@@ -1,4 +1,3 @@
-//TODO Link click on an option with the actual action
 //TODO Implement states of the menu
 //TODO Change event type, from click to hover over
 
@@ -95,28 +94,30 @@ void closeBrotherOptions(WMenu *option) {
 }
 
 WMenu *loadMenu(SDL_Color *bgColor) {
-    int level = 0;
+    WMenu *menuFile = NULL;
+    WMenu *menuRotations = NULL;
     alloc(menuBar, WMenu, 1);
     allocExist(menuBar->options, WMenu, MAX_OPTIONS);
 
     SDL_Color fgColor = {160, 160, 40};
-    Font *fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
-    Font *fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
-
-    menuBar->fontNormal = fontNormal;
-    menuBar->fontSelected = fontSelected;
+    menuBar->fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
+    menuBar->fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
 
     addOption(menuBar, "File", NULL);
-    addOption(menuBar, "Edit", NULL);
+    addOption(menuBar, "Rotations", NULL);
     addOption(menuBar, "Help", NULL);
 
-    addOption(menuBar->options, "Sub-option1", NULL);
-    addOption(menuBar->options, "Sub-option2", NULL);
-    addOption(menuBar->options, "Exit", action_exit);
+    menuFile = menuBar->options + 0;
+    addOption(menuFile, "Sub-option1", NULL);
+    addOption(menuFile, "Sub-option2", NULL);
+    addOption(menuFile, "Exit", action_exit);
 
-    addOption(menuBar->options + 1, "Sub-option11", NULL);
-    addOption(menuBar->options + 1, "Sub-option22", NULL);
-    addOption(menuBar->options + 1, "Sub-option33", NULL);
+    menuRotations = menuBar->options + 1;
+    addOption(menuRotations, "Rotate 90", NULL);
+    addOption(menuRotations, "Rotate 180", NULL);
+    addOption(menuRotations, "Rotate 270", NULL);
+    addOption(menuRotations, "Flip x axis", NULL);
+    addOption(menuRotations, "Flip y axis", NULL);
 
     return menuBar;
 }

@@ -5,6 +5,12 @@
 
 #include "../global.h"
 
-void action_exit(Events *eventsInfo);
+void actionExit(Events *eventsInfo);
+
+void actionRotate90(Events *eventsInfo);
+void actionRotate180(Events *eventsInfo);
+void actionRotate270(Events *eventsInfo);
+void actionFlipX(Events *eventsInfo);
+void actionFlipY(Events *eventsInfo);
 
 #endif
