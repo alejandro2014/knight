@@ -21,6 +21,8 @@ typedef struct _WMenu {
     struct _WMenu *options;
     struct _WMenu *parentOption;
     int level;
+
+    void (*action)();
 } WMenu;
 
 typedef struct {
@@ -28,13 +30,15 @@ typedef struct {
     int numOptions;
 } RegisteredOptions;
 
+void callback_exit();
+
 void drawMenu(WMenu *menu, Screen *screen);
 void drawMenuBox(Screen *screen, WMenu *menu);
 void drawTextOption(Screen *screen, WMenu *option);
 
 WMenu *loadMenu(SDL_Color *bgColor);
 
-void addOption(WMenu *menu, char *text);
+void addOption(WMenu *menu, char *text, void (*action)());
 void allocateSubOptions(WMenu *menu);
 
 void setCoordsOption(WMenu *option, int optionNo);

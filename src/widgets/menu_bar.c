@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "menu_bar.h"
+#include "actions.h"
 
 #include "../global.h"
 #include "../draw.h"
@@ -105,22 +106,22 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     menuBar->fontNormal = fontNormal;
     menuBar->fontSelected = fontSelected;
 
-    addOption(menuBar, "File");
-    addOption(menuBar, "Edit");
-    addOption(menuBar, "Help");
+    addOption(menuBar, "File", NULL);
+    addOption(menuBar, "Edit", NULL);
+    addOption(menuBar, "Help", NULL);
 
-    addOption(menuBar->options, "Sub-option1");
-    addOption(menuBar->options, "Sub-option2");
-    addOption(menuBar->options, "Exit");
+    addOption(menuBar->options, "Sub-option1", NULL);
+    addOption(menuBar->options, "Sub-option2", NULL);
+    addOption(menuBar->options, "Exit", action_exit);
 
-    addOption(menuBar->options + 1, "Sub-option11");
-    addOption(menuBar->options + 1, "Sub-option22");
-    addOption(menuBar->options + 1, "Sub-option33");
+    addOption(menuBar->options + 1, "Sub-option11", NULL);
+    addOption(menuBar->options + 1, "Sub-option22", NULL);
+    addOption(menuBar->options + 1, "Sub-option33", NULL);
 
     return menuBar;
 }
 
-void addOption(WMenu *menu, char *text) {
+void addOption(WMenu *menu, char *text, void (*action)()) {
     if(menu->options == NULL)
         allocateSubOptions(menu);
 
@@ -130,6 +131,7 @@ void addOption(WMenu *menu, char *text) {
     option->fontNormal = menu->fontNormal;
     option->fontSelected = menu->fontSelected;
     option->parentOption = menu;
+    option->action = action;
 
     setCoordsOption(option, menu->numOptions);
     menu->numOptions++;
