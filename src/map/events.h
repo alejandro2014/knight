@@ -9,8 +9,8 @@
 
 #include "global_map.h"
 
-void readEvents(Console *console, Events *events);
+void readEvents(Console *console, Events *eventsInfo);
 void processKeyboardEvent(SDL_Event *event, Console *console);
-void processMouseButtonDownEvent(SDL_Event *event);
+void processMouseButtonDownEvent(SDL_Event *event, Events *eventsInfo);
 
 #endif

@@ -4,14 +4,14 @@
 
 Events *events;
 
-void readEvents(Console *console, Events *events) {
+void readEvents(Console *console, Events *eventsInfo) {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
         switch(event.type) {
-            case SDL_QUIT: events->finish = true; break;
+            case SDL_QUIT: eventsInfo->finish = true; break;
             case SDL_KEYDOWN: processKeyboardEvent(&event, console); break;
-            case SDL_MOUSEBUTTONDOWN: processMouseButtonDownEvent(&event); break;
+            case SDL_MOUSEBUTTONDOWN: processMouseButtonDownEvent(&event, eventsInfo); break;
         }
     }
 }
@@ -26,7 +26,7 @@ void processKeyboardEvent(SDL_Event *event, Console *console) {
     }
 }
 
-void processMouseButtonDownEvent(SDL_Event *event) {
+void processMouseButtonDownEvent(SDL_Event *event, Events *eventsInfo) {
     int x = event->button.x;
     int y = event->button.y;
     WMenu *optionClicked = getOptionClicked(x, y);
@@ -34,11 +34,8 @@ void processMouseButtonDownEvent(SDL_Event *event) {
     if(optionClicked) {
         openOption(optionClicked);
 
-        if(optionClicked->action) {
-            optionClicked->action();
-        } else {
-            printf("Nothing to do\n");
-        }
+        if(optionClicked->action)
+            optionClicked->action(eventsInfo);
     }
 }
 
