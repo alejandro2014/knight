@@ -24,6 +24,7 @@
 #include "map/map_draw.h"
 
 #include "widgets/menu_bar.h"
+#include "widgets/widgets.h"
 
 typedef struct {
     Console *console;
@@ -31,6 +32,7 @@ typedef struct {
     TerrainVisualParams *terrainParams;
     Screen *screen;
     WMenu *menuBar;
+    Dialog **dialogs;
 } HeightMapEditor;
 
 void hmeSetLayout(Screen *screen, Layout layout, Console *console);

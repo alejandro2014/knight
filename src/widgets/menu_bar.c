@@ -110,7 +110,7 @@ WMenu *loadMenu(SDL_Color *bgColor) {
     menuFile = menuBar->options + 0;
     addOption(menuFile, "Sub-option1", NULL);
     addOption(menuFile, "Sub-option2", NULL);
-    addOption(menuFile, "Exit", action_exit);
+    addOption(menuFile, "Exit", actionExit);
 
     menuRotations = menuBar->options + 1;
     addOption(menuRotations, "Rotate 90", NULL);

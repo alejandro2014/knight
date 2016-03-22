@@ -1,6 +1,6 @@
 #include "actions.h"
 
-void action_exit(Events *eventsInfo) {
+void actionExit(Events *eventsInfo) {
     eventsInfo->finish = true;
 }
 

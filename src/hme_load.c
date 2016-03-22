@@ -11,8 +11,7 @@ HeightMapEditor *loadHeightMapEditor() {
     hmeSetLayout(hme->screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
 
     hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
-    /*heightMapEditor->dialogs = loadDialogs();
-    printDialogs(heightMapEditor->dialogs);*/
+    hme->dialogs = loadDialogs();
 
     hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
     hme->screen->renderer = createRenderer(hme->screen->window);

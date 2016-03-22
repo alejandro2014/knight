@@ -1,6 +1,8 @@
 #ifndef LOAD_WIDGETS_H
 #define LOAD_WIDGETS_H
 
+#include "menus.h"
+
 #define NUM_DIALOGS 8
 
 Dialog **loadDialogs();

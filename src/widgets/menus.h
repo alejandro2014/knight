@@ -1,7 +1,7 @@
 #ifndef __MENUS_H__
 #define __MENUS_H__
 
-#include "global.h"
+#include "../global.h"
 
 typedef struct {
 	//Menu *menu;
@@ -62,5 +62,12 @@ typedef struct {
 } Dialog;
 
 Dialog *loadDialog(char *dialogId);
+
+/*void drawWindowTitle(Dialog *menu);
+void drawTextBox(TextBox *textbox);
+void drawTextBoxes(TextBoxContainer *textBoxContainer);
+void drawButton(Button *button);
+void drawButtons(ButtonContainer *buttonContainer);
+void drawDialogWindow(Menu *menu);*/
 
 #endif
