@@ -61,13 +61,22 @@ typedef struct {
     bool show;
 } Dialog;
 
-Dialog *loadDialog(char *dialogId);
+typedef struct {
+    int textBoxesNo;
+    TextBox *textBoxes;
+} TextBoxContainer;
 
-/*void drawWindowTitle(Dialog *menu);
+typedef struct {
+    int buttonsNo;
+    Button *buttons;
+} ButtonContainer;
+
+Dialog *loadDialog(char *dialogId);
+void drawWindowTitle(Dialog *dialog);
 void drawTextBox(TextBox *textbox);
 void drawTextBoxes(TextBoxContainer *textBoxContainer);
 void drawButton(Button *button);
 void drawButtons(ButtonContainer *buttonContainer);
-void drawDialogWindow(Menu *menu);*/
+void drawDialogWindow(Dialog *dialog);
 
 #endif

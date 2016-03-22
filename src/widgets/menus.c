@@ -5,22 +5,22 @@
 #include "../map/font.h"
 #include "menus.h"
 
-/*void drawWindowTitle(Menu *menu) {
-	SDL_Rect rectangleMenu;
-	rectangleMenu.w = menu->width;
+void drawWindowTitle(Dialog *dialog) {
+	/*SDL_Rect rectangleMenu;
+	rectangleMenu.w = dialog->width;
 	rectangleMenu.h = 19;
-	rectangleMenu.x = menu->x;
-	rectangleMenu.y = menu->y;
+	rectangleMenu.x = dialog->x;
+	rectangleMenu.y = dialog->y;
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
     SDL_RenderPresent(renderer);
 
-	printString(menu->title, menu->x + 1, menu->y + 1);
+	printString(dialog->title, dialog->x + 1, dialog->y + 1);*/
 }
 
 void drawTextBox(TextBox *textbox) {
-	DialogBox *dialogBox = textbox->dialogBox;
+	/*DialogBox *dialogBox = textbox->dialogBox;
 	int barHeight = 19;
 	int textWidth;
 
@@ -37,7 +37,7 @@ void drawTextBox(TextBox *textbox) {
     SDL_RenderFillRect(renderer, &rectangleTextBox);
     SDL_RenderPresent(renderer);
 
-	printString("1000", rectangleTextBox.x + 2, rectangleTextBox.y);
+	printString("1000", rectangleTextBox.x + 2, rectangleTextBox.y);*/
 }
 
 void drawTextBoxes(TextBoxContainer *textBoxContainer) {
@@ -49,7 +49,7 @@ void drawTextBoxes(TextBoxContainer *textBoxContainer) {
 }
 
 void drawButton(Button *button) {
-	Menu *menu = button->menu;
+	/*Menu *menu = button->menu;
 	int barWidth = 19;
 
 	SDL_Rect buttonBox;
@@ -59,27 +59,27 @@ void drawButton(Button *button) {
 	buttonBox.y = menu->y + button->y + barWidth;
 
 	SDL_FillRect(currentScreen, &buttonBox, YELLOW);
-	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);
+	printString(currentScreen, button->title, menu->x + button->x, menu->y + button->y + barWidth);*/
 }
 
 void drawButtons(ButtonContainer *buttonContainer) {
 	int i;
 
 	for(i = 0; i < buttonContainer->buttonsNo; i++) {
-		drawButton(buttonContainer->buttons + i, currentScreen);
+		//drawButton(buttonContainer->buttons + i, currentScreen);
 	}
 }
 
-void drawDialogWindow(Menu *menu) {
-	SDL_Rect rectangleMenu;
-	rectangleMenu.x = menu->x;
-	rectangleMenu.y = menu->y;
-	rectangleMenu.w = menu->width;
-	rectangleMenu.h = menu->height;
+void drawDialogWindow(Dialog *dialog) {
+	/*SDL_Rect rectangleMenu;
+	rectangleMenu.x = dialog->x;
+	rectangleMenu.y = dialog->y;
+	rectangleMenu.w = dialog->width;
+	rectangleMenu.h = dialog->height;
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
     SDL_RenderPresent(renderer);
 
-	drawWindowTitle(menu);
-}*/
+	drawWindowTitle(dialog);*/
+}
