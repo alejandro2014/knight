@@ -18,6 +18,7 @@
 #include "console/console_lang.h"
 #include "console/console_load.h"
 #include "console/console_print.h"
+#include "console/console_types.h"
 
 #include "map/events.h"
 #include "map/font.h"

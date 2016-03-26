@@ -101,7 +101,6 @@ void addLineToConsole(Console *console) {
 
     visual->lineOffset = 0;
     visual->currentLineNumber++;
-    //visual->lineNumberAbsolute++;
 }
 
 ConsoleLine *consoleGetLineByNumber(Console *console, int lineNumber) {
