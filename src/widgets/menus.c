@@ -70,16 +70,10 @@ void drawButtons(ButtonContainer *buttonContainer) {
 	}
 }
 
-void drawDialogWindow(Dialog *dialog) {
-	/*SDL_Rect rectangleMenu;
-	rectangleMenu.x = dialog->x;
-	rectangleMenu.y = dialog->y;
-	rectangleMenu.w = dialog->width;
-	rectangleMenu.h = dialog->height;
-
+void drawDialogWindow(SDL_Renderer *renderer, Dialog *dialog) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, &rectangleMenu);
+    SDL_RenderFillRect(renderer, dialog->coords);
     SDL_RenderPresent(renderer);
 
-	drawWindowTitle(dialog);*/
+	drawWindowTitle(dialog);
 }

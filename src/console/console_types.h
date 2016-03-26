@@ -7,6 +7,8 @@
 
 #include "../map/font.h"
 
+#define MAX_LINE_LENGTH 100
+
 typedef int ParamType;
 #define STRING 0
 #define INT 1

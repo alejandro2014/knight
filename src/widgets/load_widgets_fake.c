@@ -63,18 +63,18 @@ Dialog *loadDialogFake(char *dialogName) {
 }
 
 Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
-  Dialog *dialog = (Dialog *) malloc(sizeof(Dialog));
-  memset(dialog, 0, sizeof(Dialog));
+    alloc(dialog, Dialog, 1);
+    allocExist(dialog->coords, SDL_Rect, 1);
 
-  dialog->x = x;
-  dialog->y = y;
-  dialog->width = width;
-  dialog->height = height;
-  dialog->title = title;
+    dialog->coords->x = x;
+    dialog->coords->y = y;
+    dialog->coords->w = width;
+    dialog->coords->h = height;
+    dialog->title = title;
 
-  //printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
+    //printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
 
-  return dialog;
+    return dialog;
 }
 
 Text **loadTextsFake(char *dialogName) {
@@ -271,57 +271,54 @@ Button **loadButtonsFake(char *dialogName) {
 }
 
 Text *loadTextFake(char *string, int x, int y) {
-    Text *text = (Text *) malloc(sizeof(Text));
-    memset(text, 0, sizeof(Text));
+    alloc(text, Text, 1);
+    allocExist(text->coords, SDL_Rect, 1);
 
     text->string = string;
-    text->x = x;
-    text->y = y;
+    text->coords->x = x;
+    text->coords->y = y;
 
     //printf("    * Loaded text (%s, %d, %d)\n", string, x, y);
     return text;
 }
 
 TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
-    TextBox *textBox = (TextBox *) malloc(sizeof(TextBox));
-    memset(textBox, 0, sizeof(TextBox));
+    alloc(textBox, TextBox, 1);
+    allocExist(textBox->coords, SDL_Rect, 1);
 
 	textBox->title = text;
-	textBox->x = x;
-	textBox->y = y;
-	textBox->width = width;
-	textBox->height = height;
-	//textBox->dialogBox = &numeric_dialog_boxes[base_height_dialog];
+    textBox->coords->x = x;
+    textBox->coords->y = y;
+    textBox->coords->w = width;
+    textBox->coords->h = height;
 
     //printf("    * Loaded textBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return textBox;
 }
 
 CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
-    CheckBox *checkBox = (CheckBox *) malloc(sizeof(CheckBox));
-    memset(checkBox, 0, sizeof(CheckBox));
+    alloc(checkBox, CheckBox, 1);
+    allocExist(checkBox->coords, SDL_Rect, 1);
 
     checkBox->text = text;
-    checkBox->x = x;
-    checkBox->y = y;
-    checkBox->width = width;
-    checkBox->height = height;
-    //checkbox->action = cb_dialog_text;
+    checkBox->coords->x = x;
+    checkBox->coords->y = y;
+    checkBox->coords->w = width;
+    checkBox->coords->h = height;
 
     //printf("    * Loaded checkBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return checkBox;
 }
 
 Button *loadButtonFake(char *text, int x, int y, int width, int height) {
-    Button *button = (Button *) malloc(sizeof(Button));
-    memset(button, 0, sizeof(Button));
+    alloc(button, Button, 1);
+    allocExist(button->coords, SDL_Rect, 1);
 
     button->title = text;
-	button->x = x;
-	button->y = y;
-	button->width = width;
-	button->height = height;
-    //button->action = cb_dialog_text;
+    button->coords->x = x;
+    button->coords->y = y;
+    button->coords->w = width;
+    button->coords->h = height;
 
     //printf("    * Loaded button (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return button;

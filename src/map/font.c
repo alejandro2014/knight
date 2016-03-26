@@ -1,5 +1,6 @@
 #include "font.h"
 
+//TODO font.c and font.h shouldn't be here but in a common zone
 Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg) {
     alloc(font, Font, 1);
 
@@ -14,6 +15,11 @@ Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg) {
     font->bgColor.r = bg->r; font->bgColor.g = bg->g; font->bgColor.b = bg->b;
 
     return font;
+}
+
+void freeFont(Font *font) {
+    TTF_CloseFont(font->type);
+    free(font);
 }
 
 SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y) {

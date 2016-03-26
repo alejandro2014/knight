@@ -25,6 +25,7 @@
 
 #include "widgets/menu_bar.h"
 #include "widgets/widgets.h"
+#include "widgets/menus.h"
 
 typedef struct {
     Console *console;

@@ -5,13 +5,13 @@ HeightMapEditor *loadHeightMapEditor() {
 
     alloc(hme, HeightMapEditor, 1);
 
-    hme->console = createConsole(1);
-
-    allocExist(hme->screen, Screen, 1);
+    hme->console = loadConsole();
+    addCommands(hme->console);
+    /*allocExist(hme->screen, Screen, 1);
     hmeSetLayout(hme->screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
 
     hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
-    hme->dialogs = loadDialogs();
+    //hme->dialogs = loadDialogs();
 
     hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
     hme->screen->renderer = createRenderer(hme->screen->window);
@@ -24,7 +24,7 @@ HeightMapEditor *loadHeightMapEditor() {
     hme->screen->bgColorMenuBar.g = 80;
     hme->screen->bgColorMenuBar.b = 40;
 
-    hme->menuBar = loadMenu(&(hme->screen->bgColorMenuBar));
+    hme->menuBar = loadMenu(&(hme->screen->bgColorMenuBar));*/
 
     return hme;
 }
@@ -52,12 +52,13 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
 }
 
 void freeResources(HeightMapEditor *hme) {
-    TTF_CloseFont(hme->console->visual->font->type);
     freeConsole(hme->console);
 
-    SDL_DestroyRenderer(hme->screen->renderer);
+    TTF_Quit();
+
+    /*SDL_DestroyRenderer(hme->screen->renderer);
     SDL_DestroyWindow(hme->screen->window);
-    api_freeTerrain(hme->terrain);
+    api_freeTerrain(hme->terrain);*/
     //freeDialogs(heightMapEditor->dialogs);
     free(hme);
 }

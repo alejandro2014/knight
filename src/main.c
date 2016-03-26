@@ -5,13 +5,13 @@ extern Terrain *currentTerrain;
 extern Events *events;
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
+    //SDL_Init(SDL_INIT_VIDEO);
 
     HeightMapEditor *hme = loadHeightMapEditor();
-    programLoop(hme);
+    //programLoop(hme);
     freeResources(hme);
 
-    SDL_Quit();
+    //SDL_Quit();
 
     return 0;
 }
@@ -50,6 +50,9 @@ void drawScreen(HeightMapEditor *hme) {
 
     clearSubScreen(renderer, &(hme->screen->menuBarCoords), &(hme->screen->bgColorMenuBar));
     drawMenu(hme->menuBar, hme->screen);
+
+    //drawDialogWindow(renderer, *(hme->dialogs));
+
     SDL_RenderPresent(renderer);
 }
 

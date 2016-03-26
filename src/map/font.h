@@ -17,6 +17,8 @@ typedef struct {
 } Font;
 
 Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg);
+void freeFont(Font *font);
+
 SDL_Texture *printString(Font *font, SDL_Renderer *renderer, char *string, int x, int y);
 SDL_Texture *getStringTexture(TTF_Font *font, SDL_Renderer *renderer, char *string, SDL_Color fgColor, SDL_Color bgColor);
 

@@ -1,51 +1,35 @@
-#ifndef __MENUS_H__
-#define __MENUS_H__
+#ifndef MENUS_H
+#define MENUS_H
+
+#include <SDL2/SDL.h>
 
 #include "../global.h"
 
 typedef struct {
-	//Menu *menu;
-	int x;
-	int y;
-	int width;
-	int height;
+	SDL_Rect *coords;
 	char *title;
 	int padding;
-    //Action action;
 } Button;
 
 typedef struct {
-	//DialogBox *dialogBox;
-	int x;
-	int y;
-	int width;
-	int height;
+	SDL_Rect *coords;
 	char *title;
-    //SDL_Texture *titleTexture;
 } TextBox;
 
 typedef struct {
-	int x;
-	int y;
+	SDL_Rect *coords;
 	char *string;
-    //SDL_Texture *titleTexture;
 } Text;
 
 typedef struct {
-    int x;
-    int y;
-    int width;
-    int height;
+    SDL_Rect *coords;
     char *text;
     bool enabled;
 } CheckBox;
 
 typedef struct {
     char *name;
-	int x;
-	int y;
-	int width;
-	int height;
+	SDL_Rect *coords;
 	char *title;
 
     TextBox **textBoxes;
@@ -77,6 +61,6 @@ void drawTextBox(TextBox *textbox);
 void drawTextBoxes(TextBoxContainer *textBoxContainer);
 void drawButton(Button *button);
 void drawButtons(ButtonContainer *buttonContainer);
-void drawDialogWindow(Dialog *dialog);
+void drawDialogWindow(SDL_Renderer *renderer, Dialog *dialog);
 
 #endif
