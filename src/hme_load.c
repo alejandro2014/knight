@@ -14,7 +14,7 @@ HeightMapEditor *loadHeightMapEditor() {
     hmeSetLayout(hme->screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
 
     hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
-    //hme->dialogs = loadDialogs();*/
+    hme->dialogs = loadDialogs();
 
     hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
     hme->screen->renderer = createRenderer(hme->screen->window);
@@ -65,7 +65,7 @@ void freeResources(HeightMapEditor *hme) {
 
     free(hme->terrainParams);
     //api_freeTerrain(hme->terrain);
-    //freeDialogs(heightMapEditor->dialogs);
+    //freeDialogs(hme->dialogs);
     free(hme->screen);
     free(hme);
     free(events);

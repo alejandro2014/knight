@@ -73,7 +73,6 @@ void drawButtons(ButtonContainer *buttonContainer) {
 void drawDialogWindow(SDL_Renderer *renderer, Dialog *dialog) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, dialog->coords);
-    SDL_RenderPresent(renderer);
 
-	drawWindowTitle(dialog);
+	//drawWindowTitle(dialog);
 }
