@@ -35,6 +35,11 @@ typedef struct {
     Screen *screen;
     WMenu *menuBar;
     Dialog **dialogs;
+
+    Font *fontDialogsTitle;
+    Font *fontConsole;
+    Font *fontMenusNormal;
+    Font *fontMenusSelected;
 } HeightMapEditor;
 
 void hmeSetLayout(Screen *screen, Layout layout, Console *console);

@@ -7,7 +7,7 @@
 
 #define NUM_DIALOGS 8
 
-Dialog **loadDialogs();
+Dialog **loadDialogs(Font *font);
 Button **loadButtons(char *dialogName);
 TextBox **loadTextBoxes(char *dialogName);
 CheckBox **loadCheckBoxes(char *dialogName);

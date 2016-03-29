@@ -5,18 +5,17 @@
 #include "../map/font.h"
 #include "menus.h"
 
-void drawWindowTitle(Dialog *dialog) {
-	/*SDL_Rect rectangleMenu;
-	rectangleMenu.w = dialog->width;
+void drawWindowTitle(SDL_Renderer *renderer, Dialog *dialog) {
+	SDL_Rect rectangleMenu;
+	rectangleMenu.w = dialog->coords->w;
 	rectangleMenu.h = 19;
-	rectangleMenu.x = dialog->x;
-	rectangleMenu.y = dialog->y;
+	rectangleMenu.x = dialog->coords->x;
+	rectangleMenu.y = dialog->coords->y;
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
-    SDL_RenderPresent(renderer);
 
-	printString(dialog->title, dialog->x + 1, dialog->y + 1);*/
+	printString(dialog->font, renderer, dialog->title, dialog->coords->x + 1, dialog->coords->y + 1);
 }
 
 void drawTextBox(TextBox *textbox) {
@@ -74,5 +73,5 @@ void drawDialogWindow(SDL_Renderer *renderer, Dialog *dialog) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, dialog->coords);
 
-	//drawWindowTitle(dialog);
+	drawWindowTitle(renderer, dialog);
 }

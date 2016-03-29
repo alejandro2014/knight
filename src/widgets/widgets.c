@@ -6,7 +6,7 @@
 #include "load_widgets_fake.h"
 
 //TODO Replace the fakes for real parsing
-Dialog **loadDialogs() {
+Dialog **loadDialogs(Font *font) {
     char *arrayDialogs[] = {"newTerrain", "generateTerrain", "object", "view",
                             "replace", "globalReplace", "rotation", "error"};
     int i;
@@ -15,6 +15,7 @@ Dialog **loadDialogs() {
 
     for(i = 0; i < NUM_DIALOGS; i++) {
         *(dialogs + i) = loadDialog(arrayDialogs[i]);
+        (*(dialogs + i))->font = font;
     }
 
     return dialogs;

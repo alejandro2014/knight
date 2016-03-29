@@ -1,9 +1,9 @@
 #include "console_load.h"
 
-Console *loadConsole() {
+Console *loadConsole(Font *consoleFont) {
     alloc(console, Console, 1);
 
-    console->visual = loadConsoleVisual();
+    console->visual = loadConsoleVisual(consoleFont);
     console->commands = loadConsoleCommands();
 
     console->maxLineLength = MAX_LINE_LENGTH;
@@ -12,7 +12,7 @@ Console *loadConsole() {
     return console;
 }
 
-ConsoleVisualParams *loadConsoleVisual() {
+ConsoleVisualParams *loadConsoleVisual(Font *consoleFont) {
     alloc(params, ConsoleVisualParams, 1);
 
     params->interLineSpace = 20;
@@ -23,9 +23,7 @@ ConsoleVisualParams *loadConsoleVisual() {
     params->heightCursor = 15;
     params->showCursor = true;
 
-    SDL_Color fgColor = {180, 180, 180};
-    SDL_Color bgColor = {50, 50, 50};
-    params->font = loadFont(FONT_PATH_MAC, 16, &fgColor, &bgColor);
+    params->font = consoleFont;
 
     params->currentLineNumber = -1;
 

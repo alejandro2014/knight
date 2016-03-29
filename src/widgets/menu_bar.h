@@ -36,7 +36,7 @@ void drawMenu(WMenu *menu, Screen *screen);
 void drawMenuBox(Screen *screen, WMenu *menu);
 void drawTextOption(Screen *screen, WMenu *option);
 
-WMenu *loadMenu(SDL_Color *bgColor);
+WMenu *loadMenu(Font *fontMenuNormal, Font *fontMenuSelected);
 
 void addOption(WMenu *menu, char *text, void (*action)());
 void allocateSubOptions(WMenu *menu);

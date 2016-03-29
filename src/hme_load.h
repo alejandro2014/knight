@@ -4,9 +4,14 @@
 #include "main.h"
 
 HeightMapEditor *loadHeightMapEditor();
+void loadFonts(HeightMapEditor *hme);
+
 SDL_Window *createWindow(char *title, int width, int height);
 SDL_Renderer *createRenderer(SDL_Window *window);
+
 void freeResources(HeightMapEditor *hme);
+void freeFonts(HeightMapEditor *hme);
+
 TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect);
 void freeMenus(WMenu *menu);
 

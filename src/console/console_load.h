@@ -5,9 +5,11 @@
 #include "console_lang.h"
 #include "console_print.h"
 
-Console *loadConsole();
+#include "../map/font.h"
+
+Console *loadConsole(Font *consoleFont);
 Command *loadConsoleCommands();
-ConsoleVisualParams *loadConsoleVisual();
+ConsoleVisualParams *loadConsoleVisual(Font *consoleFont);
 
 void freeConsole(Console *console);
 void freeConsoleCommands(Command *commands);

@@ -5,6 +5,8 @@
 
 #include "../global.h"
 
+#include "../map/font.h"
+
 typedef struct {
 	SDL_Rect *coords;
 	char *title;
@@ -43,6 +45,7 @@ typedef struct {
     int numTexts;
 
     bool show;
+    Font *font;
 } Dialog;
 
 typedef struct {
@@ -56,7 +59,7 @@ typedef struct {
 } ButtonContainer;
 
 Dialog *loadDialog(char *dialogId);
-void drawWindowTitle(Dialog *dialog);
+void drawWindowTitle(SDL_Renderer *renderer, Dialog *dialog);
 void drawTextBox(TextBox *textbox);
 void drawTextBoxes(TextBoxContainer *textBoxContainer);
 void drawButton(Button *button);

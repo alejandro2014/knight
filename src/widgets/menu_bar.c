@@ -11,6 +11,8 @@
 #include "../global.h"
 #include "../draw.h"
 
+#include "../map/font.h"
+
 RegisteredOptions registeredOptions;
 
 void drawMenu(WMenu *menu, Screen *screen) {
@@ -94,15 +96,14 @@ void closeBrotherOptions(WMenu *option) {
     }
 }
 
-WMenu *loadMenu(SDL_Color *bgColor) {
+WMenu *loadMenu(Font *fontMenuNormal, Font *fontMenuSelected) {
     WMenu *menuFile = NULL;
     WMenu *menuRotations = NULL;
     alloc(menuBar, WMenu, 1);
     allocExist(menuBar->options, WMenu, MAX_OPTIONS);
 
-    SDL_Color fgColor = {160, 160, 40};
-    menuBar->fontNormal = loadFont(FONT_PATH_MAC, 16, &fgColor, bgColor);
-    menuBar->fontSelected = loadFont(FONT_PATH_MAC, 16, bgColor, &fgColor);
+    menuBar->fontNormal = fontMenuNormal;
+    menuBar->fontSelected = fontMenuSelected;
 
     addOption(menuBar, "File", NULL);
     addOption(menuBar, "Rotations", NULL);
