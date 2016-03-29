@@ -1,5 +1,7 @@
 #include "hme_load.h"
 
+extern Events *events;
+
 HeightMapEditor *loadHeightMapEditor() {
     TTF_Init();
 
@@ -11,8 +13,8 @@ HeightMapEditor *loadHeightMapEditor() {
     allocExist(hme->screen, Screen, 1);
     hmeSetLayout(hme->screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
 
-    /*hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
-    //hme->dialogs = loadDialogs();
+    hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
+    //hme->dialogs = loadDialogs();*/
 
     hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
     hme->screen->renderer = createRenderer(hme->screen->window);
@@ -25,13 +27,14 @@ HeightMapEditor *loadHeightMapEditor() {
     hme->screen->bgColorMenuBar.g = 80;
     hme->screen->bgColorMenuBar.b = 40;
 
-    hme->menuBar = loadMenu(&(hme->screen->bgColorMenuBar));*/
+    hme->menuBar = loadMenu(&(hme->screen->bgColorMenuBar));
+    allocExist(events, Events, 1);
 
     return hme;
 }
 
 
-/*SDL_Window *createWindow(char *title, int width, int height) {
+SDL_Window *createWindow(char *title, int width, int height) {
     SDL_Window *window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
                     SDL_WINDOW_RESIZABLE);
 
@@ -50,22 +53,25 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
     }
 
     return renderer;
-}*/
+}
 
 void freeResources(HeightMapEditor *hme) {
     freeConsole(hme->console);
 
     TTF_Quit();
 
-    ///SDL_DestroyRenderer(hme->screen->renderer);
-    ///SDL_DestroyWindow(hme->screen->window);
-    ///api_freeTerrain(hme->terrain);
+    SDL_DestroyRenderer(hme->screen->renderer);
+    SDL_DestroyWindow(hme->screen->window);
+
+    free(hme->terrainParams);
+    //api_freeTerrain(hme->terrain);
     //freeDialogs(heightMapEditor->dialogs);
     free(hme->screen);
     free(hme);
+    free(events);
 }
 
-/*TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect) {
+TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect) {
     alloc(terrainParams, TerrainVisualParams, 1);
 
     terrainParams->width = paramsRect->w;
@@ -74,4 +80,4 @@ void freeResources(HeightMapEditor *hme) {
     terrainParams->y = paramsRect->y;
 
     return terrainParams;
-}*/
+}

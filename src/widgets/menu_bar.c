@@ -1,3 +1,4 @@
+//TODO Free memory of the menus
 //TODO Implement states of the menu
 //TODO Change event type, from click to hover over
 

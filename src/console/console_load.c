@@ -60,18 +60,18 @@ void freeConsoleVisual(ConsoleVisualParams *visual) {
 }
 
 void freeConsoleLines(ConsoleVisualParams *visual) {
-    ConsoleLine *currentLine = visual->lastLine;
-    ConsoleLine *previousLine = currentLine->previous;
+    ConsoleLine *line = visual->lines;
+    ConsoleLine *nextLine = line->next;
 
-    while(currentLine) {
-        free(currentLine->content);
-        free(currentLine);
-
-        currentLine = previousLine;
-
-        if(currentLine && currentLine->previous)
-            previousLine = currentLine->previous;
+    while(nextLine) {
+        free(line->content);
+        free(line);
+        line = nextLine;
+        nextLine = line->next;
     }
+
+    free(line->content);
+    free(line);
 }
 
 void freeConsoleCommands(Command *commands) {
@@ -88,4 +88,14 @@ void consoleSetCoords(Console *console, SDL_Rect *paramsRect) {
     ConsoleVisualParams *visual = console->visual;
     allocExist(visual->coords, SDL_Rect, 1);
     memcpy(visual->coords, paramsRect, sizeof(SDL_Rect));
+}
+
+void initConsole(Console *console) {
+    bool printBanner = false;
+
+    if(printBanner) {
+        printConsoleBanner(console);
+    } else {
+        printConsolePrompt(console);
+    }
 }

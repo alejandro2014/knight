@@ -5,26 +5,19 @@ extern Terrain *currentTerrain;
 extern Events *events;
 
 int main(int argc, char* argv[]) {
-    //SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO);
 
     HeightMapEditor *hme = loadHeightMapEditor();
-    //programLoop(hme);
+    programLoop(hme);
     freeResources(hme);
 
-    //SDL_Quit();
+    SDL_Quit();
 
     return 0;
 }
 
 void programLoop(HeightMapEditor *hme) {
-    allocExist(events, Events, 1);
-    bool printBanner = false;
-
-    if(printBanner) {
-        printConsoleBanner(hme->console);
-    } else {
-        printConsolePrompt(hme->console);
-    }
+    initConsole(hme->console);
 
     while(!events->finish) {
         readEvents(hme->console, events);
@@ -37,7 +30,6 @@ void programLoop(HeightMapEditor *hme) {
         }
 
         drawScreen(hme);
-
         SDL_Delay(100);
     }
 }
