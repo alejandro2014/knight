@@ -52,7 +52,6 @@ void freeConsole(Console *console) {
 
 void freeConsoleVisual(ConsoleVisualParams *visual) {
     freeConsoleLines(visual);
-    freeFont(visual->font);
     free(visual->coords);
     free(visual);
 }

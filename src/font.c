@@ -1,7 +1,7 @@
 #include "font.h"
 
 //TODO font.c and font.h shouldn't be here but in a common zone
-Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg) {
+Font *loadFont(char *path, int size, SDL_Color fg, SDL_Color bg) {
     alloc(font, Font, 1);
 
     font->type = TTF_OpenFont(path, size);
@@ -11,8 +11,8 @@ Font *loadFont(char *path, int size, SDL_Color *fg, SDL_Color *bg) {
         return NULL;
     }
 
-    font->fgColor.r = fg->r; font->fgColor.g = fg->g; font->fgColor.b = fg->b;
-    font->bgColor.r = bg->r; font->bgColor.g = bg->g; font->bgColor.b = bg->b;
+    font->fgColor = fg;
+    font->bgColor = bg;
 
     return font;
 }

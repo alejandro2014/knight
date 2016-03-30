@@ -10,8 +10,7 @@
 
 #include "../global.h"
 #include "../draw.h"
-
-#include "../map/font.h"
+#include "../font.h"
 
 RegisteredOptions registeredOptions;
 

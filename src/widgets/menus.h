@@ -4,8 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "../global.h"
-
-#include "../map/font.h"
+#include "../font.h"
 
 typedef struct {
 	SDL_Rect *coords;

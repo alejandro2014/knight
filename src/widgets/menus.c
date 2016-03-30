@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <SDL2/SDL_events.h>
 
-#include "../map/font.h"
+#include "../font.h"
 #include "menus.h"
 
 void drawWindowTitle(SDL_Renderer *renderer, Dialog *dialog) {

@@ -9,6 +9,7 @@
 
 #include "global.h"
 #include "draw.h"
+#include "font.h"
 
 #include "api/api.h"
 #include "api/hme_lowlevel.h"
@@ -21,7 +22,6 @@
 #include "console/console_types.h"
 
 #include "map/events.h"
-#include "map/font.h"
 #include "map/map_draw.h"
 
 #include "widgets/menu_bar.h"

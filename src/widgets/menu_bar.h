@@ -3,8 +3,8 @@
 
 #include "../global.h"
 #include "../draw.h"
+#include "../font.h"
 
-#include "../map/font.h"
 #include "../map/global_map.h"
 
 #define MAX_OPTIONS 10

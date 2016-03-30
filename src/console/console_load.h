@@ -5,7 +5,7 @@
 #include "console_lang.h"
 #include "console_print.h"
 
-#include "../map/font.h"
+#include "../font.h"
 
 Console *loadConsole(Font *consoleFont);
 Command *loadConsoleCommands();
