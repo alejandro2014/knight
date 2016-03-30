@@ -5,13 +5,9 @@ extern Terrain *currentTerrain;
 extern Events *events;
 
 int main(int argc, char* argv[]) {
-    SDL_Init(SDL_INIT_VIDEO);
-
     HeightMapEditor *hme = loadHeightMapEditor();
     programLoop(hme);
-    freeResources(hme);
-
-    SDL_Quit();
+    freeHeightMapEditor(hme);
 
     return 0;
 }

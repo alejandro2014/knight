@@ -3,30 +3,33 @@
 extern Events *events;
 
 HeightMapEditor *loadHeightMapEditor() {
+    SDL_Init(SDL_INIT_VIDEO);
+
     alloc(hme, HeightMapEditor, 1);
     allocExist(hme->screen, Screen, 1);
-
-    hme->screen->bgColorTerrain = (SDL_Color) {80, 40, 40};
-    hme->screen->bgColorMenuBar = (SDL_Color) {40, 80, 40};
+    allocExist(events, Events, 1);
+    Screen *screen = hme->screen;
 
     loadFonts(hme);
 
     hme->console = loadConsole(hme->fontConsole);
     addCommands(hme->console);
 
-    hmeSetLayout(hme->screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
+    hmeSetLayout(screen, LAYOUT_HOR_TERRAIN_CONSOLE, hme->console);
+    initScreen(screen);
 
-    hme->terrainParams = loadTerrainParams(&(hme->screen->terrainCoords));
-
+    hme->terrainParams = loadTerrainParams(&(screen->terrainCoords));
     //hme->dialogs = loadDialogs(hme->dialogsFont);
-
-    hme->screen->window = createWindow("Knight", hme->screen->width, hme->screen->height);
-    hme->screen->renderer = createRenderer(hme->screen->window);
-
     hme->menuBar = loadMenu(hme->fontMenusNormal, hme->fontMenusSelected);
-    allocExist(events, Events, 1);
 
     return hme;
+}
+
+void initScreen(Screen *screen) {
+    screen->window = createWindow("Knight", screen->width, screen->height);
+    screen->renderer = createRenderer(screen->window);
+    screen->bgColorTerrain = (SDL_Color) {80, 40, 40};
+    screen->bgColorMenuBar = (SDL_Color) {40, 80, 40};
 }
 
 SDL_Window *createWindow(char *title, int width, int height) {
@@ -50,7 +53,7 @@ SDL_Renderer *createRenderer(SDL_Window *window) {
     return renderer;
 }
 
-void freeResources(HeightMapEditor *hme) {
+void freeHeightMapEditor(HeightMapEditor *hme) {
     freeFonts(hme);
 
     freeConsole(hme->console);
@@ -64,6 +67,8 @@ void freeResources(HeightMapEditor *hme) {
     free(hme->screen);
     free(hme);
     free(events);
+
+    SDL_Quit();
 }
 
 void loadFonts(HeightMapEditor *hme) {
@@ -71,8 +76,8 @@ void loadFonts(HeightMapEditor *hme) {
 
     hme->fontConsole = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 180}, (SDL_Color) {50, 50, 50});
     hme->fontDialogsTitle = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {200, 200, 200}, (SDL_Color) {0, 0, 100});
-    hme->fontMenusNormal = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 70}, hme->screen->bgColorMenuBar);
-    hme->fontMenusSelected = loadFont(FONT_PATH_MAC, 16, hme->screen->bgColorMenuBar, (SDL_Color) {180, 180, 70});
+    hme->fontMenusNormal = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 70}, (SDL_Color) {40, 80, 40});
+    hme->fontMenusSelected = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {40, 80, 40}, (SDL_Color) {180, 180, 70});
 }
 
 void freeFonts(HeightMapEditor *hme) {
