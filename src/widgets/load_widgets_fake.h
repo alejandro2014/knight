@@ -18,4 +18,6 @@ void registerDialog(char *dialogName, int x1, int y1, int x2, int y2);
 Dialog *getDialog(char *dialogName);
 void dialogSetNumberElements(Dialog *dialog, int numButtons, int numCheckBoxes, int numTextBoxes, int numTexts);
 
+void allocateDialogWidgets(Dialog *dialog);
+
 #endif

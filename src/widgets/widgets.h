@@ -8,17 +8,9 @@
 #define NUM_DIALOGS 8
 
 void loadDialogs(Font *font);
-Dialog *loadDialog(char *dialogName, Font *font);
+void addButtonToDialog(char *dialogName, char *buttonName, int x, int y, int w, int h);
+void addCheckboxToDialog(char *dialogName, char *checkBoxName, int x, int y);
 
-Button **loadButtons(char *dialogName);
-TextBox **loadTextBoxes(char *dialogName);
-CheckBox **loadCheckBoxes(char *dialogName);
-Text **loadTexts(char *dialogName);
-
-void freeDialogs(Dialog **dialogs);
-void freeButtons(Dialog *dialog);
-void freeCheckBoxes(Dialog *dialog);
-void freeTextBoxes(Dialog *dialog);
-void freeTexts(Dialog *dialog);
+void freeDialogs();
 
 #endif

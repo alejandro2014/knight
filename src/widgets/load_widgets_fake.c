@@ -13,16 +13,13 @@ int currentRegDialog = 0;
 void registerDialog(char *dialogName, int x1, int y1, int x2, int y2) {
     Dialog *dialog = getDialog(dialogName);
 
-    if(dialog) {
-        printf("[WARN] The dialog %s already exists\n", dialogName);
-        return;
-    }
-
     dialog = registeredDialogs + currentRegDialog;
     dialog->name = dialogName;
     dialog->title = dialogName;
     setRect(&dialog->coords, x1, y1, x2, y2);
     currentRegDialog++;
+
+    allocateDialogWidgets(dialog);
 }
 
 Dialog *getDialog(char *dialogName) {
@@ -43,6 +40,15 @@ void dialogSetNumberElements(Dialog *dialog, int numButtons, int numCheckBoxes, 
     dialog->numCheckBoxes = numCheckBoxes;
     dialog->numTextBoxes = numTextBoxes;
     dialog->numTexts = numTexts;
+}
+
+void allocateDialogWidgets(Dialog *dialog) {
+    int maxElements = 20;
+
+    allocExist(dialog->buttons, Button, maxElements);
+    allocExist(dialog->checkBoxes, CheckBox, maxElements);
+    allocExist(dialog->textBoxes, TextBox, maxElements);
+    allocExist(dialog->texts, Text, maxElements);
 }
 
 Text **loadTextsFake(char *dialogName) {
@@ -117,179 +123,31 @@ TextBox **loadTextBoxesFake(char *dialogName) {
 	return textBoxes;
 }
 
-CheckBox **loadCheckBoxesFake(char *dialogName) {
-    int numCheckBoxes = 0;
-    CheckBox **checkBoxes = NULL;
-
-    if(!strcmp(dialogName, "newTerrain")) {
-    } else if(!strcmp(dialogName, "generateTerrain")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 1);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 1);
-        *(checkBoxes + 0) = loadCheckBoxFake("Overwrite existing terrain", 2, 40, 14, 14);
-    } else if(!strcmp(dialogName, "object")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 3);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 3);
-        *(checkBoxes + 0) = loadCheckBoxFake("Place over terrain", 40, 40, 14, 14);
-      	*(checkBoxes + 1) = loadCheckBoxFake("Increase terrain", 40, 60, 14, 14);
-      	*(checkBoxes + 2) = loadCheckBoxFake("Decrease terrain", 40, 80, 14, 14);
-    } else if(!strcmp(dialogName, "view")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 9);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 9);
-        *(checkBoxes + 0) = loadCheckBoxFake("Toolbar", 2, 20, 14, 14);
-        *(checkBoxes + 1) = loadCheckBoxFake("Minimap", 2, 40, 14, 14);
-    	*(checkBoxes + 2) = loadCheckBoxFake("Status bar", 2, 60, 14, 14);
-    	*(checkBoxes + 3) = loadCheckBoxFake("Grid: Off", 2, 80, 14, 14);
-    	//groupCheckbox "Grid"
-    	*(checkBoxes + 4) = loadCheckBoxFake("16x16", 2, 100, 14, 14);
-    	*(checkBoxes + 5) = loadCheckBoxFake("32x32", 2, 120, 14, 14);
-    	*(checkBoxes + 6) = loadCheckBoxFake("64x64", 2, 140, 14, 14);
-    	*(checkBoxes + 7) = loadCheckBoxFake("128x128", 2, 160, 14, 14);
-    	*(checkBoxes + 8) = loadCheckBoxFake("256x256", 2, 180, 14, 14);
-    } else if(!strcmp(dialogName, "replace")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 8);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 8);
-        *(checkBoxes + 0) = loadCheckBoxFake("+", 40, 60, 14, 14);
-    	*(checkBoxes + 1) = loadCheckBoxFake("-", 40, 80, 14, 14);
-    	*(checkBoxes + 2) = loadCheckBoxFake("+/-", 40, 100, 14, 14);
-
-        *(checkBoxes + 3) = loadCheckBoxFake("+", 40, 140, 14, 14);
-    	*(checkBoxes + 4) = loadCheckBoxFake("-", 40, 160, 14, 14);
-    	*(checkBoxes + 5) = loadCheckBoxFake("=", 40, 180, 14, 14);
-
-        *(checkBoxes + 6) = loadCheckBoxFake("Solid", 40, 220, 14, 14);
-    	*(checkBoxes + 7) = loadCheckBoxFake("Pattern", 40, 240, 14, 14);
-    } else if(!strcmp(dialogName, "globalReplace")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 8);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 8);
-        *(checkBoxes + 0) = loadCheckBoxFake("+", 40, 60, 14, 14);
-    	*(checkBoxes + 1) = loadCheckBoxFake("-", 40, 80, 14, 14);
-    	*(checkBoxes + 2) = loadCheckBoxFake("+/-", 40, 100, 14, 14);
-
-    	*(checkBoxes + 3) = loadCheckBoxFake("+", 40, 140, 14, 14);
-    	*(checkBoxes + 4) = loadCheckBoxFake("-", 40, 160, 14, 14);
-    	*(checkBoxes + 5) = loadCheckBoxFake("=", 40, 180, 14, 14);
-
-        *(checkBoxes + 6) = loadCheckBoxFake("Solid", 40, 220, 14, 14);
-      	*(checkBoxes + 7) = loadCheckBoxFake("Pattern", 40, 240, 14, 14);
-    } else if(!strcmp(dialogName, "rotation")) {
-        checkBoxes = (CheckBox **) malloc(sizeof(CheckBox *) * 6);
-    	memset(checkBoxes, 0, sizeof(CheckBox) * 6);
-        *(checkBoxes + 0) = loadCheckBoxFake("Horizontal (x) flip", 2, 20, 14, 14);
-        *(checkBoxes + 1) = loadCheckBoxFake("Vertical (y) flip", 2, 40, 14, 14);
-        *(checkBoxes + 2) = loadCheckBoxFake("Height (z) flip", 2, 60, 14, 14);
-        *(checkBoxes + 3) = loadCheckBoxFake("Rotate 90 CW", 2, 80, 14, 14);
-        *(checkBoxes + 4) = loadCheckBoxFake("Rotate 90 CCW", 2, 100, 14, 14);
-        *(checkBoxes + 5) = loadCheckBoxFake("Rotate 180 CCW", 2, 120, 14, 14);
-    } else if(!strcmp(dialogName, "error")) {
-    }
-
-	return checkBoxes;
-}
-
-Button **loadButtonsFake(char *dialogName) {
-    Button **buttons = NULL;
-
-    if(!strcmp(dialogName, "newTerrain")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 2);
-    	memset(buttons, 0, sizeof(Button *) * 2);
-        *(buttons + 0) = loadButtonFake("Ok", 40, 60, 20, 14);
-    	*(buttons + 1) = loadButtonFake("Cancel", 70, 60, 50, 14);
-    } else if(!strcmp(dialogName, "generateTerrain")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 2);
-    	memset(buttons, 0, sizeof(Button *) * 2);
-        *(buttons + 0) = loadButtonFake("Ok", 40, 80, 20, 14);
-      	*(buttons + 1) = loadButtonFake("Cancel", 70, 80, 50, 14);
-    } else if(!strcmp(dialogName, "object")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 2);
-    	memset(buttons, 0, sizeof(Button *) * 2);
-        *(buttons + 0) = loadButtonFake("Ok", 60, 100, 20, 14);
-      	*(buttons + 1) = loadButtonFake("Cancel", 90, 100, 50, 14);
-    } else if(!strcmp(dialogName, "view")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 1);
-    	memset(buttons, 0, sizeof(Button *) * 1);
-        *(buttons + 0) = loadButtonFake("Ok", 50, 220, 20, 14);
-    } else if(!strcmp(dialogName, "replace")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 3);
-    	memset(buttons, 0, sizeof(Button *) * 3);
-        *(buttons + 0) = loadButtonFake("Ok", 30, 280, 20, 14);
-    	*(buttons + 1) = loadButtonFake("Cancel", 60, 280, 50, 14);
-    	*(buttons + 2) = loadButtonFake("Change pattern", 120, 280, 110, 14);
-    } else if(!strcmp(dialogName, "globalReplace")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 3);
-    	memset(buttons, 0, sizeof(Button *) * 3);
-        *(buttons + 0) = loadButtonFake("Ok", 30, 280, 20, 14);
-    	*(buttons + 1) = loadButtonFake("Cancel", 60, 280, 50, 14);
-    	*(buttons + 2) = loadButtonFake("Change pattern", 120, 280, 110, 14);
-    } else if(!strcmp(dialogName, "rotation")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 1);
-    	memset(buttons, 0, sizeof(Button *) * 1);
-        *(buttons + 0) = loadButtonFake("Ok", 70, 140, 20, 14);
-    } else if(!strcmp(dialogName, "error")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 1);
-    	memset(buttons, 0, sizeof(Button *) * 1);
-        *(buttons + 0) = loadButtonFake("Ok", 200, 52, 20, 14);
-    } else if(!strcmp(dialogName, "file")) {
-        buttons = (Button **) malloc(sizeof(Button *) * 2);
-    	memset(buttons, 0, sizeof(Button *) * 2);
-        *(buttons + 0) = loadButtonFake("Ok", 200, 52, 20, 14); //Ok/save
-        *(buttons + 1) = loadButtonFake("Cancel", 200, 52, 20, 14);
-    }
-
-	return buttons;
-}
-
 Text *loadTextFake(char *string, int x, int y) {
     alloc(text, Text, 1);
-    allocExist(text->coords, SDL_Rect, 1);
 
     text->string = string;
-    text->coords->x = x;
-    text->coords->y = y;
+    setRect(&text->coords, x, y, 0, 0);
 
-    //printf("    * Loaded text (%s, %d, %d)\n", string, x, y);
     return text;
 }
 
 TextBox *loadTextBoxFake(char *text, int x, int y, int width, int height) {
     alloc(textBox, TextBox, 1);
-    allocExist(textBox->coords, SDL_Rect, 1);
 
 	textBox->title = text;
-    textBox->coords->x = x;
-    textBox->coords->y = y;
-    textBox->coords->w = width;
-    textBox->coords->h = height;
+    setRect(&textBox->coords, x, y, x + width, y + height);
 
-    //printf("    * Loaded textBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return textBox;
 }
 
 CheckBox *loadCheckBoxFake(char *text, int x, int y, int width, int height) {
     alloc(checkBox, CheckBox, 1);
-    allocExist(checkBox->coords, SDL_Rect, 1);
 
     checkBox->text = text;
-    checkBox->coords->x = x;
-    checkBox->coords->y = y;
-    checkBox->coords->w = width;
-    checkBox->coords->h = height;
+    setRect(&checkBox->coords, x, y, x + width, y + height);
 
-    //printf("    * Loaded checkBox (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
     return checkBox;
-}
-
-Button *loadButtonFake(char *text, int x, int y, int width, int height) {
-    alloc(button, Button, 1);
-    allocExist(button->coords, SDL_Rect, 1);
-
-    button->title = text;
-    button->coords->x = x;
-    button->coords->y = y;
-    button->coords->w = width;
-    button->coords->h = height;
-
-    //printf("    * Loaded button (%s, %d, %d, %d, %d)\n", text, x, y, width, height);
-    return button;
 }
 
 /*ButtonContainer *loadButtonContainer(Menu *menu) {

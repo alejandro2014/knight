@@ -7,23 +7,23 @@
 #include "../font.h"
 
 typedef struct {
-	SDL_Rect *coords;
+	SDL_Rect coords;
 	char *title;
 	int padding;
 } Button;
 
 typedef struct {
-	SDL_Rect *coords;
+	SDL_Rect coords;
 	char *title;
 } TextBox;
 
 typedef struct {
-	SDL_Rect *coords;
+	SDL_Rect coords;
 	char *string;
 } Text;
 
 typedef struct {
-    SDL_Rect *coords;
+    SDL_Rect coords;
     char *text;
     bool enabled;
 } CheckBox;
@@ -33,10 +33,10 @@ typedef struct {
 	char *title;
     SDL_Rect coords;
 
-    TextBox **textBoxes;
-    Button **buttons;
-    CheckBox **checkBoxes;
-    Text **texts;
+    TextBox *textBoxes;
+    Button *buttons;
+    CheckBox *checkBoxes;
+    Text *texts;
 
     int numTextBoxes;
     int numButtons;
