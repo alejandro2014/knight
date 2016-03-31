@@ -57,7 +57,6 @@ typedef struct {
     Button *buttons;
 } ButtonContainer;
 
-Dialog *loadDialog(char *dialogId);
 void drawWindowTitle(SDL_Renderer *renderer, Dialog *dialog);
 void drawTextBox(TextBox *textbox);
 void drawTextBoxes(TextBoxContainer *textBoxContainer);

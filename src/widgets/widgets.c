@@ -14,19 +14,19 @@ Dialog **loadDialogs(Font *font) {
     Dialog **dialogs = (Dialog **) malloc(sizeof(Dialog *) * NUM_DIALOGS);
 
     for(i = 0; i < NUM_DIALOGS; i++) {
-        *(dialogs + i) = loadDialog(arrayDialogs[i]);
-        (*(dialogs + i))->font = font;
+        *(dialogs + i) = loadDialog(arrayDialogs[i], font);
     }
 
     return dialogs;
 }
 
-Dialog *loadDialog(char *dialogName) {
+Dialog *loadDialog(char *dialogName, Font *font) {
     Dialog *dialog = loadDialogFake(dialogName);
-    dialog->buttons = loadButtons(dialogName);
-    dialog->checkBoxes = loadCheckBoxes(dialogName);
-    dialog->textBoxes = loadTextBoxes(dialogName);
-    dialog->texts = loadTexts(dialogName);
+    //dialog->buttons = loadButtons(dialogName);
+    //dialog->checkBoxes = loadCheckBoxes(dialogName);
+    //dialog->textBoxes = loadTextBoxes(dialogName);
+    //dialog->texts = loadTexts(dialogName);
+    dialog->font = font;
 
     return dialog;
 }
@@ -53,10 +53,11 @@ void freeDialogs(Dialog **dialogs) {
 
     for(i = 0; i < NUM_DIALOGS; i++) {
         dialog = *(dialogs + i);
-        freeButtons(dialog);
-        freeCheckBoxes(dialog);
-        freeTextBoxes(dialog);
-        freeTexts(dialog);
+        //freeButtons(dialog);
+        //freeCheckBoxes(dialog);
+        //freeTextBoxes(dialog);
+        //freeTexts(dialog);
+        free(dialog->coords);
         free(dialog);
     }
 }
