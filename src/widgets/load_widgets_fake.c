@@ -38,54 +38,11 @@ Dialog *getDialog(char *dialogName) {
     return NULL;
 }
 
-Dialog *loadDialogFake(char *dialogName) {
-    Dialog *dialog = NULL;
-
-    if(!strcmp(dialogName, "newTerrain")) {
-        dialog = getDialog("New terrain");
-        dialogSetNumberElements(dialog, 2, 0, 3, 0);
-    } else if(!strcmp(dialogName, "generateTerrain")) {
-        dialog = getDialog("Generate terrain");
-        dialogSetNumberElements(dialog, 2, 1, 2, 0);
-    } else if(!strcmp(dialogName, "object")) {
-        dialog = getDialog("Object");
-        dialogSetNumberElements(dialog, 2, 3, 0, 1);
-    } else if(!strcmp(dialogName, "view")) {
-        dialog = getDialog("View");
-        dialogSetNumberElements(dialog, 1, 9, 0, 0);
-    } else if(!strcmp(dialogName, "replace")) {
-        dialog = getDialog("Replace");
-        dialogSetNumberElements(dialog, 3, 8, 2, 3);
-    } else if(!strcmp(dialogName, "globalReplace")) {
-        dialog = getDialog("Global replace");
-        dialogSetNumberElements(dialog, 3, 8, 2, 3);
-    } else if(!strcmp(dialogName, "rotation")) {
-        dialog = getDialog("Rotation");
-        dialogSetNumberElements(dialog, 1, 6, 0, 0);
-    } else if(!strcmp(dialogName, "error")) {
-        dialog = getDialog("Error");
-        dialogSetNumberElements(dialog, 1, 0, 0, 0);
-    }
-
-    dialog->name = dialogName;
-
-    return dialog;
-}
-
 void dialogSetNumberElements(Dialog *dialog, int numButtons, int numCheckBoxes, int numTextBoxes, int numTexts) {
     dialog->numButtons = numButtons;
     dialog->numCheckBoxes = numCheckBoxes;
     dialog->numTextBoxes = numTextBoxes;
     dialog->numTexts = numTexts;
-}
-
-Dialog *loadDialogFake2(char *title, int x1, int y1, int x2, int y2) {
-    alloc(dialog, Dialog, 1);
-
-    setRect(&dialog->coords, x1, y1, x2, y2);
-    dialog->title = title;
-
-    return dialog;
 }
 
 Text **loadTextsFake(char *dialogName) {

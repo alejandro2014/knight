@@ -53,7 +53,7 @@ void loadDialogs(Font *font) {
 }
 
 Dialog *loadDialog(char *dialogName, Font *font) {
-    Dialog *dialog = loadDialogFake(dialogName);
+    Dialog *dialog = NULL;
     //dialog->buttons = loadButtons(dialogName);
     //dialog->checkBoxes = loadCheckBoxes(dialogName);
     //dialog->textBoxes = loadTextBoxes(dialogName);
