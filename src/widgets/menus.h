@@ -30,8 +30,8 @@ typedef struct {
 
 typedef struct {
     char *name;
-	SDL_Rect *coords;
 	char *title;
+    SDL_Rect coords;
 
     TextBox **textBoxes;
     Button **buttons;

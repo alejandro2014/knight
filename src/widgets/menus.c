@@ -3,19 +3,18 @@
 #include <SDL2/SDL_events.h>
 
 #include "../font.h"
+#include "../draw.h"
 #include "menus.h"
 
 void drawWindowTitle(SDL_Renderer *renderer, Dialog *dialog) {
+    SDL_Rect dc = dialog->coords;
 	SDL_Rect rectangleMenu;
-	rectangleMenu.w = dialog->coords->w;
-	rectangleMenu.h = 19;
-	rectangleMenu.x = dialog->coords->x;
-	rectangleMenu.y = dialog->coords->y;
+    setRect(&rectangleMenu, dc.x, dc.y, dc.x + dc.w, dc.y + 19);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
     SDL_RenderFillRect(renderer, &rectangleMenu);
 
-	printString(dialog->font, renderer, dialog->title, dialog->coords->x + 1, dialog->coords->y + 1);
+	printString(dialog->font, renderer, dialog->title, dc.x + 1, dc.y + 1);
 }
 
 void drawTextBox(TextBox *textbox) {
@@ -71,7 +70,7 @@ void drawButtons(ButtonContainer *buttonContainer) {
 
 void drawDialogWindow(SDL_Renderer *renderer, Dialog *dialog) {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(renderer, dialog->coords);
+    SDL_RenderFillRect(renderer, &dialog->coords);
 
 	drawWindowTitle(renderer, dialog);
 }

@@ -5,19 +5,51 @@
 #include "widgets.h"
 #include "load_widgets_fake.h"
 
+extern Dialog *registeredDialogs;
 //TODO Replace the fakes for real parsing
-Dialog **loadDialogs(Font *font) {
-    char *arrayDialogs[] = {"newTerrain", "generateTerrain", "object", "view",
-                            "replace", "globalReplace", "rotation", "error"};
-    int i;
+void loadDialogs(Font *font) {
+    Dialog *dialog = NULL;
+    allocExist(registeredDialogs, Dialog, NUM_DIALOGS);
 
-    Dialog **dialogs = (Dialog **) malloc(sizeof(Dialog *) * NUM_DIALOGS);
+    registerDialog("New terrain", 200, 100, 350, 250);
+    dialog = getDialog("New terrain");
+    dialogSetNumberElements(dialog, 2, 0, 3, 0);
+    dialog->font = font;
 
-    for(i = 0; i < NUM_DIALOGS; i++) {
-        *(dialogs + i) = loadDialog(arrayDialogs[i], font);
-    }
+    registerDialog("Generate terrain", 200, 50, 300, 420);
+    dialog = getDialog("Generate terrain");
+    dialogSetNumberElements(dialog, 2, 1, 2, 0);
+    dialog->font = font;
 
-    return dialogs;
+    registerDialog("Object", 200, 50, 320, 250);
+    dialog = getDialog("Object");
+    dialogSetNumberElements(dialog, 2, 3, 0, 1);
+    dialog->font = font;
+
+    registerDialog("View", 200, 50, 440, 170);
+    dialog = getDialog("View");
+    dialogSetNumberElements(dialog, 1, 9, 0, 0);
+    dialog->font = font;
+
+    registerDialog("Replace", 200, 50, 500, 290);
+    dialog = getDialog("Replace");
+    dialogSetNumberElements(dialog, 3, 8, 2, 3);
+    dialog->font = font;
+
+    registerDialog("Global replace", 200, 50, 500, 290);
+    dialog = getDialog("Global replace");
+    dialogSetNumberElements(dialog, 3, 8, 2, 3);
+    dialog->font = font;
+
+    registerDialog("Rotation", 200, 50, 360, 210);
+    dialog = getDialog("Rotation");
+    dialogSetNumberElements(dialog, 1, 6, 0, 0);
+    dialog->font = font;
+
+    registerDialog("Error", 200, 200, 270, 600);
+    dialog = getDialog("Error");
+    dialogSetNumberElements(dialog, 1, 0, 0, 0);
+    dialog->font = font;
 }
 
 Dialog *loadDialog(char *dialogName, Font *font) {
@@ -52,14 +84,14 @@ void freeDialogs(Dialog **dialogs) {
     int i;
 
     for(i = 0; i < NUM_DIALOGS; i++) {
-        dialog = *(dialogs + i);
+        //dialog = *(dialogs + i);
         //freeButtons(dialog);
         //freeCheckBoxes(dialog);
         //freeTextBoxes(dialog);
         //freeTexts(dialog);
-        free(dialog->coords);
-        free(dialog);
     }
+
+    free(registeredDialogs);
 }
 
 void freeButtons(Dialog *dialog) {

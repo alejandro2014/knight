@@ -2,59 +2,69 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "widgets.h"
 #include "load_widgets_fake.h"
+
+#include "../draw.h"
+
+Dialog *registeredDialogs = NULL;
+int currentRegDialog = 0;
+
+void registerDialog(char *dialogName, int x1, int y1, int x2, int y2) {
+    Dialog *dialog = getDialog(dialogName);
+
+    if(dialog) {
+        printf("[WARN] The dialog %s already exists\n", dialogName);
+        return;
+    }
+
+    dialog = registeredDialogs + currentRegDialog;
+    dialog->name = dialogName;
+    dialog->title = dialogName;
+    setRect(&dialog->coords, x1, y1, x2, y2);
+    currentRegDialog++;
+}
+
+Dialog *getDialog(char *dialogName) {
+    Dialog *dialog = NULL;
+    int i;
+
+    for(i = 0; i < NUM_DIALOGS; i++) {
+        dialog = registeredDialogs + i;
+        if(!dialog->name) return NULL;
+        if(!strcmp(dialogName, dialog->name)) return dialog;
+    }
+
+    return NULL;
+}
 
 Dialog *loadDialogFake(char *dialogName) {
     Dialog *dialog = NULL;
 
     if(!strcmp(dialogName, "newTerrain")) {
-        dialog = loadDialogFake2("New terrain", 200, 100, 100, 150);
-        dialog->numButtons = 2;
-        dialog->numCheckBoxes = 0;
-        dialog->numTextBoxes = 3;
-        dialog->numTexts = 0;
+        dialog = getDialog("New terrain");
+        dialogSetNumberElements(dialog, 2, 0, 3, 0);
     } else if(!strcmp(dialogName, "generateTerrain")) {
-        dialog = loadDialogFake2("Generate terrain", 200, 50, 100, 220);
-        dialog->numButtons = 2;
-        dialog->numCheckBoxes = 1;
-        dialog->numTextBoxes = 2;
-        dialog->numTexts = 0;
+        dialog = getDialog("Generate terrain");
+        dialogSetNumberElements(dialog, 2, 1, 2, 0);
     } else if(!strcmp(dialogName, "object")) {
-        dialog = loadDialogFake2("Object", 200, 50, 120, 200);
-        dialog->numButtons = 2;
-        dialog->numCheckBoxes = 3;
-        dialog->numTextBoxes = 0;
-        dialog->numTexts = 1;
+        dialog = getDialog("Object");
+        dialogSetNumberElements(dialog, 2, 3, 0, 1);
     } else if(!strcmp(dialogName, "view")) {
-        dialog = loadDialogFake2("View", 200, 50, 240, 120);
-        dialog->numButtons = 1;
-        dialog->numCheckBoxes = 9;
-        dialog->numTextBoxes = 0;
-        dialog->numTexts = 0;
+        dialog = getDialog("View");
+        dialogSetNumberElements(dialog, 1, 9, 0, 0);
     } else if(!strcmp(dialogName, "replace")) {
-        dialog = loadDialogFake2("Replace", 200, 50, 300, 240);
-        dialog->numButtons = 3;
-        dialog->numCheckBoxes = 8;
-        dialog->numTextBoxes = 2;
-        dialog->numTexts = 3;
+        dialog = getDialog("Replace");
+        dialogSetNumberElements(dialog, 3, 8, 2, 3);
     } else if(!strcmp(dialogName, "globalReplace")) {
-        dialog = loadDialogFake2("Global replace", 200, 50, 300, 240);
-        dialog->numButtons = 3;
-        dialog->numCheckBoxes = 8;
-        dialog->numTextBoxes = 2;
-        dialog->numTexts = 3;
+        dialog = getDialog("Global replace");
+        dialogSetNumberElements(dialog, 3, 8, 2, 3);
     } else if(!strcmp(dialogName, "rotation")) {
-        dialog = loadDialogFake2("Rotation", 200, 50, 160, 160);
-        dialog->numButtons = 1;
-        dialog->numCheckBoxes = 6;
-        dialog->numTextBoxes = 0;
-        dialog->numTexts = 0;
+        dialog = getDialog("Rotation");
+        dialogSetNumberElements(dialog, 1, 6, 0, 0);
     } else if(!strcmp(dialogName, "error")) {
-        dialog = loadDialogFake2("Error", 200, 200, 70, 400);
-        dialog->numButtons = 1;
-        dialog->numCheckBoxes = 0;
-        dialog->numTextBoxes = 0;
-        dialog->numTexts = 0;
+        dialog = getDialog("Error");
+        dialogSetNumberElements(dialog, 1, 0, 0, 0);
     }
 
     dialog->name = dialogName;
@@ -62,17 +72,18 @@ Dialog *loadDialogFake(char *dialogName) {
     return dialog;
 }
 
-Dialog *loadDialogFake2(char *title, int x, int y, int width, int height) {
+void dialogSetNumberElements(Dialog *dialog, int numButtons, int numCheckBoxes, int numTextBoxes, int numTexts) {
+    dialog->numButtons = numButtons;
+    dialog->numCheckBoxes = numCheckBoxes;
+    dialog->numTextBoxes = numTextBoxes;
+    dialog->numTexts = numTexts;
+}
+
+Dialog *loadDialogFake2(char *title, int x1, int y1, int x2, int y2) {
     alloc(dialog, Dialog, 1);
-    allocExist(dialog->coords, SDL_Rect, 1);
 
-    dialog->coords->x = x;
-    dialog->coords->y = y;
-    dialog->coords->w = width;
-    dialog->coords->h = height;
+    setRect(&dialog->coords, x1, y1, x2, y2);
     dialog->title = title;
-
-    //printf("    * Loaded dialog (%s, %d, %d, %d, %d)\n", title, x, y, width, height);
 
     return dialog;
 }

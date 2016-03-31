@@ -19,7 +19,7 @@ HeightMapEditor *loadHeightMapEditor() {
     initScreen(screen);
 
     hme->terrainParams = loadTerrainParams(&(screen->terrainCoords));
-    hme->dialogs = loadDialogs(hme->fontDialogsTitle);
+    loadDialogs(hme->fontDialogsTitle);
     hme->menuBar = loadMenu(hme->fontMenusNormal, hme->fontMenusSelected);
 
     return hme;
