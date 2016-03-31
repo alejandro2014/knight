@@ -9,7 +9,7 @@
 
 extern Dialog *registeredDialogs;
 
-//TODO Replace the fakes for real parsing
+//TODO Replace this crappy method with resource parsing
 void loadDialogs(Font *font) {
     Dialog *dialog = NULL;
     allocExist(registeredDialogs, Dialog, NUM_DIALOGS);
@@ -20,12 +20,17 @@ void loadDialogs(Font *font) {
     addButtonToDialog("New terrain", "Ok", 40, 60, 20, 14);
     addButtonToDialog("New terrain", "Cancel", 70, 60, 50, 14);
     addCheckboxToDialog("New terrain", "Overwrite existing terrain", 2, 40);
+    addTextBoxToDialog("New terrain", "X Size:", 2, 2, 42);
+    addTextBoxToDialog("New terrain", "Y Size:", 2, 22, 42);
+    addTextBoxToDialog("New terrain", "Base Height:", 2, 42, 24);
 
     registerDialog("Generate terrain", 200, 50, 300, 420);
     dialog = getDialog("Generate terrain");
     dialog->font = font;
     addButtonToDialog("Generate terrain", "Ok", 40, 80, 20, 14);
     addButtonToDialog("Generate terrain", "Cancel", 70, 80, 50, 14);
+    addTextBoxToDialog("Generate terrain", "Seed", 52, 18, 76);
+    addTextBoxToDialog("Generate terrain", "Random", 140, 18, 50);
 
     registerDialog("Object", 200, 50, 320, 250);
     dialog = getDialog("Object");
@@ -35,6 +40,7 @@ void loadDialogs(Font *font) {
     addCheckboxToDialog("Object", "Place over terrain", 40, 40);
     addCheckboxToDialog("Object", "Increase terrain", 40, 60);
     addCheckboxToDialog("Object", "Decrease terrain", 40, 80);
+    addTextToDialog("Object", "Put object mode:", 4, 22);
 
     registerDialog("View", 200, 50, 440, 170);
     dialog = getDialog("View");
@@ -65,6 +71,11 @@ void loadDialogs(Font *font) {
     addCheckboxToDialog("Replace", "=", 40, 180);
     addCheckboxToDialog("Replace", "Solid", 40, 220);
     addCheckboxToDialog("Replace", "Pattern", 40, 240);
+    addTextToDialog("Replace", "Tolerance mode", 4, 42);
+    addTextToDialog("Replace", "Replace mode", 4, 122);
+    addTextToDialog("Replace", "Replace with:", 4, 202);
+    addTextBoxToDialog("Replace", "Tolerance:", 2, 20, 25);
+    addTextBoxToDialog("Replace", "Pattern:", 2, 262, 172);
 
     registerDialog("Global replace", 200, 50, 500, 290);
     dialog = getDialog("Global replace");
@@ -80,6 +91,11 @@ void loadDialogs(Font *font) {
     addCheckboxToDialog("Global replace", "=", 40, 180);
     addCheckboxToDialog("Global replace", "Solid", 40, 220);
     addCheckboxToDialog("Global replace", "Pattern", 40, 240);
+    addTextToDialog("Global replace", "Tolerance mode", 4, 42);
+    addTextToDialog("Global replace", "Replace mode", 4, 122);
+    addTextToDialog("Global replace", "Replace with:", 4, 202);
+    addTextBoxToDialog("Global replace", "Tolerance:", 2, 20, 25);
+    addTextBoxToDialog("Global replace", "Pattern:", 2, 262, 172);
 
     registerDialog("Rotation", 200, 50, 360, 210);
     dialog = getDialog("Rotation");
@@ -117,6 +133,27 @@ void addCheckboxToDialog(char *dialogName, char *checkBoxName, int x, int y) {
     checkBox->text = checkBoxName;
 
     dialog->numCheckBoxes++;
+}
+
+void addTextBoxToDialog(char *dialogName, char *textBoxName, int x, int y, int w) {
+    Dialog *dialog = getDialog(dialogName);
+    TextBox *textBox = dialog->textBoxes + dialog->numTextBoxes;
+    int textBoxHeight = 14;
+
+    setRect(&textBox->coords, x, y, x + w, y + textBoxHeight);
+    textBox->title = textBoxName;
+
+    dialog->numTextBoxes++;
+}
+
+void addTextToDialog(char *dialogName, char *textName, int x, int y) {
+    Dialog *dialog = getDialog(dialogName);
+    Text *text = dialog->texts + dialog->numTexts;
+
+    setRect(&text->coords, x, y, 0, 0);
+    text->string = textName;
+
+    dialog->numTexts++;
 }
 
 void freeDialogs() {
