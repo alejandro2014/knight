@@ -19,8 +19,6 @@ HeightMapEditor *loadHeightMapEditor() {
     initScreen(screen);
 
     hme->terrainParams = loadTerrainParams(&(screen->terrainCoords));
-    loadDialogs(hme->fontDialogsTitle);
-    hme->menuBar = loadMenu(hme->fontMenusNormal, hme->fontMenusSelected);
 
     return hme;
 }
@@ -57,7 +55,6 @@ void freeHeightMapEditor(HeightMapEditor *hme) {
     freeFonts(hme);
 
     freeConsole(hme->console);
-    freeDialogs();
 
     SDL_DestroyRenderer(hme->screen->renderer);
     SDL_DestroyWindow(hme->screen->window);
@@ -75,16 +72,10 @@ void loadFonts(HeightMapEditor *hme) {
     TTF_Init();
 
     hme->fontConsole = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 180}, (SDL_Color) {50, 50, 50});
-    hme->fontDialogsTitle = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {200, 200, 200}, (SDL_Color) {0, 0, 100});
-    hme->fontMenusNormal = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 70}, (SDL_Color) {40, 80, 40});
-    hme->fontMenusSelected = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {40, 80, 40}, (SDL_Color) {180, 180, 70});
 }
 
 void freeFonts(HeightMapEditor *hme) {
     freeFont(hme->fontConsole);
-    freeFont(hme->fontDialogsTitle);
-    freeFont(hme->fontMenusNormal);
-    freeFont(hme->fontMenusSelected);
     TTF_Quit();
 }
 

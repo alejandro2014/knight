@@ -1,7 +1,6 @@
 #include "main.h"
 #include "hme_load.h"
 
-extern Dialog *registeredDialogs;
 extern Terrain *currentTerrain;
 extern Events *events;
 
@@ -36,11 +35,6 @@ void drawScreen(HeightMapEditor *hme) {
 
     drawTerrain(hme->screen, currentTerrain, hme->terrainParams);
     drawConsole(renderer, hme->console);
-
-    clearSubScreen(renderer, &(hme->screen->menuBarCoords), &(hme->screen->bgColorMenuBar));
-    drawMenu(hme->menuBar, hme->screen);
-
-    drawDialogWindow(renderer, registeredDialogs);
 
     SDL_RenderPresent(renderer);
 }

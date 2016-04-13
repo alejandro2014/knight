@@ -14,6 +14,5 @@ void freeHeightMapEditor(HeightMapEditor *hme);
 void freeFonts(HeightMapEditor *hme);
 
 TerrainVisualParams *loadTerrainParams(SDL_Rect *paramsRect);
-void freeMenus(WMenu *menu);
 
 #endif

@@ -24,22 +24,12 @@
 #include "map/events.h"
 #include "map/map_draw.h"
 
-#include "widgets/menu_bar.h"
-#include "widgets/widgets.h"
-#include "widgets/menus.h"
-
 typedef struct {
     Console *console;
     Terrain *terrain;
     TerrainVisualParams *terrainParams;
     Screen *screen;
-    WMenu *menuBar;
-    Dialog **dialogs;
-
-    Font *fontDialogsTitle;
     Font *fontConsole;
-    Font *fontMenusNormal;
-    Font *fontMenusSelected;
 } HeightMapEditor;
 
 void hmeSetLayout(Screen *screen, Layout layout, Console *console);

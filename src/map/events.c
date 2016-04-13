@@ -1,7 +1,5 @@
 #include "events.h"
 
-#include "../widgets/menu_bar.h"
-
 Events *events;
 
 void readEvents(Console *console, Events *eventsInfo) {
@@ -29,14 +27,6 @@ void processKeyboardEvent(SDL_Event *event, Console *console) {
 void processMouseButtonDownEvent(SDL_Event *event, Events *eventsInfo) {
     int x = event->button.x;
     int y = event->button.y;
-    WMenu *optionClicked = getOptionClicked(x, y);
-
-    if(optionClicked) {
-        openOption(optionClicked);
-
-        if(optionClicked->action)
-            optionClicked->action(eventsInfo);
-    }
 }
 
 //NEW xSize ySize baseHeight ok cancel - base_height_dialog x_map_size_dialog y_map_size_dialog
