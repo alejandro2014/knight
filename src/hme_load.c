@@ -28,7 +28,8 @@ HeightMapEditor *loadHeightMapEditor() {
 void initScreen(Screen *screen) {
     screen->window = createWindow("Knight", screen->width, screen->height);
     screen->renderer = createRenderer(screen->window);
-    screen->bgColorTerrain = (SDL_Color) {80, 40, 40};
+    //screen->bgColorTerrain = (SDL_Color) {80, 40, 40};
+    screen->bgColorTerrain = (SDL_Color) {80, 80, 80};
     screen->bgColorMenuBar = (SDL_Color) {40, 80, 40};
 }
 

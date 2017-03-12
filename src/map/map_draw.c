@@ -18,35 +18,22 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
     int currentY = 0;
 
     int i, j;
+    int squareSize = 10; //TODO works only with multipler of width and height
 
     for (i = 0; currentX < width; i++) {
-        currentX = i * 10;
+        currentX = i * squareSize;
         SDL_RenderDrawLine(renderer, xOffset + currentX, yOffset, xOffset + currentX, yOffset + height);
     }
 
     for (j = 0; currentY < height; j++) {
-        currentY = j * 10;
+        currentY = j * squareSize;
         SDL_RenderDrawLine(renderer, xOffset, yOffset + currentY, xOffset + width, yOffset + currentY);
     }
 
-    /*SDL_RenderDrawLine(renderer, 10, 40, width, 40);
-    SDL_RenderDrawLine(renderer, 10, 50, width, 50);
-    SDL_RenderDrawLine(renderer, 10, 60, width, 60);
-    SDL_RenderDrawLine(renderer, 10, 70, width, 70);*/
-    /*if(!terrain) return;
+    SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255);
 
-    calculateOffset(terrain, &xOffset, &yOffset, params);
-
-    for(y = 0; y < terrain->height; y++) {
-        for(x = 0; x < terrain->width; x++) {
-            color = getHeight(terrain, x, y);
-            SDL_SetRenderDrawColor(renderer, color, color, color, 255);
-            SDL_RenderDrawPoint(renderer, x + xOffset, y + yOffset);
-        }
-    }
-
-    SDL_Color c = {160, 80, 80};
-    drawBorder(renderer, &(screen->terrainCoords), &c);*/
+    SDL_RenderDrawLine(renderer, 300 + xOffset, yOffset, 300 + xOffset, yOffset + height);
+    SDL_RenderDrawLine(renderer, xOffset, 150 + yOffset, xOffset + width, 150 + yOffset);
 }
 
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainWindow) {
