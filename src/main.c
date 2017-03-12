@@ -48,8 +48,8 @@ void drawScreen(HeightMapEditor *hme) {
 void hmeSetLayout(Screen *screen, Layout layout, Console *console) {
     int charWidth = 10; //TODO Hardcoded variables
 
-    screen->width = 800;
-    screen->height = 600;
+    screen->width = 1024;
+    screen->height = 768;
     screen->menuHeight = 20;
 
     setWindowsLayout(screen, layout);

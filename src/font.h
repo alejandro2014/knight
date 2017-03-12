@@ -8,7 +8,7 @@
 #include "global.h"
 
 #define FONT_PATH_MAC "/Library/Fonts/Courier New.ttf"
-#define FONT_PATH_LINUX "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+#define FONT_PATH_LINUX "/usr/share/fonts/truetype/msttcorefonts/Courier_New.ttf"
 #define FONT_PATH FONT_PATH_LINUX
 
 typedef struct {
