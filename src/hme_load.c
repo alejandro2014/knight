@@ -64,9 +64,9 @@ void freeHeightMapEditor(HeightMapEditor *hme) {
 
     free(hme->terrainParams);
     //api_freeTerrain(hme->terrain);
+    free(events);
     free(hme->screen);
     free(hme);
-    free(events);
 
     SDL_Quit();
 }
@@ -74,10 +74,10 @@ void freeHeightMapEditor(HeightMapEditor *hme) {
 void loadFonts(HeightMapEditor *hme) {
     TTF_Init();
 
-    hme->fontConsole = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 180}, (SDL_Color) {50, 50, 50});
-    hme->fontDialogsTitle = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {200, 200, 200}, (SDL_Color) {0, 0, 100});
-    hme->fontMenusNormal = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {180, 180, 70}, (SDL_Color) {40, 80, 40});
-    hme->fontMenusSelected = loadFont(FONT_PATH_MAC, 16, (SDL_Color) {40, 80, 40}, (SDL_Color) {180, 180, 70});
+    hme->fontConsole = loadFont(FONT_PATH, 16, (SDL_Color) {180, 180, 180}, (SDL_Color) {50, 50, 50});
+    hme->fontDialogsTitle = loadFont(FONT_PATH, 16, (SDL_Color) {200, 200, 200}, (SDL_Color) {0, 0, 100});
+    hme->fontMenusNormal = loadFont(FONT_PATH, 16, (SDL_Color) {180, 180, 70}, (SDL_Color) {40, 80, 40});
+    hme->fontMenusSelected = loadFont(FONT_PATH, 16, (SDL_Color) {40, 80, 40}, (SDL_Color) {180, 180, 70});
 }
 
 void freeFonts(HeightMapEditor *hme) {

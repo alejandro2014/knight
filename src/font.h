@@ -9,6 +9,7 @@
 
 #define FONT_PATH_MAC "/Library/Fonts/Courier New.ttf"
 #define FONT_PATH_LINUX "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+#define FONT_PATH FONT_PATH_LINUX
 
 typedef struct {
     TTF_Font *type;

@@ -43,6 +43,8 @@ Command *loadConsoleCommands() {
 }
 
 void freeConsole(Console *console) {
+    if(!console) return;
+
     freeConsoleCommands(console->commands);
     freeConsoleVisual(console->visual);
 
@@ -51,12 +53,20 @@ void freeConsole(Console *console) {
 }
 
 void freeConsoleVisual(ConsoleVisualParams *visual) {
+    if(!visual) return;
+
     freeConsoleLines(visual);
-    free(visual->coords);
+
+    if(visual->coords) {
+        free(visual->coords);
+    }
+
     free(visual);
 }
 
 void freeConsoleLines(ConsoleVisualParams *visual) {
+    if(!visual) return;
+
     ConsoleLine *line = visual->lines;
     ConsoleLine *nextLine = line->next;
 
@@ -72,6 +82,8 @@ void freeConsoleLines(ConsoleVisualParams *visual) {
 }
 
 void freeConsoleCommands(Command *commands) {
+    if(!commands) return;
+
     int i;
 
     for(i = 0; i < NUM_COMMANDS; i++) {
