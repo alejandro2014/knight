@@ -40,7 +40,7 @@ void drawScreen(HeightMapEditor *hme) {
     clearSubScreen(renderer, &(hme->screen->menuBarCoords), &(hme->screen->bgColorMenuBar));
     drawMenu(hme->menuBar, hme->screen);
 
-    drawDialogWindow(renderer, registeredDialogs);
+    //drawDialogWindow(renderer, registeredDialogs);
 
     SDL_RenderPresent(renderer);
 }

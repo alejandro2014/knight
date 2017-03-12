@@ -8,7 +8,18 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
 
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
-    if(!terrain) return;
+    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
+
+    SDL_RenderDrawLine(renderer, 10, 40, 10, 300);
+    SDL_RenderDrawLine(renderer, 20, 40, 20, 300);
+    SDL_RenderDrawLine(renderer, 30, 40, 30, 300);
+    SDL_RenderDrawLine(renderer, 40, 40, 40, 300);
+
+    SDL_RenderDrawLine(renderer, 10, 40, 300, 40);
+    SDL_RenderDrawLine(renderer, 10, 50, 300, 50);
+    SDL_RenderDrawLine(renderer, 10, 60, 300, 60);
+    SDL_RenderDrawLine(renderer, 10, 70, 300, 70);
+    /*if(!terrain) return;
 
     calculateOffset(terrain, &xOffset, &yOffset, params);
 
@@ -21,7 +32,7 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
     }
 
     SDL_Color c = {160, 80, 80};
-    drawBorder(renderer, &(screen->terrainCoords), &c);
+    drawBorder(renderer, &(screen->terrainCoords), &c);*/
 }
 
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainWindow) {
