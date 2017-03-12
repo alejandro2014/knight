@@ -4,19 +4,21 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
     SDL_Renderer *renderer = screen->renderer;
     int x, y;
     int color;
-    int xOffset, yOffset;
 
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
 
+    int xOffset = 10;
+    int yOffset = 40;
     int width = 600;
     int height = 300;
 
-    SDL_RenderDrawLine(renderer, 10, 40, 10, height);
-    SDL_RenderDrawLine(renderer, 20, 40, 20, height);
-    SDL_RenderDrawLine(renderer, 30, 40, 30, height);
-    SDL_RenderDrawLine(renderer, 40, 40, 40, height);
+    int i;
+
+    for (i = 0; i * 10 < width; i++) {
+        SDL_RenderDrawLine(renderer, xOffset + (i * 10), yOffset, xOffset + (i * 10), height);
+    }
 
     SDL_RenderDrawLine(renderer, 10, 40, width, 40);
     SDL_RenderDrawLine(renderer, 10, 50, width, 50);
