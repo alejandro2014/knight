@@ -13,4 +13,7 @@
 void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params);
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainParams);
 
+void drawBarcodeLine(SDL_Renderer *renderer, int x);
+void drawChar(SDL_Renderer *renderer);
+
 #endif
