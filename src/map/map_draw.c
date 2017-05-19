@@ -4,23 +4,21 @@ void drawBarcodeLine(SDL_Renderer *renderer, int x) {
     SDL_RenderDrawLine(renderer, x, 100, x, 200);
 }
 
-/*void drawChar(SDL_Renderer *renderer) {
-    drawBarcodeLine(renderer, 10);
-    drawBarcodeLine(renderer, 11);
-    drawBarcodeLine(renderer, 12);
-
-    drawBarcodeLine(renderer, 14);
-    drawBarcodeLine(renderer, 15);
-
-    drawBarcodeLine(renderer, 17);
-}*/
-
 void drawChar(SDL_Renderer *renderer) {
     int widthFactor = 18;
     int offset = 10;
     int i, j;
     char digit = '1';
     char temp = 0x00;
+
+    SDL_SetRenderDrawColor(renderer, 180, 180, 0, 255);
+    SDL_RenderDrawLine(renderer, offset, 97, 8 * widthFactor + offset, 97);
+
+    for(i = 0; i < 8; i++) {
+        SDL_RenderDrawLine(renderer, i * widthFactor + offset, 95, i * widthFactor + offset, 99);
+    }
+
+    SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
 
     for(i = 0; i < 8; i++) {
         temp = digit;
@@ -33,21 +31,6 @@ void drawChar(SDL_Renderer *renderer) {
             }
         }
     }
-
-    /*drawBarcodeLine(renderer, offset + 0);
-    drawBarcodeLine(renderer, offset + 1);
-    drawBarcodeLine(renderer, offset + 2);
-    drawBarcodeLine(renderer, offset + 3);
-    drawBarcodeLine(renderer, offset + 4);
-    drawBarcodeLine(renderer, offset + 5);
-
-    drawBarcodeLine(renderer, offset + 8);
-    drawBarcodeLine(renderer, offset + 9);
-    drawBarcodeLine(renderer, offset + 10);
-    drawBarcodeLine(renderer, offset + 11);
-
-    drawBarcodeLine(renderer, offset + 14);
-    drawBarcodeLine(renderer, offset + 15);*/
 }
 
 void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) {
@@ -57,7 +40,6 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
 
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
-    SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
     drawChar(renderer);
     /*int xOffset = 10;
     int yOffset = 40;
