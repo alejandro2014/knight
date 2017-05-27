@@ -5,10 +5,42 @@ extern Dialog *registeredDialogs;
 extern Terrain *currentTerrain;
 extern Events *events;
 
+int calculateCheckDigit(char *code) {
+    int currentDigit;
+    int currentWeight;
+    int subtotal;
+    int checkSum = 0;
+    int i;
+
+    for(i = 0; i < 12; i++) {
+        currentDigit = *(code + i) - 0x30;
+        currentWeight = (i % 2 == 0) ? 1 : 3;
+        subtotal = currentDigit * currentWeight;
+        checkSum += subtotal;
+    }
+
+    return 10 - (checkSum % 10);
+}
+
 int main(int argc, char* argv[]) {
-    HeightMapEditor *hme = loadHeightMapEditor();
+    /*HeightMapEditor *hme = loadHeightMapEditor();
     programLoop(hme);
-    freeHeightMapEditor(hme);
+    freeHeightMapEditor(hme);*/
+    char *code = "978841591557";
+    int checkDigit = calculateCheckDigit(code);
+    printf("%s-%d\n", code, checkDigit);
+
+    code = "978848298586";
+    checkDigit = calculateCheckDigit(code);
+    printf("%s-%d\n", code, checkDigit);
+
+    code = "978842840651";
+    checkDigit = calculateCheckDigit(code);
+    printf("%s-%d\n", code, checkDigit);
+
+    code = "303005307475";
+    checkDigit = calculateCheckDigit(code);
+    printf("%s-%d\n", code, checkDigit);
 
     return 0;
 }

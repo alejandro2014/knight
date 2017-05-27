@@ -4,20 +4,29 @@ void drawBarcodeLine(SDL_Renderer *renderer, int x) {
     SDL_RenderDrawLine(renderer, x, 100, x, 200);
 }
 
-void drawChar(SDL_Renderer *renderer) {
-    int widthFactor = 18;
-    int offset = 10;
-    int i, j;
-    char digit = '1';
-    char temp = 0x00;
+void drawRuler(SDL_Renderer *renderer, int widthFactor, int offset) {
+    int i, x;
 
     SDL_SetRenderDrawColor(renderer, 180, 180, 0, 255);
     SDL_RenderDrawLine(renderer, offset, 97, 8 * widthFactor + offset, 97);
 
-    for(i = 0; i < 8; i++) {
-        SDL_RenderDrawLine(renderer, i * widthFactor + offset, 95, i * widthFactor + offset, 99);
-    }
+    for(i = 0; i < 9; i++) {
+        x = i * widthFactor + offset;
 
+        if(i == 4) {
+            SDL_RenderDrawLine(renderer, x, 93, x, 101);
+        } else {
+            SDL_RenderDrawLine(renderer, x, 95, x, 99);
+        }
+    }
+}
+
+void drawBarcodeDigit(SDL_Renderer *renderer, char digit, int offset) {
+    int widthFactor = 10;
+    int i, j;
+    char temp = 0x00;
+
+    drawRuler(renderer, widthFactor, offset);
     SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
 
     for(i = 0; i < 8; i++) {
@@ -40,7 +49,11 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
 
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
-    drawChar(renderer);
+    drawBarcodeDigit(renderer, '1', 10);
+
+    drawBarcodeDigit(renderer, '2', 120);
+
+    drawBarcodeDigit(renderer, '3', 220);
     /*int xOffset = 10;
     int yOffset = 40;
     int width = 600;
