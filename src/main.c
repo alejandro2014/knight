@@ -6,10 +6,8 @@ extern Terrain *currentTerrain;
 extern Events *events;
 
 int calculateCheckDigit(char *code) {
-    int currentDigit;
-    int currentWeight;
-    int subtotal;
-    int checkSum = 0;
+    int currentDigit, currentWeight;
+    int subtotal, checkSum = 0;
     int i;
 
     for(i = 0; i < 12; i++) {
