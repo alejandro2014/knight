@@ -78,7 +78,23 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
 
     parity = getParity('7', 1);
     digit = getBarcodeDigit('0', parity);
-    drawBarcodeDigit(renderer, digit, 120);
+    drawBarcodeDigit(renderer, digit, 110);
+
+    parity = getParity('7', 2);
+    digit = getBarcodeDigit('1', parity);
+    drawBarcodeDigit(renderer, digit, 210);
+
+    parity = getParity('7', 3);
+    digit = getBarcodeDigit('0', parity);
+    drawBarcodeDigit(renderer, digit, 310);
+
+    parity = getParity('7', 4);
+    digit = getBarcodeDigit('3', parity);
+    drawBarcodeDigit(renderer, digit, 410);
+
+    parity = getParity('7', 5);
+    digit = getBarcodeDigit('1', parity);
+    drawBarcodeDigit(renderer, digit, 510);
 
     //drawBarcodeDigit(renderer, '3', 220);
 
