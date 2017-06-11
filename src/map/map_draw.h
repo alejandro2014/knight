@@ -17,4 +17,7 @@ void drawRuler(SDL_Renderer *renderer, int widthFactor, int offset);
 void drawBarcodeLine(SDL_Renderer *renderer, int x);
 void drawBarcodeDigit(SDL_Renderer *renderer, char digit, int offset);
 
+char getBarcodeDigit(char number, int isOdd);
+int getParity(char ctrlDigit, int position);
+
 #endif

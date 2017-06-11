@@ -21,10 +21,10 @@ int calculateCheckDigit(char *code) {
 }
 
 int main(int argc, char* argv[]) {
-    /*HeightMapEditor *hme = loadHeightMapEditor();
+    HeightMapEditor *hme = loadHeightMapEditor();
     programLoop(hme);
-    freeHeightMapEditor(hme);*/
-    char *code = "978841591557";
+    freeHeightMapEditor(hme);
+    /*char *code = "978841591557";
     int checkDigit = calculateCheckDigit(code);
     printf("%s-%d\n", code, checkDigit);
 
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
 
     code = "303005307475";
     checkDigit = calculateCheckDigit(code);
-    printf("%s-%d\n", code, checkDigit);
+    printf("%s-%d\n", code, checkDigit);*/
 
     return 0;
 }
