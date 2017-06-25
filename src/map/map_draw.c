@@ -71,16 +71,15 @@ char getBarcodeDigitRigthSide(char number) {
 
 void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) {
     SDL_Renderer *renderer = screen->renderer;
-    int x, y;
-    int color;
     char digit;
     int parity;
     char *leftDigits = "501031";
     char *rightDigits = "311309";
 
     int i;
-    int widthFactor = 10;
-    int offset = 10;
+    int widthFactor = 7;
+    int offset = 50;
+
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
     for(i = 0; i < 6; i++) {
@@ -89,40 +88,14 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
         drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset, widthFactor, 100);
     }
 
-    drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * 6 + offset - 3 * widthFactor, widthFactor, 110);
+    drawBarcodeDigit(renderer, 0x05, 39 * widthFactor + offset, widthFactor, 120);
 
     for(i = 0; i < 6; i++) {
         digit = getBarcodeDigitRigthSide(*(rightDigits + i));
-        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset + 47 * widthFactor, widthFactor, 100);
+        drawBarcodeDigit(renderer, digit, (7 * i + 47) * widthFactor + offset, widthFactor, 100);
     }
 
-    //drawBarcodeDigit(renderer, '3', 220);
-
-    /*int xOffset = 10;
-    int yOffset = 40;
-    int width = 600;
-    int height = 300;
-
-    int currentX = 0;
-    int currentY = 0;
-
-    int i, j;
-    int squareSize = 10; //TODO works only with multipler of width and height
-
-    for (i = 0; currentX < width; i++) {
-        currentX = i * squareSize;
-        SDL_RenderDrawLine(renderer, xOffset + currentX, yOffset, xOffset + currentX, yOffset + height);
-    }
-
-    for (j = 0; currentY < height; j++) {
-        currentY = j * squareSize;
-        SDL_RenderDrawLine(renderer, xOffset, yOffset + currentY, xOffset + width, yOffset + currentY);
-    }
-
-    SDL_SetRenderDrawColor(renderer, 240, 240, 240, 255);
-
-    SDL_RenderDrawLine(renderer, 300 + xOffset, yOffset, 300 + xOffset, yOffset + height);
-    SDL_RenderDrawLine(renderer, xOffset, 150 + yOffset, xOffset + width, 150 + yOffset);*/
+    drawBarcodeDigit(renderer, 0x05, 85 * widthFactor + offset, widthFactor, 120);
 }
 
 void calculateOffset(Terrain *terrain, int *xOffset, int *yOffset, TerrainVisualParams *terrainWindow) {
