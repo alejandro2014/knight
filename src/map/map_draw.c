@@ -82,6 +82,8 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
 
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
+    drawBarcodeDigit(renderer, 0x05, offset, widthFactor, 120);
+
     for(i = 0; i < 6; i++) {
         parity = getParity('7', i);
         digit = getBarcodeDigitLeftSide(*(leftDigits + i), parity);
