@@ -1,7 +1,7 @@
 #include "map_draw.h"
 
-void drawBarcodeLine(SDL_Renderer *renderer, int x) {
-    SDL_RenderDrawLine(renderer, x, 100, x, 200);
+void drawBarcodeLine(SDL_Renderer *renderer, int x, int height) {
+    SDL_RenderDrawLine(renderer, x, 100, x, 100 + height);
 }
 
 void drawRuler(SDL_Renderer *renderer, int widthFactor, int offset) {
@@ -21,7 +21,7 @@ void drawRuler(SDL_Renderer *renderer, int widthFactor, int offset) {
     }
 }
 
-void drawBarcodeDigit(SDL_Renderer *renderer, char digit, int offset, int widthFactor) {
+void drawBarcodeDigit(SDL_Renderer *renderer, char digit, int offset, int widthFactor, int height) {
     int i, j;
     char temp = 0x00;
 
@@ -35,17 +35,10 @@ void drawBarcodeDigit(SDL_Renderer *renderer, char digit, int offset, int widthF
 
         if (temp == 0x01) {
             for(j = 0; j < widthFactor; j++) {
-                drawBarcodeLine(renderer, i * widthFactor + j + offset);
+                drawBarcodeLine(renderer, i * widthFactor + j + offset, height);
             }
         }
     }
-}
-
-void drawGuard(SDL_Renderer *renderer, int offset, int widthFactor, int numberOfBars) {
-    SDL_SetRenderDrawColor(renderer, 100, 0, 0, 255);
-
-    drawBarcodeLine(renderer, offset);
-    drawBarcodeLine(renderer, 2 * widthFactor + offset);
 }
 
 int getParity(char ctrlDigit, int position) {
@@ -86,25 +79,23 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
     char *rightDigits = "311309";
 
     int i;
-    int widthFactor = 2;
+    int widthFactor = 10;
     int offset = 10;
     clearSubScreen(renderer, &(screen->terrainCoords), &(screen->bgColorTerrain));
 
     for(i = 0; i < 6; i++) {
         parity = getParity('7', i);
         digit = getBarcodeDigitLeftSide(*(leftDigits + i), parity);
-        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset, widthFactor);
+        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset, widthFactor, 100);
     }
 
-    drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * i + offset, widthFactor);
+    //drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * i + offset, widthFactor);
+    drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * 6 + offset - 3*widthFactor, widthFactor, 110);
 
-    for(i = 0; i < 6; i++) {
+    /*for(i = 0; i < 6; i++) {
         digit = getBarcodeDigitRigthSide(*(rightDigits + i));
-        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + 100 + offset, widthFactor);
-    }
-
-    /*drawGuard(renderer, offset + 300, widthFactor, 2);*/
-    drawBarcodeDigit(renderer, 0x05, offset + 300, widthFactor);
+        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + 100 + offset, widthFactor, 100);
+    }*/
 
     //drawBarcodeDigit(renderer, '3', 220);
 
