@@ -89,13 +89,12 @@ void drawTerrain(Screen *screen, Terrain *terrain, TerrainVisualParams *params) 
         drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset, widthFactor, 100);
     }
 
-    //drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * i + offset, widthFactor);
-    drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * 6 + offset - 3*widthFactor, widthFactor, 110);
+    drawBarcodeDigit(renderer, 0x05, 7 * widthFactor * 6 + offset - 3 * widthFactor, widthFactor, 110);
 
-    /*for(i = 0; i < 6; i++) {
+    for(i = 0; i < 6; i++) {
         digit = getBarcodeDigitRigthSide(*(rightDigits + i));
-        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + 100 + offset, widthFactor, 100);
-    }*/
+        drawBarcodeDigit(renderer, digit, 7 * widthFactor * i + offset + 47 * widthFactor, widthFactor, 100);
+    }
 
     //drawBarcodeDigit(renderer, '3', 220);
 
